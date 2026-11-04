@@ -1,7 +1,7 @@
 import {ImageResponse} from "next/og";
 
 export const runtime = "edge";
-export const alt = "TIZIBANE Africa — You're invited to join the community";
+export const alt = "TIZIBANE Africa — You're invited to join Zambia's community";
 export const size = {width: 1200, height: 630};
 export const contentType = "image/png";
 
@@ -31,7 +31,7 @@ export default function OpenGraphImage() {
             <div style={{fontFamily:"Arial, sans-serif", fontSize:20, color:"#cbb98f", marginTop:17, letterSpacing:2}}>CONNECT. BELONG. GROW.</div>
           </div>
         </div>
-        <div style={{position:"absolute", bottom:48, right:86, fontFamily:"Arial, sans-serif", fontSize:16, letterSpacing:3, color:"rgba(230,211,175,.58)"}}>A COMMUNITY THAT FEELS LIKE HOME</div>
+        <div style={{position:"absolute", bottom:48, right:86, fontFamily:"Arial, sans-serif", fontSize:16, letterSpacing:3, color:"rgba(230,211,175,.58)"}}>MADE FOR ZAMBIA • BUILT FOR CONNECTION</div>
       </div>
     ),
     { ...size }
