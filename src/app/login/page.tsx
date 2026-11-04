@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { signIn, resendConfirmation } from "../auth-actions";
 
@@ -11,13 +12,7 @@ export default async function Login({
   return (
     <main className="auth-wrap">
       <section className="auth-card">
-        <Link href="/" className="brand">
-          <span className="brand-mark">T</span>
-          <span>
-            TIZIBANE
-            <small>AFRICA</small>
-          </span>
-        </Link>
+        <Brand />
         <h1>Welcome back.</h1>
         <p>Sign in to reconnect with your community.</p>
         {p.error && <div className="notice" role="alert">{p.error}</div>}
