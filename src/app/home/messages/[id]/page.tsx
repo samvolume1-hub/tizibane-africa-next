@@ -1,4 +1,3 @@
-import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -32,5 +31,5 @@ export default async function ConversationPage({params,searchParams}:{params:Pro
  {notice.error&&<div className="notice" role="alert">{notice.error}</div>}
  {messageResult.error?<div className="module"><h3>Messages could not be loaded</h3><p>Please refresh in a moment.</p></div>:messages.length===0?<div className="empty-state"><div className="empty-symbol">✉</div><h3>Say hello.</h3><p>This is the beginning of your private conversation.</p></div>:<div className="message-thread">{messages.map(m=><article className={"message-bubble "+(m.sender_id===user.id?"message-own":"message-theirs")} key={m.id}><p>{m.body}</p><span>{m.sender_id===user.id?"You":profile?.display_name||"Member"} · {new Date(m.created_at).toLocaleString("en-ZM",{dateStyle:"short",timeStyle:"short"})}</span></article>)}</div>}
  <section className="message-composer"><form action={sendDirectMessage}><input type="hidden" name="conversation_id" value={id}/><label className="sr-only" htmlFor="message-body">Write a message</label><textarea id="message-body" name="body" maxLength={4000} rows={3} placeholder="Write a private message..." required/><button className="btn btn-primary" type="submit">Send message</button></form><p className="field-help">Text-only private messages. Keep personal information safe and report anything concerning.</p></section>
- <RoyaltyCopyright /></div></section></main>;
+ </div></section></main>;
 }
