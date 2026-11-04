@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -22,7 +23,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
   const products = (data ?? []) as Product[];
 
   return <main className="app-layout"><aside className="sidebar">
-    <Link href="/" className="brand"><span className="brand-mark">T</span><span>TIZIBANE<small>AFRICA</small></span></Link>
+    <Brand />
     <nav className="side-nav"><Link href="/home">⌂ Home</Link><Link href="/home/premium">✦ Premium Marketplace</Link><Link href="/home/premium/admin" className="active">⚙ Administrator</Link></nav>
     <form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form>
   </aside><section className="app-main">
