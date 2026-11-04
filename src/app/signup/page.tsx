@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { signUp } from "../auth-actions";
 
@@ -7,10 +8,7 @@ export default async function Signup({ searchParams }: { searchParams: Promise<{
   return (
     <main className="auth-wrap">
       <section className="auth-card">
-        <Link href="/" className="brand">
-          <span className="brand-mark">T</span>
-          <span>TIZIBANE<small>AFRICA</small></span>
-        </Link>
+        <Brand />
 
         <h1>Your circle starts here.</h1>
         <p>Create your account and join the conversation.</p>
