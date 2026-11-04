@@ -1,3 +1,4 @@
+import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -81,7 +82,7 @@ export default async function ProfilePage({
               <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><button className="btn btn-primary" type="submit">Save profile</button></div>
             </form>
           </section>
-        </div>
+        <RoyaltyCopyright /></div>
       </section>
     </main>
   );
