@@ -214,3 +214,32 @@ img,video,canvas,svg{max-width:100%}
   .hero,.section{max-width:1320px}
   .app-content{max-width:1200px}
 }
+
+/* Discreet luxury-style creator signature */
+.royalty-copyright{
+  width:100%;
+  margin:clamp(24px,4vw,42px) auto 8px;
+  padding:13px 8px 5px;
+  border-top:1px solid rgba(216,181,107,.16);
+  color:rgba(226,203,157,.78);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:10px;
+  line-height:1.6;
+  letter-spacing:.17em;
+  text-align:center;
+  text-transform:lowercase;
+  font-variant:small-caps;
+}
+.footer .royalty-copyright{
+  flex-basis:100%;
+  margin:8px auto 0;
+  border-top:0;
+  padding-top:5px;
+}
+.auth-wrap .royalty-copyright{
+  width:min(100%,420px);
+  margin:12px auto 0;
+}
+@media(min-width:768px){
+  .royalty-copyright{font-size:10.5px;letter-spacing:.2em}
+}
