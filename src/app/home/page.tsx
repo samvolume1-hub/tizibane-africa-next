@@ -1,3 +1,4 @@
+import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -216,7 +217,7 @@ export default async function Home({
             </div>
           )}
           <p className="muted" style={{ fontSize: 11, marginTop: 26 }}>Signed in as {user.email}. Your feed is loaded from the shared TIZIBANE database.</p>
-        </div>
+        <RoyaltyCopyright /></div>
       </section>
     </main>
   );
