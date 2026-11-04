@@ -155,3 +155,62 @@ body{
 .premium-admin-actions .btn{white-space:nowrap;padding:10px 13px;font-size:10px}
 @media(max-width:760px){.premium-product-grid{grid-template-columns:1fr 1fr}.premium-admin-item{flex-direction:column}.premium-admin-actions{justify-content:flex-start}}
 @media(max-width:560px){.premium-product-grid,.premium-listing-form{grid-template-columns:1fr}.premium-form-full{grid-column:auto}.premium-admin-shortcut{align-items:flex-start;flex-direction:column}.premium-admin-shortcut .btn{width:100%}.premium-admin-form,.premium-admin-list{padding:15px}.premium-admin-actions,.premium-admin-actions form{width:100%;align-items:stretch;flex-direction:column}.premium-admin-actions .btn{width:100%}}
+
+/* Responsive refinements: layouts reflow automatically on resize and rotation. */
+html{width:100%;min-width:320px;-webkit-text-size-adjust:100%;text-size-adjust:100%;scrollbar-gutter:stable}
+body{width:100%;min-width:320px;overflow-x:hidden}
+main,section,article,aside,header,footer{min-width:0}
+img,video,canvas,svg{max-width:100%}
+.brand{flex:none;min-width:0;gap:9px}
+.brand-mark{width:42px;height:42px;flex:none;border-radius:12px;display:grid;place-items:center}
+.zambia-mark{display:block;width:29px;height:29px;max-width:none;color:var(--gold2);overflow:visible}
+.app-layout{grid-template-columns:minmax(205px,245px) minmax(0,1fr)}
+.app-main,.app-content{min-width:0;width:100%}
+.app-content{padding-left:clamp(14px,3vw,40px);padding-right:clamp(14px,3vw,40px)}
+.post-photo{max-width:100%;height:auto}
+@media(max-width:1024px){
+  .app-layout{grid-template-columns:205px minmax(0,1fr)}
+  .sidebar{padding:20px 12px}
+  .app-content{padding-top:28px;padding-bottom:32px}
+}
+@media(max-width:820px){
+  .app-layout{display:flex;flex-direction:column}
+  .sidebar{width:100%;padding:14px 16px 12px}
+  .sidebar .brand{align-self:flex-start}
+  .side-nav{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;max-width:100%;padding:3px 0 8px;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .side-nav a{flex:0 0 auto}
+  .sidebar-signout{max-width:150px}
+  .app-main{width:100%}
+  .topbar{gap:12px}
+  .app-content{max-width:900px}
+}
+@media(max-width:540px){
+  .brand{gap:8px;letter-spacing:.09em}
+  .brand-mark{width:36px;height:36px}
+  .zambia-mark{width:25px;height:25px}
+  .topbar{padding-left:12px;padding-right:12px}
+  .topbar .actions{gap:7px}
+  .topbar .btn{padding:10px 12px;font-size:11px}
+  .hero-actions{align-items:stretch}
+  .hero-actions .btn{width:100%}
+  .app-content{padding:16px 12px 28px}
+  .welcome h1{font-size:clamp(27px,8vw,36px)}
+  .composer-bottom,.comment-form{min-width:0}
+  .comment-form input{width:100%}
+  .person-card{align-items:flex-start;flex-direction:column}
+}
+@media(orientation:landscape) and (max-height:560px){
+  .hero{padding-top:28px;padding-bottom:28px;gap:24px}
+  .hero-art{min-height:220px}
+  .rings{width:190px;height:190px}
+  .rings:before{width:135px;height:135px}
+  .rings span{font-size:68px}
+  .auth-wrap{min-height:100svh;align-items:start;padding-top:18px;padding-bottom:18px}
+  .auth-card{margin:auto}
+  .sidebar{padding-top:10px;padding-bottom:8px}
+  .side-nav{margin-top:12px}
+}
+@media(min-width:1440px){
+  .hero,.section{max-width:1320px}
+  .app-content{max-width:1200px}
+}
