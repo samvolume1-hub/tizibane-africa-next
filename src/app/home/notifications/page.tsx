@@ -1,4 +1,3 @@
-import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -21,5 +20,5 @@ export default async function NotificationsPage({searchParams}:{searchParams:Pro
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
  <div className="feed-heading"><div><span className="eyebrow">Activity</span><h2>{unread} unread notifications</h2></div>{unread>0&&<form action={markAllNotificationsRead}><button className="text-action" type="submit">Mark all as read</button></form>}</div>
  {error?<div className="module"><h3>Notifications are temporarily unavailable</h3><p>Please refresh in a moment.</p></div>:notifications.length===0?<div className="empty-state"><div className="empty-symbol">♢</div><h3>All quiet for now.</h3><p>When people connect and interact with you, updates will appear here.</p></div>:<div className="notification-list">{notifications.map(n=>{const actor=n.actor_id?profileById.get(n.actor_id):undefined,name=actor?.display_name||"A TIZIBANE member";return <article className={"notification-card "+(!n.read_at?"notification-unread":"")} key={n.id}><div className="person-identity">{n.actor_id&&avatarUrls[n.actor_id]?<img src={avatarUrls[n.actor_id]} alt="" className="person-avatar"/>:<div className="person-avatar person-avatar-fallback">{actor?.initials||"TZ"}</div>}<div className="notification-copy"><p>{label(n.kind,name)}</p><span>{new Date(n.created_at).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})}</span><Link href={destination(n)} className="text-action">Open</Link></div></div>{!n.read_at&&<form action={markNotificationRead}><input type="hidden" name="notification_id" value={n.id}/><button className="text-action muted-action" type="submit">Mark read</button></form>}</article>})}</div>}
- <RoyaltyCopyright /></div></section></main>;
+ </div></section></main>;
 }
