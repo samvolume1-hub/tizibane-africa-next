@@ -1,3 +1,4 @@
+import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { signUp } from "../auth-actions";
@@ -35,6 +36,7 @@ export default async function Signup({ searchParams }: { searchParams: Promise<{
 
         <p><Link href="/" className="muted">← Back to home</Link></p>
       </section>
+      <RoyaltyCopyright />
     </main>
   );
 }
