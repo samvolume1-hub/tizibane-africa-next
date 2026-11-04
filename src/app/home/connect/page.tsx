@@ -1,4 +1,3 @@
-import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -66,7 +65,7 @@ export default async function ConnectPage(){
      <div className="company-site-list">{contacts.map(item=><a className="company-site-row" href={"mailto:"+item.email} key={item.email}><span><strong>{item.email}</strong><small>{item.label}</small></span><span className="company-link-arrow">Email ↗</span></a>)}</div>
     </section>
     <footer className="community-credit">Developed by Royalty For the Zambian community.</footer>
-    <RoyaltyCopyright />
+    
    </div>
   </section>
  </main>;
