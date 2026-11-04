@@ -1,4 +1,3 @@
-import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -64,7 +63,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
           </div>
         </article>)}</div>}
       </section>
-      <footer className="community-credit">Developed by Royalty For the Zambian community.</footer><RoyaltyCopyright />
+      <footer className="community-credit">Developed by Royalty For the Zambian community.</footer>
     </div>
   </section></main>;
 }
