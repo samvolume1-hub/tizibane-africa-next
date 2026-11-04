@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
@@ -32,7 +33,7 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
  for(const f of friendships){const other=f.requester_id===user.id?f.recipient_id:f.requester_id;friendByMember.set(other,f)}
  const avatarUrls:Record<string,string>={};
  for(const p of allProfiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
- return <main className="app-layout"><aside className="sidebar"><Link href="/" className="brand"><span className="brand-mark">T</span><span>TIZIBANE<small>AFRICA</small></span></Link><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link><Link href="/home/people" className="active"><span className="nav-icon">♧</span>People</Link><Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
+ return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link><Link href="/home/people" className="active"><span className="nav-icon">♧</span>People</Link><Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
           <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link><Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside>
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">MEMBER DIRECTORY</span></header><div className="app-content">
  <section className="welcome"><span className="eyebrow">Find your people</span><h1>Good connections start here.</h1><p>Discover members, build friendships and follow the people and communities you want to keep up with.</p></section>
