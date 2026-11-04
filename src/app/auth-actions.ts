@@ -62,6 +62,36 @@ export async function signUp(data: FormData) {
   redirect("/login?message=Check%20your%20email%20to%20confirm%20your%20account");
 }
 
+export async function resendConfirmation(data: FormData) {
+  const email = String(data.get("email") ?? "").trim();
+
+  if (!email) {
+    redirect("/login?error=Enter%20your%20email%20address%20first");
+  }
+
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    redirect("/login?error=Authentication%20is%20not%20configured");
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email,
+    options: {
+      emailRedirectTo: `${siteUrl}/auth/callback?next=/home`,
+    },
+  });
+
+  if (error) {
+    redirect("/login?error=Could%20not%20send%20a%20new%20confirmation%20email.%20Please%20check%20the%20address%20and%20try%20again");
+  }
+
+  redirect("/login?message=If%20the%20account%20needs%20confirmation,%20a%20fresh%20email%20has%20been%20sent.%20Check%20your%20inbox");
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
