@@ -1,3 +1,4 @@
+import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { signIn, resendConfirmation } from "../auth-actions";
@@ -39,6 +40,7 @@ export default async function Login({
         <p>New to TIZIBANE? <Link href="/signup" style={{ color: "var(--gold2)" }}>Create an account</Link></p>
         <p><Link href="/" className="muted">← Back to home</Link></p>
       </section>
+      <RoyaltyCopyright />
     </main>
   );
 }
