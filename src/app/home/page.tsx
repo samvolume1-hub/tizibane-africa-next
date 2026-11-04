@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -107,7 +108,7 @@ export default async function Home({
   return (
     <main className="app-layout">
       <aside className="sidebar">
-        <Link href="/" className="brand"><span className="brand-mark">T</span><span>TIZIBANE<small>AFRICA</small></span></Link>
+        <Brand />
         <nav className="side-nav" aria-label="Main navigation">
           <Link href="/home" className="active"><span className="nav-icon">⌂</span>Home</Link>
           <Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
