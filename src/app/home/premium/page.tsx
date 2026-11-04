@@ -1,4 +1,3 @@
-import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -151,7 +150,7 @@ export default async function PremiumPage() {
           </section>
 
           <footer className="community-credit">Developed by Royalty For the Zambian community.</footer>
-        <RoyaltyCopyright /></div>
+        </div>
       </section>
     </main>
   );
