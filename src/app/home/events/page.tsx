@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
@@ -13,7 +14,7 @@ export default async function EventsPage({searchParams}:{searchParams:Promise<{e
  const events=(rows??[]) as Event[],ids=events.map(e=>e.id);let attendance:Attendance[]=[];
  if(ids.length){const {data}=await supabase.from("event_attendance").select("event_id,response").eq("user_id",user.id).in("event_id",ids);attendance=(data??[]) as Attendance[]}
  const attendanceByEvent=new Map(attendance.map(a=>[a.event_id,a.response]));
- return <main className="app-layout"><aside className="sidebar"><Link href="/" className="brand"><span className="brand-mark">T</span><span>TIZIBANE<small>AFRICA</small></span></Link><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
+ return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
           <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
           <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
           <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link><Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events" className="active"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside><section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">COMMUNITY EVENTS</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Meet beyond the feed</span><h1>Make moments happen.</h1><p>Discover upcoming community events, share local gatherings and let people know if you are attending.</p></section>
