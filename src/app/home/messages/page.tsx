@@ -1,3 +1,4 @@
+import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -29,5 +30,5 @@ export default async function MessagesPage({searchParams}:{searchParams:Promise<
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">PRIVATE MESSAGES</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">One-to-one conversations</span><h1>Your conversations.</h1><p>Private text messages with members you have connected with as friends.</p></section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
  {memberError?<div className="module"><h3>Messages are temporarily unavailable</h3><p>Please refresh in a moment.</p></div>:conversations.length===0?<div className="empty-state"><div className="empty-symbol">✉</div><h3>Your inbox is ready.</h3><p>Visit People, connect with a member and choose Message to start a private conversation.</p><Link href="/home/people" className="btn btn-primary">Find people</Link></div>:<div className="conversation-list">{conversations.map(c=>{const otherId=otherByConversation.get(c.id),p=otherId?profileById.get(otherId):undefined,last=lastByConversation.get(c.id);return <Link href={"/home/messages/"+c.id} className="conversation-card" key={c.id}><div className="person-identity">{otherId&&avatarUrls[otherId]?<img src={avatarUrls[otherId]} alt="" className="person-avatar"/>:<div className="person-avatar person-avatar-fallback">{p?.initials||"TZ"}</div>}<div><strong>{p?.display_name||"TIZIBANE member"}</strong><span>{p?.handle?"@"+p.handle:"Private conversation"}</span><p>{last?(last.sender_id===user.id?"You: ":"")+last.body:"No messages yet."}</p></div></div><span className="conversation-time">{last?new Date(last.created_at).toLocaleDateString("en-ZM",{month:"short",day:"numeric"}):new Date(c.created_at).toLocaleDateString("en-ZM",{month:"short",day:"numeric"})}</span></Link>})}</div>}
- </div></section></main>;
+ <RoyaltyCopyright /></div></section></main>;
 }
