@@ -1,3 +1,4 @@
+import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
@@ -16,7 +17,7 @@ export default async function GroupsPage({searchParams}:{searchParams:Promise<{e
  let pending:Pending[]=[];if(managedIds.length){const {data}=await supabase.from("group_members").select("group_id,user_id").in("group_id",managedIds).eq("status","pending");pending=(data??[]) as Pending[]}
  const pendingIds=[...new Set(pending.map(p=>p.user_id))];let pendingProfiles:Profile[]=[];if(pendingIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle").in("id",pendingIds);pendingProfiles=(data??[]) as Profile[]}
  const profileById=new Map(pendingProfiles.map(p=>[p.id,p])),groupById=new Map(groups.map(g=>[g.id,g]));
- return <main className="app-layout"><aside className="sidebar"><Link href="/" className="brand"><span className="brand-mark">T</span><span>TIZIBANE<small>AFRICA</small></span></Link><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
+ return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
           <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
           <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
           <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link><Link href="/home/groups" className="active"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside><section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">GROUPS & CIRCLES</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Find your circle</span><h1>Communities grow here.</h1><p>Discover public groups, request access to private circles and create a space around the things you care about.</p></section>
