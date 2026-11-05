@@ -545,3 +545,29 @@ body{
   background-attachment:fixed;
   background-size:auto,auto,124px 124px,124px 124px,auto;
 }
+
+
+/* Comment author identity: round profile photo or initials fallback. */
+.app-layout .comment{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+.comment-avatar{
+  width:34px;
+  height:34px;
+  flex:none;
+  display:block;
+  object-fit:cover;
+  border-radius:50%;
+  border:1px solid rgba(128,83,173,.42);
+}
+.comment-avatar-fallback{
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.comment-content{min-width:0;flex:1}
