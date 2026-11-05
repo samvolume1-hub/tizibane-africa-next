@@ -1931,7 +1931,33 @@ body *{
 }
 
 
-/* TIZIBANE visual adjustment: very light aqua glass and the main repository backdrop. */
+/* TIZIBANE global backdrop: one image only, with no competing image layers. */
+html,
+body {
+  min-height: 100%;
+  background-color: #050609 !important;
+  background-image: url("/images/main%20TIZIBANE%20BACKGROUND.jpg") !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+}
+
+/* The app shell stays transparent so the single body backdrop shows through. */
+.app-layout {
+  background: transparent !important;
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+/* Remove the older photo and decorative overlay from the home welcome panel.
+   Keep its text, layout, border and other content intact. */
+.app-layout .welcome-home::before,
+.app-layout .welcome-home::after {
+  content: none !important;
+  display: none !important;
+}
+
 /* Use the selected repository image directly, without the previous dark overlay. */
 html,
 body {
@@ -2044,4 +2070,19 @@ body {
     outline: 1px solid rgba(117,222,239,.68) !important;
     outline-offset: 1px;
   }
+}
+
+
+/* Enforce a single, non-overlapped TIZIBANE page background. */
+html, body {
+  background: #050609 url("/images/main%20TIZIBANE%20BACKGROUND.jpg") center center / cover no-repeat fixed !important;
+}
+.app-layout {
+  background: transparent !important;
+  background-image: none !important;
+}
+.app-layout .welcome-home::before,
+.app-layout .welcome-home::after {
+  display: none !important;
+  content: none !important;
 }
