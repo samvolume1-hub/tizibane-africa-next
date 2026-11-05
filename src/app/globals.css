@@ -1167,3 +1167,15 @@ body *{
 .app-layout .premium-hero-photo h1 {
   text-shadow: 0 1px 2px rgba(0,0,0,.45) !important;
 }
+
+
+/* Premium advertising uses its own hero wrapper rather than .welcome. */
+.app-layout .premium-hero-photo > .photo-backdrop {
+  opacity: .70;
+}
+.app-layout .premium-hero-photo::before {
+  background: rgba(12, 5, 22, .30) !important;
+}
+.app-layout .premium-hero-photo h1 em {
+  color: #fff !important;
+}
