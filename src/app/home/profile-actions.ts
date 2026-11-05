@@ -21,6 +21,7 @@ export async function updateProfile(formData: FormData) {
   const location = String(formData.get("location") ?? "").trim();
   const visibility = String(formData.get("visibility") ?? "public");
   const avatar = formData.get("avatar");
+  const cover = formData.get("cover");
 
   if (!displayName || displayName.length > 80) fail("Your display name must be between 1 and 80 characters.");
   if (bio.length > 240) fail("Your bio must be 240 characters or fewer.");
@@ -32,6 +33,13 @@ export async function updateProfile(formData: FormData) {
   if (!user) redirect("/login");
 
   let avatarPath: string | undefined;
+  let coverPath: string | undefined;
+  const { data: previousProfile } = await supabase
+    .from("profiles")
+    .select("avatar_path,cover_path")
+    .eq("id", user.id)
+    .maybeSingle();
+
   if (avatar instanceof File && avatar.size > 0) {
     const extension = MIME_TO_EXTENSION[avatar.type];
     if (!extension) fail("Choose a JPG, PNG or WebP image.");
@@ -49,6 +57,32 @@ export async function updateProfile(formData: FormData) {
     avatarPath = data.path;
   }
 
+  if (cover instanceof File && cover.size > 0) {
+    const extension = MIME_TO_EXTENSION[cover.type];
+    if (!extension) {
+      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
+      fail("Choose a JPG, PNG or WebP cover photo.");
+    }
+    if (cover.size > MAX_AVATAR_BYTES) {
+      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
+      fail("Your cover photo must be 8 MB or smaller.");
+    }
+
+    const objectPath = `${user.id}/covers/${crypto.randomUUID()}.${extension}`;
+    const { data, error } = await supabase.storage
+      .from("community-photos")
+      .upload(objectPath, cover, {
+        contentType: cover.type,
+        cacheControl: "3600",
+        upsert: false,
+      });
+    if (error || !data?.path) {
+      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
+      fail("Your cover photo could not be uploaded. Please try again.");
+    }
+    coverPath = data.path;
+  }
+
   const update: Record<string, string | null> = {
     display_name: displayName,
     bio,
@@ -57,6 +91,7 @@ export async function updateProfile(formData: FormData) {
     initials: displayName.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase().slice(0, 3) || "TZ",
   };
   if (avatarPath) update.avatar_path = avatarPath;
+  if (coverPath) update.cover_path = coverPath;
 
   const { data: existing } = await supabase
     .from("profiles")
@@ -69,14 +104,22 @@ export async function updateProfile(formData: FormData) {
     : await supabase.from("profiles").insert({ id: user.id, ...update });
 
   if (result.error) {
-    if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
+    const uploadedPaths = [avatarPath, coverPath].filter(Boolean) as string[];
+    if (uploadedPaths.length) await supabase.storage.from("community-photos").remove(uploadedPaths);
     const message = result.error.code === "23505"
       ? "That handle is already in use. Please choose another."
       : "Your profile could not be saved. Please try again.";
     fail(message);
   }
 
+  const replacedPaths = [
+    avatarPath && previousProfile?.avatar_path,
+    coverPath && previousProfile?.cover_path,
+  ].filter(Boolean) as string[];
+  if (replacedPaths.length) await supabase.storage.from("community-photos").remove(replacedPaths);
+
   revalidatePath("/home");
   revalidatePath("/home/profile");
+  revalidatePath("/home/people");
   redirect("/home/profile?saved=1");
 }
