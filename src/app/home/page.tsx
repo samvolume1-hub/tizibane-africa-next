@@ -47,8 +47,13 @@ export default async function Home({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { data: ownProfile } = await supabase
+    .from("profiles")
+    .select("display_name,avatar_path,avatar_color,initials")
+    .eq("id", user.id)
+    .maybeSingle();
   const displayName = String(
-    user.user_metadata?.display_name ?? user.email?.split("@")[0] ?? "Member",
+    ownProfile?.display_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Member",
   );
   const { data: preferenceRows } = await supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true);
   const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
