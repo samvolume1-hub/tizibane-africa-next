@@ -8,14 +8,9 @@ export default function SignupSuccess() {
         <Brand />
 
         <div className="signup-success-mark" aria-hidden="true">✓</div>
+        <p className="signup-step-label">STEP 1 — REGISTRATION</p>
         <h1>Account created successfully! 🎉</h1>
         <p>Your TIZIBANE Africa account has been created.</p>
-
-        <div className="signup-step">
-          <span>STEP 1 — REGISTRATION</span>
-          <h2>Account created successfully!</h2>
-          <p>Your TIZIBANE Africa account has been created.</p>
-        </div>
 
         <div className="signup-step">
           <span>STEP 2 — EMAIL CONFIRMATION</span>
@@ -32,9 +27,6 @@ export default function SignupSuccess() {
         <Link className="btn btn-primary signup-success-button" href="/login">
           Continue to sign in
         </Link>
-        <p className="muted signup-success-note">
-          Haven't confirmed your email yet? You can come back to this page after checking your inbox.
-        </p>
       </section>
     </main>
   );
