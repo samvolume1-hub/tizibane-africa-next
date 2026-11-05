@@ -238,7 +238,7 @@ export default async function Home({
                           const commenter = profileById.get(comment.author_id);
                           const commenterName = commenter?.display_name || "TIZIBANE member";
                           const commenterInitials = commenterName
-                            .split(/\\s+/)
+                            .split(/\s+/)
                             .slice(0, 2)
                             .map((part) => part[0] || "")
                             .join("")
