@@ -1,4 +1,5 @@
 import { Brand } from "@/components/brand";
+import { PasswordField } from "@/components/password-field";
 import Link from "next/link";
 import { signUp } from "../auth-actions";
 
@@ -23,12 +24,15 @@ export default async function Signup({ searchParams }: { searchParams: Promise<{
             <label htmlFor="email">Email address</label>
             <input id="email" name="email" type="email" autoComplete="email" required />
           </div>
-          <div className="field">
-            <label htmlFor="password">Create password</label>
-            <input id="password" name="password" type="password" autoComplete="new-password" minLength={10} required />
-            <span className="muted">Use at least 10 characters.</span>
-          </div>
-          <button className="btn btn-primary">Create my account</button>
+          <PasswordField
+            id="password"
+            name="password"
+            label="Create password"
+            autoComplete="new-password"
+            minLength={10}
+          />
+          <p className="muted password-help">Use at least 10 characters.</p>
+          <button className="btn btn-primary" type="submit">Create my account</button>
         </form>
 
         <p>Already a member? <Link href="/login" style={{ color: "var(--gold2)" }}>Sign in</Link></p>
