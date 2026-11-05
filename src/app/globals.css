@@ -252,3 +252,21 @@ img,video,canvas,svg{max-width:100%}
 .hero-art-photo::before,.groups-welcome::before,.premium-hero-photo::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(26,10,43,.82),rgba(39,15,55,.45) 55%,rgba(39,15,55,.18)),linear-gradient(0deg,rgba(17,8,29,.35),transparent 55%)}
 .hero-art-photo .art-caption{z-index:1;background:rgba(35,15,49,.78);color:#fff0cf;border:1px solid rgba(255,220,150,.45);border-radius:999px;padding:11px 18px;bottom:22px;backdrop-filter:blur(8px)}
 @media(max-width:600px){.hero-art-photo{min-height:260px}.photo-backdrop{object-position:center}}
+
+
+/* Password visibility control */
+.password-input-wrap{position:relative;width:100%}
+.password-input-wrap input{padding-right:52px!important}
+.auth-card .password-toggle{position:absolute;top:50%;right:8px;transform:translateY(-50%);width:38px!important;height:38px;margin:0!important;padding:8px!important;display:grid;place-items:center;border:0;background:transparent;color:#cbb987;cursor:pointer;border-radius:9px}
+.auth-card .password-toggle:hover{background:#d8b56b18;color:var(--gold2)}
+.password-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.password-help{margin:-10px 0 14px 2px}
+.signup-success-card h1{font-size:29px;margin:20px 0 8px}
+.signup-success-mark{width:46px;height:46px;margin:24px 0 12px;border:1px solid #d8b56b88;border-radius:50%;display:grid;place-items:center;background:#d8b56b18;color:var(--gold2);font-size:24px;font-weight:700}
+.signup-step{margin-top:16px;padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:#090e0b88}
+.signup-step>span{display:block;color:var(--gold2);font-size:9px;font-weight:700;letter-spacing:.13em}
+.signup-step h2{font:700 15px Manrope,sans-serif;margin:8px 0 5px}
+.signup-step p{margin:0;color:#b9c4bb;font-size:12px;line-height:1.65}
+.auth-card .signup-success-button{width:100%;margin-top:20px;text-align:center}
+.signup-success-note{text-align:center;margin:12px 0 0;font-size:11px}
+@media(max-width:540px){.signup-success-card h1{font-size:25px}.signup-step{padding:13px}}
