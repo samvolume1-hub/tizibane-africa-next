@@ -2,6 +2,7 @@ import type {Metadata, Viewport} from "next";
 import "./globals.css";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
+const previewImage = "/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg?v=2";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -16,13 +17,13 @@ export const metadata: Metadata = {
     siteName: "TIZIBANE Africa",
     title: "You're invited to TIZIBANE Africa",
     description: "Join Zambia's community. Find your people, build your circle and stay connected. Connect. Belong. Grow.",
-    images: [{url: "/opengraph-image", width: 1200, height: 630, alt: "TIZIBANE Africa — You're invited to join the community"}],
+    images: [{url: previewImage, alt: "TIZIBANE Africa — You're invited to join the community"}],
   },
   twitter: {
     card: "summary_large_image",
     title: "You're invited to TIZIBANE Africa",
     description: "Join Zambia's community. Find your people, build your circle and stay connected.",
-    images: ["/opengraph-image"],
+    images: [previewImage],
   },
 };
 
