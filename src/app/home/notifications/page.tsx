@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -17,7 +18,7 @@ export default async function NotificationsPage({searchParams}:{searchParams:Pro
  let profiles:Profile[]=[];if(actorIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle,initials,avatar_color,avatar_path").in("id",actorIds);profiles=(data??[]) as Profile[]}
  const profileById=new Map(profiles.map(p=>[p.id,p])),avatarUrls:Record<string,string>={};
  for(const p of profiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
- return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link><Link href="/home/people"><span className="nav-icon">♧</span>People</Link><Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link><Link href="/home/notifications" className="active"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link><Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside>
+ return <main className="app-layout"><CommunityNavigation active="notifications" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">YOUR INBOX</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Stay in the loop</span><h1>Notifications.</h1><p>Friend requests, messages, group activity and updates from your community.</p></section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
  <div className="feed-heading"><div><span className="eyebrow">Activity</span><h2>{unread} unread notifications</h2></div>{unread>0&&<form action={markAllNotificationsRead}><button className="text-action" type="submit">Mark all as read</button></form>}</div>
