@@ -2113,3 +2113,124 @@ html, body {
     min-height: 200px;
   }
 }
+
+
+/* TIZIBANE visual refinement: coordinated deep-purple controls and richer rose canvases. */
+.app-layout .btn,
+.app-layout button:not(.text-action):not(.premium-gallery-controls button),
+.app-layout .photo-picker,
+.app-layout .reaction-choice,
+.app-layout .mobile-bottom-nav > a,
+.app-layout .mobile-bottom-nav .mobile-more-menu > summary,
+.app-layout .mobile-more-panel > a,
+.app-layout .mobile-more-signout button {
+  border: 1px solid rgba(210, 174, 238, .52) !important;
+  background: linear-gradient(145deg, #563078 0%, #40205f 52%, #2b1644 100%) !important;
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(12, 4, 22, .55);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.20),
+    inset 0 -2px 0 rgba(12,4,22,.24),
+    0 5px 14px rgba(25, 8, 42, .30) !important;
+}
+
+.app-layout .btn *,
+.app-layout button:not(.text-action):not(.premium-gallery-controls button) *,
+.app-layout .photo-picker *,
+.app-layout .reaction-choice *,
+.app-layout .mobile-bottom-nav .nav-icon,
+.app-layout .mobile-more-panel > a .nav-icon {
+  color: #ffffff !important;
+}
+
+.app-layout .btn-primary,
+.app-layout button[type="submit"],
+.app-layout .mobile-more-signout button {
+  border-color: rgba(226, 201, 247, .72) !important;
+  background: linear-gradient(145deg, #68408b 0%, #4b286e 54%, #351b50 100%) !important;
+  color: #ffffff !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    0 6px 17px rgba(28, 8, 48, .34) !important;
+}
+
+.app-layout .btn:hover,
+.app-layout button:not(.text-action):not(.premium-gallery-controls button):hover,
+.app-layout .photo-picker:hover,
+.app-layout .reaction-choice:hover,
+.app-layout .mobile-bottom-nav > a:hover,
+.app-layout .mobile-bottom-nav .mobile-more-menu > summary:hover,
+.app-layout .mobile-more-panel > a:hover {
+  border-color: rgba(241, 225, 255, .88) !important;
+  background: linear-gradient(145deg, #76509a 0%, #583477 56%, #40235d 100%) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.app-layout .btn:focus-visible,
+.app-layout button:focus-visible,
+.app-layout .photo-picker:focus-visible,
+.app-layout .reaction-choice:focus-visible {
+  outline: 2px solid rgba(224, 198, 250, .95) !important;
+  outline-offset: 2px;
+}
+
+/* Restore the mobile More panel's deep-purple surface to match its controls. */
+.app-layout .mobile-more-panel,
+.app-layout .community-nav-section {
+  border-color: rgba(190, 153, 220, .48) !important;
+  background: linear-gradient(155deg, #170d23 0%, #241333 58%, #120a1b 100%) !important;
+}
+
+/* Increase rose/pink saturation and depth on existing pink interface canvases. */
+.app-layout .welcome {
+  background: linear-gradient(120deg, rgba(255, 210, 231, .98), rgba(244, 183, 215, .97) 58%, rgba(232, 190, 231, .96)) !important;
+  border-color: rgba(190, 74, 132, .55) !important;
+}
+.app-layout .people-search-panel {
+  background: linear-gradient(125deg, #f5c3da 0%, #edb2d2 62%, #e1b9e9 100%) !important;
+  border-color: rgba(184, 63, 125, .58) !important;
+}
+.app-layout .profile-editor,
+.app-layout .module-section,
+.app-layout .composer,
+.app-layout .message-composer,
+.app-layout .premium-admin-form,
+.app-layout .premium-admin-list {
+  background: linear-gradient(145deg, #f3c5d9 0%, #eeb8d2 54%, #e2c0e9 100%) !important;
+  border-color: rgba(181, 66, 124, .50) !important;
+  box-shadow: 0 13px 34px rgba(94, 25, 68, .20), inset 0 1px 0 rgba(255,255,255,.56) !important;
+}
+
+/* The Create/share composer is now a vibrant pink canvas with clear white copy. */
+.app-layout .composer,
+.app-layout .composer .eyebrow,
+.app-layout .composer .field-help,
+.app-layout .composer label,
+.app-layout .composer p {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(75, 20, 55, .34);
+}
+.app-layout .composer textarea,
+.app-layout .composer select {
+  background: linear-gradient(145deg, #d982ad 0%, #c96f9d 100%) !important;
+  border: 1px solid rgba(255, 235, 246, .78) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 2px 7px rgba(80, 20, 55, .16), 0 3px 10px rgba(105, 30, 72, .12) !important;
+}
+.app-layout .composer textarea::placeholder {
+  color: rgba(255,255,255,.92) !important;
+  opacity: 1;
+}
+.app-layout .composer select option {
+  background: #7e315a;
+  color: #ffffff;
+}
+
+/* Strengthen existing rose canvas accents without applying filters to photos or text. */
+.app-layout .person-card,
+.app-layout .notification-card,
+.app-layout .conversation-card {
+  background: linear-gradient(145deg, #ffe0ed 0%, #f6c9df 58%, #eed0ed 100%) !important;
+  border-color: rgba(187, 74, 130, .38) !important;
+}
