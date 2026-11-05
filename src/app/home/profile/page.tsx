@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
@@ -52,19 +53,7 @@ export default async function ProfilePage({
 
   return (
     <main className="app-layout">
-      <aside className="sidebar">
-        <Brand />
-        <nav className="side-nav" aria-label="Main navigation">
-          <Link href="/home"><span className="nav-icon">⌂</span>Home</Link>
-          <Link href="/home/profile" className="active"><span className="nav-icon">◎</span>My profile</Link>
-          <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
-          <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
-          <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link>
-          <Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link>
-          <Link href="/home/events"><span className="nav-icon">◇</span>Events</Link>
-        </nav>
-        <p className="sidebar-note">Your community spaces are connected to the shared TIZIBANE account.</p>
-      </aside>
+      <CommunityNavigation active="profile" />
       <section className="app-main">
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ACCOUNT PROFILE</span></header>
         <div className="app-content">
