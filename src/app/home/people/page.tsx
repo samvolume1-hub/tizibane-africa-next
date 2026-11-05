@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -40,8 +41,7 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
   if(p.avatar_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
   if(p.cover_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.cover_path,3600);if(data?.signedUrl)coverUrls[p.id]=data.signedUrl}
  }
- return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link><Link href="/home/people" className="active"><span className="nav-icon">♧</span>People</Link><Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
-          <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link><Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside>
+ return <main className="app-layout"><CommunityNavigation active="people" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">MEMBER DIRECTORY</span></header><div className="app-content">
  <section className="welcome"><span className="eyebrow">Find your people</span><h1>Good connections start here.</h1><p>Discover members, build friendships and follow the people and communities you want to keep up with.</p></section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}{params.status&&<div className="notice" role="status">{params.status}</div>}
