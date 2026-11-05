@@ -34,11 +34,15 @@ export async function updateProfile(formData: FormData) {
 
   let avatarPath: string | undefined;
   let coverPath: string | undefined;
-  const { data: previousProfile } = await supabase
+  const { data: previousProfile, error: previousProfileError } = await supabase
     .from("profiles")
-    .select("avatar_path,cover_path")
+    .select("id,avatar_path,cover_path")
     .eq("id", user.id)
     .maybeSingle();
+
+  if (previousProfileError) {
+    fail("We could not load your existing profile before saving. Please refresh and try again.");
+  }
 
   if (avatar instanceof File && avatar.size > 0) {
     const extension = MIME_TO_EXTENSION[avatar.type];
@@ -93,23 +97,41 @@ export async function updateProfile(formData: FormData) {
   if (avatarPath) update.avatar_path = avatarPath;
   if (coverPath) update.cover_path = coverPath;
 
-  const { data: existing } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("id", user.id)
-    .maybeSingle();
+  let savedProfileId: string | null = null;
+  let saveError: { code?: string; message?: string } | null = null;
 
-  const result = existing
-    ? await supabase.from("profiles").update(update).eq("id", user.id)
-    : await supabase.from("profiles").insert({ id: user.id, ...update });
+  if (previousProfile?.id) {
+    const { data: saved, error } = await supabase
+      .from("profiles")
+      .update(update)
+      .eq("id", user.id)
+      .select("id")
+      .maybeSingle();
+    savedProfileId = saved?.id ?? null;
+    saveError = error;
+  } else {
+    const { data: saved, error } = await supabase
+      .from("profiles")
+      .insert({ id: user.id, ...update })
+      .select("id")
+      .maybeSingle();
+    savedProfileId = saved?.id ?? null;
+    saveError = error;
+  }
 
-  if (result.error) {
+  // Supabase can return no error when row-level security filters an UPDATE.
+  // Verify that a row was actually returned before telling the member it saved.
+  if (saveError || !savedProfileId) {
     const uploadedPaths = [avatarPath, coverPath].filter(Boolean) as string[];
     if (uploadedPaths.length) await supabase.storage.from("community-photos").remove(uploadedPaths);
-    const message = result.error.code === "23505"
-      ? "That handle is already in use. Please choose another."
-      : "Your profile could not be saved. Please try again.";
-    fail(message);
+
+    if (saveError?.code === "23505") {
+      fail("A profile value conflicts with an existing record. Please check your details and try again.");
+    }
+    if (saveError?.code === "42501") {
+      fail("Your profile could not be saved because the database denied the change. Please contact support.");
+    }
+    fail("Your profile was not confirmed as saved. Please refresh and try again; your existing details have been kept.");
   }
 
   const replacedPaths = [
