@@ -15,17 +15,41 @@ const items = [
   { href: "/home/connect", icon: "↗", label: "Company links", key: "connect" },
 ];
 
+const mobilePrimary = ["home", "people", "messages", "groups"];
+const mobileMore = ["profile", "notifications", "blocked", "events", "premium", "connect"];
+
 export function CommunityNavigation({ active }: { active: string }) {
+  const moreIsActive = mobileMore.includes(active);
   return (
     <aside className="sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-        <Brand />
-        <nav className="side-nav" aria-label="Main navigation">
+        <div className="community-nav-brand"><Brand /></div>
+        <nav className="side-nav desktop-side-nav" aria-label="Main navigation">
           {items.map((item) => (
             <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-              <span className="nav-icon">{item.icon}</span>{item.label}
+              <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
             </Link>
           ))}
+        </nav>
+        <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
+          {items.filter((item) => mobilePrimary.includes(item.key)).map((item) => (
+            <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
+              <span className="nav-icon" aria-hidden="true">{item.icon}</span><span>{item.label}</span>
+            </Link>
+          ))}
+          <details className={"mobile-more-menu" + (moreIsActive ? " active" : "")}>
+            <summary aria-label="More navigation options" aria-current={moreIsActive ? "page" : undefined}>
+              <span className="nav-icon" aria-hidden="true">•••</span><span>More</span>
+            </summary>
+            <div className="mobile-more-panel">
+              {items.filter((item) => mobileMore.includes(item.key)).map((item) => (
+                <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
+                  <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
+                </Link>
+              ))}
+              <form action={signOut} className="mobile-more-signout"><button type="submit">Sign out</button></form>
+            </div>
+          </details>
         </nav>
         <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
         <form action={signOut} className="sidebar-signout">
