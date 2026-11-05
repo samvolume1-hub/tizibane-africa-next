@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
@@ -126,31 +127,7 @@ export default async function Home({
 
   return (
     <main className="app-layout">
-      <aside className="sidebar">
-        <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-          <Brand />
-          <nav className="side-nav" aria-label="Main navigation">
-          <Link href="/home" className="active"><span className="nav-icon">⌂</span>Home</Link>
-          <Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
-          <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
-          <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
-          <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/blocked"><span className="nav-icon">⊘</span>Blocked</Link>
-          <Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link>
-          <Link href="/home/events"><span className="nav-icon">◇</span>Events</Link>
-          <Link href="/home/premium"><span className="nav-icon">✦</span>Premium advertising</Link>
-          <Link href="/home/connect"><span className="nav-icon">↗</span>Company links</Link>
-          </nav>
-          <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
-        </section>
-        <details className="signout-confirm">
-          <summary className="btn">Sign out</summary>
-          <div className="signout-popover">
-            <p>Would you like to log out of TIZIBANE Africa?</p>
-            <form action={signOut}><button className="btn" type="submit">Yes, log out</button></form>
-            <Link href="/home" className="signout-stay">Stay in the app</Link>
-          </div>
-        </details>
-      </aside>
+      <CommunityNavigation active="home" />
 
       <section className="app-main">
         <header className="topbar"><span className="muted">YOUR COMMUNITY SPACE</span><span className="signed-in">● Signed in</span></header>
