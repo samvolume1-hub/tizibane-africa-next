@@ -10,8 +10,10 @@ function label(kind:string,actor:string){switch(kind){case "friend_request":retu
 function destination(n:Notification){if(n.kind==="message"&&n.subject_id)return "/home/messages/"+n.subject_id;if(["friend_request","friend_accepted","friend_declined","follow"].includes(n.kind))return "/home/people";if(n.kind==="event_attendance")return "/home/events";if(n.kind==="group_join_request"||n.kind==="group_join_approved"||n.kind==="group_join_declined")return "/home/groups";return "/home";}
 export default async function NotificationsPage({searchParams}:{searchParams:Promise<{error?:string}>}){
  const params=await searchParams,supabase=await createClient(),{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const {data:rows,error}=await supabase.from("notifications").select("id,recipient_id,actor_id,kind,subject_id,created_at,read_at").order("created_at",{ascending:false}).limit(60);
- const notifications=(rows??[]) as Notification[],unread=notifications.filter(n=>!n.read_at).length,actorIds=[...new Set(notifications.map(n=>n.actor_id).filter((id):id is string=>Boolean(id)))];
+ const {data:mutedRows}=await supabase.from("member_preferences").select("member_id").eq("owner_id",user.id).eq("muted",true);
+ const mutedActorIds=new Set((mutedRows??[]).map(row=>row.member_id as string));
+ const {data:rows,error}=await supabase.from("notifications").select("id,recipient_id,actor_id,kind,subject_id,created_at,read_at").order("created_at",{ascending:false}).limit(100);
+ const notifications=((rows??[]) as Notification[]).filter(n=>!n.actor_id||!mutedActorIds.has(n.actor_id)).slice(0,60),unread=notifications.filter(n=>!n.read_at).length,actorIds=[...new Set(notifications.map(n=>n.actor_id).filter((id):id is string=>Boolean(id)))];
  let profiles:Profile[]=[];if(actorIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle,initials,avatar_color,avatar_path").in("id",actorIds);profiles=(data??[]) as Profile[]}
  const profileById=new Map(profiles.map(p=>[p.id,p])),avatarUrls:Record<string,string>={};
  for(const p of profiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
