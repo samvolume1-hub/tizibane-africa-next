@@ -1233,7 +1233,7 @@ body *{
   .form-grid,
   .group-grid,
   .company-link-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .event-card {
     grid-template-columns: 52px minmax(0, 1fr);
@@ -1257,6 +1257,11 @@ body *{
 }
 
 @media (max-width: 540px) {
+  .form-grid,
+  .group-grid,
+  .company-link-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .app-layout {
     grid-template-columns: 56px minmax(0, 1fr) !important;
   }
