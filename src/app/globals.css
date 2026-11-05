@@ -729,3 +729,22 @@ body *{
     border-radius:999px;
   }
 }
+
+
+/* Give the Main Content Area a little more breathing room on both sides. */
+.app-layout .app-content{
+  padding-left:45px;
+  padding-right:45px;
+}
+@media(max-width:820px){
+  .app-layout .app-content{
+    padding-left:23px;
+    padding-right:23px;
+  }
+}
+@media(max-width:540px){
+  .app-layout .app-content{
+    padding-left:19px;
+    padding-right:19px;
+  }
+}
