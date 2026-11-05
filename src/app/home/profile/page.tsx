@@ -33,7 +33,7 @@ export default async function ProfilePage({
 
   const profile = data as Profile | null;
   const profileName = profile?.display_name || String(user.user_metadata?.display_name || user.email?.split("@")[0] || "Member");
-  const profileInitials = profileName.trim().split(/\\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase() || "M";
+  const profileInitials = profileName.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase() || "M";
   let avatarUrl: string | null = null;
   if (profile?.avatar_path) {
     const { data: signed } = await supabase.storage
