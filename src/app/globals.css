@@ -571,3 +571,12 @@ body{
   letter-spacing:.02em;
 }
 .comment-content{min-width:0;flex:1}
+
+
+/* Let the app-wide heritage backdrop remain visible behind navigation chrome. */
+.app-layout .sidebar,
+.app-layout .topbar{
+  background:rgba(22,13,32,.76);
+  -webkit-backdrop-filter:blur(3px);
+  backdrop-filter:blur(3px);
+}
