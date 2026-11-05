@@ -116,8 +116,9 @@ export default async function Home({
   return (
     <main className="app-layout">
       <aside className="sidebar">
-        <Brand />
-        <nav className="side-nav" aria-label="Main navigation">
+        <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
+          <Brand />
+          <nav className="side-nav" aria-label="Main navigation">
           <Link href="/home" className="active"><span className="nav-icon">⌂</span>Home</Link>
           <Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
           <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
@@ -127,8 +128,9 @@ export default async function Home({
           <Link href="/home/events"><span className="nav-icon">◇</span>Events</Link>
           <Link href="/home/premium"><span className="nav-icon">✦</span>Premium advertising</Link>
           <Link href="/home/connect"><span className="nav-icon">↗</span>Company links</Link>
-        </nav>
-        <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
+          </nav>
+          <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
+        </section>
         <details className="signout-confirm">
           <summary className="btn">Sign out</summary>
           <div className="signout-popover">
