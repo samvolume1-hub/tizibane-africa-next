@@ -23,6 +23,11 @@ type Profile = {
   avatar_color: string;
   avatar_path: string | null;
 };
+function initialsFromName(name: string | null | undefined): string {
+  const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
+  return parts.slice(0, 2).map((part) => part[0] ?? "").join("").toUpperCase() || "M";
+}
+
 type Reaction = { post_id: string; user_id: string; reaction: string };
 type Comment = { id: string; post_id: string; author_id: string; body: string; created_at: string };
 
@@ -198,7 +203,7 @@ export default async function Home({
                     <div className="post-author">
                       {avatarUrls[post.author_id]
                         ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" />
-                        : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{author?.initials || "T"}</div>}
+                        : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Member"))}</div>}
                       <div><strong>{author?.display_name || "TIZIBANE member"}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
@@ -239,12 +244,7 @@ export default async function Home({
                         {postComments.map((comment) => {
                           const commenter = profileById.get(comment.author_id);
                           const commenterName = commenter?.display_name || "TIZIBANE member";
-                          const commenterInitials = commenterName
-                            .split(/\s+/)
-                            .slice(0, 2)
-                            .map((part) => part[0] || "")
-                            .join("")
-                            .toUpperCase() || "TZ";
+                          const commenterInitials = initialsFromName(commenterName);
                           return (
                             <div className="comment" key={comment.id}>
                               {avatarUrls[comment.author_id]
