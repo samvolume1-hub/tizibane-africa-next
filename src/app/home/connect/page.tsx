@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -28,19 +29,7 @@ export default async function ConnectPage(){
  const {data:{user}}=await supabase.auth.getUser();
  if(!user)redirect("/login");
  return <main className="app-layout">
-  <aside className="sidebar"><Brand />
-   <nav className="side-nav" aria-label="Main navigation">
-    <Link href="/home"><span className="nav-icon">⌂</span>Home</Link>
-    <Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link>
-    <Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
-    <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
-    <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link>
-    <Link href="/home/groups"><span className="nav-icon">◈</span>Groups</Link>
-    <Link href="/home/events"><span className="nav-icon">◇</span>Events</Link>
-    <Link href="/home/connect" className="active"><span className="nav-icon">↗</span>Company links</Link>
-   </nav>
-   <form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form>
-  </aside>
+  <CommunityNavigation active="connect" />
   <section className="app-main">
    <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ROYALTY · OFFICIAL LINKS</span></header>
    <div className="app-content">
