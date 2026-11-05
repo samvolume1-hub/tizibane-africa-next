@@ -6,7 +6,7 @@ export const size = {width: 1200, height: 630};
 export const contentType = "image/png";
 
 export default async function OpenGraphImage() {
-  const photoResponse = await fetch(new URL("../../public/images/CyRjOE1H6VIkX4mtiuoWOh4PQBRAZBExhEGYt7c5uxc26hSsSnuMDIHGTpmE6kCBgK7QZftdf2nhlnK4kvhEiUaWY2tufs--MECrRWVgMR_6jeRI0ML9Mh3wTiUUEmE9Ar043kC-vkhT915xe39ztJgAYf5dgT4h2klx8LnRrsY.jpg", import.meta.url));
+  const photoResponse = await fetch(new URL("../../public/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg", import.meta.url));
   if (!photoResponse.ok) {
     throw new Error("Unable to load the bundled TIZIBANE preview photo");
   }
