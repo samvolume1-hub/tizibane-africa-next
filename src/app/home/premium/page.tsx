@@ -49,6 +49,7 @@ export default async function PremiumPage() {
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ROYALTY · PAID ADVERTISING</span></header>
         <div className="app-content premium-content">
           <section className="premium-hero premium-hero-photo">
+            <img className="photo-backdrop" src="https://images.pexels.com/photos/31923982/pexels-photo-31923982.jpeg" alt="" aria-hidden="true" loading="eager"/>
             <span className="eyebrow">TIZIBANE PREMIUM MARKETPLACE</span>
             <p className="premium-kicker">YOUR PRODUCTS. YOUR BUSINESS. OUR COMMUNITY.</p>
             <h1>Advertise with <em>TIZIBANE</em></h1>
