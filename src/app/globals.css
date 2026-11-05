@@ -1192,3 +1192,399 @@ body *{
 .app-layout .app-content:has(.premium-hero-photo) .premium-trust-row,
 .app-layout .app-content:has(.premium-hero-photo) .premium-package-note,
 .app-layout .app-content:has(.premium-hero-photo) .premium-featured-label { color:#fff !important; }
+
+
+/* Small-phone refinement: reclaim space for the actual community content.
+   This is layout-only; the existing pink navigation/canvas artwork is untouched. */
+@media (max-width: 820px) {
+  .app-layout {
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+    width: 100%;
+    max-width: 100%;
+  }
+  .app-layout > .sidebar {
+    width: 64px !important;
+    min-width: 0;
+    padding: 7px 4px !important;
+  }
+  .app-layout .community-nav-section {
+    padding: 7px 4px !important;
+  }
+  .app-layout .community-nav-section .brand-mark {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+  .app-layout .app-main,
+  .app-layout .app-content {
+    min-width: 0;
+    width: 100%;
+  }
+  .app-layout .app-content {
+    max-width: 1100px;
+    padding: 22px 18px;
+  }
+  .app-layout .topbar {
+    min-width: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    gap: 10px;
+  }
+  .form-grid,
+  .group-grid,
+  .company-link-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .event-card {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+  .event-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-items: start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .event-actions form,
+  .event-actions .btn {
+    max-width: 100%;
+  }
+  .event-actions .btn {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 540px) {
+  .app-layout {
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+  }
+  .app-layout > .sidebar {
+    width: 56px !important;
+    padding: 6px 3px !important;
+  }
+  .app-layout .community-nav-section {
+    padding: 6px 3px !important;
+    border-radius: 12px !important;
+  }
+  .app-layout .community-nav-section .brand-mark {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+  .app-layout .community-nav-section .side-nav {
+    gap: 6px !important;
+    margin-top: 8px !important;
+  }
+  .app-layout .community-nav-section .side-nav a {
+    min-height: 38px;
+    flex-basis: 38px;
+    border-radius: 9px !important;
+  }
+  .app-layout .app-content {
+    padding: 16px 13px;
+  }
+  .app-layout .topbar {
+    min-height: 56px;
+    height: auto;
+    padding: 9px 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 10px;
+  }
+  .welcome {
+    padding: 18px;
+    border-radius: 17px;
+  }
+  .welcome h1,
+  .profile-welcome h1 {
+    font-size: clamp(23px, 7vw, 30px);
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+  .welcome p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .composer,
+  .post-card,
+  .module-section,
+  .profile-editor {
+    border-radius: 15px;
+  }
+  .composer {
+    padding: 13px;
+  }
+  .composer textarea {
+    min-height: 92px;
+    padding: 12px;
+  }
+  .composer-options {
+    width: 100%;
+    gap: 8px;
+  }
+  .composer-options select {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .composer-bottom .btn,
+  .module-form > .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+  .feed-heading {
+    margin-top: 25px;
+  }
+  .feed-heading h2 {
+    font-size: 19px;
+    line-height: 1.25;
+  }
+  .post-card,
+  .group-card,
+  .event-card,
+  .person-card,
+  .conversation-card,
+  .notification-card {
+    min-width: 0;
+    padding: 14px;
+  }
+  .post-author {
+    min-width: 0;
+    align-items: flex-start;
+  }
+  .post-author > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .post-author span,
+  .person-copy span,
+  .person-identity span {
+    overflow-wrap: anywhere;
+  }
+  .post-body {
+    font-size: 13px;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+  .reaction-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-width: 0;
+  }
+  .reaction-picker > form {
+    max-width: 100%;
+  }
+  .reaction-total {
+    flex-basis: 100%;
+  }
+  .comment-form {
+    display: flex;
+    min-width: 0;
+    gap: 6px;
+  }
+  .comment-form input {
+    width: 0;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .comment-form .text-action {
+    flex: 0 0 auto;
+  }
+  .module-section {
+    padding: 14px;
+  }
+  .section-title-row {
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .section-title-row h2 {
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .form-grid {
+    gap: 0;
+  }
+  .module-form .field,
+  .profile-form .field {
+    min-width: 0;
+  }
+  .module-form input,
+  .module-form select,
+  .module-form textarea,
+  .profile-form input,
+  .profile-form select,
+  .profile-form textarea {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .event-card {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .event-date {
+    width: 42px;
+    height: 54px;
+  }
+  .event-date span {
+    font-size: 20px;
+  }
+  .event-details,
+  .event-actions,
+  .group-card,
+  .conversation-card,
+  .notification-card {
+    min-width: 0;
+  }
+  .event-details h3,
+  .group-card h3 {
+    font-size: 16px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .event-details p,
+  .group-card p {
+    overflow-wrap: anywhere;
+  }
+  .event-meta,
+  .group-meta {
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+  }
+  .person-actions {
+    width: 100%;
+    padding-left: 0 !important;
+    justify-content: flex-start;
+  }
+  .person-actions .btn,
+  .person-actions form,
+  .person-actions form .btn {
+    max-width: 100%;
+  }
+  .conversation-card {
+    gap: 8px;
+  }
+  .conversation-card .person-identity {
+    min-width: 0;
+  }
+  .conversation-card .person-identity p {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .conversation-time {
+    flex: 0 0 auto;
+  }
+  .message-composer,
+  .conversation-heading {
+    padding: 14px;
+  }
+  .message-composer .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+  .notification-card {
+    gap: 9px;
+  }
+  .notification-copy {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .profile-preview {
+    gap: 11px;
+  }
+  .profile-editor .profile-form {
+    padding: 0 14px 16px;
+  }
+  .profile-form-actions {
+    gap: 8px;
+  }
+  .profile-form-actions .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+  .company-link-card,
+  .company-site-row {
+    min-width: 0;
+    align-items: flex-start;
+    padding: 13px;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-layout {
+    grid-template-columns: 50px minmax(0, 1fr) !important;
+  }
+  .app-layout > .sidebar {
+    width: 50px !important;
+    padding: 5px 2px !important;
+  }
+  .app-layout .community-nav-section {
+    padding: 5px 2px !important;
+  }
+  .app-layout .community-nav-section .brand-mark {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+  .app-layout .community-nav-section .side-nav a {
+    min-height: 36px;
+    flex-basis: 36px;
+  }
+  .app-layout .app-content {
+    padding: 13px 10px;
+  }
+  .app-layout .topbar {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+  .welcome {
+    padding: 15px;
+  }
+  .composer,
+  .post-card,
+  .module-section {
+    padding: 12px;
+  }
+  .post-interactions {
+    gap: 8px;
+  }
+  .event-card {
+    padding: 11px;
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .event-date {
+    width: 38px;
+  }
+  .profile-preview {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .profile-editor .profile-form {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Avoid sideways page drift caused by long member names, URLs or post text. */
+@media (max-width: 820px) {
+  .app-layout,
+  .app-main,
+  .app-content,
+  .feed-list,
+  .post-card,
+  .module-section {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .post-body,
+  .comment p,
+  .company-link-copy,
+  .company-site-row,
+  .rules-text {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
