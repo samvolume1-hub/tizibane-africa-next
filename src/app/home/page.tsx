@@ -236,7 +236,24 @@ export default async function Home({
                       <div className="comment-list">
                         {postComments.map((comment) => {
                           const commenter = profileById.get(comment.author_id);
-                          return <div className="comment" key={comment.id}><strong>{commenter?.display_name || "Member"}</strong><p>{comment.body}</p></div>;
+                          const commenterName = commenter?.display_name || "TIZIBANE member";
+                          const commenterInitials = commenterName
+                            .split(/\\s+/)
+                            .slice(0, 2)
+                            .map((part) => part[0] || "")
+                            .join("")
+                            .toUpperCase() || "TZ";
+                          return (
+                            <div className="comment" key={comment.id}>
+                              {avatarUrls[comment.author_id]
+                                ? <img className="comment-avatar avatar-image" src={avatarUrls[comment.author_id]} alt={`${commenterName} profile photo`} />
+                                : <div className="comment-avatar comment-avatar-fallback" style={{ background: commenter?.avatar_color || "#8053ad" }} aria-hidden="true">{commenterInitials}</div>}
+                              <div className="comment-content">
+                                <strong>{commenterName}</strong>
+                                <p>{comment.body}</p>
+                              </div>
+                            </div>
+                          );
                         })}
                       </div>
                     )}
@@ -258,3 +275,4 @@ export default async function Home({
     </main>
   );
 }
+
