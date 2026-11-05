@@ -204,7 +204,7 @@ export default async function Home({
                       {avatarUrls[post.author_id]
                         ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" />
                         : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Member"))}</div>}
-                      <div><strong>{author?.display_name || "TIZIBANE member"}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
+                      <div><strong>{author?.display_name || (post.author_id === user.id ? displayName : "Member")}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
                     {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" />}
@@ -243,7 +243,7 @@ export default async function Home({
                       <div className="comment-list">
                         {postComments.map((comment) => {
                           const commenter = profileById.get(comment.author_id);
-                          const commenterName = commenter?.display_name || "TIZIBANE member";
+                          const commenterName = commenter?.display_name || "Member";
                           const commenterInitials = initialsFromName(commenterName);
                           return (
                             <div className="comment" key={comment.id}>
