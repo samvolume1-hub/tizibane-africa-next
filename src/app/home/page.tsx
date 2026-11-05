@@ -55,11 +55,15 @@ export default async function Home({
 
   let reactions: Reaction[] = [];
   let comments: Comment[] = [];
+  let interactionLoadError = "";
   if (postIds.length) {
     const [reactionResult, commentResult] = await Promise.all([
       supabase.from("post_reactions").select("post_id,user_id,reaction").in("post_id", postIds),
-      supabase.from("comments").select("id,post_id,author_id,body,created_at").in("post_id", postIds).order("created_at", { ascending: true }).limit(150),
+      supabase.from("comments").select("id,post_id,author_id,body,created_at").in("post_id", postIds).order("created_at", { ascending: true }).limit(500),
     ]);
+    if (reactionResult.error || commentResult.error) {
+      interactionLoadError = "Some reactions or comments could not be loaded. Please refresh and try again.";
+    }
     reactions = (reactionResult.data ?? []) as Reaction[];
     comments = (commentResult.data ?? []) as Comment[];
   }
@@ -122,13 +126,20 @@ export default async function Home({
           <Link href="/home/connect"><span className="nav-icon">↗</span>Company links</Link>
         </nav>
         <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
-        <form action={signOut} className="sidebar-signout"><button className="btn" style={{ width: "100%" }}>Sign out</button></form>
+        <details className="signout-confirm">
+          <summary className="btn">Sign out</summary>
+          <div className="signout-popover">
+            <p>Would you like to log out of TIZIBANE Africa?</p>
+            <form action={signOut}><button className="btn" type="submit">Yes, log out</button></form>
+            <Link href="/home" className="signout-stay">Stay in the app</Link>
+          </div>
+        </details>
       </aside>
 
       <section className="app-main">
         <header className="topbar"><span className="muted">YOUR COMMUNITY SPACE</span><span className="signed-in">● Signed in</span></header>
         <div className="app-content">
-          <section className="welcome">
+          <section className="welcome welcome-home">
             <span className="eyebrow">Welcome to TIZIBANE</span>
             <h1>Hello, {displayName}.</h1>
             <p>Your community home is ready. Share an update and connect with people across your circles.</p>
@@ -139,6 +150,7 @@ export default async function Home({
           {params.posted && <div className="notice" role="status">Your post has been shared with your selected audience.</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
+          {interactionLoadError && <div className="notice" role="alert">{interactionLoadError}</div>}
 
           <section className="composer">
             <div className="eyebrow">Start a conversation</div>
@@ -187,13 +199,34 @@ export default async function Home({
                     {post.body && <p className="post-body">{post.body}</p>}
                     {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" />}
                     <div className="post-interactions">
-                      <form action={toggleReaction} className="reaction-form">
-                        <input type="hidden" name="post_id" value={post.id} />
-                        <select name="reaction" aria-label="Choose a reaction" defaultValue={myReaction || "like"}>
-                          <option value="like">Like</option><option value="love">Love</option><option value="celebrate">Celebrate</option><option value="support">Support</option>
-                        </select>
-                        <button className="text-action" type="submit">{myReaction ? "Update reaction" : "React"} · {reactionCounts[post.id] ?? 0}</button>
-                      </form>
+                      <div className="reaction-picker" aria-label="Choose how you feel about this post">
+                        {[
+                          { value: "like", emoji: "👍", label: "Like" },
+                          { value: "love", emoji: "❤️", label: "Love" },
+                          { value: "laugh", emoji: "😂", label: "Joy" },
+                          { value: "wow", emoji: "😮", label: "Wow" },
+                          { value: "sad", emoji: "😢", label: "Sad" },
+                          { value: "celebrate", emoji: "🎉", label: "Celebrate" },
+                          { value: "support", emoji: "🤗", label: "Support" },
+                          { value: "salute", emoji: "🫡", label: "Salute" },
+                          { value: "pray", emoji: "🙏", label: "Pray" },
+                        ].map((choice) => (
+                          <form action={toggleReaction} key={choice.value}>
+                            <input type="hidden" name="post_id" value={post.id} />
+                            <input type="hidden" name="reaction" value={choice.value} />
+                            <button
+                              className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`}
+                              type="submit"
+                              aria-pressed={myReaction === choice.value}
+                              title={choice.label}
+                            >
+                              <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
+                              <span className="reaction-label">{choice.label}</span>
+                            </button>
+                          </form>
+                        ))}
+                        <span className="reaction-total">{reactionCounts[post.id] ?? 0} reactions</span>
+                      </div>
                       <span className="comment-count">{commentsByPost[post.id]?.length ?? 0} comments</span>
                     </div>
                     {postComments.length > 0 && (
