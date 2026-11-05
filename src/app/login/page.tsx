@@ -17,29 +17,34 @@ export default async function Login({
         <p>Sign in to reconnect with your community.</p>
         {p.error && <div className="notice" role="alert">{p.error}</div>}
         {p.message && <div className="notice" role="status">{p.message}</div>}
+
         <form action={signIn}>
           <div className="field">
-            <label htmlFor="email">Email address</label>
-            <input id="email" name="email" type="email" autoComplete="email" required />
+            <label htmlFor="signin-email">Email address</label>
+            <input id="signin-email" name="email" type="email" autoComplete="email" required />
           </div>
           <div className="field">
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type="password" autoComplete="current-password" required />
+            <label htmlFor="signin-password">Password</label>
+            <input id="signin-password" name="password" type="password" autoComplete="current-password" required />
           </div>
           <button className="btn btn-primary" type="submit">Sign in securely</button>
-          <button
-            className="btn"
-            type="submit"
-            formAction={resendConfirmation}
-            formNoValidate
-          >
-            Resend confirmation email
-          </button>
         </form>
+
+        <div className="field" style={{ marginTop: "1.25rem" }}>
+          <p><strong>Need a new confirmation email?</strong></p>
+          <p className="muted">Enter your email below. No password is needed.</p>
+        </div>
+        <form action={resendConfirmation}>
+          <div className="field">
+            <label htmlFor="resend-email">Email address</label>
+            <input id="resend-email" name="email" type="email" autoComplete="email" required />
+          </div>
+          <button className="btn" type="submit">Resend confirmation email</button>
+        </form>
+
         <p>New to TIZIBANE? <Link href="/signup" style={{ color: "var(--gold2)" }}>Create an account</Link></p>
         <p><Link href="/" className="muted">← Back to home</Link></p>
       </section>
-      
     </main>
   );
 }
