@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import {redirect} from "next/navigation";
@@ -45,9 +46,7 @@ export default async function GroupDetailPage({params,searchParams}:{params:Prom
  const photoUrls:Record<string,string>={},avatarUrls:Record<string,string>={};
  for(const p of posts){if(!p.photo_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.photo_path,3600);if(data?.signedUrl)photoUrls[p.id]=data.signedUrl}
  for(const p of profiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
- return <main className="app-layout"><aside className="sidebar"><Brand /><nav className="side-nav" aria-label="Main navigation"><Link href="/home"><span className="nav-icon">⌂</span>Home</Link><Link href="/home/profile"><span className="nav-icon">◎</span>My profile</Link><Link href="/home/people"><span className="nav-icon">♧</span>People</Link>
-          <Link href="/home/messages"><span className="nav-icon">✉</span>Messages</Link>
-          <Link href="/home/notifications"><span className="nav-icon">♢</span>Notifications</Link><Link href="/home/groups" className="active"><span className="nav-icon">◈</span>Groups</Link><Link href="/home/events"><span className="nav-icon">◇</span>Events</Link></nav><form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form></aside>
+ return <main className="app-layout"><CommunityNavigation active="groups" />
  <section className="app-main"><header className="topbar"><Link href="/home/groups" className="back-link">← All groups</Link><span className="muted">COMMUNITY SPACE</span></header><div className="app-content">
  <section className="welcome"><span className="eyebrow">{group.category||"Community"} · {group.visibility}</span><h1>{group.name}</h1><p>{group.description||"A space for members to connect and share."}</p></section>
  {notice.error&&<div className="notice" role="alert">{notice.error}</div>}{notice.posted&&<div className="notice" role="status">Your group update has been published.</div>}{notice.commented&&<div className="notice" role="status">Your comment has been added.</div>}{notice.deleted&&<div className="notice" role="status">The post has been deleted.</div>}{notice.commentDeleted&&<div className="notice" role="status">The comment has been deleted.</div>}
