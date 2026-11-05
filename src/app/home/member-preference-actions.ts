@@ -16,7 +16,7 @@ export async function toggleMemberPreference(form:FormData){
  if(memberId===user.id) redirect("/home/people?error=You%20cannot%20set%20a%20preference%20for%20yourself");
  const {data:existing,error:lookupError}=await supabase.from("member_preferences").select("muted,best_friend").eq("owner_id",user.id).eq("member_id",memberId).maybeSingle();
  if(lookupError) redirect("/home/people?error=Preferences%20could%20not%20be%20loaded");
- const next={muted:existing?.muted??false,best_friend:existing?.best_friend??false,[preference]:enabled,updated_at:new Date().toISOString()};
+ const next={muted:preference==="muted"?enabled:(existing?.muted??false),best_friend:preference==="best_friend"?enabled:(existing?.best_friend??false),updated_at:new Date().toISOString()};
  const {error}=await supabase.from("member_preferences").upsert({owner_id:user.id,member_id:memberId,...next},{onConflict:"owner_id,member_id"});
  if(error) redirect("/home/people?error=Your%20preference%20could%20not%20be%20saved");
  revalidatePath("/home/people");
