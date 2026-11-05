@@ -59,7 +59,7 @@ export async function signUp(data: FormData) {
     },
   });
   if (error) redirect("/signup?error=Account%20creation%20failed.%20Please%20try%20again");
-  redirect("/login?message=Check%20your%20email%20to%20confirm%20your%20account");
+  redirect("/signup/success");
 }
 
 export async function resendConfirmation(data: FormData) {
