@@ -49,7 +49,7 @@ export default async function PremiumPage() {
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ROYALTY · PAID ADVERTISING</span></header>
         <div className="app-content premium-content">
           <section className="premium-hero premium-hero-photo">
-            <img className="photo-backdrop" src="https://images.pexels.com/photos/31923982/pexels-photo-31923982.jpeg" alt="" aria-hidden="true" loading="eager"/>
+            <img className="photo-backdrop" src="/images/fzJ2RgsQKQ0IRabCRUcpgTclFLNN70M311nzsjgfGvOZSxuLII03Hr_XJG_CQ9kRG_HBr7XzN-yIf5v371lJ6Z9hcw_chMa-d019Ll-Xdfl2I0ZqbhatI6-mY9hFMql1hC_1mtI-yYh06S8TZGGN3BCaf7mcZqeXzOFAef7KEQnKFb5-uv43k1f9NIlI-E0M.jpg" alt="" aria-hidden="true" loading="eager"/>
             <span className="eyebrow">TIZIBANE PREMIUM MARKETPLACE</span>
             <p className="premium-kicker">YOUR PRODUCTS. YOUR BUSINESS. OUR COMMUNITY.</p>
             <h1>Advertise with <em>TIZIBANE</em></h1>
