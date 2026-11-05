@@ -55,7 +55,7 @@ export async function signUp(data: FormData) {
     password,
     options: {
       data: { display_name: name },
-      emailRedirectTo: `${siteUrl}/auth/callback?next=/home`,
+      emailRedirectTo: `${siteUrl}/auth/confirm?next=/home`,
     },
   });
   if (error) redirect("/signup?error=Account%20creation%20failed.%20Please%20try%20again");
@@ -81,7 +81,7 @@ export async function resendConfirmation(data: FormData) {
     type: "signup",
     email,
     options: {
-      emailRedirectTo: `${siteUrl}/auth/callback?next=/home`,
+      emailRedirectTo: `${siteUrl}/auth/confirm?next=/home`,
     },
   });
 
