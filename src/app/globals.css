@@ -580,3 +580,25 @@ body{
   -webkit-backdrop-filter:blur(3px);
   backdrop-filter:blur(3px);
 }
+
+
+/* TIZIBANE Africa — lightweight repository-image app backdrop.
+   Keep foreground cards, photos, canvases, layout and controls unchanged. */
+.app-layout{
+  background-color:#160d20;
+  background-image:url("/images/black history background image.jpg");
+  background-position:center top;
+  background-repeat:repeat-y;
+  background-size:100% auto;
+  background-attachment:scroll;
+}
+.app-layout .sidebar,
+.app-layout .topbar{
+  background:rgba(22,13,32,.82);
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
+/* Remove decorative text shadows throughout the app for crisp, lighter rendering. */
+body *{
+  text-shadow:none !important;
+}
