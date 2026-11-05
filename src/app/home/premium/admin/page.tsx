@@ -1,3 +1,4 @@
+import { CommunityNavigation } from "@/components/community-navigation";
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -22,11 +23,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
   const { data } = await supabase.from("premium_products").select("id,product_name,seller_type,seller_name,business_name,category,price_zmw,status,payment_status,is_featured,created_at,image_paths").order("created_at", { ascending: false }).limit(100);
   const products = (data ?? []) as Product[];
 
-  return <main className="app-layout"><aside className="sidebar">
-    <Brand />
-    <nav className="side-nav"><Link href="/home">⌂ Home</Link><Link href="/home/premium">✦ Premium Marketplace</Link><Link href="/home/premium/admin" className="active">⚙ Administrator</Link></nav>
-    <form action={signOut} className="sidebar-signout"><button className="btn" style={{width:"100%"}}>Sign out</button></form>
-  </aside><section className="app-main">
+  return <main className="app-layout"><CommunityNavigation active="premium" /><section className="app-main">
     <header className="topbar"><Link href="/home/premium" className="back-link">← Marketplace</Link><span className="muted">ADMINISTRATOR · {ADMIN_EMAIL}</span></header>
     <div className="app-content premium-content">
       <section className="premium-admin-heading"><span className="eyebrow">ROYALTY CONTROL CENTRE</span><h1>Premium advertising</h1><p>Create client listings, confirm payment and publish advertisements for the TIZIBANE community.</p></section>
