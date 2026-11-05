@@ -94,7 +94,7 @@ export function ReportControl(props: Props) {
                 <h2 id="report-dialog-title">Review your report</h2>
                 <p>Reason selected: <strong>{selectedReason?.label}</strong></p>
                 <p>Are you sure you want to submit this report? It will be sent to the TIZIBANE moderation team for review.</p>
-                <form action={props.kind === "post" ? reportPost : reportMember} onSubmit={closeReport}>
+                <form action={props.kind === "post" ? reportPost : reportMember}>
                   {props.kind === "post" ? (
                     <input type="hidden" name="post_id" value={props.targetId} />
                   ) : (
