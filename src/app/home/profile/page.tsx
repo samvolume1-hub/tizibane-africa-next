@@ -7,7 +7,6 @@ import { updateProfile } from "../profile-actions";
 
 type Profile = {
   id: string;
-  handle: string | null;
   display_name: string;
   bio: string;
   avatar_path: string | null;
@@ -28,7 +27,7 @@ export default async function ProfilePage({
 
   const { data } = await supabase
     .from("profiles")
-    .select("id,handle,display_name,bio,avatar_path,visibility,location,initials")
+    .select("id,display_name,bio,avatar_path,visibility,location,initials")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -70,11 +69,10 @@ export default async function ProfilePage({
           <section className="profile-editor">
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profile?.initials || "TZ"}</div>}
-              <div><strong>{profile?.display_name || user.email?.split("@")[0] || "TIZIBANE member"}</strong><span>{profile?.handle ? `@${profile.handle}` : "Choose your member handle"}</span></div>
+              <div><strong>{profile?.display_name || user.email?.split("@")[0] || "TIZIBANE member"}</strong><span>Your TIZIBANE community profile</span></div>
             </div>
             <form action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
-              <div className="field"><label htmlFor="handle">Member handle</label><input id="handle" name="handle" defaultValue={profile?.handle || ""} minLength={3} maxLength={30} pattern="[A-Za-z0-9_]{3,30}" placeholder="e.g. tizibane_member" /><small>Optional. 3–30 letters, numbers or underscores.</small></div>
               <div className="field"><label htmlFor="bio">About you</label><textarea id="bio" name="bio" defaultValue={profile?.bio || ""} maxLength={240} rows={4} placeholder="A few words about you..." /></div>
               <div className="field"><label htmlFor="location">Location (optional)</label><input id="location" name="location" defaultValue={profile?.location || ""} maxLength={120} placeholder="City or region" /></div>
               <div className="field"><label htmlFor="visibility">Who can discover your profile?</label><select id="visibility" name="visibility" defaultValue={profile?.visibility || "public"}><option value="public">Public to signed-in members</option><option value="members">All registered members</option><option value="friends">Accepted friends</option><option value="private">Only me</option></select></div>
