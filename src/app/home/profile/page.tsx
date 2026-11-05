@@ -32,6 +32,8 @@ export default async function ProfilePage({
     .maybeSingle();
 
   const profile = data as Profile | null;
+  const profileName = profile?.display_name || String(user.user_metadata?.display_name || user.email?.split("@")[0] || "Member");
+  const profileInitials = profileName.trim().split(/\\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase() || "M";
   let avatarUrl: string | null = null;
   if (profile?.avatar_path) {
     const { data: signed } = await supabase.storage
@@ -68,8 +70,8 @@ export default async function ProfilePage({
           {!profile && <div className="notice" role="alert">Your member profile is still being created. Please refresh this page in a moment.</div>}
           <section className="profile-editor">
             <div className="profile-preview">
-              {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profile?.initials || "TZ"}</div>}
-              <div><strong>{profile?.display_name || user.email?.split("@")[0] || "TIZIBANE member"}</strong><span>Your TIZIBANE community profile</span></div>
+              {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
+              <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
             </div>
             <form action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
