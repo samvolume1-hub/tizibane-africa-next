@@ -1179,3 +1179,16 @@ body *{
 .app-layout .premium-hero-photo h1 em {
   color: #fff !important;
 }
+
+/* White lettering on dark surfaces in the named sections; pink panels are excluded. */
+.app-layout .app-content:has(.groups-welcome) .feed-heading .eyebrow,
+.app-layout .app-content:has(.groups-welcome) .section-title-row .eyebrow,
+.app-layout .app-content:has(.groups-welcome) .feed-heading .muted,
+.app-layout .app-content:has(.groups-welcome) .company-link-copy small,
+.app-layout .app-content:has(.groups-welcome) .company-site-row small,
+.app-layout .app-content:has(.groups-welcome) .community-credit,
+.app-layout .app-content:has(.premium-hero-photo) .eyebrow,
+.app-layout .app-content:has(.premium-hero-photo) .premium-intro>p,
+.app-layout .app-content:has(.premium-hero-photo) .premium-trust-row,
+.app-layout .app-content:has(.premium-hero-photo) .premium-package-note,
+.app-layout .app-content:has(.premium-hero-photo) .premium-featured-label { color:#fff !important; }
