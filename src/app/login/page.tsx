@@ -1,4 +1,5 @@
 import { Brand } from "@/components/brand";
+import { PasswordField } from "@/components/password-field";
 import Link from "next/link";
 import { signIn, resendConfirmation } from "../auth-actions";
 
@@ -23,10 +24,12 @@ export default async function Login({
             <label htmlFor="signin-email">Email address</label>
             <input id="signin-email" name="email" type="email" autoComplete="email" required />
           </div>
-          <div className="field">
-            <label htmlFor="signin-password">Password</label>
-            <input id="signin-password" name="password" type="password" autoComplete="current-password" required />
-          </div>
+          <PasswordField
+            id="signin-password"
+            name="password"
+            label="Password"
+            autoComplete="current-password"
+          />
           <button className="btn btn-primary" type="submit">Sign in securely</button>
         </form>
 
