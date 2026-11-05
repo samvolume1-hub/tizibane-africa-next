@@ -272,3 +272,98 @@ img,video,canvas,svg{max-width:100%}
 @media(max-width:540px){.signup-success-card h1{font-size:25px}.signup-step{padding:13px}}
 
 .signup-step-label{margin:14px 0 -13px;color:var(--gold2)!important;font-size:9px!important;font-weight:700;letter-spacing:.13em}
+
+
+/* TIZIBANE Africa — welcoming rose, blush and white app theme */
+:root{color-scheme:light;--bg:#fffafd;--line:rgba(139,83,112,.16);--muted:#756b75;--text:#302632;--gold:#bd668d;--gold2:#a94f7b}
+body{background:linear-gradient(135deg,#fffafd 0%,#fff3f8 48%,#f8f5ff 100%);background-attachment:fixed;color:#302632}
+.app-layout{background:linear-gradient(135deg,#fffafd 0%,#fff4f8 48%,#f7f5ff 100%);color:#302632}
+.app-main{background:transparent}
+.sidebar{background:rgba(255,255,255,.88);border-color:#eadce5;box-shadow:8px 0 28px rgba(122,79,103,.045)}
+.sidebar .brand small,.sidebar-note{color:#807480}
+.side-nav a{color:#554a56;font-size:16px;padding:13px;border-radius:13px}
+.side-nav a.active,.side-nav a:hover{background:linear-gradient(110deg,#fde3ee,#f2eaff);color:#8f3e69}
+.nav-icon{color:#b35d86;font-size:20px}
+.topbar{background:rgba(255,255,255,.88);border-color:#eadce5;color:#554a56;backdrop-filter:blur(14px)}
+.topbar .muted,.muted{color:#756b75}
+.signed-in{color:#9d4d77}
+.app-content{color:#302632}
+.welcome{position:relative;isolation:isolate;overflow:hidden;border:1px solid rgba(255,255,255,.8);background:linear-gradient(115deg,rgba(255,250,253,.9),rgba(255,239,247,.83));box-shadow:0 14px 38px rgba(150,91,123,.1)}
+.welcome-home{min-height:245px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.welcome-home:before{content:"";position:absolute;z-index:-2;inset:-18px;background-image:linear-gradient(90deg,rgba(255,250,253,.91),rgba(255,245,250,.76) 58%,rgba(255,245,250,.55)),url("/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg");background-position:center 43%;background-size:cover;filter:blur(2px);transform:scale(1.035)}
+.welcome-home:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.46),rgba(255,238,247,.22));pointer-events:none}
+.welcome-home>*{position:relative}
+.welcome .eyebrow{color:#a44e78}
+.welcome h1{color:#332533}
+.welcome p{color:#665b67;font-size:16px;line-height:1.7}
+.welcome .text-action{color:#9b4773}
+.composer,.post-card,.profile-editor,.module-section,.module,.group-card,.event-card,.conversation-card,.conversation-heading,.message-composer,.notification-card,.premium-admin-form,.premium-admin-list,.premium-process,.premium-package,.premium-audience-card,.premium-bottom-cta,.premium-admin-heading{background:rgba(255,255,255,.92);border:1px solid #eadce5;box-shadow:0 10px 28px rgba(135,83,112,.055);color:#302632}
+.composer textarea,.field input,.field select,.field textarea,.composer select,.comment-form input,.message-composer textarea,.premium-listing-form input,.premium-listing-form select,.premium-listing-form textarea,.premium-admin-actions select,.report-post-form select,.report-member-form select{background:#fff;color:#332833;border:1px solid #e5d5df}
+.field label,.profile-form .field label{color:#554956;font-size:16px}
+.field-help,.profile-form .field small{color:#766b76;font-size:13px}
+.photo-picker{color:#71465d;background:#fff;border-color:#e6d7e0;font-size:15px}
+.btn{background:#fff;color:#70465d;border-color:#e5d3df;font-size:16px;padding:13px 19px}
+.btn-primary{background:linear-gradient(115deg,#eaa8c5,#c77ca4);color:#fff;border-color:transparent;box-shadow:0 5px 14px rgba(189,102,141,.2)}
+.text-action,.back-link{color:#a64e79;font-size:16px}
+.post-author strong,.profile-preview strong,.comment strong{color:#3d303d;font-size:16px}
+.post-author span{color:#766b76;font-size:14px}
+.post-body{color:#413642;font-size:17px;line-height:1.8}
+.comment{border-left-color:#d995b4}
+.comment p{color:#514651;font-size:15px;line-height:1.7}
+.comment-count{color:#756b75;font-size:15px}
+.post-interactions{border-color:#eadce5}
+.empty-state{background:rgba(255,255,255,.78);border-color:#e7cbd9;color:#3d303d}
+.empty-state p,.module p,.group-card p,.event-details p,.premium-audience-card>p,.premium-package>p{color:#756b75;font-size:15px;line-height:1.75}
+.profile-avatar-fallback{background:linear-gradient(135deg,#f5c6dc,#d9c5f3);color:#70405b;border-color:#e8c9da}
+.profile-avatar-image{border-color:#e3bfd1}
+.profile-preview span{color:#766b76;font-size:14px}
+.notice{background:#fff0f6;border-color:#edc8d9;color:#713c58;font-size:15px}
+.feed-heading h2{color:#382b38}
+.eyebrow{color:#a64e79}
+.sidebar-signout .btn{width:100%}
+.signout-confirm{position:relative;margin-top:auto;padding-top:28px}
+.signout-confirm summary{list-style:none;cursor:pointer;text-align:center}
+.signout-confirm summary::-webkit-details-marker{display:none}
+.signout-popover{position:absolute;left:0;bottom:calc(100% + 9px);width:min(250px,80vw);padding:16px;border:1px solid #ead3df;border-radius:16px;background:#fff;box-shadow:0 14px 35px rgba(80,45,66,.16);z-index:8}
+.signout-popover p{margin:0 0 12px;color:#514451;font-size:15px;line-height:1.5}
+.signout-popover form{margin-bottom:8px}
+.signout-popover .btn{width:100%;background:linear-gradient(115deg,#eaa8c5,#c77ca4);color:white}
+.signout-stay{display:block;text-align:center;padding:10px;color:#8f476b;font-weight:700;font-size:15px}
+.reaction-picker{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.reaction-choice{display:inline-flex;align-items:center;gap:6px;border:1px solid #eadce5;border-radius:999px;background:#fff;color:#514451;padding:8px 11px;min-height:42px;cursor:pointer;font-size:15px;transition:transform .15s ease,background .15s ease,border-color .15s ease}
+.reaction-choice:hover{transform:translateY(-1px);background:#fff0f6;border-color:#dda9c2}
+.reaction-choice.is-selected{background:#fde8f1;border-color:#cf83a7;color:#8e3e67;box-shadow:inset 0 0 0 1px #cf83a733}
+.reaction-emoji{font-size:21px;line-height:1}
+.reaction-label{font-size:14px;font-weight:600}
+.reaction-total{font-size:14px;color:#756b75;white-space:nowrap}
+.profile-form .field{margin:20px 0}
+.profile-form input,.profile-form textarea,.profile-form select{font-size:16px;padding:14px}
+.profile-form-actions .btn{min-height:48px}
+.app-layout p,.app-layout label,.app-layout input,.app-layout select,.app-layout textarea{font-size:15px}
+.app-layout .welcome h1{font-size:36px}
+.app-layout .eyebrow{font-size:13px;letter-spacing:.13em}
+.app-layout .feed-heading h2{font-size:25px}
+.app-layout .post-author strong{font-size:16px}
+.app-layout .comment-form input{font-size:16px;min-height:46px}
+.app-layout .comment-form .text-action{font-size:16px}
+.app-layout .report-post-form button,.app-layout .report-post-form select{font-size:13px}
+.app-layout .composer textarea{font-size:16px;min-height:125px}
+.app-layout .composer select,.app-layout .photo-picker{font-size:15px;min-height:44px}
+.app-layout .field-help{font-size:13px}
+.app-layout .post-interactions{gap:12px}
+.app-layout .sidebar-note{font-size:13px}
+@media(max-width:820px){
+ .sidebar{background:rgba(255,255,255,.96)}
+ .sidebar-signout{max-width:100%;padding-top:12px}
+ .signout-confirm{margin-top:0;padding-top:10px}
+ .signout-popover{left:0;bottom:auto;top:calc(100% + 8px)}
+ .welcome-home{min-height:220px}
+}
+@media(max-width:540px){
+ .welcome-home{min-height:230px;padding:22px 18px}
+ .welcome-home h1{font-size:clamp(27px,8vw,36px)}
+ .app-layout .btn,.app-layout .text-action{font-size:16px}
+ .reaction-picker{gap:6px}
+ .reaction-choice{padding:9px 10px;min-height:44px}
+ .reaction-label{font-size:13px}
+}
