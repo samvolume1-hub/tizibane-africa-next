@@ -45,12 +45,15 @@ export default async function Home({
   const displayName = String(
     user.user_metadata?.display_name ?? user.email?.split("@")[0] ?? "Member",
   );
+  const { data: preferenceRows } = await supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true);
+  const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
+
   const postResult = await supabase
     .from("posts")
     .select("id,author_id,body,photo_path,visibility,created_at")
     .order("created_at", { ascending: false })
     .limit(30);
-  const posts = (postResult.data ?? []) as Post[];
+  const posts = ((postResult.data ?? []) as Post[]).filter((post) => !mutedMemberIds.has(post.author_id));
   const postIds = posts.map((post) => post.id);
 
   let reactions: Reaction[] = [];
