@@ -530,3 +530,18 @@ body{
   background:linear-gradient(110deg,#f7c9dc,#e6d9f5 72%,#dceafb);
   box-shadow:inset 0 0 0 1px rgba(77,131,201,.16),0 5px 14px rgba(104,65,151,.10);
 }
+
+
+/* TIZIBANE Africa — application-wide dark purple African-pattern backdrop.
+   This styles only the app shell; cards, canvases, photos and foreground surfaces stay unchanged. */
+.app-layout{
+  background-color:#160d20;
+  background-image:
+    radial-gradient(ellipse at 12% 12%,rgba(105,65,137,.20),transparent 42%),
+    radial-gradient(ellipse at 88% 82%,rgba(76,57,117,.16),transparent 40%),
+    repeating-linear-gradient(45deg,transparent 0 30px,rgba(202,174,220,.035) 31px 32px,transparent 33px 62px),
+    repeating-linear-gradient(-45deg,transparent 0 30px,rgba(202,174,220,.028) 31px 32px,transparent 33px 62px),
+    linear-gradient(145deg,#160d20 0%,#1b1027 52%,#120b1a 100%);
+  background-attachment:fixed;
+  background-size:auto,auto,124px 124px,124px 124px,auto;
+}
