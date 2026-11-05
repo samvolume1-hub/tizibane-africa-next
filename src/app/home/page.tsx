@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { signOut, createPost } from "../auth-actions";
 import { createComment, toggleReaction } from "./post-actions";
-import {reportPost} from "./safety-actions";
+import { ReportControl } from "./report-control";
 
 type Post = {
   id: string;
@@ -49,7 +49,7 @@ export default async function Home({
 
   const { data: ownProfile } = await supabase
     .from("profiles")
-    .select("display_name,avatar_path,avatar_color,initials")
+    .select("id,display_name,handle,avatar_path,avatar_color,initials")
     .eq("id", user.id)
     .maybeSingle();
   const displayName = String(
@@ -92,6 +92,7 @@ export default async function Home({
       .select("id,display_name,handle,initials,avatar_color,avatar_path")
       .in("id", profileIds);
     profiles = (profileResult.data ?? []) as Profile[];
+    if (ownProfile && !profiles.some((profile) => profile.id === user.id)) profiles.push(ownProfile as Profile);
   }
 
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
@@ -208,7 +209,7 @@ export default async function Home({
                     <div className="post-author">
                       {avatarUrls[post.author_id]
                         ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" />
-                        : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Member"))}</div>}
+                        : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable"))}</div>}
                       <div><strong>{author?.display_name || (post.author_id === user.id ? displayName : "Member")}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
@@ -248,7 +249,7 @@ export default async function Home({
                       <div className="comment-list">
                         {postComments.map((comment) => {
                           const commenter = profileById.get(comment.author_id);
-                          const commenterName = commenter?.display_name || "Member";
+                          const commenterName = commenter?.display_name || (comment.author_id === user.id ? displayName : "Profile unavailable");
                           const commenterInitials = initialsFromName(commenterName);
                           return (
                             <div className="comment" key={comment.id}>
@@ -270,7 +271,7 @@ export default async function Home({
                       <input id={`comment-${post.id}`} name="body" placeholder="Write a comment…" maxLength={1000} required />
                       <button className="text-action" type="submit">Comment</button>
                     </form>
-                    <form action={reportPost} className="report-post-form"><input type="hidden" name="post_id" value={post.id}/><select name="reason" aria-label="Report this post"><option value="spam">Spam</option><option value="harassment">Harassment</option><option value="impersonation">Impersonation</option><option value="inappropriate">Inappropriate</option><option value="other">Other</option></select><button className="text-action muted-action" type="submit">Report post</button></form>
+                    {post.author_id !== user.id && <ReportControl kind="post" targetId={post.id} />}
                   </article>
                 );
               })}
