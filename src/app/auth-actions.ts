@@ -49,7 +49,7 @@ export async function signUp(data: FormData) {
     redirect("/signup?error=Authentication%20is%20not%20configured");
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tizibane-africa-next.onrender.com";
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -76,7 +76,7 @@ export async function resendConfirmation(data: FormData) {
     redirect("/login?error=Authentication%20is%20not%20configured");
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://tizibane-africa-next.onrender.com";
   const { error } = await supabase.auth.resend({
     type: "signup",
     email,
