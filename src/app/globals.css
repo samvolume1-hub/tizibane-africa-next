@@ -1936,7 +1936,7 @@ html,
 body {
   min-height: 100%;
   background-color: #050609 !important;
-  background-image: url("/images/main%20TIZIBANE%20BACKGROUND.jpg") !important;
+  background-image: url("/images/BACKGROUND%20for%20app.jpg") !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -1962,7 +1962,7 @@ body {
 html,
 body {
   background-color: #050609 !important;
-  background-image: url("/images/main%20TIZIBANE%20BACKGROUND.jpg") !important;
+  background-image: url("/images/BACKGROUND%20for%20app.jpg") !important;
   background-position: center center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
@@ -2075,7 +2075,7 @@ body {
 
 /* Enforce a single, non-overlapped TIZIBANE page background. */
 html, body {
-  background: #050609 url("/images/main%20TIZIBANE%20BACKGROUND.jpg") center center / cover no-repeat fixed !important;
+  background: #050609 url("/images/BACKGROUND%20for%20app.jpg") center center / cover no-repeat fixed !important;
 }
 .app-layout {
   background: transparent !important;
@@ -2085,4 +2085,31 @@ html, body {
 .app-layout .welcome-home::after {
   display: none !important;
   content: none !important;
+}
+
+
+/* My Profile cover: fill the full banner area instead of shrinking the photo
+   into the centre. Keep member-directory cover cards unchanged. */
+.app-layout .profile-cover-preview {
+  width: 100%;
+  height: clamp(220px, 30vw, 320px) !important;
+  min-height: 220px;
+  overflow: hidden;
+  position: relative;
+  background: #080b10;
+}
+
+.app-layout .profile-cover-preview .profile-cover-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+@media (max-width: 540px) {
+  .app-layout .profile-cover-preview {
+    height: 200px !important;
+    min-height: 200px;
+  }
 }
