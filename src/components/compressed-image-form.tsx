@@ -83,7 +83,6 @@ function formatSize(bytes: number) {
 
 export function CompressedImageForm({ action, className, confirmMessage, children }: Props) {
   const [busy, setBusy] = useState(false);
-  const bypassSubmit = useRef(false);
   const [message, setMessage] = useState("Photos are checked and optimized before upload.");
   const [previews, setPreviews] = useState<Preview[]>([]);
 
@@ -126,10 +125,6 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    if (bypassSubmit.current) {
-      bypassSubmit.current = false;
-      return;
-    }
     event.preventDefault();
     if (busy) return;
     if (confirmMessage && !window.confirm(confirmMessage)) return;
@@ -138,12 +133,13 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
     const submitter = event.nativeEvent instanceof SubmitEvent ? event.nativeEvent.submitter : null;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
+    const activeSubmitter = submitter instanceof HTMLButtonElement ? submitter : null;
+
     setBusy(true);
     setMessage("Preparing your photos…");
-    const activeSubmitter = submitter instanceof HTMLButtonElement ? submitter : null;
     submitButtons.forEach((button) => {
       const label = button.textContent ?? "";
-      button.disabled = activeSubmitter ? button !== activeSubmitter : true;
+      button.disabled = true;
       button.textContent = /save/i.test(label) ? "Saving…" : /upload/i.test(label) ? "Uploading…" : /post|share|publish/i.test(label) ? "Posting…" : "Working…";
     });
 
@@ -169,14 +165,15 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
       }
       if (finalPreviews.length) setPreviews(finalPreviews);
 
-      setMessage("Uploading and saving to TIZIBANE…");
-      bypassSubmit.current = true;
-      if (activeSubmitter) form.requestSubmit(activeSubmitter);
-      else form.requestSubmit();
-      submitButtons.forEach((button) => { button.disabled = true; });
+      setMessage("Sending your photos to TIZIBANE…");
+      // Invoke the Server Action directly with the optimized form data.
+      // This avoids a second requestSubmit event and its fragile bypass flag.
+      const formData = new FormData(form);
+      if (activeSubmitter?.name) formData.set(activeSubmitter.name, activeSubmitter.value);
+      await action(formData);
+      setMessage("Your upload was submitted. Refreshing your page…");
     } catch (error) {
-      bypassSubmit.current = false;
-      setMessage(error instanceof Error ? error.message : "Your photos could not be prepared. Please try again.");
+      setMessage(error instanceof Error ? error.message : "Your photos could not be saved. Please try again.");
       setBusy(false);
       submitButtons.forEach((button, index) => {
         button.disabled = false;
