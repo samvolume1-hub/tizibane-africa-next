@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
-import { createAnnouncement, updateAnnouncementStatus, toggleAnnouncementPin, deleteAnnouncement } from "../announcement-actions";
+import { createAnnouncement, editAnnouncement, updateAnnouncementStatus, toggleAnnouncementPin, deleteAnnouncement } from "../announcement-actions";
 
 type Announcement = { id: string; title: string; body: string; status: string; is_pinned: boolean; expires_at: string | null; created_at: string; published_at: string | null };
 export default async function ManageAnnouncements({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string }> }) {
@@ -35,6 +35,15 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
           {item.status !== "published" ? <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="published"/><button className="btn btn-primary" type="submit">Publish</button></form> : <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="archived"/><button className="feature-secondary-button" type="submit">Archive</button></form>}
           <form action={toggleAnnouncementPin}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="pinned" value={String(item.is_pinned)}/><button className="feature-secondary-button" type="submit">{item.is_pinned ? "Unpin" : "Pin"}</button></form>
           <form action={deleteAnnouncement}><input type="hidden" name="id" value={item.id}/><button className="feature-danger-button" type="submit">Delete</button></form>
+          <details className="feature-admin-edit">
+            <summary>Edit announcement text</summary>
+            <form action={editAnnouncement} className="feature-admin-form">
+              <input type="hidden" name="id" value={item.id}/>
+              <label htmlFor={"edit-title-" + item.id}>Title</label><input id={"edit-title-" + item.id} name="title" minLength={3} maxLength={140} required defaultValue={item.title}/>
+              <label htmlFor={"edit-body-" + item.id}>Message</label><textarea id={"edit-body-" + item.id} name="body" minLength={3} maxLength={8000} rows={5} required defaultValue={item.body}/>
+              <button className="btn btn-primary" type="submit">Save changes</button>
+            </form>
+          </details>
         </div></article>) : <p className="home-empty-preview">Your drafts and published notices will appear here.</p>}
       </section>
       <RoyaltyCopyright/>
