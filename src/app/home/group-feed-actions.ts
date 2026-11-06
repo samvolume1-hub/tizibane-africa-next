@@ -118,7 +118,7 @@ export async function removeGroupPostPhoto(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??"");
  if(!UUID.test(groupId)||!UUID.test(postId))fail(groupId,"That post could not be found.");
  const {supabase,user}=await signedIn();
- const {data:current,error:readError}=await supabase.from("posts").select("photo_path").eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).maybeSingle();
+ const {data:current,error:readError}=await supabase.from("posts").select("photo_path,body").eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).maybeSingle();
  if(readError||!current)fail(groupId,"You can remove photos only from your own group post.");
  if(!current.body.trim())fail(groupId,"This group post has no text. Add text before removing its only photo, or delete the post.");
  const {data:saved,error}=await supabase.from("posts").update({photo_path:null}).eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).select("id").maybeSingle();
