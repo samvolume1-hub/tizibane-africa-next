@@ -67,7 +67,7 @@ export function ContentMoreMenu({
             <summary>{removePhoto.label ?? "Remove photo"}</summary>
             <form action={removePhoto.action} className="content-menu-form">
               <HiddenFields fields={fields} />
-              <p>This removes the photo but keeps the text and conversations.</p>
+              <p>This removes the image while keeping the rest of the content unchanged.</p>
               <button className="text-action danger-action" type="submit">Confirm removal</button>
             </form>
           </details>
