@@ -1,10 +1,9 @@
 import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
-import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut, createPost } from "../auth-actions";
+import { createPost } from "../auth-actions";
 import { createComment, toggleReaction } from "./post-actions";
 import { ReportControl } from "./report-control";
 
@@ -31,6 +30,9 @@ function initialsFromName(name: string | null | undefined): string {
 
 type Reaction = { post_id: string; user_id: string; reaction: string };
 type Comment = { id: string; post_id: string; author_id: string; body: string; created_at: string };
+type HomeGroup = { id: string; name: string; category: string; description: string; visibility: string };
+type HomeEvent = { id: string; name: string; category: string; location: string; starts_at: string; is_public: boolean };
+type HomeActivity = { id: string; actor_id: string | null; kind: string; created_at: string };
 
 export default async function Home({
   searchParams,
@@ -58,6 +60,15 @@ export default async function Home({
   );
   const { data: preferenceRows } = await supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true);
   const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
+
+  const [groupPreviewResult, eventPreviewResult, activityPreviewResult] = await Promise.all([
+    supabase.from("groups").select("id,name,category,description,visibility").eq("visibility", "public").order("created_at", { ascending: false }).limit(3),
+    supabase.from("events").select("id,name,category,location,starts_at,is_public").eq("is_public", true).gte("ends_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(2),
+    supabase.from("notifications").select("id,actor_id,kind,created_at").eq("recipient_id", user.id).order("created_at", { ascending: false }).limit(4),
+  ]);
+  const featuredGroups = (groupPreviewResult.data ?? []) as HomeGroup[];
+  const upcomingEvents = (eventPreviewResult.data ?? []) as HomeEvent[];
+  const recentActivity = ((activityPreviewResult.data ?? []) as HomeActivity[]).filter((item) => !item.actor_id || !mutedMemberIds.has(item.actor_id));
 
   const postResult = await supabase
     .from("posts")
@@ -131,13 +142,18 @@ export default async function Home({
 
       <section className="app-main">
         <header className="topbar"><span className="muted">YOUR COMMUNITY SPACE</span><span className="signed-in">● Signed in</span></header>
-        <div className="app-content">
-          <section className="welcome welcome-home">
-            <span className="eyebrow">Welcome to TIZIBANE</span>
-            <h1>Hello, {displayName}.</h1>
-            <p>Your community home is ready. Share an update and connect with people across your circles.</p>
-            <p><Link href="/home/connect" className="text-action">Explore official Royalty channels and contact details ↗</Link></p>
-            <p><Link href="/home/premium" className="text-action">Advertise your products with TIZIBANE ↗</Link></p>
+        <div className="app-content community-home-page">
+          <section className="welcome welcome-home home-welcome-compact">
+            <div className="home-welcome-copy">
+              <span className="eyebrow">YOUR COMMUNITY, YOUR SPACE</span>
+              <h1>Welcome back, {displayName}.</h1>
+              <p>Catch up, share something and connect with your people.</p>
+            </div>
+            <div className="home-quick-actions" aria-label="Quick community actions">
+              <Link href="/home/people" className="home-quick-action">Find people <span aria-hidden="true">↗</span></Link>
+              <Link href="/home/groups" className="home-quick-action">Explore groups <span aria-hidden="true">↗</span></Link>
+              <Link href="/home/events" className="home-quick-action">See events <span aria-hidden="true">↗</span></Link>
+            </div>
           </section>
 
           {params.posted && <div className="notice" role="status">Your post has been shared with your selected audience.</div>}
@@ -145,7 +161,17 @@ export default async function Home({
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {interactionLoadError && <div className="notice" role="alert">{interactionLoadError}</div>}
 
-          <section className="composer">
+          <section className="home-announcement-strip" aria-labelledby="home-announcements-title">
+            <div className="home-announcement-mark" aria-hidden="true">✦</div>
+            <div className="home-announcement-copy">
+              <span className="eyebrow">OFFICIAL COMMUNITY NOTICES</span>
+              <h2 id="home-announcements-title">Announcements</h2>
+              <p>There are no official notices to display yet.</p>
+            </div>
+          </section>
+
+          <section className="composer home-composer">
+            <div className="home-section-kicker">YOUR VOICE</div>
             <div className="eyebrow">Start a conversation</div>
             <form action={createPost}>
               <label className="sr-only" htmlFor="post-body">Write an update</label>
@@ -166,9 +192,9 @@ export default async function Home({
             </form>
           </section>
 
-          <div className="feed-heading">
-            <div><span className="eyebrow">Community</span><h2>Latest conversations</h2></div>
-            <span className="muted">Recent posts</span>
+          <div className="feed-heading home-feed-heading">
+            <div><span className="eyebrow">THE COMMUNITY</span><h2>What's happening</h2></div>
+            <span className="muted">Latest posts</span>
           </div>
 
           {postResult.error ? (
@@ -254,7 +280,23 @@ export default async function Home({
               })}
             </div>
           )}
-          <p className="muted" style={{ fontSize: 11, marginTop: 26 }}>Signed in as {user.email}. Your feed is loaded from the shared TIZIBANE database.</p>
+          <section className="home-discovery-grid" aria-label="Discover more of TIZIBANE">
+            <div className="home-mini-section">
+              <div className="home-mini-heading"><div><span className="eyebrow">FIND YOUR CIRCLE</span><h2>Featured groups</h2></div><Link href="/home/groups" className="home-view-all">See all <span aria-hidden="true">↗</span></Link></div>
+              {featuredGroups.length ? <div className="home-group-preview-list">{featuredGroups.map((group) => <Link className="home-group-preview" href={"/home/groups/" + group.id} key={group.id}><span className="home-preview-icon" aria-hidden="true">◈</span><span className="home-preview-copy"><strong>{group.name}</strong><small>{group.category || "Community"}</small></span><span className="home-preview-arrow" aria-hidden="true">›</span></Link>)}</div> : <p className="home-empty-preview">Public groups will appear here as the community grows.</p>}
+            </div>
+            <div className="home-mini-section">
+              <div className="home-mini-heading"><div><span className="eyebrow">SAVE THE DATE</span><h2>Coming up</h2></div><Link href="/home/events" className="home-view-all">See all <span aria-hidden="true">↗</span></Link></div>
+              {upcomingEvents.length ? <div className="home-event-preview-list">{upcomingEvents.map((event) => <Link className="home-event-preview" href="/home/events" key={event.id}><span className="home-event-date"><strong>{new Date(event.starts_at).toLocaleDateString("en-ZM", { day: "2-digit" })}</strong><small>{new Date(event.starts_at).toLocaleDateString("en-ZM", { month: "short" })}</small></span><span className="home-preview-copy"><strong>{event.name}</strong><small>{event.category || "Community"}{event.location ? " · " + event.location : ""}</small></span><span className="home-preview-arrow" aria-hidden="true">›</span></Link>)}</div> : <p className="home-empty-preview">New community events will show up here.</p>}
+            </div>
+          </section>
+
+          <section className="home-recent-activity">
+            <div className="home-mini-heading"><div><span className="eyebrow">A LITTLE CATCH-UP</span><h2>Your recent activity</h2></div><Link href="/home/notifications" className="home-view-all">View all <span aria-hidden="true">↗</span></Link></div>
+            {recentActivity.length ? <div className="home-activity-list">{recentActivity.slice(0, 3).map((item) => <div className="home-activity-item" key={item.id}><span className="home-activity-dot" aria-hidden="true">•</span><span>{item.kind === "friend_request" ? "Someone sent you a connection request" : item.kind === "friend_accepted" ? "A connection request was accepted" : item.kind === "message" ? "You received a message" : item.kind === "comment" ? "Someone commented on your post" : item.kind === "reaction" ? "Someone reacted to your post" : item.kind === "event_attendance" ? "Someone responded to your event" : item.kind === "group_join_request" ? "Someone requested to join your group" : "You have a new community update"}</span><time>{new Date(item.created_at).toLocaleDateString("en-ZM", { day: "numeric", month: "short" })}</time></div>)}</div> : <p className="home-empty-preview">Your community updates will appear here.</p>}
+          </section>
+
+          <p className="muted home-account-note">Signed in as {user.email} · Your feed is loaded from the shared TIZIBANE database.</p>
         <RoyaltyCopyright /></div>
       </section>
     </main>
