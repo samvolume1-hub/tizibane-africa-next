@@ -2918,3 +2918,16 @@ main > .landing-contacts .landing-contact-panel a {
   background: rgba(128,82,160,.28) !important;
   border-color: rgba(255,255,255,.42) !important;
 }
+
+
+/* Correction: keep the site's original page background; place the supplied photo
+   only inside the login canvas/card. */
+.auth-wrap {
+  background: transparent !important;
+}
+.auth-card {
+  background:
+    linear-gradient(135deg, rgba(12, 6, 22, .88) 0%, rgba(24, 10, 37, .76) 52%, rgba(10, 6, 18, .88) 100%),
+    url("/images/stockvault-call-to-action-using-social-networks176021.jpg") center center / cover no-repeat !important;
+  border: 1px solid rgba(255,255,255,.46) !important;
+}
