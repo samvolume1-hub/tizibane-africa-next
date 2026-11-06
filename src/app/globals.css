@@ -410,10 +410,7 @@ body{
   border:1px solid rgba(188,92,137,.32);
   box-shadow:0 18px 42px rgba(137,55,98,.16),inset 0 1px 0 rgba(255,255,255,.8);
 }
-.welcome-home:before{
-  background-image:linear-gradient(90deg,rgba(255,230,241,.86),rgba(248,220,236,.70) 58%,rgba(243,219,241,.54)),url("/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg");
-}
-.welcome-home:after{background:linear-gradient(110deg,rgba(255,220,237,.35),rgba(237,204,232,.18))}
+/* Removed obsolete welcome-panel photo layer; the current home canvas is image-free. */
 .welcome h1,.app-layout h1,.app-layout h2,.app-layout h3{
   color:#402438;
   text-shadow:0 2px 0 rgba(255,255,255,.68),0 4px 13px rgba(111,42,79,.16);
@@ -582,16 +579,7 @@ body{
 }
 
 
-/* TIZIBANE Africa — lightweight repository-image app backdrop.
-   Keep foreground cards, photos, canvases, layout and controls unchanged. */
-.app-layout{
-  background-color:#160d20;
-  background-image:url("/images/TIZIBANE%20BACKGROUND1.jpg");
-  background-position:center top;
-  background-repeat:repeat-y;
-  background-size:100% auto;
-  background-attachment:scroll;
-}
+/* Removed obsolete app-shell background image; the current global app backdrop is defined separately. */
 .app-layout .sidebar,
 .app-layout .topbar{
   background:rgba(22,13,32,.82);
