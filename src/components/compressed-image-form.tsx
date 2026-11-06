@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
