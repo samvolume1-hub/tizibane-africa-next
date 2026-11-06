@@ -24,7 +24,7 @@ as $function$
 begin
   if new.photo_path is not null
     and split_part(new.photo_path, '/', 1) is distinct from new.author_id::text then
-    raise exception 'A story may reference only a photo stored in its author's folder';
+    raise exception 'A story may reference only a photo stored in its author''s folder';
   end if;
   return new;
 end;
@@ -43,7 +43,7 @@ begin
   end if;
   if new.cover_path is not null
     and split_part(new.cover_path, '/', 1) is distinct from new.id::text then
-    raise exception 'A profile cover must be stored in its owner's folder';
+    raise exception 'A profile cover must be stored in its owner''s folder';
   end if;
   return new;
 end;
