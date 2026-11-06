@@ -1,5 +1,6 @@
 import { Brand } from "@/components/brand";
 import { PasswordField } from "@/components/password-field";
+import { LoginEmailField } from "@/components/login-email-field";
 import Link from "next/link";
 import { signIn, resendConfirmation } from "../auth-actions";
 
@@ -22,7 +23,7 @@ export default async function Login({
         <form action={signIn}>
           <div className="field">
             <label htmlFor="signin-email">Email address</label>
-            <input id="signin-email" name="email" type="email" autoComplete="email" required />
+            <LoginEmailField id="signin-email" name="email" />
           </div>
           <PasswordField
             id="signin-password"
@@ -40,7 +41,7 @@ export default async function Login({
         <form action={resendConfirmation}>
           <div className="field">
             <label htmlFor="resend-email">Email address</label>
-            <input id="resend-email" name="email" type="email" autoComplete="email" required />
+            <LoginEmailField id="resend-email" name="email" />
           </div>
           <button className="btn" type="submit">Resend confirmation email</button>
         </form>
