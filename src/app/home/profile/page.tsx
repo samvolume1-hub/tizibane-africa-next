@@ -12,6 +12,7 @@ type Profile = {
   display_name: string;
   bio: string;
   avatar_path: string | null;
+  cover_path?: string | null;
   visibility: "public" | "members" | "friends" | "private";
   location: string;
   initials: string;
@@ -29,7 +30,7 @@ export default async function ProfilePage({
 
   const { data } = await supabase
     .from("profiles")
-    .select("id,display_name,bio,avatar_path,visibility,location,initials")
+    .select("id,display_name,bio,avatar_path,cover_path,visibility,location,initials")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -70,7 +71,7 @@ export default async function ProfilePage({
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
               <div className="profile-image-controls profile-avatar-controls">
-                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload" confirmMessage={avatarUrl ? "Replace your current profile photo? The old stored image will be deleted after the new photo is saved successfully." : undefined}>
+                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload" confirmMessage={avatarUrl || profile?.cover_path ? "Replace your current photo? The old stored image will be deleted after the new photo is saved successfully." : undefined}>
                   <input type="hidden" name="image_kind" value="avatar" />
                   <label className="btn profile-image-picker">{avatarUrl ? "Choose new photo" : "Upload profile photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
                   <button className="btn btn-primary" type="submit">Save photo</button>
