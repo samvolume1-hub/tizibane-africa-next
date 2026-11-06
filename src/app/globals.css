@@ -1919,16 +1919,7 @@ body *{
 }
 
 
-/* Use the selected repository image directly, without the previous dark overlay. */
-html,
-body {
-  background-color: #050609 !important;
-  background-image: url("/images/BACKGROUND%20for%20app.jpg") !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-  background-attachment: fixed !important;
-}
+/* Removed the legacy app-wide image background. */
 
 /* Bright, translucent aqua-blue glass controls with crisp dark lettering. */
 .app-layout .btn,
@@ -2034,13 +2025,10 @@ body {
 }
 
 
-/* Enforce a single, non-overlapped TIZIBANE page background. */
+/* Use the app's normal page backgrounds; legacy global image removed. */
 html, body {
-  background: #050609 url("/images/BACKGROUND%20for%20app.jpg") center center / cover no-repeat fixed !important;
-}
-.app-layout {
-  background: transparent !important;
   background-image: none !important;
+  background-color: #050609;
 }
 .app-layout .welcome-home::before,
 .app-layout .welcome-home::after {
