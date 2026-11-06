@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updateProfile, replaceProfileImage, removeProfileImage } from "../profile-actions";
 import { CompressedImageForm } from "@/components/compressed-image-form";
+import { ConfirmActionForm } from "@/components/confirm-action-form";
 
 type Profile = {
   id: string;
@@ -69,12 +70,12 @@ export default async function ProfilePage({
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
               <div className="profile-image-controls profile-avatar-controls">
-                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload">
+                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload" confirmMessage={avatarUrl ? "Replace your current profile photo? The old stored image will be deleted after the new photo is saved successfully." : undefined}>
                   <input type="hidden" name="image_kind" value="avatar" />
                   <label className="btn profile-image-picker">{avatarUrl ? "Choose new photo" : "Upload profile photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
                   <button className="btn btn-primary" type="submit">Save photo</button>
                 </CompressedImageForm>
-                {avatarUrl && <details className="profile-remove-confirm"><summary>Remove photo</summary><form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="avatar" /><button className="btn profile-remove-button" type="submit">Confirm removal</button></form></details>}
+                {avatarUrl && <details className="profile-remove-confirm"><summary>Remove photo</summary><ConfirmActionForm action={removeProfileImage} className="profile-remove-form" confirmMessage="Permanently remove your profile photo from TIZIBANE storage? This also removes it from your Home Feed hero."><input type="hidden" name="image_kind" value="avatar" /><button className="btn profile-remove-button" type="submit">Confirm removal</button></ConfirmActionForm></details>}
               </div>
             </div>
             <form action={updateProfile} className="profile-form">
