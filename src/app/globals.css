@@ -4165,3 +4165,30 @@ main > .landing-contacts .landing-contact-panel a {
   -webkit-text-fill-color: #17131c !important;
   caret-color: #17131c !important;
 }
+
+
+/* Stronger login form contrast: entered values are the visual priority. */
+.login-page .auth-card .field input,
+.login-page .auth-card .password-input-wrap input,
+.login-page .auth-card .field textarea,
+.login-page .auth-card .field select {
+  color: #08050d !important;
+  -webkit-text-fill-color: #08050d !important;
+  caret-color: #08050d !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  letter-spacing: .01em;
+}
+.login-page .auth-card .field label {
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+}
+.login-page .auth-card .field input::placeholder,
+.login-page .auth-card .password-input-wrap input::placeholder,
+.login-page .auth-card .field textarea::placeholder {
+  color: #625b68 !important;
+  -webkit-text-fill-color: #625b68 !important;
+  font-weight: 500 !important;
+  opacity: 1;
+}
