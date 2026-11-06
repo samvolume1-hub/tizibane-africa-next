@@ -127,8 +127,10 @@ export async function updateGroupComment(form:FormData){
  const groupId=String(form.get("group_id")??""),commentId=String(form.get("comment_id")??""),body=String(form.get("body")??"").trim();
  if(!UUID.test(groupId)||!UUID.test(commentId)||!body||body.length>1000)fail(groupId,"Comments must be between 1 and 1000 characters.");
  const {supabase,user}=await signedIn();
- const {data:comment}=await supabase.from("comments").select("id,posts!inner(group_id)").eq("id",commentId).eq("author_id",user.id).eq("posts.group_id",groupId).maybeSingle();
+ const {data:comment}=await supabase.from("comments").select("id,post_id").eq("id",commentId).eq("author_id",user.id).maybeSingle();
  if(!comment)fail(groupId,"You can edit only your own comment.");
+ const {data:post}=await supabase.from("posts").select("id").eq("id",comment.post_id).eq("group_id",groupId).maybeSingle();
+ if(!post)fail(groupId,"That comment does not belong to this group.");
  const {data,error}=await supabase.from("comments").update({body}).eq("id",commentId).eq("author_id",user.id).select("id").maybeSingle();
  if(error||!data)fail(groupId,"Your comment could not be updated.");
  revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?updated=comment");
