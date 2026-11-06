@@ -4314,3 +4314,12 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-home-page .home-composer-heading .home-section-kicker {
   margin-bottom: 3px;
 }
+
+
+/* Small status line for the shared client-side image optimizer. */
+.app-layout .image-compression-status {
+  min-height: 1.1em;
+  margin: 8px 0 0;
+  color: inherit;
+  font-size: 12px;
+}
