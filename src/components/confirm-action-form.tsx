@@ -47,7 +47,7 @@ export function ConfirmActionForm({
 
   return (
     <>
-      <form action={action} className={className} onSubmit={handleSubmit}>
+      <form className={className} onSubmit={handleSubmit}>
         {children}
       </form>
       {confirmOpen && (
