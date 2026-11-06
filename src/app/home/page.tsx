@@ -159,9 +159,8 @@ export default async function Home({
               />
             )}
             <div className="home-welcome-copy">
-              <span className="eyebrow">YOUR COMMUNITY, YOUR SPACE</span>
               <h1>Welcome back, {displayName}.</h1>
-              <p>Catch up, share something and connect with your people.</p>
+              <p>Connect. Belong. Grow.</p>
             </div>
             <div className="home-quick-actions" aria-label="Quick community actions">
               <Link href="/home/people" className="home-quick-action">Find people <span aria-hidden="true">↗</span></Link>
