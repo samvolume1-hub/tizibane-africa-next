@@ -20,8 +20,6 @@ export async function updateProfile(formData: FormData) {
   const bio = String(formData.get("bio") ?? "").trim();
   const location = String(formData.get("location") ?? "").trim();
   const visibility = String(formData.get("visibility") ?? "public");
-  const avatar = formData.get("avatar");
-  const cover = formData.get("cover");
 
   if (!displayName || displayName.length > 80) fail("Your display name must be between 1 and 80 characters.");
   if (bio.length > 240) fail("Your bio must be 240 characters or fewer.");
@@ -32,11 +30,9 @@ export async function updateProfile(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  let avatarPath: string | undefined;
-  let coverPath: string | undefined;
   const { data: previousProfile, error: previousProfileError } = await supabase
     .from("profiles")
-    .select("id,avatar_path,cover_path")
+    .select("id")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -44,48 +40,6 @@ export async function updateProfile(formData: FormData) {
     fail("We could not load your existing profile before saving. Please refresh and try again.");
   }
 
-  if (avatar instanceof File && avatar.size > 0) {
-    const extension = MIME_TO_EXTENSION[avatar.type];
-    if (!extension) fail("Choose a JPG, PNG or WebP image.");
-    if (avatar.size > MAX_AVATAR_BYTES) fail("Your profile photo must be 2 MB or smaller.");
-
-    const objectPath = `${user.id}/avatars/${crypto.randomUUID()}.${extension}`;
-    const { data, error } = await supabase.storage
-      .from("community-photos")
-      .upload(objectPath, avatar, {
-        contentType: avatar.type,
-        cacheControl: "3600",
-        upsert: false,
-      });
-    if (error || !data?.path) fail("Your profile photo could not be uploaded. Please try again.");
-    avatarPath = data.path;
-  }
-
-  if (cover instanceof File && cover.size > 0) {
-    const extension = MIME_TO_EXTENSION[cover.type];
-    if (!extension) {
-      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
-      fail("Choose a JPG, PNG or WebP cover photo.");
-    }
-    if (cover.size > MAX_AVATAR_BYTES) {
-      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
-      fail("Your cover photo must be 2 MB or smaller.");
-    }
-
-    const objectPath = `${user.id}/covers/${crypto.randomUUID()}.${extension}`;
-    const { data, error } = await supabase.storage
-      .from("community-photos")
-      .upload(objectPath, cover, {
-        contentType: cover.type,
-        cacheControl: "3600",
-        upsert: false,
-      });
-    if (error || !data?.path) {
-      if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
-      fail("Your cover photo could not be uploaded. Please try again.");
-    }
-    coverPath = data.path;
-  }
 
   const update: Record<string, string | null> = {
     display_name: displayName,
@@ -94,8 +48,6 @@ export async function updateProfile(formData: FormData) {
     visibility,
     initials: displayName.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase().slice(0, 3) || "TZ",
   };
-  if (avatarPath) update.avatar_path = avatarPath;
-  if (coverPath) update.cover_path = coverPath;
 
   let savedProfileId: string | null = null;
   let saveError: { code?: string; message?: string } | null = null;
@@ -122,8 +74,7 @@ export async function updateProfile(formData: FormData) {
   // Supabase can return no error when row-level security filters an UPDATE.
   // Verify that a row was actually returned before telling the member it saved.
   if (saveError || !savedProfileId) {
-    const uploadedPaths = [avatarPath, coverPath].filter(Boolean) as string[];
-    if (uploadedPaths.length) await supabase.storage.from("community-photos").remove(uploadedPaths);
+
 
     if (saveError?.code === "23505") {
       fail("A profile value conflicts with an existing record. Please check your details and try again.");
@@ -134,11 +85,7 @@ export async function updateProfile(formData: FormData) {
     fail("Your profile was not confirmed as saved. Please refresh and try again; your existing details have been kept.");
   }
 
-  const replacedPaths = [
-    avatarPath && previousProfile?.avatar_path,
-    coverPath && previousProfile?.cover_path,
-  ].filter(Boolean) as string[];
-  if (replacedPaths.length) await supabase.storage.from("community-photos").remove(replacedPaths);
+
 
   revalidatePath("/home");
   revalidatePath("/home/profile");
@@ -159,9 +106,8 @@ export async function removeProfileImage(formData: FormData) {
   let cleanupFailed = false;
   const oldPaths = [...new Set([profile.avatar_path, profile.cover_path].filter(Boolean) as string[])];
   if (oldPaths.length) {
-    const cleanup = supabase.storage.from("community-photos").remove(oldPaths);
-    const result = await Promise.race([cleanup, new Promise<null>((resolve) => setTimeout(() => resolve(null), 1800))]);
-    cleanupFailed = result === null || Boolean(result.error);
+    const { error: cleanupError } = await supabase.storage.from("community-photos").remove(oldPaths);
+    cleanupFailed = Boolean(cleanupError);
   }
   revalidatePath("/home");
   revalidatePath("/home/profile");
@@ -192,9 +138,8 @@ export async function replaceProfileImage(formData: FormData) {
   let cleanupFailed = false;
   const oldPaths = [...new Set([profile.avatar_path, profile.cover_path].filter(Boolean) as string[])];
   if (oldPaths.length) {
-    const cleanup = supabase.storage.from("community-photos").remove(oldPaths);
-    const result = await Promise.race([cleanup, new Promise<null>((resolve) => setTimeout(() => resolve(null), 1800))]);
-    cleanupFailed = result === null || Boolean(result.error);
+    const { error: cleanupError } = await supabase.storage.from("community-photos").remove(oldPaths);
+    cleanupFailed = Boolean(cleanupError);
   }
   revalidatePath("/home");
   revalidatePath("/home/profile");
