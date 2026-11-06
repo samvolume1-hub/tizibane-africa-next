@@ -7,6 +7,7 @@ import { createPost } from "../auth-actions";
 import { createComment, toggleReaction } from "./post-actions";
 import { ReportControl } from "./report-control";
 import { PendingIconButton } from "@/components/pending-icon-button";
+import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type Post = {
   id: string;
@@ -194,7 +195,7 @@ export default async function Home({
                 <div className="eyebrow">Start a conversation</div>
               </div>
             </div>
-            <form action={createPost}>
+            <CompressedImageForm action={createPost}>
               <label className="sr-only" htmlFor="post-body">Write an update</label>
               <textarea id="post-body" name="body" placeholder="What would you like to share with your community?" maxLength={3000} />
               <div className="composer-bottom">
@@ -209,8 +210,8 @@ export default async function Home({
                 </div>
                 <button className="btn btn-primary" type="submit">Share update</button>
               </div>
-              <p className="field-help">JPG, PNG or WebP photos up to 2 MB. Your post is saved to the shared community database.</p>
-            </form>
+              <p className="field-help">Photos are optimized toward 1 MB · Maximum 2 MB after optimization.</p>
+            </CompressedImageForm>
           </section>
 
           <div className="feed-heading home-feed-heading">
