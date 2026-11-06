@@ -24,6 +24,14 @@ export default async function PremiumPage() {
     .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
     .order("is_featured", { ascending: false }).order("published_at", { ascending: false }).limit(40);
   const products = (productRows ?? []) as PremiumProduct[];
+  const imageUrlsByProduct: Record<string, string[]> = {};
+  await Promise.all(products.map(async (product) => {
+    const signedUrls = await Promise.all(product.image_paths.map(async (imagePath) => {
+      const { data, error } = await supabase.storage.from("premium-marketplace").createSignedUrl(imagePath, 60 * 60);
+      return error ? null : data?.signedUrl ?? null;
+    }));
+    imageUrlsByProduct[product.id] = signedUrls.filter((url): url is string => Boolean(url));
+  }));
 
   return (
     <main className="app-layout">
@@ -56,12 +64,12 @@ export default async function PremiumPage() {
             ) : (
               <div className="premium-product-grid">
                 {products.map((product) => {
-                  const images = product.image_paths.map((path) => supabase.storage.from("premium-marketplace").getPublicUrl(path).data.publicUrl);
+                  const images = imageUrlsByProduct[product.id] ?? [];
                   const seller = product.seller_type === "business" ? (product.business_name || product.seller_name) : product.seller_name;
                   const message = `Hello ${seller}, I saw your ${product.product_name} advertisement on TIZIBANE. Is it still available?`;
                   return <article className="premium-product-card" key={product.id}>
                     {product.is_featured && <span className="premium-product-featured">✦ FEATURED</span>}
-                    <PremiumProductCarousel images={images} title={product.product_name}/>
+                    {images.length ? <PremiumProductCarousel images={images} title={product.product_name}/> : <div className="premium-product-image-unavailable">Product photographs are temporarily unavailable.</div>}
                     <div className="premium-product-copy">
                       <span className="premium-product-category">{product.category}</span>
                       <h3>{product.product_name}</h3>
