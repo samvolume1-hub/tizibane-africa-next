@@ -44,7 +44,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
   return <main className="app-layout"><CommunityNavigation active="announcements" /><section className="app-main">
     <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">OFFICIAL TIZIBANE UPDATES</span></header>
     <div className="app-content community-feature-page">
-      <section className="welcome"><span className="eyebrow">FROM THE TIZIBANE TEAM</span><h1>Official announcements</h1><p>Verified updates and important news from the people responsible for the platform.</p></section>
+      <section className="welcome announcement-hero-card"><span className="eyebrow">FROM THE TIZIBANE TEAM</span><h1>Official announcements</h1><p>Verified updates and important news from the people responsible for the platform.</p></section>
       {params.notice && <div className="notice" role="status">{params.notice === "commented" ? "Your comment has been added." : params.notice}</div>}
       {params.error === "admin" && <div className="notice" role="alert">Administrator access is required for that area.</div>}
       {adminFlag === true && <div className="feature-admin-link"><span>Platform administration</span><Link href="/home/announcements/manage" className="btn btn-primary">Manage announcements</Link></div>}
