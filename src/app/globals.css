@@ -4629,3 +4629,84 @@ main > .landing-contacts .landing-contact-panel a {
   line-height: 1.4;
   backdrop-filter: blur(6px);
 }
+
+ 
+/* TIZIBANE-branded confirmation dialog for replacing member photos. */
+.app-layout .tiz-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(7, 5, 15, .76);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.app-layout .tiz-confirm-dialog {
+  width: min(100%, 420px);
+  padding: 26px;
+  border: 1px solid rgba(218, 151, 224, .38);
+  border-radius: 20px;
+  background: linear-gradient(145deg, #251632 0%, #171020 68%, #100c19 100%);
+  color: #fff;
+  box-shadow: 0 24px 80px rgba(0,0,0,.55), 0 0 34px rgba(190, 86, 190, .12);
+}
+.app-layout .tiz-confirm-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,190,235,.28);
+  border-radius: 13px;
+  color: #ffc8ec;
+  background: rgba(190, 75, 160, .18);
+  font-size: 21px;
+}
+.app-layout .tiz-confirm-dialog h2 {
+  margin: 0;
+  color: #fff;
+  font: 800 19px/1.3 Manrope, sans-serif;
+}
+.app-layout .tiz-confirm-dialog p {
+  margin: 10px 0 22px;
+  color: rgba(255,255,255,.78);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.app-layout .tiz-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 9px;
+}
+.app-layout .tiz-confirm-actions button {
+  min-height: 42px;
+  padding: 10px 15px;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 750;
+}
+.app-layout .tiz-confirm-no {
+  border: 1px solid rgba(255,255,255,.2);
+  color: #fff;
+  background: rgba(255,255,255,.07);
+}
+.app-layout .tiz-confirm-yes {
+  border: 1px solid #d879c4;
+  color: #fff;
+  background: linear-gradient(120deg, #a83e9b, #733b9b);
+  box-shadow: 0 5px 16px rgba(126, 43, 130, .25);
+}
+.app-layout .tiz-confirm-actions button:hover,
+.app-layout .tiz-confirm-actions button:focus-visible {
+  filter: brightness(1.15);
+  outline: 2px solid rgba(255,255,255,.75);
+  outline-offset: 2px;
+}
+@media (max-width: 540px) {
+  .app-layout .tiz-confirm-dialog { padding: 22px 19px; }
+  .app-layout .tiz-confirm-actions { flex-direction: column-reverse; }
+  .app-layout .tiz-confirm-actions button { width: 100%; min-height: 44px; }
+}
