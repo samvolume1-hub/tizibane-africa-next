@@ -3608,3 +3608,14 @@ main > .landing-contacts .landing-contact-panel a {
 @media (max-width:520px) {
   .community-home-page .home-announcement-content { width:100%; }
 }
+
+.community-feature-page .feature-admin-edit {
+  flex:1 0 100%; margin-top:10px; padding-top:10px; border-top:1px solid #efdfeb;
+}
+.community-feature-page .feature-admin-edit summary {
+  width:max-content; max-width:100%; color:#5b3b6d; font-size:11px; font-weight:800; cursor:pointer;
+}
+.community-feature-page .feature-admin-edit .feature-admin-form {
+  max-width:760px; margin-top:12px; padding:14px; border:1px solid #ead9e9;
+  border-radius:13px; background:rgba(255,255,255,.78);
+}
