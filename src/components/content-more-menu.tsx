@@ -9,6 +9,7 @@ type EditOption = {
   fieldName?: string;
   maxLength?: number;
   rows?: number;
+  select?: { label: string; value: string; fieldName?: string; options: { value: string; label: string }[] };
 };
 type PhotoOption = { action: ServerAction; label?: string };
 type Props = {
@@ -51,6 +52,14 @@ export function ContentMoreMenu({
                 <span className="sr-only">{edit.label ?? "Edit content"}</span>
                 <textarea name={edit.fieldName ?? "body"} defaultValue={edit.value} maxLength={edit.maxLength ?? 3000} rows={edit.rows ?? 4} />
               </label>
+              {edit.select && (
+                <label>
+                  <span>{edit.select.label}</span>
+                  <select name={edit.select.fieldName ?? "visibility"} defaultValue={edit.select.value}>
+                    {edit.select.options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                  </select>
+                </label>
+              )}
               <button className="btn btn-primary" type="submit">Save changes</button>
             </form>
           </details>
