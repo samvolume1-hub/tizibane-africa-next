@@ -4286,3 +4286,31 @@ main > .landing-contacts .landing-contact-panel a {
     caret-color: #08050d !important;
   }
 }
+
+
+/* Home feed composer: identify the signed-in member beside the post field. */
+.app-layout .community-home-page .home-composer-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+}
+.app-layout .community-home-page .home-composer-avatar {
+  display: block;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 50%;
+  object-fit: cover;
+}
+.app-layout .community-home-page .home-composer-avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+.app-layout .community-home-page .home-composer-heading .home-section-kicker {
+  margin-bottom: 3px;
+}
