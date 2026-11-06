@@ -173,6 +173,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
       else form.requestSubmit();
       submitButtons.forEach((button) => { button.disabled = true; });
     } catch (error) {
+      bypassSubmit.current = false;
       setMessage(error instanceof Error ? error.message : "Your photos could not be prepared. Please try again.");
       setBusy(false);
       submitButtons.forEach((button, index) => {
@@ -186,7 +187,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
     <form action={action} className={className} onChange={handleFileChange} onSubmit={handleSubmit}>
       {children}
       {previews.length > 0 && (
-        <div className="image-upload-preview-list" aria-label="Selected photo previews">
+        <div className="image-upload-preview-list" role="group" aria-label="Selected photo previews">
           {previews.map((preview, index) => (
             <div className="image-upload-preview" key={preview.url}>
               <img src={preview.url} alt={`Selected photo ${index + 1}`} />
