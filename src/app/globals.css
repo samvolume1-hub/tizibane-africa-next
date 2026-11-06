@@ -5115,3 +5115,17 @@ main > .landing-contacts .landing-contact-panel a {
     padding-left: 0 !important;
   }
 }
+
+
+/* Home Feed hero: keep both welcome lines on one line and anchor them lower. */
+.app-layout .community-home-page .home-welcome-compact {
+  align-items: flex-end !important;
+}
+.app-layout .community-home-page .home-welcome-copy {
+  margin-top: auto !important;
+  max-width: min(100%, 560px) !important;
+}
+.app-layout .community-home-page .home-welcome-copy h1,
+.app-layout .community-home-page .home-welcome-copy p {
+  white-space: nowrap !important;
+}
