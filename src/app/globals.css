@@ -4103,14 +4103,18 @@ main > .landing-contacts .landing-contact-panel a {
   min-width: 74px;
   min-height: 34px;
   padding: 7px 11px;
-  border: 1px solid #7774a8;
+  border: 1px solid rgba(170, 166, 223, .6);
   border-radius: 999px;
-  background: #29264f;
-  color: #ffffff;
+  background: rgba(41, 38, 79, .6);
+  color: rgba(255, 255, 255, .6);
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
+  opacity: .6;
+  transition: opacity .18s ease, background-color .18s ease, border-color .18s ease;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
 }
 
 .app-page-control span:first-child {
@@ -4118,9 +4122,12 @@ main > .landing-contacts .landing-contact-panel a {
   line-height: .9;
 }
 
-.app-page-control:hover {
-  background: #393568;
+.app-page-control:hover,
+.app-page-control:focus-visible {
+  opacity: 1;
+  background: rgba(57, 53, 104, .96);
   border-color: #aaa6df;
+  color: #ffffff;
 }
 
 .app-page-control:focus-visible {
