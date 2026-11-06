@@ -146,5 +146,5 @@ export async function createPost(data: FormData) {
   }
 
   revalidatePath("/home");
-  redirect("/home?posted=1");
+  redirect(photoPath ? "/home?posted=photo" : "/home?posted=1");
 }
