@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
-import { commentOnAnnouncement, reactToAnnouncement } from "./announcement-actions";
+import { commentOnAnnouncement, reactToAnnouncement, updateAnnouncementComment, deleteAnnouncementComment } from "./announcement-actions";
+import { ContentMoreMenu } from "@/components/content-more-menu";
 
 type Announcement = { id: string; title: string; body: string; is_pinned: boolean; published_at: string | null; created_by: string };
 type Comment = { id: string; announcement_id: string; author_id: string; body: string; created_at: string };
@@ -45,7 +46,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
     <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">OFFICIAL TIZIBANE UPDATES</span></header>
     <div className="app-content community-feature-page">
       <section className="welcome announcement-hero-card"><span className="eyebrow">FROM THE TIZIBANE TEAM</span><h1>Official announcements</h1><p>Verified updates and important news from the people responsible for the platform.</p></section>
-      {params.notice && <div className="notice" role="status">{params.notice === "commented" ? "Your comment has been added." : params.notice}</div>}
+      {params.notice && <div className="notice" role="status">{params.notice === "commented" ? "Your comment has been added." : params.notice === "comment-updated" ? "Your comment has been updated." : params.notice === "comment-deleted" ? "Your comment has been deleted." : params.notice}</div>}
       {params.error === "admin" && <div className="notice" role="alert">Administrator access is required for that area.</div>}
       {adminFlag === true && <div className="feature-admin-link"><span>Platform administration</span><Link href="/home/announcements/manage" className="btn btn-primary">Manage announcements</Link></div>}
       {announcements.length ? <div className="feature-announcement-list">{announcements.map((item) => {
@@ -60,7 +61,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
             {(["like","love","support","celebrate"] as const).map((reaction) => <form action={reactToAnnouncement} key={reaction}><input type="hidden" name="announcement_id" value={item.id}/><input type="hidden" name="reaction" value={reaction}/><button className={"feature-reaction" + (myReaction === reaction ? " selected" : "")} type="submit" aria-pressed={myReaction === reaction}>{reaction === "like" ? "👍 Like" : reaction === "love" ? "❤️ Love" : reaction === "support" ? "🤗 Support" : "🎉 Celebrate"}</button></form>)}
             <span>{itemReactions.length} reactions · {itemComments.length} comments</span>
           </div>
-          <div className="feature-announcement-comments">{itemComments.map((comment) => <div className="feature-announcement-comment" key={comment.id}><strong>{profileNames.get(comment.author_id) ?? "Member"}</strong><p>{comment.body}</p></div>)}</div>
+          <div className="feature-announcement-comments">{itemComments.map((comment) => <div className="feature-announcement-comment" key={comment.id}><strong>{profileNames.get(comment.author_id) ?? "Member"}</strong><p>{comment.body}</p>{comment.author_id === user.id && <ContentMoreMenu fields={{ comment_id: comment.id }} edit={{ action: updateAnnouncementComment, value: comment.body, label: "Edit comment", maxLength: 1000, rows: 3 }} deleteAction={deleteAnnouncementComment} deleteLabel="Delete comment" />}</div>)}</div>
           <form action={commentOnAnnouncement} className="feature-announcement-comment-form"><input type="hidden" name="announcement_id" value={item.id}/><label className="sr-only" htmlFor={"announcement-comment-" + item.id}>Write a comment</label><input id={"announcement-comment-" + item.id} name="body" maxLength={1000} required placeholder="Add a thoughtful comment…"/><button className="btn btn-primary" type="submit">Comment</button></form>
         </article>;
       })}</div> : <div className="empty-state"><div className="empty-symbol">✦</div><h3>No official announcements yet.</h3><p>When the TIZIBANE team publishes an update, it will appear here.</p></div>}
