@@ -79,11 +79,22 @@ export default async function EventsPage({
   let attendance: Attendance[] = [];
   let attendanceError = false;
   if (eventIds.length) {
-    const result = await supabase.from("event_attendance")
-      .select("event_id,user_id,response")
-      .in("event_id", eventIds);
-    attendance = (result.data ?? []) as Attendance[];
-    attendanceError = Boolean(result.error);
+    const pageSize = 1000;
+    for (let from = 0; ; from += pageSize) {
+      const result = await supabase.from("event_attendance")
+        .select("event_id,user_id,response")
+        .in("event_id", eventIds)
+        .order("event_id", { ascending: true })
+        .order("user_id", { ascending: true })
+        .range(from, from + pageSize - 1);
+      if (result.error) {
+        attendanceError = true;
+        break;
+      }
+      const page = (result.data ?? []) as Attendance[];
+      attendance.push(...page);
+      if (page.length < pageSize) break;
+    }
   }
 
   const attendeeIds = [...new Set(attendance.map((entry) => entry.user_id))];
@@ -195,7 +206,6 @@ export default async function EventsPage({
                 const eventResponses = attendanceByEvent.get(event.id) ?? [];
                 const canRespond = event.is_public || (Boolean(event.group_id) && activeGroupIds.has(event.group_id!));
                 const canManage = own || (Boolean(event.group_id) && manageableGroupIds.has(event.group_id!)) || Boolean(isAdmin);
-                const visibleAttendees = eventResponses.slice(0, 6);
 
                 return (
                   <article className="event-card" key={event.id}>
@@ -220,16 +230,13 @@ export default async function EventsPage({
                           <p>No responses yet.</p>
                         ) : (
                           <ul>
-                            {visibleAttendees.map((entry) => (
+                            {eventResponses.map((entry) => (
                               <li key={entry.user_id}>
                                 <span>{profileById.get(entry.user_id)?.display_name || "Member"}</span>
                                 <small>{entry.response === "going" ? "Going" : "Interested"}</small>
                               </li>
                             ))}
                           </ul>
-                        )}
-                        {!attendanceError && eventResponses.length > visibleAttendees.length && (
-                          <small className="event-rsvp-more">and {eventResponses.length - visibleAttendees.length} more</small>
                         )}
                       </div>
                     </div>
