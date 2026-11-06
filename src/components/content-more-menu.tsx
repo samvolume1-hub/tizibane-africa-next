@@ -49,7 +49,7 @@ export function ContentMoreMenu({
               <HiddenFields fields={fields} />
               <label>
                 <span className="sr-only">{edit.label ?? "Edit content"}</span>
-                <textarea name={edit.fieldName ?? "body"} defaultValue={edit.value} maxLength={edit.maxLength ?? 3000} rows={edit.rows ?? 4} required />
+                <textarea name={edit.fieldName ?? "body"} defaultValue={edit.value} maxLength={edit.maxLength ?? 3000} rows={edit.rows ?? 4} />
               </label>
               <button className="btn btn-primary" type="submit">Save changes</button>
             </form>
