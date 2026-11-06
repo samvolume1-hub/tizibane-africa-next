@@ -51,33 +51,31 @@ export default async function Home({
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: ownProfile } = await supabase
-    .from("profiles")
-    .select("id,display_name,handle,avatar_path,avatar_color,initials")
-    .eq("id", user.id)
-    .maybeSingle();
-  const displayName = String(
-    ownProfile?.display_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Member",
-  );
-  const { data: preferenceRows } = await supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true);
-  const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
-
-  const [groupPreviewResult, eventPreviewResult, activityPreviewResult, announcementPreviewResult] = await Promise.all([
+  const [
+    { data: ownProfile },
+    { data: preferenceRows },
+    groupPreviewResult,
+    eventPreviewResult,
+    activityPreviewResult,
+    announcementPreviewResult,
+    postResult,
+  ] = await Promise.all([
+    supabase.from("profiles").select("id,display_name,handle,avatar_path,avatar_color,initials").eq("id", user.id).maybeSingle(),
+    supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true),
     supabase.from("groups").select("id,name,category,description,visibility").eq("visibility", "public").order("created_at", { ascending: false }).limit(3),
     supabase.from("events").select("id,name,category,location,starts_at,is_public").eq("is_public", true).gte("ends_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(2),
     supabase.from("community_activity").select("id,actor_id,event_type,target_type,target_id,created_at").order("created_at", { ascending: false }).limit(12),
     supabase.from("community_announcements").select("id,title,body,is_pinned,published_at").eq("status", "published").or("expires_at.is.null,expires_at.gt." + new Date().toISOString()).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }).limit(2),
+    supabase.from("posts").select("id,author_id,body,photo_path,visibility,created_at").order("created_at", { ascending: false }).limit(12),
   ]);
+  const displayName = String(
+    ownProfile?.display_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Member",
+  );
+  const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
   const featuredGroups = (groupPreviewResult.data ?? []) as HomeGroup[];
   const upcomingEvents = (eventPreviewResult.data ?? []) as HomeEvent[];
   const recentActivity = ((activityPreviewResult.data ?? []) as HomeActivity[]).filter((item) => !item.actor_id || !mutedMemberIds.has(item.actor_id));
   const announcementPreviews = (announcementPreviewResult.data ?? []) as HomeAnnouncement[];
-
-  const postResult = await supabase
-    .from("posts")
-    .select("id,author_id,body,photo_path,visibility,created_at")
-    .order("created_at", { ascending: false })
-    .limit(12);
   const posts = ((postResult.data ?? []) as Post[]).filter((post) => !mutedMemberIds.has(post.author_id));
   const postIds = posts.map((post) => post.id);
 
