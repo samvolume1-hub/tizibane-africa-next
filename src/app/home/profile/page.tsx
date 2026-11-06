@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updateProfile, replaceProfileImage, removeProfileImage } from "../profile-actions";
-import { ContentMoreMenu } from "@/components/content-more-menu";
+import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type Profile = {
   id: string;
@@ -71,12 +71,26 @@ export default async function ProfilePage({
           <section className="profile-editor">
             <div className="profile-cover-preview">
               {coverUrl ? <img src={coverUrl} alt="Your profile cover" className="profile-cover-image" /> : <div className="profile-cover-placeholder"><span>Your cover photo</span><small>Add a wide image that represents you</small></div>}
-              <ContentMoreMenu fields={{ image_kind: "cover" }} replacePhoto={{ action: replaceProfileImage, label: coverUrl ? "Replace cover photo" : "Add cover photo" }} removePhoto={coverUrl ? { action: removeProfileImage, label: "Remove cover photo" } : undefined} />
+              <div className="profile-image-controls profile-cover-controls">
+                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload">
+                  <input type="hidden" name="image_kind" value="cover" />
+                  <label className="btn profile-image-picker">{coverUrl ? "Choose new cover" : "Upload cover photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
+                  <button className="btn btn-primary" type="submit">Save cover</button>
+                </CompressedImageForm>
+                {coverUrl && <form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="cover" /><button className="btn profile-remove-button" type="submit">Remove cover</button></form>}
+              </div>
             </div>
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
-              <ContentMoreMenu fields={{ image_kind: "avatar" }} replacePhoto={{ action: replaceProfileImage, label: avatarUrl ? "Replace profile photo" : "Add profile photo" }} removePhoto={avatarUrl ? { action: removeProfileImage, label: "Remove profile photo" } : undefined} />
+              <div className="profile-image-controls profile-avatar-controls">
+                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload">
+                  <input type="hidden" name="image_kind" value="avatar" />
+                  <label className="btn profile-image-picker">{avatarUrl ? "Choose new photo" : "Upload profile photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
+                  <button className="btn btn-primary" type="submit">Save photo</button>
+                </CompressedImageForm>
+                {avatarUrl && <form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="avatar" /><button className="btn profile-remove-button" type="submit">Remove photo</button></form>}
+              </div>
             </div>
             <form action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
