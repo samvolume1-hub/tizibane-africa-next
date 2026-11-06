@@ -4387,3 +4387,7 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .image-upload-preview-list{display:grid;gap:8px;margin-top:12px;min-width:0}
 .app-layout .image-upload-preview-list .image-upload-preview{margin:0;min-width:0}
 .app-layout .image-upload-preview-list .image-upload-preview img{max-width:min(180px,42%);max-height:120px;flex:none}
+
+/* Small, consistent image and Premium fallback states. */
+.app-layout .image-upload-preview-list{display:grid;gap:8px;width:100%;margin-top:10px}
+.app-layout .premium-product-image-unavailable{display:grid;place-items:center;min-height:180px;padding:24px;text-align:center;color:var(--muted);background:#0b100d;border:1px dashed var(--line);border-radius:12px;font-size:12px}
