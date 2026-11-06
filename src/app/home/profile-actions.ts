@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
-const MAX_AVATAR_BYTES = 8 * 1024 * 1024;
+const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
 const MIME_TO_EXTENSION: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
@@ -47,7 +47,7 @@ export async function updateProfile(formData: FormData) {
   if (avatar instanceof File && avatar.size > 0) {
     const extension = MIME_TO_EXTENSION[avatar.type];
     if (!extension) fail("Choose a JPG, PNG or WebP image.");
-    if (avatar.size > MAX_AVATAR_BYTES) fail("Your profile photo must be 8 MB or smaller.");
+    if (avatar.size > MAX_AVATAR_BYTES) fail("Your profile photo must be 2 MB or smaller.");
 
     const objectPath = `${user.id}/avatars/${crypto.randomUUID()}.${extension}`;
     const { data, error } = await supabase.storage
@@ -69,7 +69,7 @@ export async function updateProfile(formData: FormData) {
     }
     if (cover.size > MAX_AVATAR_BYTES) {
       if (avatarPath) await supabase.storage.from("community-photos").remove([avatarPath]);
-      fail("Your cover photo must be 8 MB or smaller.");
+      fail("Your cover photo must be 2 MB or smaller.");
     }
 
     const objectPath = `${user.id}/covers/${crypto.randomUUID()}.${extension}`;
