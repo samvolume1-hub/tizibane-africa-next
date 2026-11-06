@@ -29,9 +29,9 @@ export async function signIn(data: FormData) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login?error=Could%20not%20verify%20your%20session");
   if (user.email?.toLowerCase() === "samvolume1@gmail.com") {
-    redirect("/home/premium/admin");
+    redirect("/home/premium/admin?welcome=1");
   }
-  redirect("/home");
+  redirect("/home?welcome=1");
 }
 
 export async function signUp(data: FormData) {
