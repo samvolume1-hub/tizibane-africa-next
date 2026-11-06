@@ -4009,3 +4009,57 @@ main > .landing-contacts .landing-contact-panel a {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
+
+
+/* Match every announcement surface to the solid sci-fi purple-blue
+   treatment: Home preview, full notices and admin announcement previews.
+   Keep the finish flat and all announcement typography bright white. */
+.app-layout .community-home-page .home-announcement-strip,
+.app-layout .community-home-page .home-announcement-link,
+.app-layout .community-feature-page .feature-announcement-card,
+.app-layout .community-feature-page .feature-admin-item {
+  background: #29264f !important;
+  background-image: none !important;
+  border: 1px solid #7774a8 !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+.app-layout .community-home-page .home-announcement-strip {
+  border-left: 5px solid #a9a5e8 !important;
+}
+.app-layout .community-home-page .home-announcement-mark,
+.app-layout .community-home-page .home-announcement-link .home-pinned-label,
+.app-layout .community-feature-page .feature-announcement-card::before {
+  background: #45417d !important;
+  border: 1px solid #aaa6df !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+.app-layout .community-home-page .home-announcement-strip *,
+.app-layout .community-home-page .home-announcement-link *,
+.app-layout .community-feature-page .feature-announcement-card *,
+.app-layout .community-feature-page .feature-admin-item-copy,
+.app-layout .community-feature-page .feature-admin-item-copy *,
+.app-layout .community-feature-page .feature-admin-item .feature-admin-edit summary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: none !important;
+}
+.app-layout .community-home-page .home-announcement-link {
+  border-radius: 12px !important;
+}
+.app-layout .community-home-page .home-announcement-content > .home-view-all {
+  background: #45417d !important;
+  border: 1px solid #aaa6df !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  box-shadow: none !important;
+}
+.app-layout .community-home-page .home-announcement-content > .home-view-all:hover {
+  background: #514c91 !important;
+}
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-author,
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-reactions,
+.app-layout .community-feature-page .feature-admin-item {
+  border-color: #7774a8 !important;
+}
