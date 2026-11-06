@@ -4892,3 +4892,33 @@ main > .landing-contacts .landing-contact-panel a {
     font-size: 23px !important;
   }
 }
+
+
+/* Final Home Feed adjustment: restore the quick links by 20% and left-align the welcome copy. */
+.app-layout .community-home-page .home-welcome-compact {
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+.app-layout .community-home-page .home-welcome-copy {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+.app-layout .community-home-page .home-quick-actions-below {
+  gap: 11px !important;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action {
+  min-height: 35px !important;
+  padding: 7px 14px !important;
+  font-size: 12px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .community-home-page .home-quick-actions-below {
+    gap: 7px !important;
+  }
+  .app-layout .community-home-page .home-quick-actions-below .home-quick-action {
+    min-height: 32px !important;
+    padding: 6px 11px !important;
+    font-size: 11px !important;
+  }
+}
