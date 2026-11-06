@@ -2447,3 +2447,73 @@ main > .footer .royalty-copyright {
     line-height: 1.8;
   }
 }
+
+
+/* Footer contact links and matching deep-purple photo overlay. */
+main > .footer {
+  background:
+    linear-gradient(110deg, rgba(20, 5, 39, .86) 0%, rgba(42, 12, 68, .78) 52%, rgba(20, 5, 39, .86) 100%),
+    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+}
+
+main > .footer .footer-contacts {
+  display: flex;
+  flex: 1 1 100%;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 22px 64px;
+  width: 100%;
+  color: #fff !important;
+}
+
+main > .footer .footer-contact-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #fff !important;
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+
+main > .footer .footer-contact-group strong {
+  color: #fff !important;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+main > .footer .footer-contact-group a {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.58);
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+}
+
+main > .footer .footer-contact-group a:hover {
+  text-decoration-color: #fff;
+  text-shadow: 0 0 12px rgba(226,190,255,.9);
+}
+
+@media (max-width: 540px) {
+  main > .footer .footer-contacts {
+    justify-content: flex-start;
+    gap: 22px;
+    margin: 18px 0;
+  }
+
+  main > .footer .footer-contact-group {
+    align-items: flex-start;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  main > .footer .footer-contact-group strong {
+    font-size: 17px;
+  }
+}
