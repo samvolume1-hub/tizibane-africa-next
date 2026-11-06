@@ -11,7 +11,7 @@ export default async function Login({
   const p = await searchParams;
 
   return (
-    <main className="auth-wrap">
+    <main className="auth-wrap login-page">
       <section className="auth-card">
         <Brand />
         <h1>Welcome back.</h1>
