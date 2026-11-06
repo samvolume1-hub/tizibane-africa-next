@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
-const ADMIN_EMAIL = "samvolume1@gmail.com";
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const extensions: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -16,7 +15,8 @@ async function requirePremiumAdmin() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  if ((user.email ?? "").toLowerCase() !== ADMIN_EMAIL) redirect("/home/premium?error=Administrator%20access%20only");
+  const { data: isAdmin, error: adminError } = await supabase.rpc("is_current_platform_admin");
+  if (adminError || !isAdmin) redirect("/home/premium?error=Administrator%20access%20only");
   return { supabase, user };
 }
 
