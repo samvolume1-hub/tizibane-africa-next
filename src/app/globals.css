@@ -3619,3 +3619,94 @@ main > .landing-contacts .landing-contact-panel a {
   max-width:760px; margin-top:12px; padding:14px; border:1px solid #ead9e9;
   border-radius:13px; background:rgba(255,255,255,.78);
 }
+
+
+/* TIZIBANE mobile performance and accessible compact post controls.
+   Scoped to authenticated app pages; landing and login remain unchanged. */
+.app-layout {
+  background-color: #f6eff8 !important;
+  background-image: none !important;
+  background-attachment: initial !important;
+}
+.app-layout .reaction-menu {
+  position: relative;
+  display: inline-flex;
+}
+.app-layout .reaction-menu > summary {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #e4d5e9;
+  border-radius: 50%;
+  background: #fff;
+  color: #563765;
+  font-size: 21px;
+  cursor: pointer;
+  list-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.app-layout .reaction-menu > summary::-webkit-details-marker { display: none; }
+.app-layout .reaction-menu-panel {
+  position: absolute;
+  z-index: 12;
+  left: 0;
+  bottom: calc(100% + 8px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: min(250px, calc(100vw - 52px));
+  padding: 9px;
+  border: 1px solid #e4d5e9;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(50, 30, 60, .16);
+}
+.app-layout .reaction-menu-panel form { margin: 0; }
+.app-layout .reaction-menu-panel .reaction-choice {
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  justify-content: center;
+  padding: 5px;
+  border-color: #eadfeb;
+  color: #4d3459 !important;
+  -webkit-text-fill-color: #4d3459 !important;
+}
+.app-layout .reaction-menu-panel .reaction-emoji { font-size: 21px; }
+.app-layout .home-composer .photo-picker {
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  justify-content: center;
+  padding: 0;
+  font-size: 23px;
+  line-height: 1;
+  color: #59336d !important;
+  -webkit-text-fill-color: #59336d !important;
+}
+.app-layout .comment-form .comment-submit-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #59336d !important;
+  border-radius: 50%;
+  background: #603a78 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 19px;
+  padding: 0;
+}
+.app-layout button,
+.app-layout summary,
+.app-layout .photo-picker {
+  touch-action: manipulation;
+}
+@media (max-width: 680px) {
+  .app-layout .post-card { padding: 15px; }
+  .app-layout .reaction-picker { gap: 8px; }
+  .app-layout .reaction-menu-panel { bottom: calc(100% + 6px); }
+  .app-layout .home-composer .composer-options { gap: 8px; }
+}
