@@ -55,9 +55,11 @@ export async function createStory(formData: FormData) {
 export async function updateStory(formData: FormData) {
   const storyId = String(formData.get("story_id") ?? "");
   const caption = String(formData.get("caption") ?? "").trim();
+  const visibility = String(formData.get("visibility") ?? "friends");
   if (!UUID.test(storyId) || caption.length > 500) fail("Check your story caption and try again.");
+  if (!["public", "friends", "private"].includes(visibility)) fail("Choose a valid story audience.");
   const { supabase, user } = await signedIn();
-  const { data, error } = await supabase.from("stories").update({ caption }).eq("id", storyId).eq("author_id", user.id).select("id").maybeSingle();
+  const { data, error } = await supabase.from("stories").update({ caption, visibility }).eq("id", storyId).eq("author_id", user.id).select("id").maybeSingle();
   if (error || !data) fail("You can edit only your own story.");
   revalidatePath("/home/stories");
   redirect("/home/stories?updated=1");
