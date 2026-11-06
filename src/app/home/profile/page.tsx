@@ -11,7 +11,6 @@ type Profile = {
   display_name: string;
   bio: string;
   avatar_path: string | null;
-  cover_path: string | null;
   visibility: "public" | "members" | "friends" | "private";
   location: string;
   initials: string;
@@ -29,7 +28,7 @@ export default async function ProfilePage({
 
   const { data } = await supabase
     .from("profiles")
-    .select("id,display_name,bio,avatar_path,cover_path,visibility,location,initials")
+    .select("id,display_name,bio,avatar_path,visibility,location,initials")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -37,18 +36,11 @@ export default async function ProfilePage({
   const profileName = profile?.display_name || String(user.user_metadata?.display_name || user.email?.split("@")[0] || "Member");
   const profileInitials = profileName.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] || "").join("").toUpperCase() || "M";
   let avatarUrl: string | null = null;
-  let coverUrl: string | null = null;
   if (profile?.avatar_path) {
     const { data: signed } = await supabase.storage
       .from("community-photos")
       .createSignedUrl(profile.avatar_path, 60 * 60);
     avatarUrl = signed?.signedUrl ?? null;
-  }
-  if (profile?.cover_path) {
-    const { data: signed } = await supabase.storage
-      .from("community-photos")
-      .createSignedUrl(profile.cover_path, 60 * 60);
-    coverUrl = signed?.signedUrl ?? null;
   }
 
   return (
@@ -69,16 +61,9 @@ export default async function ProfilePage({
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {!profile && <div className="notice" role="alert">Your member profile is still being created. Please refresh this page in a moment.</div>}
           <section className="profile-editor">
-            <div className="profile-cover-preview">
-              {coverUrl ? <img src={coverUrl} alt="Your profile cover" className="profile-cover-image" /> : <div className="profile-cover-placeholder"><span>Your cover photo</span><small>Add a wide image that represents you</small></div>}
-              <div className="profile-image-controls profile-cover-controls">
-                <CompressedImageForm action={replaceProfileImage} className="profile-direct-upload">
-                  <input type="hidden" name="image_kind" value="cover" />
-                  <label className="btn profile-image-picker">{coverUrl ? "Choose new cover" : "Upload cover photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
-                  <button className="btn btn-primary" type="submit">Save cover</button>
-                </CompressedImageForm>
-                {coverUrl && <details className="profile-remove-confirm"><summary>Remove cover</summary><form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="cover" /><button className="btn profile-remove-button" type="submit">Confirm removal</button></form></details>}
-              </div>
+            <div className="profile-cover-preview profile-cover-shared">
+              {avatarUrl ? <img src={avatarUrl} alt="Your profile photo, also used as your cover" className="profile-cover-image" /> : <div className="profile-cover-placeholder"><span>One photo. Two places.</span><small>Your profile photo also fills your Home Feed hero card</small></div>}
+              <div className="profile-cover-shared-label">Your profile photo is used here and across TIZIBANE</div>
             </div>
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
@@ -97,7 +82,7 @@ export default async function ProfilePage({
               <div className="field"><label htmlFor="bio">About you</label><textarea id="bio" name="bio" defaultValue={profile?.bio || ""} maxLength={240} rows={4} placeholder="A few words about you..." /></div>
               <div className="field"><label htmlFor="location">Location (optional)</label><input id="location" name="location" defaultValue={profile?.location || ""} maxLength={120} placeholder="City or region" /></div>
               <div className="field"><label htmlFor="visibility">Who can discover your profile?</label><select id="visibility" name="visibility" defaultValue={profile?.visibility || "public"}><option value="public">Public to signed-in members</option><option value="members">All registered members</option><option value="friends">Accepted friends</option><option value="private">Only me</option></select></div>
-              <p className="field-help">Use the More menu beside each image to add, replace or remove it. Photos are optimized toward 1 MB, with a 2 MB maximum.</p>
+              <p className="field-help">Your single profile photo is shared across your profile and Home Feed hero. Photos are optimized toward 1 MB, with a 2 MB maximum.</p>
               <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><button className="btn btn-primary" type="submit">Save profile</button></div>
             </form>
           </section>
