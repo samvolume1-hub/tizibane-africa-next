@@ -209,7 +209,7 @@ export default async function Home({
                 </div>
                 <button className="btn btn-primary" type="submit">Share update</button>
               </div>
-              <p className="field-help">JPG, PNG or WebP photos up to 8 MB. Your post is saved to the shared community database.</p>
+              <p className="field-help">JPG, PNG or WebP photos up to 2 MB. Your post is saved to the shared community database.</p>
             </form>
           </section>
 
