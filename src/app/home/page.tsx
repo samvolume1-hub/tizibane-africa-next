@@ -161,12 +161,10 @@ export default async function Home({
           </section>
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
-          {params.posted && <div className="notice" role="status">Your post has been shared with your selected audience.</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
           {params.updated && <div className="notice" role="status">{params.updated === "comment" ? "Your comment has been updated." : params.updated === "photo-removed" ? "The photo has been removed from your post." : "Your post has been updated."}</div>}
           {params.deleted && <div className="notice" role="status">{params.deleted === "comment" ? "Your comment has been deleted." : "Your post has been deleted from the database."}</div>}
           {params.cleanup && <div className="notice" role="alert">The content was saved, but an old image could not be cleared from storage. Please contact support if it remains visible in storage.</div>}
-          {params.error && <div className="notice" role="alert">{params.error}</div>}
           {interactionLoadError && <div className="notice" role="alert">{interactionLoadError}</div>}
 
           <section className="home-announcement-strip" aria-labelledby="home-announcements-title">
@@ -217,6 +215,8 @@ export default async function Home({
               <p className="field-help">Photos are optimized toward 1 MB · Maximum 2 MB after optimization.</p>
             </CompressedImageForm>
           </section>
+          {params.posted && <div className="notice" role="status">Your post has been saved and shared with your selected audience.</div>}
+          {params.error && <div className="notice" role="alert">{params.error}</div>}
 
           <div className="feed-heading home-feed-heading">
             <div><span className="eyebrow">THE COMMUNITY</span><h2>What's happening</h2></div>
