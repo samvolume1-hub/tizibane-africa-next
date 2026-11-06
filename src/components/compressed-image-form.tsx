@@ -10,6 +10,7 @@ const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
   className?: string;
+  confirmMessage?: string;
   children: ReactNode;
 };
 
@@ -80,7 +81,7 @@ function formatSize(bytes: number) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-export function CompressedImageForm({ action, className, children }: Props) {
+export function CompressedImageForm({ action, className, confirmMessage, children }: Props) {
   const [busy, setBusy] = useState(false);
   const bypassSubmit = useRef(false);
   const [message, setMessage] = useState("Photos are checked and optimized before upload.");
@@ -131,6 +132,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
     }
     event.preventDefault();
     if (busy) return;
+    if (confirmMessage && !window.confirm(confirmMessage)) return;
 
     const form = event.currentTarget;
     const submitter = event.nativeEvent instanceof SubmitEvent ? event.nativeEvent.submitter : null;
