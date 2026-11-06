@@ -28,9 +28,8 @@ export async function signIn(data: FormData) {
   if (error) redirect("/login?error=Sign-in%20failed.%20Check%20your%20details");
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login?error=Could%20not%20verify%20your%20session");
-  if (user.email?.toLowerCase() === "samvolume1@gmail.com") {
-    redirect("/home/premium/admin?welcome=1");
-  }
+  const { data: isPlatformAdmin } = await supabase.rpc("is_current_platform_admin");
+  if (isPlatformAdmin) redirect("/home/premium/admin?welcome=1");
   redirect("/home?welcome=1");
 }
 
