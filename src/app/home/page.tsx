@@ -65,7 +65,7 @@ export default async function Home({
   const [groupPreviewResult, eventPreviewResult, activityPreviewResult, announcementPreviewResult] = await Promise.all([
     supabase.from("groups").select("id,name,category,description,visibility").eq("visibility", "public").order("created_at", { ascending: false }).limit(3),
     supabase.from("events").select("id,name,category,location,starts_at,is_public").eq("is_public", true).gte("ends_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(2),
-    supabase.from("community_activity").select("id,actor_id,event_type,target_type,target_id,created_at").order("created_at", { ascending: false }).limit(4),
+    supabase.from("community_activity").select("id,actor_id,event_type,target_type,target_id,created_at").order("created_at", { ascending: false }).limit(12),
     supabase.from("community_announcements").select("id,title,body,is_pinned,published_at").eq("status", "published").or("expires_at.is.null,expires_at.gt." + new Date().toISOString()).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }).limit(2),
   ]);
   const featuredGroups = (groupPreviewResult.data ?? []) as HomeGroup[];
