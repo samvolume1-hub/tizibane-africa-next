@@ -105,7 +105,11 @@ export function CompressedImageForm({ action, className, children }: Props) {
     const form = event.currentTarget;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
-    submitButtons.forEach((button) => { button.disabled = true; button.textContent = "Posting…"; });
+    submitButtons.forEach((button) => {
+      const label = button.textContent ?? "";
+      button.disabled = true;
+      button.textContent = /save/i.test(label) ? "Saving…" : /upload/i.test(label) ? "Uploading…" : /post|share|publish/i.test(label) ? "Posting…" : "Working…";
+    });
 
     try {
       const data = new FormData(form);
