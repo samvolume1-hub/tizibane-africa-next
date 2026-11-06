@@ -1,9 +1,7 @@
 import { CommunityNavigation } from "@/components/community-navigation";
-import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "../../../auth-actions";
 import { createPremiumProduct, publishPremiumProduct, pausePremiumProduct, deletePremiumProduct, togglePremiumFeatured } from "../actions";
 
 const ADMIN_EMAIL = "samvolume1@gmail.com";
