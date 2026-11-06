@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
-const MAX_PHOTO_BYTES = 8 * 1024 * 1024;
+const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
 const MAX_POST_CHARS = 3000;
 const MIME_TO_EXTENSION: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -118,7 +118,7 @@ export async function createPost(data: FormData) {
   if (hasPhoto && photo instanceof File) {
     const extension = MIME_TO_EXTENSION[photo.type];
     if (!extension) redirect("/home?error=Choose%20a%20JPG,%20PNG%20or%20WebP%20photo");
-    if (photo.size > MAX_PHOTO_BYTES) redirect("/home?error=Photos%20must%20be%208%20MB%20or%20smaller");
+    if (photo.size > MAX_PHOTO_BYTES) redirect("/home?error=Photos%20must%20be%202%20MB%20or%20smaller");
 
     const objectPath = `${user.id}/posts/${crypto.randomUUID()}.${extension}`;
     const { data: uploaded, error: uploadError } = await supabase.storage
