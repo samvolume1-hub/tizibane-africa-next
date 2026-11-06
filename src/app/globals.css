@@ -3723,3 +3723,71 @@ main > .landing-contacts .landing-contact-panel a {
   outline: 3px solid #9a72b0;
   outline-offset: 3px;
 }
+
+
+/* Unified authenticated-app canvas and landing-matched footer.
+   Solid lavender keeps rendering lightweight; the darker tone separates
+   the page canvas from its lighter foreground cards. */
+.app-layout {
+  background-color: #d2c0df !important;
+  background-image: none !important;
+  background-attachment: initial !important;
+}
+.app-layout .home-composer .photo-picker {
+  width: auto !important;
+  min-width: 132px;
+  height: 42px;
+  min-height: 42px;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 15px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 800;
+  letter-spacing: .01em;
+  white-space: nowrap;
+  border-color: rgba(255,255,255,.78) !important;
+  background: linear-gradient(145deg,#75458f 0%,#59316f 100%) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.24), 0 4px 12px rgba(45,20,60,.16) !important;
+}
+.app-layout .home-composer .photo-picker:hover {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: linear-gradient(145deg,#84549d 0%,#663b7c 100%) !important;
+}
+.app-layout .royalty-copyright,
+.app-layout .community-credit {
+  display: none !important;
+}
+.app-layout::after {
+  content: "Connect. Belong. Grow.\\A © 2026 TIZIBANE Zambia";
+  grid-column: 1 / -1;
+  display: grid;
+  place-content: center;
+  min-height: 112px;
+  padding: 22px 18px;
+  border-top: 1px solid rgba(255,255,255,.42);
+  background:
+    linear-gradient(110deg, rgba(20,5,39,.76) 0%, rgba(42,12,68,.69) 52%, rgba(20,5,39,.76) 100%),
+    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.9;
+  letter-spacing: .19em;
+  text-align: center;
+  text-shadow: 0 2px 5px rgba(0,0,0,.98), 0 0 16px rgba(0,0,0,.72);
+  white-space: pre-line;
+}
+@media (max-width: 600px) {
+  .app-layout::after {
+    min-height: 104px;
+    padding: 20px 14px;
+    font-size: 13px;
+    letter-spacing: .13em;
+    line-height: 1.85;
+  }
+}
