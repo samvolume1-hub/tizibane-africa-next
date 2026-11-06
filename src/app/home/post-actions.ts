@@ -37,7 +37,6 @@ export async function toggleReaction(formData: FormData) {
 
   if (result.error) fail("Your reaction could not be saved. Please try again.");
   revalidatePath("/home");
-  redirect("/home");
 }
 
 export async function createComment(formData: FormData) {
@@ -58,5 +57,4 @@ export async function createComment(formData: FormData) {
   if (error) fail("Your comment could not be added. Please try again.");
 
   revalidatePath("/home");
-  redirect("/home?commented=1");
 }
