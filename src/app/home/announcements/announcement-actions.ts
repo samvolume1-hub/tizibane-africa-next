@@ -114,6 +114,42 @@ export async function commentOnAnnouncement(formData: FormData) {
   announcementRedirect("commented");
 }
 
+
+export async function updateAnnouncementComment(formData: FormData) {
+  const { supabase, user } = await signedIn();
+  const id = String(formData.get("comment_id") ?? "");
+  const body = String(formData.get("body") ?? "").trim();
+  if (!/^[0-9a-f-]{36}$/i.test(id) || !body || body.length > 1000) {
+    announcementRedirect("Comments must be between 1 and 1,000 characters.");
+  }
+  const { data, error } = await supabase
+    .from("announcement_comments")
+    .update({ body })
+    .eq("id", id)
+    .eq("author_id", user.id)
+    .select("id")
+    .maybeSingle();
+  if (error || !data) announcementRedirect("You can edit only your own announcement comment.");
+  revalidatePath("/home/announcements");
+  announcementRedirect("comment-updated");
+}
+
+export async function deleteAnnouncementComment(formData: FormData) {
+  const { supabase, user } = await signedIn();
+  const id = String(formData.get("comment_id") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(id)) announcementRedirect("That comment could not be found.");
+  const { data, error } = await supabase
+    .from("announcement_comments")
+    .delete()
+    .eq("id", id)
+    .eq("author_id", user.id)
+    .select("id")
+    .maybeSingle();
+  if (error || !data) announcementRedirect("You can delete only your own announcement comment.");
+  revalidatePath("/home/announcements");
+  announcementRedirect("comment-deleted");
+}
+
 export async function reactToAnnouncement(formData: FormData) {
   const { supabase, user } = await signedIn();
   const id = String(formData.get("announcement_id") ?? "");
