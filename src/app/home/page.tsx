@@ -147,7 +147,17 @@ export default async function Home({
       <section className="app-main">
         <header className="topbar"><span className="muted">YOUR COMMUNITY SPACE</span><span className="signed-in">● Signed in</span></header>
         <div className="app-content community-home-page">
-          <section className="welcome welcome-home home-welcome-compact">
+          <section className={`welcome welcome-home home-welcome-compact${avatarUrls[user.id] ? " home-welcome-has-photo" : " home-welcome-no-photo"}`}>
+            {avatarUrls[user.id] && (
+              <img
+                className="home-welcome-photo"
+                src={avatarUrls[user.id]}
+                alt=""
+                aria-hidden="true"
+                fetchPriority="high"
+                decoding="async"
+              />
+            )}
             <div className="home-welcome-copy">
               <span className="eyebrow">YOUR COMMUNITY, YOUR SPACE</span>
               <h1>Welcome back, {displayName}.</h1>
