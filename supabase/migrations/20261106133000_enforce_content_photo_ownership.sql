@@ -9,7 +9,7 @@ as $function$
 begin
   if new.photo_path is not null
     and split_part(new.photo_path, '/', 1) is distinct from new.author_id::text then
-    raise exception 'A post may reference only a photo stored in its author's folder';
+    raise exception 'A post may reference only a photo stored in its author''s folder';
   end if;
   return new;
 end;
@@ -39,7 +39,7 @@ as $function$
 begin
   if new.avatar_path is not null
     and split_part(new.avatar_path, '/', 1) is distinct from new.id::text then
-    raise exception 'A profile avatar must be stored in its owner's folder';
+    raise exception 'A profile avatar must be stored in its owner''s folder';
   end if;
   if new.cover_path is not null
     and split_part(new.cover_path, '/', 1) is distinct from new.id::text then
