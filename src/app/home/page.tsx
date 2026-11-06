@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createPost } from "../auth-actions";
 import { createComment, toggleReaction } from "./post-actions";
 import { ReportControl } from "./report-control";
+import { PendingIconButton } from "@/components/pending-icon-button";
 
 type Post = {
   id: string;
@@ -248,9 +249,9 @@ export default async function Home({
                               <form action={toggleReaction} key={choice.value}>
                                 <input type="hidden" name="post_id" value={post.id} />
                                 <input type="hidden" name="reaction" value={choice.value} />
-                                <button className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`} type="submit" aria-pressed={myReaction === choice.value} title={choice.label} aria-label={choice.label}>
+                                <PendingIconButton className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`} pressed={myReaction === choice.value} label={choice.label}>
                                   <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
-                                </button>
+                                </PendingIconButton>
                               </form>
                             ))}
                           </div>
@@ -283,7 +284,7 @@ export default async function Home({
                       <input type="hidden" name="post_id" value={post.id} />
                       <label className="sr-only" htmlFor={`comment-${post.id}`}>Write a comment</label>
                       <input id={`comment-${post.id}`} name="body" placeholder="Write a comment…" maxLength={1000} required />
-                      <button className="text-action comment-submit-icon" type="submit" aria-label="Send comment" title="Send comment">➤</button>
+                      <PendingIconButton className="text-action comment-submit-icon" label="Send comment">➤</PendingIconButton>
                     </form>
                     {post.author_id !== user.id && <ReportControl kind="post" targetId={post.id} />}
                   </article>
