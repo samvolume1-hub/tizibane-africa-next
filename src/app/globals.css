@@ -2452,7 +2452,7 @@ main > .footer .royalty-copyright {
 /* Compact footer contact dropdowns. Keep the existing purple photo treatment. */
 main > .footer {
   background:
-    linear-gradient(110deg, rgba(20, 5, 39, .86) 0%, rgba(42, 12, 68, .78) 52%, rgba(20, 5, 39, .86) 100%),
+    linear-gradient(110deg, rgba(20, 5, 39, .69) 0%, rgba(42, 12, 68, .62) 52%, rgba(20, 5, 39, .69) 100%),
     url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
 }
 
