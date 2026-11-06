@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -85,6 +85,9 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("Photos are checked and optimized before upload.");
   const [previews, setPreviews] = useState<Preview[]>([]);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const pendingForm = useRef<HTMLFormElement | null>(null);
+  const pendingSubmitter = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     return () => {
@@ -124,18 +127,28 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
     );
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (busy) return;
-    if (confirmMessage && !window.confirm(confirmMessage)) return;
-
     const form = event.currentTarget;
     const submitter = event.nativeEvent instanceof SubmitEvent ? event.nativeEvent.submitter : null;
+    pendingForm.current = form;
+    pendingSubmitter.current = submitter instanceof HTMLButtonElement ? submitter : null;
+
+    if (confirmMessage) {
+      setConfirmOpen(true);
+      return;
+    }
+    void submitForm(form, pendingSubmitter.current);
+  }
+
+  async function submitForm(form: HTMLFormElement, activeSubmitter: HTMLButtonElement | null) {
+    if (busy) return;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
-    const activeSubmitter = submitter instanceof HTMLButtonElement ? submitter : null;
 
     setBusy(true);
+    setConfirmOpen(false);
     setMessage("Preparing your photos…");
     submitButtons.forEach((button) => {
       const label = button.textContent ?? "";
@@ -166,8 +179,6 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
       if (finalPreviews.length) setPreviews(finalPreviews);
 
       setMessage("Sending your photos to TIZIBANE…");
-      // Invoke the Server Action directly with the optimized form data.
-      // This avoids a second requestSubmit event and its fragile bypass flag.
       const formData = new FormData(form);
       if (activeSubmitter?.name) formData.set(activeSubmitter.name, activeSubmitter.value);
       await action(formData);
@@ -180,6 +191,21 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
         button.textContent = originalLabels[index];
       });
     }
+  }
+
+  function confirmReplacement() {
+    const form = pendingForm.current;
+    if (!form) {
+      setConfirmOpen(false);
+      return;
+    }
+    void submitForm(form, pendingSubmitter.current);
+  }
+
+  function cancelReplacement() {
+    setConfirmOpen(false);
+    pendingForm.current = null;
+    pendingSubmitter.current = null;
   }
 
   return (
