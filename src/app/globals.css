@@ -3761,7 +3761,7 @@ main > .landing-contacts .landing-contact-panel a {
   display: none !important;
 }
 .app-layout::after {
-  content: "Connect. Belong. Grow.\\A © 2026 TIZIBANE Zambia";
+  content: "Connect. Belong. Grow.\A © 2026 TIZIBANE Zambia";
   grid-column: 1 / -1;
   display: grid;
   place-content: center;
