@@ -42,7 +42,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
           <label>Seller WhatsApp number<input name="whatsapp_number" required placeholder="e.g. +260 97 000 0000"/></label>
           <label>Contact email (optional)<input name="contact_email" type="email" maxLength={254} placeholder="seller@example.com"/></label>
           <label className="premium-form-full">Product description<textarea name="description" rows={4} maxLength={1200} placeholder="Describe the product, key features and useful details…"/></label>
-          <label className="premium-form-full">Product photographs <span className="muted">(minimum 2, maximum 4 · JPG, PNG or WebP · 2 MB each)</span><input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required/></label>
+          <label className="premium-form-full">Product photographs <span className="muted">(2–4 photos · JPG, PNG or WebP · optimized toward 1 MB each · maximum 2 MB each)</span><input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required/></label>
           <p className="premium-form-full premium-form-hint">Listings are saved as unpaid drafts. After you verify the client's payment, use Publish below to mark the payment as confirmed and set the advertising period. Do not publish until payment has actually been received.</p>
           <button className="btn btn-primary premium-form-full" type="submit">Save product as draft</button>
         </CompressedImageForm>
