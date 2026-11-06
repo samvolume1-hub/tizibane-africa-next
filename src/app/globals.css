@@ -4253,3 +4253,18 @@ main > .landing-contacts .landing-contact-panel a {
     font-size: 11px;
   }
 }
+
+
+/* Login-only request: change entered characters only; preserve fields and all other styling. */
+.login-page .auth-card .field input,
+.login-page .auth-card .password-input-wrap input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+}
+.login-page .auth-card .field input:-webkit-autofill,
+.login-page .auth-card .field input:-webkit-autofill:hover,
+.login-page .auth-card .field input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+}
