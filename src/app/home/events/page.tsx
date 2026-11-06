@@ -65,9 +65,16 @@ export default async function EventsPage({
 
   const manageableGroupIds = new Set(manageableIds);
   const activeGroupIds = new Set((activeMemberships ?? []).map((membership) => membership.group_id as string));
-  const groupNameById = new Map((manageableGroups ?? []).map((group) => [group.id, group.name]));
   const events = (rows ?? []) as Event[];
   const eventIds = events.map((event) => event.id);
+  const eventGroupIds = [...new Set(events.flatMap((event) => event.group_id ? [event.group_id] : []))];
+  const { data: eventGroups } = eventGroupIds.length
+    ? await supabase.from("groups").select("id,name").in("id", eventGroupIds)
+    : { data: [] };
+  const groupNameById = new Map([
+    ...(manageableGroups ?? []).map((group) => [group.id, group.name] as const),
+    ...(eventGroups ?? []).map((group) => [group.id, group.name] as const),
+  ]);
 
   let attendance: Attendance[] = [];
   let attendanceError = false;
