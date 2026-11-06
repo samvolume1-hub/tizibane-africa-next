@@ -4710,3 +4710,17 @@ main > .landing-contacts .landing-contact-panel a {
   .app-layout .tiz-confirm-actions { flex-direction: column-reverse; }
   .app-layout .tiz-confirm-actions button { width: 100%; min-height: 44px; }
 }
+
+.app-layout .tiz-confirm-dialog .tiz-confirm-error {
+  margin: 0 0 14px;
+  padding: 9px 11px;
+  border: 1px solid rgba(255,140,160,.3);
+  border-radius: 9px;
+  color: #ffd0d8;
+  background: rgba(120,25,48,.22);
+  font-size: 12px;
+}
+.app-layout .tiz-confirm-actions button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
