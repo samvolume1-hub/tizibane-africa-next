@@ -8,6 +8,8 @@ const items = [
   { href: "/home/people", icon: "♧", label: "People", key: "people" },
   { href: "/home/messages", icon: "✉", label: "Messages", key: "messages" },
   { href: "/home/notifications", icon: "♢", label: "Notifications", key: "notifications" },
+  { href: "/home/announcements", icon: "✦", label: "Announcements", key: "announcements" },
+  { href: "/home/activity", icon: "◷", label: "Community activity", key: "activity" },
   { href: "/home/blocked", icon: "⊘", label: "Blocked", key: "blocked" },
   { href: "/home/groups", icon: "◈", label: "Groups", key: "groups" },
   { href: "/home/events", icon: "◇", label: "Events", key: "events" },
@@ -16,7 +18,7 @@ const items = [
 ];
 
 const mobilePrimary = ["home", "people", "messages", "groups"];
-const mobileMore = ["profile", "notifications", "blocked", "events", "premium", "connect"];
+const mobileMore = ["profile", "notifications", "announcements", "activity", "blocked", "events", "premium", "connect"];
 
 export function CommunityNavigation({ active }: { active: string }) {
   const moreIsActive = mobileMore.includes(active);
