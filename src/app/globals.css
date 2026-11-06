@@ -3961,3 +3961,51 @@ main > .landing-contacts .landing-contact-panel a {
   .community-feature-page .feature-announcement-card h2 { font-size: 22px; }
   .community-feature-page .feature-announcement-body { font-size: 14px; line-height: 1.75; }
 }
+
+
+/* Announcement card: clean, solid sci-fi purple-blue with bright white type.
+   No gradients, glow, image layers, shadows or animation. */
+.app-layout .community-feature-page .feature-announcement-card {
+  background: #29264f !important;
+  background-image: none !important;
+  border: 1px solid #7774a8 !important;
+  border-left: 5px solid #a9a5e8 !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+.app-layout .community-feature-page .feature-announcement-card::before {
+  background: #393568 !important;
+  border: 1px solid #aaa6df !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+.app-layout .community-feature-page .feature-announcement-card,
+.app-layout .community-feature-page .feature-announcement-card h1,
+.app-layout .community-feature-page .feature-announcement-card h2,
+.app-layout .community-feature-page .feature-announcement-card h3,
+.app-layout .community-feature-page .feature-announcement-card p,
+.app-layout .community-feature-page .feature-announcement-card time,
+.app-layout .community-feature-page .feature-announcement-card span,
+.app-layout .community-feature-page .feature-announcement-card strong,
+.app-layout .community-feature-page .feature-announcement-card label,
+.app-layout .community-feature-page .feature-announcement-card .eyebrow,
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-author,
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-body,
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-reactions {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: none !important;
+}
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-author,
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-reactions {
+  border-color: #7774a8 !important;
+}
+.app-layout .community-feature-page .feature-announcement-card .feature-announcement-meta .eyebrow {
+  background: #45417d !important;
+  border: 1px solid #aaa6df !important;
+}
+.app-layout .community-feature-page .feature-announcement-card button,
+.app-layout .community-feature-page .feature-announcement-card .btn {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
