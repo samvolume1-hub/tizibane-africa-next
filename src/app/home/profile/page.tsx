@@ -4,6 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { updateProfile } from "../profile-actions";
+import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type Profile = {
   id: string;
@@ -72,15 +73,15 @@ export default async function ProfilePage({
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
             </div>
-            <form action={updateProfile} className="profile-form">
+            <CompressedImageForm action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
               <div className="field"><label htmlFor="bio">About you</label><textarea id="bio" name="bio" defaultValue={profile?.bio || ""} maxLength={240} rows={4} placeholder="A few words about you..." /></div>
               <div className="field"><label htmlFor="location">Location (optional)</label><input id="location" name="location" defaultValue={profile?.location || ""} maxLength={120} placeholder="City or region" /></div>
               <div className="field"><label htmlFor="visibility">Who can discover your profile?</label><select id="visibility" name="visibility" defaultValue={profile?.visibility || "public"}><option value="public">Public to signed-in members</option><option value="members">All registered members</option><option value="friends">Accepted friends</option><option value="private">Only me</option></select></div>
-              <div className="field"><label htmlFor="avatar">Profile photo</label><input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" /><small>Square or portrait image · JPG, PNG or WebP · Maximum 2 MB.</small></div>
-              <div className="field"><label htmlFor="cover">Cover photo</label><input id="cover" name="cover" type="file" accept="image/jpeg,image/png,image/webp" /><small>Wide landscape image recommended · JPG, PNG or WebP · Maximum 8 MB.</small></div>
+              <div className="field"><label htmlFor="avatar">Profile photo</label><input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" /><small>Square or portrait image · Automatically optimized toward 1 MB · Maximum 2 MB.</small></div>
+              <div className="field"><label htmlFor="cover">Cover photo</label><input id="cover" name="cover" type="file" accept="image/jpeg,image/png,image/webp" /><small>Wide landscape image recommended · Automatically optimized toward 1 MB · Maximum 2 MB.</small></div>
               <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><button className="btn btn-primary" type="submit">Save profile</button></div>
-            </form>
+            </CompressedImageForm>
           </section>
         <RoyaltyCopyright /></div>
       </section>
