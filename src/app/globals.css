@@ -5157,3 +5157,32 @@ main > .landing-contacts .landing-contact-panel a {
     max-width: calc(100% - 28px) !important;
   }
 }
+
+
+/* Home Feed hero placement: use the hero's flex layout, not absolute positioning.
+   This keeps the welcome panel inside the image and consistently near its bottom. */
+.app-layout .community-home-page .home-welcome-compact {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+}
+.app-layout .community-home-page .home-welcome-copy {
+  position: relative !important;
+  inset: auto !important;
+  align-self: flex-start !important;
+  flex: 0 0 auto !important;
+  width: fit-content !important;
+  max-width: calc(100% - 2px) !important;
+  margin: 0 !important;
+}
+.app-layout .community-home-page .home-welcome-copy h1,
+.app-layout .community-home-page .home-welcome-copy p {
+  white-space: nowrap !important;
+}
+@media (max-width: 540px) {
+  .app-layout .community-home-page .home-welcome-copy {
+    max-width: 100% !important;
+  }
+}
