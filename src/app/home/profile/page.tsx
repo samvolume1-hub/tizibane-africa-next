@@ -77,7 +77,7 @@ export default async function ProfilePage({
                   <label className="btn profile-image-picker">{coverUrl ? "Choose new cover" : "Upload cover photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
                   <button className="btn btn-primary" type="submit">Save cover</button>
                 </CompressedImageForm>
-                {coverUrl && <form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="cover" /><button className="btn profile-remove-button" type="submit">Remove cover</button></form>}
+                {coverUrl && <details className="profile-remove-confirm"><summary>Remove cover</summary><form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="cover" /><button className="btn profile-remove-button" type="submit">Confirm removal</button></form></details>}
               </div>
             </div>
             <div className="profile-preview">
@@ -89,7 +89,7 @@ export default async function ProfilePage({
                   <label className="btn profile-image-picker">{avatarUrl ? "Choose new photo" : "Upload profile photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
                   <button className="btn btn-primary" type="submit">Save photo</button>
                 </CompressedImageForm>
-                {avatarUrl && <form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="avatar" /><button className="btn profile-remove-button" type="submit">Remove photo</button></form>}
+                {avatarUrl && <details className="profile-remove-confirm"><summary>Remove photo</summary><form action={removeProfileImage} className="profile-remove-form"><input type="hidden" name="image_kind" value="avatar" /><button className="btn profile-remove-button" type="submit">Confirm removal</button></form></details>}
               </div>
             </div>
             <form action={updateProfile} className="profile-form">
