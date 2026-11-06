@@ -1,12 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function LandingContacts() {
   const [open, setOpen] = useState<"whatsapp" | "email" | null>(null);
+  const contactsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      contactsRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [open]);
 
   return (
-    <div className="landing-contacts" aria-label="Contact TIZIBANE">
+    <div ref={contactsRef} className="landing-contacts" aria-label="Contact TIZIBANE">
       <details className="landing-contact" open={open === "whatsapp"}>
         <summary onClick={(event) => { event.preventDefault(); setOpen(current => current === "whatsapp" ? null : "whatsapp"); }}>WhatsApp</summary>
         <div className="landing-contact-panel">
