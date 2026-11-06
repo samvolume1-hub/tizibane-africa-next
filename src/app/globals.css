@@ -3542,7 +3542,7 @@ main > .landing-contacts .landing-contact-panel a {
 .community-feature-page .feature-admin-form .btn { justify-self:start; margin-top:5px; }
 .community-feature-page .feature-admin-list { margin-top:20px; }
 .community-feature-page .feature-admin-item {
-  display:flex; align-items:center; justify-content:space-between; gap:18px;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px;
   padding:15px 0; border-top:1px solid #efdfeb;
 }
 .community-feature-page .feature-admin-item-copy { min-width:0; }
