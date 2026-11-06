@@ -2797,3 +2797,46 @@ main > .footer .royalty-copyright {
     gap: 6px 12px;
   }
 }
+
+
+/* Contact menus expand in the normal page flow so the footer is never obscured. */
+main > .landing-contacts .landing-contact {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+main > .landing-contacts .landing-contact-panel {
+  position: static;
+  transform: none;
+  margin-top: 10px;
+  width: min(100%, 310px);
+  min-width: 0;
+  max-width: 310px;
+  background: linear-gradient(145deg, #633b80 0%, #512d70 58%, #40225d 100%);
+  border: 1px solid rgba(235, 215, 255, .72);
+  box-shadow: 0 12px 30px rgba(20, 7, 35, .34), inset 0 1px 0 rgba(255,255,255,.16);
+}
+main > .landing-contacts .landing-contact-panel a {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+main > .landing-contacts .landing-contact-panel a:hover {
+  color: #fff3ff !important;
+  text-shadow: 0 0 12px rgba(255,235,255,.72);
+}
+main > .landing-contacts {
+  align-items: flex-start;
+}
+@media (max-width: 600px) {
+  main > .landing-contacts {
+    align-items: stretch;
+  }
+  main > .landing-contacts .landing-contact {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  main > .landing-contacts .landing-contact-panel {
+    width: min(100%, 310px);
+  }
+}
