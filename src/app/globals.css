@@ -4156,3 +4156,26 @@ main > .landing-contacts .landing-contact-panel a {
     font-size: 10px;
   }
 }
+
+/* Use the EVENTS photograph on announcement content cards, matching the announcement hero. */
+.app-layout .community-feature-page .feature-announcement-card,
+.app-layout .community-feature-page .feature-admin-item,
+.app-layout .community-home-page .home-announcement-strip,
+.app-layout .community-home-page .home-announcement-link{
+  background-color:#17152b !important;
+  background-image:
+    linear-gradient(90deg,rgba(10,10,28,.88) 0%,rgba(13,13,39,.76) 58%,rgba(13,13,39,.66) 100%),
+    url("/images/EVENTS.jpg") !important;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  color:#fff !important;
+  -webkit-text-fill-color:#fff;
+}
+.app-layout .community-feature-page .feature-announcement-card *,
+.app-layout .community-feature-page .feature-admin-item *,
+.app-layout .community-home-page .home-announcement-strip *,
+.app-layout .community-home-page .home-announcement-link *{
+  color:#fff !important;
+  -webkit-text-fill-color:#fff;
+}
