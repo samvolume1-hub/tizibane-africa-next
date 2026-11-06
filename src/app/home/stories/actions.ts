@@ -49,7 +49,7 @@ export async function createStory(formData: FormData) {
     fail("Your story could not be published. Please try again.");
   }
   revalidatePath("/home/stories");
-  redirect("/home/stories?created=1");
+  redirect(photoPath ? "/home/stories?created=photo" : "/home/stories?created=1");
 }
 
 export async function updateStory(formData: FormData) {
