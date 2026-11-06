@@ -59,6 +59,9 @@ export async function updateStory(formData: FormData) {
   if (!UUID.test(storyId) || caption.length > 500) fail("Check your story caption and try again.");
   if (!["public", "friends", "private"].includes(visibility)) fail("Choose a valid story audience.");
   const { supabase, user } = await signedIn();
+  const { data: current, error: readError } = await supabase.from("stories").select("photo_path,caption").eq("id", storyId).eq("author_id", user.id).maybeSingle();
+  if (readError || !current) fail("You can edit only your own story.");
+  if (!caption && !current.photo_path) fail("A story needs a caption or photo. Add content or delete the story instead.");
   const { data, error } = await supabase.from("stories").update({ caption, visibility }).eq("id", storyId).eq("author_id", user.id).select("id").maybeSingle();
   if (error || !data) fail("You can edit only your own story.");
   revalidatePath("/home/stories");
@@ -112,6 +115,7 @@ export async function removeStoryPhoto(formData: FormData) {
   const { supabase, user } = await signedIn();
   const { data: current, error: readError } = await supabase.from("stories").select("photo_path").eq("id", storyId).eq("author_id", user.id).maybeSingle();
   if (readError || !current) fail("You can remove photos only from your own story.");
+  if (!current.caption.trim()) fail("This story has no caption. Add a caption before removing its only photo, or delete the story.");
   const { data: saved, error } = await supabase.from("stories").update({ photo_path: null }).eq("id", storyId).eq("author_id", user.id).select("id").maybeSingle();
   if (error || !saved) fail("The story photo could not be removed.");
   let cleanupFailed = false;
