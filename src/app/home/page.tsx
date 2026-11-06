@@ -162,7 +162,7 @@ export default async function Home({
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
-          {params.updated && <div className="notice" role="status">{params.updated === "comment" ? "Your comment has been updated." : params.updated === "photo-removed" ? "The photo has been removed from your post." : "Your post has been updated."}</div>}
+          {params.updated && <div className="notice" role="status">{params.updated === "comment" ? "Your comment has been updated." : params.updated === "photo" ? "Your post photo has been replaced." : params.updated === "photo-removed" ? "The photo has been removed from your post." : "Your post has been updated."}</div>}
           {params.deleted && <div className="notice" role="status">{params.deleted === "comment" ? "Your comment has been deleted." : "Your post has been deleted from the database."}</div>}
           {params.cleanup && <div className="notice" role="alert">The content was saved, but an old image could not be cleared from storage. Please contact support if it remains visible in storage.</div>}
           {interactionLoadError && <div className="notice" role="alert">{interactionLoadError}</div>}
