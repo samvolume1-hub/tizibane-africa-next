@@ -11,7 +11,7 @@ type Product = {
   status: string; payment_status: string; is_featured: boolean; created_at: string; image_paths: string[];
 };
 
-export default async function PremiumAdminPage({ searchParams }: { searchParams: Promise<{ error?: string; created?: string }> }) {
+export default async function PremiumAdminPage({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; welcome?: string }> }) {
   const params = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -25,6 +25,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
     <header className="topbar"><Link href="/home/premium" className="back-link">← Marketplace</Link><span className="muted">ADMINISTRATOR · {ADMIN_EMAIL}</span></header>
     <div className="app-content premium-content">
       <section className="premium-admin-heading"><span className="eyebrow">ROYALTY CONTROL CENTRE</span><h1>Premium advertising</h1><p>Create client listings, confirm payment and publish advertisements for the TIZIBANE community.</p></section>
+      {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome back!</div>}
       {params.error && <div className="notice" role="alert">{params.error}</div>}
       {params.created && <div className="notice" role="status">Listing saved as a draft. Confirm payment before publishing it.</div>}
       <section className="premium-admin-form">
