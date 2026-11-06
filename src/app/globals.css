@@ -2369,8 +2369,10 @@ main > .section .feature {
   padding: clamp(22px, 3.2vw, 38px);
   border: 1px solid rgba(255,255,255,.76);
   border-radius: 22px;
-  background: linear-gradient(135deg, #ed9fc4 0%, #e58fba 52%, #d69bdc 100%);
-  box-shadow: 0 14px 34px rgba(75, 20, 55, .28), inset 0 1px 0 rgba(255,255,255,.36);
+  background:
+    linear-gradient(110deg, rgba(12, 7, 24, .88) 0%, rgba(18, 9, 31, .68) 58%, rgba(18, 9, 31, .34) 100%),
+    url("/images/AFRICA%20map%20(2).jpg") center / cover no-repeat;
+  box-shadow: 0 14px 34px rgba(12, 7, 24, .38), inset 0 1px 0 rgba(255,255,255,.22);
 }
 .hero-copy-card .eyebrow,
 .hero-copy-card h1,
