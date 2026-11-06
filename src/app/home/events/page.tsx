@@ -11,10 +11,11 @@ type Attendance={event_id:string;response:string};
 function dateLabel(value:string){return new Date(value).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})}
 export default async function EventsPage({searchParams}:{searchParams:Promise<{error?:string;created?:string;responded?:string;cancelled?:string;updated?:string;deleted?:string}>}){
  const params=await searchParams,supabase=await createClient(),{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const [{data:rows,error},{data:ownedGroups},{data:moderatorRows},{data:isAdmin}] = await Promise.all([
+ const [{data:rows,error},{data:ownedGroups},{data:moderatorRows},{data:activeMemberships},{data:isAdmin}] = await Promise.all([
   supabase.from("events").select("id,organizer_id,group_id,name,description,category,location,starts_at,ends_at,is_public").gte("ends_at",new Date().toISOString()).order("starts_at",{ascending:true}).limit(60),
   supabase.from("groups").select("id,name,owner_id").eq("owner_id",user.id),
   supabase.from("group_members").select("group_id").eq("user_id",user.id).eq("status","active").in("role",["owner","moderator"]),
+  supabase.from("group_members").select("group_id").eq("user_id",user.id).eq("status","active"),
   supabase.rpc("is_current_platform_admin")
  ]);
  const manageableIds=[...new Set([...(ownedGroups??[]).map(g=>g.id as string),...(moderatorRows??[]).map(m=>m.group_id as string)])];
