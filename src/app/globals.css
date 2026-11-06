@@ -5129,3 +5129,31 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-home-page .home-welcome-copy p {
   white-space: nowrap !important;
 }
+
+
+/* Explicit placement override for the Home Feed hero welcome panel. */
+.app-layout .community-home-page .home-welcome-compact {
+  position: relative !important;
+}
+.app-layout .community-home-page .home-welcome-copy {
+  position: absolute !important;
+  left: 30px !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 24px !important;
+  margin: 0 !important;
+  width: max-content !important;
+  max-width: calc(100% - 60px) !important;
+  align-self: auto !important;
+}
+.app-layout .community-home-page .home-welcome-copy h1,
+.app-layout .community-home-page .home-welcome-copy p {
+  white-space: nowrap !important;
+}
+@media (max-width: 540px) {
+  .app-layout .community-home-page .home-welcome-copy {
+    left: 14px !important;
+    bottom: 14px !important;
+    max-width: calc(100% - 28px) !important;
+  }
+}
