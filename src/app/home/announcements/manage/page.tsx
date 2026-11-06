@@ -35,7 +35,8 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
           {item.status !== "published" ? <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="published"/><button className="btn btn-primary" type="submit">Publish</button></form> : <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="archived"/><button className="feature-secondary-button" type="submit">Archive</button></form>}
           <form action={toggleAnnouncementPin}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="pinned" value={String(item.is_pinned)}/><button className="feature-secondary-button" type="submit">{item.is_pinned ? "Unpin" : "Pin"}</button></form>
           <form action={deleteAnnouncement}><input type="hidden" name="id" value={item.id}/><button className="feature-danger-button" type="submit">Delete</button></form>
-          <details className="feature-admin-edit">
+        </div>
+        <details className="feature-admin-edit">
             <summary>Edit announcement text</summary>
             <form action={editAnnouncement} className="feature-admin-form">
               <input type="hidden" name="id" value={item.id}/>
@@ -43,8 +44,7 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
               <label htmlFor={"edit-body-" + item.id}>Message</label><textarea id={"edit-body-" + item.id} name="body" minLength={3} maxLength={8000} rows={5} required defaultValue={item.body}/>
               <button className="btn btn-primary" type="submit">Save changes</button>
             </form>
-          </details>
-        </div></article>) : <p className="home-empty-preview">Your drafts and published notices will appear here.</p>}
+          </details></article>) : <p className="home-empty-preview">Your drafts and published notices will appear here.</p>}
       </section>
       <RoyaltyCopyright/>
     </div>
