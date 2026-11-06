@@ -32,7 +32,8 @@ type Reaction = { post_id: string; user_id: string; reaction: string };
 type Comment = { id: string; post_id: string; author_id: string; body: string; created_at: string };
 type HomeGroup = { id: string; name: string; category: string; description: string; visibility: string };
 type HomeEvent = { id: string; name: string; category: string; location: string; starts_at: string; is_public: boolean };
-type HomeActivity = { id: string; actor_id: string | null; kind: string; created_at: string };
+type HomeActivity = { id: number; actor_id: string | null; event_type: string; target_type: string; target_id: string; created_at: string };
+type HomeAnnouncement = { id: string; title: string; body: string; is_pinned: boolean; published_at: string | null };
 
 export default async function Home({
   searchParams,
@@ -61,14 +62,16 @@ export default async function Home({
   const { data: preferenceRows } = await supabase.from("member_preferences").select("member_id").eq("owner_id", user.id).eq("muted", true);
   const mutedMemberIds = new Set((preferenceRows ?? []).map((row) => row.member_id as string));
 
-  const [groupPreviewResult, eventPreviewResult, activityPreviewResult] = await Promise.all([
+  const [groupPreviewResult, eventPreviewResult, activityPreviewResult, announcementPreviewResult] = await Promise.all([
     supabase.from("groups").select("id,name,category,description,visibility").eq("visibility", "public").order("created_at", { ascending: false }).limit(3),
     supabase.from("events").select("id,name,category,location,starts_at,is_public").eq("is_public", true).gte("ends_at", new Date().toISOString()).order("starts_at", { ascending: true }).limit(2),
-    supabase.from("notifications").select("id,actor_id,kind,created_at").eq("recipient_id", user.id).order("created_at", { ascending: false }).limit(4),
+    supabase.from("community_activity").select("id,actor_id,event_type,target_type,target_id,created_at").order("created_at", { ascending: false }).limit(4),
+    supabase.from("community_announcements").select("id,title,body,is_pinned,published_at").eq("status", "published").or("expires_at.is.null,expires_at.gt." + new Date().toISOString()).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }).limit(2),
   ]);
   const featuredGroups = (groupPreviewResult.data ?? []) as HomeGroup[];
   const upcomingEvents = (eventPreviewResult.data ?? []) as HomeEvent[];
   const recentActivity = ((activityPreviewResult.data ?? []) as HomeActivity[]).filter((item) => !item.actor_id || !mutedMemberIds.has(item.actor_id));
+  const announcementPreviews = (announcementPreviewResult.data ?? []) as HomeAnnouncement[];
 
   const postResult = await supabase
     .from("posts")
@@ -163,10 +166,21 @@ export default async function Home({
 
           <section className="home-announcement-strip" aria-labelledby="home-announcements-title">
             <div className="home-announcement-mark" aria-hidden="true">✦</div>
-            <div className="home-announcement-copy">
-              <span className="eyebrow">OFFICIAL COMMUNITY NOTICES</span>
-              <h2 id="home-announcements-title">Announcements</h2>
-              <p>A dedicated space for verified TIZIBANE updates.</p>
+            <div className="home-announcement-content">
+              <div className="home-announcement-copy">
+                <span className="eyebrow">OFFICIAL COMMUNITY NOTICES</span>
+                <h2 id="home-announcements-title">Announcements</h2>
+              </div>
+              <div className="home-announcement-preview">
+                {announcementPreviews.length ? announcementPreviews.map((notice) => (
+                  <Link href="/home/announcements" className="home-announcement-link" key={notice.id}>
+                    {notice.is_pinned && <span className="home-pinned-label">PINNED</span>}
+                    <strong>{notice.title}</strong>
+                    <span>{notice.body.length > 110 ? notice.body.slice(0, 110) + "…" : notice.body}</span>
+                  </Link>
+                )) : <p>Official TIZIBANE updates will appear here when published by an administrator.</p>}
+              </div>
+              <Link href="/home/announcements" className="home-view-all">View announcements ↗</Link>
             </div>
           </section>
 
@@ -292,8 +306,8 @@ export default async function Home({
           </section>
 
           <section className="home-recent-activity">
-            <div className="home-mini-heading"><div><span className="eyebrow">A LITTLE CATCH-UP</span><h2>Your recent activity</h2></div><Link href="/home/notifications" className="home-view-all">View all <span aria-hidden="true">↗</span></Link></div>
-            {recentActivity.length ? <div className="home-activity-list">{recentActivity.slice(0, 3).map((item) => <div className="home-activity-item" key={item.id}><span className="home-activity-dot" aria-hidden="true">•</span><span>{item.kind === "friend_request" ? "Someone sent you a connection request" : item.kind === "friend_accepted" ? "A connection request was accepted" : item.kind === "message" ? "You received a message" : item.kind === "comment" ? "Someone commented on your post" : item.kind === "reaction" ? "Someone reacted to your post" : item.kind === "event_attendance" ? "Someone responded to your event" : item.kind === "group_join_request" ? "Someone requested to join your group" : "You have a new community update"}</span><time>{new Date(item.created_at).toLocaleDateString("en-ZM", { day: "numeric", month: "short" })}</time></div>)}</div> : <p className="home-empty-preview">Your community updates will appear here.</p>}
+            <div className="home-mini-heading"><div><span className="eyebrow">THE COMMUNITY PULSE</span><h2>Recent activity</h2></div><Link href="/home/activity" className="home-view-all">View all <span aria-hidden="true">↗</span></Link></div>
+            {recentActivity.length ? <div className="home-activity-list">{recentActivity.slice(0, 3).map((item) => <div className="home-activity-item" key={item.id}><span className="home-activity-dot" aria-hidden="true">•</span><span>{item.event_type === "public_post" ? "A member shared a public discussion" : item.event_type === "public_comment" ? "A member joined a public discussion" : item.event_type === "public_reaction" ? "A member reacted to a public discussion" : item.event_type === "public_group_created" ? "A new public group was created" : item.event_type === "public_event_created" ? "A public community event was created" : "A member responded to a public event"}</span><time>{new Date(item.created_at).toLocaleDateString("en-ZM", { day: "numeric", month: "short" })}</time></div>)}</div> : <p className="home-empty-preview">Public community activity will appear here as members share and connect.</p>}
           </section>
 
           <p className="muted home-account-note">Signed in as {user.email} · Your feed is loaded from the shared TIZIBANE database.</p>
