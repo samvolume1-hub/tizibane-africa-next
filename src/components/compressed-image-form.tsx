@@ -213,13 +213,12 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
       {children}
       {confirmOpen && (
         <div className="tiz-confirm-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) cancelReplacement(); }}>
-          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-replace-title" aria-describedby="tiz-replace-description">
+          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-replace-title" >
             <div className="tiz-confirm-icon" aria-hidden="true">✦</div>
             <h2 id="tiz-replace-title">Replace profile photo?</h2>
-            <p id="tiz-replace-description">{confirmMessage}</p>
             <div className="tiz-confirm-actions">
-              <button type="button" className="tiz-confirm-no" onClick={cancelReplacement}>No, keep it</button>
-              <button type="button" className="tiz-confirm-yes" onClick={confirmReplacement}>Yes, replace</button>
+              <button type="button" className="tiz-confirm-no" onClick={cancelReplacement}>No</button>
+              <button type="button" className="tiz-confirm-yes" onClick={confirmReplacement}>Yes</button>
             </div>
           </section>
         </div>
