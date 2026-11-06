@@ -16,7 +16,7 @@ export function ConfirmActionForm({
   className,
   confirmMessage,
   confirmTitle = "Please confirm",
-  confirmYesLabel = "Yes, continue",
+  confirmYesLabel = "Yes",
   children,
 }: Props) {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -52,13 +52,12 @@ export function ConfirmActionForm({
       </form>
       {confirmOpen && (
         <div className="tiz-confirm-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !busy) setConfirmOpen(false); }}>
-          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-action-title" aria-describedby="tiz-action-description">
+          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-action-title" >
             <div className="tiz-confirm-icon" aria-hidden="true">✦</div>
             <h2 id="tiz-action-title">{confirmTitle}</h2>
-            <p id="tiz-action-description">{confirmMessage}</p>
             {error && <p className="tiz-confirm-error" role="alert">{error}</p>}
             <div className="tiz-confirm-actions">
-              <button type="button" className="tiz-confirm-no" disabled={busy} onClick={() => setConfirmOpen(false)}>No, keep it</button>
+              <button type="button" className="tiz-confirm-no" disabled={busy} onClick={() => setConfirmOpen(false)}>No</button>
               <button type="button" className="tiz-confirm-yes" disabled={busy} onClick={confirmAction}>{busy ? "Working…" : confirmYesLabel}</button>
             </div>
           </section>
