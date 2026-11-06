@@ -162,12 +162,12 @@ export default async function Home({
               <h1>Welcome back, {displayName}.</h1>
               <p>Connect. Belong. Grow.</p>
             </div>
-            <div className="home-quick-actions" aria-label="Quick community actions">
-              <Link href="/home/people" className="home-quick-action">Find people <span aria-hidden="true">↗</span></Link>
-              <Link href="/home/groups" className="home-quick-action">Explore groups <span aria-hidden="true">↗</span></Link>
-              <Link href="/home/events" className="home-quick-action">See events <span aria-hidden="true">↗</span></Link>
-            </div>
           </section>
+          <nav className="home-quick-actions home-quick-actions-below" aria-label="Quick community actions">
+            <Link href="/home/people" className="home-quick-action">Find people <span aria-hidden="true">↗</span></Link>
+            <Link href="/home/groups" className="home-quick-action">Explore groups <span aria-hidden="true">↗</span></Link>
+            <Link href="/home/events" className="home-quick-action">See events <span aria-hidden="true">↗</span></Link>
+          </nav>
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
