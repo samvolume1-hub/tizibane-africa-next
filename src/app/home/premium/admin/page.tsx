@@ -2,6 +2,7 @@ import { CommunityNavigation } from "@/components/community-navigation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { CompressedImageForm } from "@/components/compressed-image-form";
 import { createPremiumProduct, publishPremiumProduct, pausePremiumProduct, deletePremiumProduct, togglePremiumFeatured } from "../actions";
 
 type Product = {
@@ -30,7 +31,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
       {params.created && <div className="notice" role="status">Listing saved as a draft. Confirm payment before publishing it.</div>}
       <section className="premium-admin-form">
         <div className="feed-heading"><div><span className="eyebrow">NEW CLIENT ADVERTISEMENT</span><h2>Create product canvas</h2></div><span className="muted">Administrator only</span></div>
-        <form action={createPremiumProduct} className="premium-listing-form">
+        <CompressedImageForm action={createPremiumProduct} className="premium-listing-form">
           <label>Seller type<select name="seller_type" required defaultValue="business"><option value="business">Business</option><option value="individual">Individual</option></select></label>
           <label>Product name<input name="product_name" required maxLength={120} placeholder="e.g. Handmade leather handbag"/></label>
           <label>Category<select name="category" defaultValue="Fashion"><option>Fashion</option><option>Shoes & Accessories</option><option>Beauty & Cosmetics</option><option>Electronics</option><option>Furniture & Home</option><option>Food & Catering</option><option>Art & Crafts</option><option>Services</option><option>Other</option></select></label>
@@ -44,7 +45,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
           <label className="premium-form-full">Product photographs <span className="muted">(minimum 2, maximum 4 · JPG, PNG or WebP · 2 MB each)</span><input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required/></label>
           <p className="premium-form-full premium-form-hint">Listings are saved as unpaid drafts. After you verify the client's payment, use Publish below to mark the payment as confirmed and set the advertising period. Do not publish until payment has actually been received.</p>
           <button className="btn btn-primary premium-form-full" type="submit">Save product as draft</button>
-        </form>
+        </CompressedImageForm>
       </section>
       <section className="premium-admin-list">
         <div className="feed-heading"><div><span className="eyebrow">LISTING MANAGEMENT</span><h2>Client advertisements</h2></div><span className="muted">{products.length} records · newest first</span></div>
