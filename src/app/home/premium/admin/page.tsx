@@ -8,7 +8,8 @@ import { createPremiumProduct, publishPremiumProduct, pausePremiumProduct, delet
 
 type Product = {
   id: string; product_name: string; seller_type: string; seller_name: string;
-  business_name: string | null; category: string; price_zmw: number | null;
+  business_name: string | null; category: string; description: string; price_zmw: number | null;
+  seller_location: string; whatsapp_number: string; contact_email: string | null;
   status: string; payment_status: string; is_featured: boolean; created_at: string; image_paths: string[];
 };
 
@@ -20,7 +21,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
   const { data: isAdmin, error: adminError } = await supabase.rpc("is_current_platform_admin");
   if (adminError || !isAdmin) redirect("/home/premium?error=Administrator%20access%20only");
 
-  const { data } = await supabase.from("premium_products").select("id,product_name,seller_type,seller_name,business_name,category,price_zmw,status,payment_status,is_featured,created_at,image_paths").order("created_at", { ascending: false }).limit(100);
+  const { data } = await supabase.from("premium_products").select("id,product_name,seller_type,seller_name,business_name,category,description,price_zmw,seller_location,whatsapp_number,contact_email,status,payment_status,is_featured,created_at,image_paths").order("created_at", { ascending: false }).limit(100);
   const products = (data ?? []) as Product[];
 
   return <main className="app-layout"><CommunityNavigation active="premium" /><section className="app-main">
