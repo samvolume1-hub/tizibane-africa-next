@@ -189,7 +189,7 @@ export default async function Home({
               <textarea id="post-body" name="body" placeholder="What would you like to share with your community?" maxLength={3000} />
               <div className="composer-bottom">
                 <div className="composer-options">
-                  <label className="photo-picker" htmlFor="post-photo" aria-label="Add a photo" title="Add a photo"><span aria-hidden="true">＋</span></label>
+                  <label className="photo-picker" htmlFor="post-photo" aria-label="Upload photo" title="Upload photo"><span aria-hidden="true">＋</span><span>Upload photo</span></label>
                   <input id="post-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
                   <select name="visibility" aria-label="Who can see this post">
                     <option value="public">Everyone</option>
