@@ -147,6 +147,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
 
     try {
       const imageInputs = Array.from(form.querySelectorAll<HTMLInputElement>('input[type="file"]'));
+      const finalPreviews: Preview[] = [];
       for (const input of imageInputs) {
         if (!input.name || !input.files?.length) continue;
         const optimizedFiles: File[] = [];
@@ -158,9 +159,13 @@ export function CompressedImageForm({ action, className, children }: Props) {
           optimizedFiles.push(optimized);
         }
         const transfer = new DataTransfer();
-        optimizedFiles.forEach((file) => transfer.items.add(file));
+        optimizedFiles.forEach((file) => {
+          transfer.items.add(file);
+          finalPreviews.push({ url: URL.createObjectURL(file), name: file.name, size: file.size });
+        });
         input.files = transfer.files;
       }
+      if (finalPreviews.length) setPreviews(finalPreviews);
 
       setMessage("Uploading and saving to TIZIBANE…");
       bypassSubmit.current = true;
