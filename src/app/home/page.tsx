@@ -39,7 +39,7 @@ type HomeAnnouncement = { id: string; title: string; body: string; is_pinned: bo
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ posted?: string; commented?: string; error?: string }>;
+  searchParams: Promise<{ posted?: string; commented?: string; error?: string; welcome?: string }>;
 }) {
   const params = await searchParams;
   let supabase;
@@ -156,6 +156,7 @@ export default async function Home({
             </div>
           </section>
 
+          {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
           {params.posted && <div className="notice" role="status">Your post has been shared with your selected audience.</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
