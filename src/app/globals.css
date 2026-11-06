@@ -3793,8 +3793,8 @@ main > .landing-contacts .landing-contact-panel a {
 }
 
 
-/* Final polish: keep the app canvas untouched; slim only the shared footer
-   and force every part of the upload-photo label to bright white. */
+/* Final polish: keep the app canvas untouched; compact the shared footer
+   across authenticated pages and keep the upload-photo label bright white. */
 .app-layout .home-composer .photo-picker,
 .app-layout .home-composer .photo-picker span,
 .app-layout .home-composer .photo-picker span[aria-hidden="true"] {
@@ -3805,14 +3805,18 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout::after {
   min-height: 0 !important;
   height: auto !important;
-  padding: 8px 14px !important;
-  line-height: 1.35 !important;
+  padding: 5px 10px !important;
+  font-size: 10.5px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .13em !important;
 }
 @media (max-width: 600px) {
   .app-layout::after {
     min-height: 0 !important;
     height: auto !important;
-    padding: 8px 12px !important;
-    line-height: 1.35 !important;
+    padding: 5px 8px !important;
+    font-size: 9.1px !important;
+    line-height: 1.2 !important;
+    letter-spacing: .09em !important;
   }
 }
