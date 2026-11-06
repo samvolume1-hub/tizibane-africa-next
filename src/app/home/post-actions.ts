@@ -129,7 +129,7 @@ export async function removePostPhoto(formData: FormData) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const { data: current, error: readError } = await supabase.from("posts").select("photo_path").eq("id", postId).eq("author_id", user.id).maybeSingle();
+  const { data: current, error: readError } = await supabase.from("posts").select("photo_path,body").eq("id", postId).eq("author_id", user.id).maybeSingle();
   if (readError || !current) fail("You can remove photos only from your own post.");
   if (!current.body.trim()) fail("This post has no text. Add text before removing its only photo, or delete the post.");
   const { data: saved, error } = await supabase.from("posts").update({ photo_path: null }).eq("id", postId).eq("author_id", user.id).select("id").maybeSingle();
