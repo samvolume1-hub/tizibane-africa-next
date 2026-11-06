@@ -2449,71 +2449,128 @@ main > .footer .royalty-copyright {
 }
 
 
-/* Footer contact links and matching deep-purple photo overlay. */
+/* Compact footer contact dropdowns. Keep the existing purple photo treatment. */
 main > .footer {
   background:
     linear-gradient(110deg, rgba(20, 5, 39, .86) 0%, rgba(42, 12, 68, .78) 52%, rgba(20, 5, 39, .86) 100%),
     url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
 }
 
-main > .footer .footer-contacts {
-  display: flex;
-  flex: 1 1 100%;
-  justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 22px 64px;
-  width: 100%;
-  color: #fff !important;
+main > .footer .footer-tagline {
+  flex: 0 1 auto;
+  font-weight: 700;
 }
 
-main > .footer .footer-contact-group {
+main > .footer .footer-contact-menu {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  min-width: 0;
-  color: #fff !important;
-  font-size: 16.5px;
-  line-height: 1.5;
+  justify-content: center;
+  gap: 10px;
+  flex: 1 1 auto;
 }
 
-main > .footer .footer-contact-group strong {
-  color: #fff !important;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+main > .footer .footer-contact-dropdown {
+  position: relative;
+  z-index: 3;
 }
 
-main > .footer .footer-contact-group a {
+main > .footer .footer-contact-dropdown summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border: 1px solid rgba(255,255,255,.48);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(255,255,255,.10);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+  transition: background .2s ease, border-color .2s ease;
+}
+
+main > .footer .footer-contact-dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+main > .footer .footer-contact-dropdown summary::after {
+  content: "⌄";
+  font-size: 15px;
+  line-height: 1;
+  transition: transform .2s ease;
+}
+
+main > .footer .footer-contact-dropdown[open] summary {
+  background: rgba(255,255,255,.18);
+  border-color: rgba(255,255,255,.78);
+}
+
+main > .footer .footer-contact-dropdown[open] summary::after {
+  transform: rotate(180deg);
+}
+
+main > .footer .footer-dropdown-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  display: grid;
+  gap: 10px;
+  min-width: 245px;
+  max-width: min(310px, calc(100vw - 36px));
+  padding: 15px;
+  border: 1px solid rgba(224,198,250,.42);
+  border-radius: 14px;
+  background: rgba(25, 10, 39, .97);
+  box-shadow: 0 12px 32px rgba(0,0,0,.38);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+main > .footer .footer-dropdown-panel a {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-  text-decoration: underline;
-  text-decoration-color: rgba(255,255,255,.58);
-  text-underline-offset: 4px;
+  font-size: 13px;
+  line-height: 1.45;
+  text-decoration: none;
   overflow-wrap: anywhere;
 }
 
-main > .footer .footer-contact-group a:hover {
-  text-decoration-color: #fff;
+main > .footer .footer-dropdown-panel a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
   text-shadow: 0 0 12px rgba(226,190,255,.9);
 }
 
-@media (max-width: 540px) {
-  main > .footer .footer-contacts {
-    justify-content: flex-start;
-    gap: 22px;
-    margin: 18px 0;
+main > .footer .footer-contact-dropdown summary:focus-visible,
+main > .footer .footer-dropdown-panel a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  main > .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    min-height: 0;
+    padding: 25px 18px;
+    text-align: center;
   }
 
-  main > .footer .footer-contact-group {
-    align-items: flex-start;
-    width: 100%;
-    font-size: 15px;
+  main > .footer .footer-contact-menu {
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 9px;
   }
 
-  main > .footer .footer-contact-group strong {
-    font-size: 17px;
+  main > .footer .footer-dropdown-panel {
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  main > .footer .royalty-copyright {
+    margin-top: 4px;
   }
 }
