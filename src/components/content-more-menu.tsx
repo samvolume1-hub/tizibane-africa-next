@@ -57,7 +57,7 @@ export function ContentMoreMenu({
         {replacePhoto && (
           <form action={replacePhoto.action} className="content-menu-form" encType="multipart/form-data">
             <HiddenFields fields={fields} />
-            <label className="content-menu-file">Replace photo<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
+            <label className="content-menu-file">{replacePhoto.label ?? "Replace photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
             <button className="text-action" type="submit">Upload replacement</button>
           </form>
         )}
