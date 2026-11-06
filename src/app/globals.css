@@ -2643,3 +2643,157 @@ main > .hero .hero-art-reveal.is-visible {
     transition: none;
   }
 }
+
+
+/* Landing page: use the phone's calm single-column composition at every width. */
+main > .hero {
+  width: min(100%, 860px);
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 34px 22px 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+main > .hero .hero-copy-card,
+main > .hero .hero-art-reveal,
+main > .hero .hero-art {
+  width: 100%;
+  min-width: 0;
+}
+main > .hero .hero-art {
+  min-height: clamp(260px, 48vw, 420px);
+}
+main > .hero .hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: min(100%, 390px);
+}
+main > .hero .hero-actions .btn {
+  width: 100%;
+  min-height: 46px;
+}
+main > .hero .hero-art-reveal {
+  transition-duration: 700ms;
+}
+
+/* Contact controls sit immediately beneath the Together We Belong image. */
+main > .landing-contacts {
+  width: min(calc(100% - 36px), 860px);
+  margin: 0 auto 22px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 12px;
+}
+main > .landing-contacts .landing-contact {
+  position: relative;
+  min-width: 150px;
+}
+main > .landing-contacts .landing-contact summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 1px solid rgba(224,198,250,.55);
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(145deg, #563078 0%, #40205f 52%, #2b1644 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 5px 14px rgba(25,8,42,.24);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+main > .landing-contacts .landing-contact summary::-webkit-details-marker { display: none; }
+main > .landing-contacts .landing-contact summary::after {
+  content: "⌄";
+  font-size: 15px;
+  transition: transform .2s ease;
+}
+main > .landing-contacts .landing-contact[open] summary::after { transform: rotate(180deg); }
+main > .landing-contacts .landing-contact-panel {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  gap: 10px;
+  width: max-content;
+  min-width: 235px;
+  max-width: min(310px, calc(100vw - 36px));
+  padding: 15px;
+  border: 1px solid rgba(224,198,250,.42);
+  border-radius: 14px;
+  background: rgba(25,10,39,.97);
+  box-shadow: 0 12px 32px rgba(0,0,0,.38);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+main > .landing-contacts .landing-contact-panel a {
+  color: #fff !important;
+  font-size: 13px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+main > .landing-contacts summary:focus-visible,
+main > .landing-contacts a:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* A slim, consistent footer on phones, laptops and large displays. */
+main > .footer {
+  min-height: 0;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 18px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.35;
+}
+main > .footer .footer-tagline {
+  flex: 0 0 auto;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+main > .footer .royalty-copyright {
+  flex: 0 1 auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 11px;
+  letter-spacing: .12em;
+  line-height: 1.35;
+}
+@media (max-width: 600px) {
+  main > .hero {
+    padding: 28px 18px 18px;
+    gap: 18px;
+  }
+  main > .hero .hero-copy-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+  main > .hero .hero-art {
+    min-height: 260px;
+  }
+  main > .landing-contacts {
+    margin-bottom: 18px;
+  }
+  main > .footer {
+    padding: 12px 14px;
+    gap: 6px 12px;
+  }
+}
