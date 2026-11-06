@@ -8,7 +8,10 @@ export function LandingContacts() {
 
   useEffect(() => {
     if (open) {
-      contactsRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      const panel = contactsRef.current?.querySelector<HTMLElement>(
+        ".landing-contact[open] .landing-contact-panel"
+      );
+      panel?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   }, [open]);
 
