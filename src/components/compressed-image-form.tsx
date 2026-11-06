@@ -78,7 +78,7 @@ async function optimizeImage(file: File): Promise<File> {
 
 export function CompressedImageForm({ action, className, children }: Props) {
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("Choose a photo to see its preview and size before sharing.");
+  const [message, setMessage] = useState("Images are checked and optimized before upload.");
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedInfo, setSelectedInfo] = useState("");
 
