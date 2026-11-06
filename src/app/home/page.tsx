@@ -106,7 +106,9 @@ export default async function Home({
       .select("id,display_name,handle,initials,avatar_color,avatar_path")
       .in("id", profileIds);
     profiles = (profileResult.data ?? []) as Profile[];
-    if (ownProfile && !profiles.some((profile) => profile.id === user.id)) profiles.push(ownProfile as Profile);
+  }
+  if (ownProfile && !profiles.some((profile) => profile.id === user.id)) {
+    profiles.push(ownProfile as Profile);
   }
 
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
@@ -183,8 +185,15 @@ export default async function Home({
           </section>
 
           <section className="composer home-composer">
-            <div className="home-section-kicker">YOUR VOICE</div>
-            <div className="eyebrow">Start a conversation</div>
+            <div className="home-composer-heading">
+              {avatarUrls[user.id]
+                ? <img className="home-composer-avatar" src={avatarUrls[user.id]} alt={`${displayName} profile photo`} />
+                : <div className="home-composer-avatar home-composer-avatar-fallback" style={{ background: ownProfile?.avatar_color || "#8053ad" }} aria-hidden="true">{initialsFromName(displayName)}</div>}
+              <div>
+                <div className="home-section-kicker">YOUR VOICE</div>
+                <div className="eyebrow">Start a conversation</div>
+              </div>
+            </div>
             <form action={createPost}>
               <label className="sr-only" htmlFor="post-body">Write an update</label>
               <textarea id="post-body" name="body" placeholder="What would you like to share with your community?" maxLength={3000} />
