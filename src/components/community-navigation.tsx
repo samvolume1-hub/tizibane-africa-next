@@ -6,6 +6,7 @@ import { AppPageControls } from "@/components/app-page-controls";
 const items = [
   { href: "/home", icon: "⌂", label: "Home", key: "home" },
   { href: "/home/profile", icon: "◎", label: "My profile", key: "profile" },
+  { href: "/home/stories", icon: "◉", label: "Stories", key: "stories" },
   { href: "/home/people", icon: "♧", label: "People", key: "people" },
   { href: "/home/messages", icon: "✉", label: "Messages", key: "messages" },
   { href: "/home/notifications", icon: "♢", label: "Notifications", key: "notifications" },
@@ -19,7 +20,7 @@ const items = [
 ];
 
 const mobilePrimary = ["home", "people", "messages", "groups"];
-const mobileMore = ["profile", "notifications", "announcements", "activity", "blocked", "events", "premium", "connect"];
+const mobileMore = ["profile", "stories", "notifications", "announcements", "activity", "blocked", "events", "premium", "connect"];
 
 export function CommunityNavigation({ active }: { active: string }) {
   const moreIsActive = mobileMore.includes(active);
