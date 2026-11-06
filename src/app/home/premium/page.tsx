@@ -17,7 +17,7 @@ export default async function PremiumPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const isPremiumAdmin = (user.email ?? "").toLowerCase() === "samvolume1@gmail.com";
+  const { data: isPremiumAdmin } = await supabase.rpc("is_current_platform_admin");
   const { data: productRows } = await supabase.from("premium_products")
     .select("id,seller_type,product_name,category,description,price_zmw,seller_name,business_name,seller_location,whatsapp_number,contact_email,image_paths,is_featured,published_at")
     .eq("status", "published").eq("payment_status", "paid")
