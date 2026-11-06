@@ -51,22 +51,16 @@ export default async function ProfilePage({
       <section className="app-main">
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ACCOUNT PROFILE</span></header>
         <div className="app-content">
-          <section className="welcome profile-welcome">
-            <span className="eyebrow">Your identity</span>
-            <h1>Make your profile yours.</h1>
-            <p>Keep your details current and choose how other members can discover your profile.</p>
+          <section className="profile-cover-preview profile-cover-shared profile-page-hero" aria-label="My Profile">
+            {avatarUrl ? <img src={avatarUrl} alt="Profile hero" className="profile-cover-image" /> : <div className="profile-cover-placeholder" />}
+            <h1 className="profile-page-hero-title">My Profile</h1>
           </section>
           {params.saved && <div className="notice" role="status">Your profile has been saved.</div>}
           {params.removed && <div className="notice" role="status">Your selected profile image has been removed.</div>}
-          {params.image && <div className="notice" role="status">Your {params.image === "cover" ? "cover" : "profile"} photo has been saved.</div>}
           {params.cleanup && <div className="notice" role="alert">Your profile was updated, but an old image could not be cleared from storage. Please contact support.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {!profile && <div className="notice" role="alert">Your member profile is still being created. Please refresh this page in a moment.</div>}
           <section className="profile-editor">
-            <div className="profile-cover-preview profile-cover-shared">
-              {avatarUrl ? <img src={avatarUrl} alt="Your profile photo, also used as your cover" className="profile-cover-image" /> : <div className="profile-cover-placeholder"><span>One photo. Two places.</span><small>Your profile photo also fills your Home Feed hero card</small></div>}
-              <div className="profile-cover-shared-label">Your profile photo is used here and across TIZIBANE</div>
-            </div>
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
