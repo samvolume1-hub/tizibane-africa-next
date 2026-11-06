@@ -168,3 +168,36 @@ export async function removeProfileImage(formData: FormData) {
   revalidatePath("/home/people");
   redirect(cleanupFailed ? "/home/profile?removed=1&cleanup=1" : "/home/profile?removed=1");
 }
+
+export async function replaceProfileImage(formData: FormData) {
+  const kind = String(formData.get("image_kind") ?? "");
+  const photo = formData.get("photo");
+  if ((kind !== "avatar" && kind !== "cover") || !(photo instanceof File) || photo.size < 1) fail("Choose a profile image to upload.");
+  const extension = MIME_TO_EXTENSION[photo.type];
+  if (!extension || photo.size > MAX_AVATAR_BYTES) fail("Choose a JPG, PNG or WebP image up to 2 MB.");
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const column = kind === "avatar" ? "avatar_path" : "cover_path";
+  const folder = kind === "avatar" ? "avatars" : "covers";
+  const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
+  if (readError || !profile) fail("Your profile could not be loaded.");
+  const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
+  const newPath = user.id + "/" + folder + "/" + crypto.randomUUID() + "." + extension;
+  const { data: uploaded, error: uploadError } = await supabase.storage.from("community-photos").upload(newPath, photo, { contentType: photo.type, cacheControl: "3600", upsert: false });
+  if (uploadError || !uploaded?.path) fail("Your new profile image could not be uploaded.");
+  const { data: saved, error: saveError } = await supabase.from("profiles").update({ [column]: uploaded.path }).eq("id", user.id).select("id").maybeSingle();
+  if (saveError || !saved) {
+    await supabase.storage.from("community-photos").remove([uploaded.path]);
+    fail("Your profile image was not changed. Please try again.");
+  }
+  let cleanupFailed = false;
+  if (oldPath) {
+    const { error: removeError } = await supabase.storage.from("community-photos").remove([oldPath]);
+    cleanupFailed = Boolean(removeError);
+  }
+  revalidatePath("/home");
+  revalidatePath("/home/profile");
+  revalidatePath("/home/people");
+  redirect(cleanupFailed ? "/home/profile?image=" + kind + "&cleanup=1" : "/home/profile?image=" + kind);
+}
