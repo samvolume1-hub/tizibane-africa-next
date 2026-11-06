@@ -183,7 +183,7 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
   }
 
   return (
-    <form action={action} className={className} onChange={handleFileChange} onSubmit={handleSubmit}>
+    <form className={className} onChange={handleFileChange} onSubmit={handleSubmit}>
       {children}
       {previews.length > 0 && (
         <div className="image-upload-preview-list" role="group" aria-label="Selected photo previews">
