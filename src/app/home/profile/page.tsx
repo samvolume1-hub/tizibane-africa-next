@@ -3,9 +3,8 @@ import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { updateProfile, removeProfileImage } from "../profile-actions";
+import { updateProfile, replaceProfileImage, removeProfileImage } from "../profile-actions";
 import { ContentMoreMenu } from "@/components/content-more-menu";
-import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type Profile = {
   id: string;
@@ -21,7 +20,7 @@ type Profile = {
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams: Promise<{ saved?: string; error?: string; removed?: string; cleanup?: string }>;
+  searchParams: Promise<{ saved?: string; error?: string; removed?: string; cleanup?: string; image?: string }>;
 }) {
   const params = await searchParams;
   const supabase = await createClient();
@@ -65,30 +64,28 @@ export default async function ProfilePage({
           </section>
           {params.saved && <div className="notice" role="status">Your profile has been saved.</div>}
           {params.removed && <div className="notice" role="status">Your selected profile image has been removed.</div>}
+          {params.image && <div className="notice" role="status">Your {params.image === "cover" ? "cover" : "profile"} photo has been saved.</div>}
           {params.cleanup && <div className="notice" role="alert">Your profile was updated, but an old image could not be cleared from storage. Please contact support.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {!profile && <div className="notice" role="alert">Your member profile is still being created. Please refresh this page in a moment.</div>}
           <section className="profile-editor">
             <div className="profile-cover-preview">
               {coverUrl ? <img src={coverUrl} alt="Your profile cover" className="profile-cover-image" /> : <div className="profile-cover-placeholder"><span>Your cover photo</span><small>Add a wide image that represents you</small></div>}
+              <ContentMoreMenu fields={{ image_kind: "cover" }} replacePhoto={{ action: replaceProfileImage, label: coverUrl ? "Replace cover photo" : "Add cover photo" }} removePhoto={coverUrl ? { action: removeProfileImage, label: "Remove cover photo" } : undefined} />
             </div>
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
+              <ContentMoreMenu fields={{ image_kind: "avatar" }} replacePhoto={{ action: replaceProfileImage, label: avatarUrl ? "Replace profile photo" : "Add profile photo" }} removePhoto={avatarUrl ? { action: removeProfileImage, label: "Remove profile photo" } : undefined} />
             </div>
-            <div className="profile-image-controls">
-              {avatarUrl && <ContentMoreMenu fields={{ image_kind: "avatar" }} deleteAction={removeProfileImage} deleteLabel="Remove profile photo" />}
-              {coverUrl && <ContentMoreMenu fields={{ image_kind: "cover" }} deleteAction={removeProfileImage} deleteLabel="Remove cover photo" />}
-            </div>
-            <CompressedImageForm action={updateProfile} className="profile-form">
+            <form action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
               <div className="field"><label htmlFor="bio">About you</label><textarea id="bio" name="bio" defaultValue={profile?.bio || ""} maxLength={240} rows={4} placeholder="A few words about you..." /></div>
               <div className="field"><label htmlFor="location">Location (optional)</label><input id="location" name="location" defaultValue={profile?.location || ""} maxLength={120} placeholder="City or region" /></div>
               <div className="field"><label htmlFor="visibility">Who can discover your profile?</label><select id="visibility" name="visibility" defaultValue={profile?.visibility || "public"}><option value="public">Public to signed-in members</option><option value="members">All registered members</option><option value="friends">Accepted friends</option><option value="private">Only me</option></select></div>
-              <div className="field"><label htmlFor="avatar">Profile photo</label><input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp" /><small>Square or portrait image · Automatically optimized toward 1 MB · Maximum 2 MB.</small></div>
-              <div className="field"><label htmlFor="cover">Cover photo</label><input id="cover" name="cover" type="file" accept="image/jpeg,image/png,image/webp" /><small>Wide landscape image recommended · Automatically optimized toward 1 MB · Maximum 2 MB.</small></div>
+              <p className="field-help">Use the More menu beside each image to add, replace or remove it. Photos are optimized toward 1 MB, with a 2 MB maximum.</p>
               <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><button className="btn btn-primary" type="submit">Save profile</button></div>
-            </CompressedImageForm>
+            </form>
           </section>
         <RoyaltyCopyright /></div>
       </section>
