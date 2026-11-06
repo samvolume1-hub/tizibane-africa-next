@@ -152,16 +152,18 @@ export async function removeProfileImage(formData: FormData) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const column = kind === "avatar" ? "avatar_path" : "cover_path";
+  const column = "avatar_path";
   const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
   if (readError || !profile) fail("Your profile could not be loaded.");
   const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
-  const { data: saved, error } = await supabase.from("profiles").update({ [column]: null }).eq("id", user.id).select("id").maybeSingle();
+  const { data: saved, error } = await supabase.from("profiles").update({ avatar_path: null, cover_path: null }).eq("id", user.id).select("id").maybeSingle();
   if (error || !saved) fail("Your profile image could not be removed.");
   let cleanupFailed = false;
-  if (oldPath) {
-    const { error: storageError } = await supabase.storage.from("community-photos").remove([oldPath]);
-    cleanupFailed = Boolean(storageError);
+  const oldPaths = [...new Set([profile.avatar_path, profile.cover_path].filter(Boolean) as string[])];
+  if (oldPaths.length) {
+    const cleanup = supabase.storage.from("community-photos").remove(oldPaths);
+    const result = await Promise.race([cleanup, new Promise<null>((resolve) => setTimeout(() => resolve(null), 1800))]);
+    cleanupFailed = result === null || Boolean(result.error);
   }
   revalidatePath("/home");
   revalidatePath("/home/profile");
@@ -172,29 +174,31 @@ export async function removeProfileImage(formData: FormData) {
 export async function replaceProfileImage(formData: FormData) {
   const kind = String(formData.get("image_kind") ?? "");
   const photo = formData.get("photo");
-  if ((kind !== "avatar" && kind !== "cover") || !(photo instanceof File) || photo.size < 1) fail("Choose a profile image to upload.");
+  if (kind !== "avatar" || !(photo instanceof File) || photo.size < 1) fail("Choose a profile photo to upload.");
   const extension = MIME_TO_EXTENSION[photo.type];
   if (!extension || photo.size > MAX_AVATAR_BYTES) fail("Choose a JPG, PNG or WebP image up to 2 MB.");
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const column = kind === "avatar" ? "avatar_path" : "cover_path";
-  const folder = kind === "avatar" ? "avatars" : "covers";
+  const column = "avatar_path";
+  const folder = "avatars";
   const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
   if (readError || !profile) fail("Your profile could not be loaded.");
   const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
   const newPath = user.id + "/" + folder + "/" + crypto.randomUUID() + "." + extension;
   const { data: uploaded, error: uploadError } = await supabase.storage.from("community-photos").upload(newPath, photo, { contentType: photo.type, cacheControl: "3600", upsert: false });
   if (uploadError || !uploaded?.path) fail("Your new profile image could not be uploaded.");
-  const { data: saved, error: saveError } = await supabase.from("profiles").update({ [column]: uploaded.path }).eq("id", user.id).select("id").maybeSingle();
+  const { data: saved, error: saveError } = await supabase.from("profiles").update({ avatar_path: uploaded.path, cover_path: uploaded.path }).eq("id", user.id).select("id").maybeSingle();
   if (saveError || !saved) {
     await supabase.storage.from("community-photos").remove([uploaded.path]);
     fail("Your profile image was not changed. Please try again.");
   }
   let cleanupFailed = false;
-  if (oldPath) {
-    const { error: removeError } = await supabase.storage.from("community-photos").remove([oldPath]);
-    cleanupFailed = Boolean(removeError);
+  const oldPaths = [...new Set([profile.avatar_path, profile.cover_path].filter(Boolean) as string[])];
+  if (oldPaths.length) {
+    const cleanup = supabase.storage.from("community-photos").remove(oldPaths);
+    const result = await Promise.race([cleanup, new Promise<null>((resolve) => setTimeout(() => resolve(null), 1800))]);
+    cleanupFailed = result === null || Boolean(result.error);
   }
   revalidatePath("/home");
   revalidatePath("/home/profile");
