@@ -4724,3 +4724,37 @@ main > .landing-contacts .landing-contact-panel a {
   cursor: wait;
   opacity: .65;
 }
+
+ 
+/* Simple, familiar TIZIBANE confirmation: short question and two clear choices. */
+.app-layout .tiz-confirm-dialog {
+  width: min(100%, 340px);
+  padding: 22px;
+}
+.app-layout .tiz-confirm-dialog h2 {
+  margin: 0 0 20px;
+  font-size: 17px;
+}
+.app-layout .tiz-confirm-icon { display: none; }
+.app-layout .tiz-confirm-actions {
+  justify-content: stretch;
+  gap: 10px;
+}
+.app-layout .tiz-confirm-actions button { flex: 1 1 0; }
+
+/* Keep faces in view: hero photography is top-weighted rather than center-cropped. */
+.app-layout .community-home-page .home-welcome-photo {
+  object-position: center 18% !important;
+}
+.app-layout .photo-backdrop {
+  object-position: center 18% !important;
+}
+.app-layout .profile-cover-preview .profile-cover-image,
+.app-layout .profile-cover-image,
+.app-layout .person-cover-image {
+  object-position: center 18% !important;
+}
+@media (max-width: 600px) {
+  .app-layout .photo-backdrop { object-position: center 18% !important; }
+  .app-layout .community-home-page .home-welcome-photo { object-position: center 18% !important; }
+}
