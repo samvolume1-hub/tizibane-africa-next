@@ -67,7 +67,7 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
                 const own = story.author_id === user.id;
                 return <article className="story-card" key={story.id}>
                   <div className="story-card-heading"><div className="story-author"><span className="avatar" style={{ background: author?.avatar_color || "#8053ad" }}>{author?.initials || "M"}</span><span><strong>{own ? "Your story" : author?.display_name || "TIZIBANE member"}</strong><small>{new Date(story.created_at).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})} · {story.visibility}</small></span></div>
-                    {own && <ContentMoreMenu fields={{story_id:story.id}} edit={{action:updateStory,value:story.caption,label:"Edit caption",fieldName:"caption",maxLength:500,rows:3}} replacePhoto={story.photo_path?{action:replaceStoryPhoto}:undefined} removePhoto={story.photo_path?{action:removeStoryPhoto}:undefined} deleteAction={deleteStory} deleteLabel="Delete story"/>}
+                    {own && <ContentMoreMenu fields={{story_id:story.id}} edit={{action:updateStory,value:story.caption,label:"Edit caption",fieldName:"caption",maxLength:500,rows:3}} replacePhoto={{action:replaceStoryPhoto,label:story.photo_path?"Replace photo":"Add photo"}} removePhoto={story.photo_path?{action:removeStoryPhoto}:undefined} deleteAction={deleteStory} deleteLabel="Delete story"/>}
                   </div>
                   {photoUrls[story.id] && <img className="story-photo" src={photoUrls[story.id]} alt="Story shared with the community" loading="lazy" decoding="async"/>}
                   {story.caption && <p className="story-caption">{story.caption}</p>}
