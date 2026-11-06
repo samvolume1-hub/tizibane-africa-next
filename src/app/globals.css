@@ -4366,3 +4366,19 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .profile-cover-preview>.content-more-menu{position:absolute;right:12px;bottom:12px;margin:0}
 .app-layout .profile-preview>.content-more-menu{margin-left:auto}
 .app-layout .profile-preview{flex-wrap:wrap}
+
+
+.app-layout .group-welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}
+.app-layout .group-welcome>div:first-child{min-width:0}
+.app-layout .group-settings-menu{margin:0;flex:0 0 auto}
+.app-layout .group-management-panel{display:grid;gap:16px}
+.app-layout .group-management-panel h3{font-size:14px;margin:0 0 8px}
+.app-layout .group-pending-list,.app-layout .group-active-members{display:grid;gap:8px}
+.app-layout .group-member-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.app-layout .group-member-row>span{display:grid;gap:4px;min-width:0}
+.app-layout .group-member-row strong{font-size:12px}
+.app-layout .group-member-row small{font-size:10px;color:var(--muted)}
+.app-layout .group-member-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.app-layout .group-member-actions form{display:flex;align-items:center;gap:7px}
+.app-layout .group-member-actions select{max-width:125px;background:#090e0b;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px;font-size:11px}
+@media(max-width:540px){.app-layout .group-welcome{display:grid}.app-layout .group-settings-menu{margin-left:0}.app-layout .group-member-row{align-items:flex-start;flex-direction:column}.app-layout .group-member-actions{width:100%}}
