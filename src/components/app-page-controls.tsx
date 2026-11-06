@@ -46,9 +46,9 @@ export function AppPageControls() {
           <div className="app-logout-confirm" role="group" aria-label="Confirm sign out">
             <span>Are you sure you want to log out?</span>
             <form action={signOut}>
-              <button type="submit" className="app-page-control app-logout-yes">Yes</button>
+              <button type="submit" className="app-page-control app-logout-yes">YES</button>
             </form>
-            <button type="button" className="app-page-control app-logout-no" onClick={() => setConfirmLogout(false)}>No</button>
+            <button type="button" className="app-page-control app-logout-no" onClick={() => setConfirmLogout(false)}>NO</button>
           </div>
         ) : (
           <button type="button" className="app-page-control app-logout-trigger" onClick={() => setConfirmLogout(true)} aria-label="Log out" title="Log out">
