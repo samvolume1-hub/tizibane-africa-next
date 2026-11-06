@@ -59,7 +59,7 @@ async function optimizeImage(file: File): Promise<File> {
         }
       }
 
-      if (best && best.size <= MAX_BYTES) break;
+      // Keep reducing dimensions until we reach the 1 MB target or exhaust safe passes.
       scale *= 0.82;
     }
 
