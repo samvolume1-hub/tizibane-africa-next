@@ -68,6 +68,9 @@ export async function updatePost(formData: FormData) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
+  const { data: current, error: readError } = await supabase.from("posts").select("photo_path,body").eq("id", postId).eq("author_id", user.id).maybeSingle();
+  if (readError || !current) fail("You can edit only your own post.");
+  if (!body && !current.photo_path) fail("A post needs text or a photo. Add content or delete the post instead.");
   const { data, error } = await supabase.from("posts").update({ body }).eq("id", postId).eq("author_id", user.id).select("id").maybeSingle();
   if (error || !data) fail("You can edit only your own post.");
   revalidatePath("/home");
@@ -128,6 +131,7 @@ export async function removePostPhoto(formData: FormData) {
   if (!user) redirect("/login");
   const { data: current, error: readError } = await supabase.from("posts").select("photo_path").eq("id", postId).eq("author_id", user.id).maybeSingle();
   if (readError || !current) fail("You can remove photos only from your own post.");
+  if (!current.body.trim()) fail("This post has no text. Add text before removing its only photo, or delete the post.");
   const { data: saved, error } = await supabase.from("posts").update({ photo_path: null }).eq("id", postId).eq("author_id", user.id).select("id").maybeSingle();
   if (error || !saved) fail("The photo could not be removed from your post.");
   let cleanupFailed = false;
