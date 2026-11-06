@@ -45,6 +45,23 @@ export async function createAnnouncement(formData: FormData) {
   redirect("/home/announcements/manage?created=1");
 }
 
+
+export async function editAnnouncement(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  const title = String(formData.get("title") ?? "").trim();
+  const body = String(formData.get("body") ?? "").trim();
+  if (!/^[0-9a-f-]{36}$/i.test(id) || title.length < 3 || title.length > 140 || body.length < 3 || body.length > 8000) {
+    redirect("/home/announcements/manage?error=length");
+  }
+  const { error } = await supabase.from("community_announcements").update({ title, body }).eq("id", id);
+  if (error) redirect("/home/announcements/manage?error=update");
+  revalidatePath("/home");
+  revalidatePath("/home/announcements");
+  revalidatePath("/home/announcements/manage");
+  redirect("/home/announcements/manage?updated=1");
+}
+
 export async function updateAnnouncementStatus(formData: FormData) {
   const { supabase } = await requireAdmin();
   const id = String(formData.get("id") ?? "");
