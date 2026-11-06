@@ -4360,3 +4360,9 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .event-edit-form input,.app-layout .event-edit-form select,.app-layout .event-edit-form textarea{width:100%;min-width:0;background:#090e0b;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit}
 .app-layout .event-actions>.content-more-menu{margin:0 0 8px}
 @media(max-width:540px){.app-layout .content-more-panel{right:-4px;width:min(290px,calc(100vw - 28px))}.app-layout .profile-image-controls{justify-content:flex-start;flex-wrap:wrap}.app-layout .image-upload-preview{align-items:flex-start}}
+
+
+.app-layout .profile-cover-preview{position:relative}
+.app-layout .profile-cover-preview>.content-more-menu{position:absolute;right:12px;bottom:12px;margin:0}
+.app-layout .profile-preview>.content-more-menu{margin-left:auto}
+.app-layout .profile-preview{flex-wrap:wrap}
