@@ -166,7 +166,7 @@ export default async function Home({
             <div className="home-announcement-copy">
               <span className="eyebrow">OFFICIAL COMMUNITY NOTICES</span>
               <h2 id="home-announcements-title">Announcements</h2>
-              <p>There are no official notices to display yet.</p>
+              <p>A dedicated space for verified TIZIBANE updates.</p>
             </div>
           </section>
 
