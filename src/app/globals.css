@@ -4192,3 +4192,64 @@ main > .landing-contacts .landing-contact-panel a {
   font-weight: 500 !important;
   opacity: 1;
 }
+
+
+/* Opposite-side logout control: same compact, translucent treatment as Back/Top. */
+.app-logout-controls {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+}
+.app-logout-trigger {
+  min-width: 82px;
+}
+.app-logout-confirm {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-width: min(360px, calc(100vw - 36px));
+  padding: 9px;
+  border: 1px solid rgba(170, 166, 223, .6);
+  border-radius: 14px;
+  background: rgba(41, 38, 79, .92);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.app-logout-confirm form {
+  margin: 0;
+}
+.app-logout-confirm .app-page-control {
+  min-width: 48px;
+}
+.app-logout-confirm .app-logout-yes,
+.app-logout-confirm .app-logout-no {
+  opacity: .85;
+}
+.app-logout-confirm .app-logout-yes:hover,
+.app-logout-confirm .app-logout-no:hover,
+.app-logout-confirm .app-logout-yes:focus-visible,
+.app-logout-confirm .app-logout-no:focus-visible {
+  opacity: 1;
+}
+@media (max-width: 820px) {
+  .app-logout-controls {
+    left: 12px;
+    bottom: 88px;
+  }
+}
+@media (max-width: 540px) {
+  .app-logout-controls {
+    left: 10px;
+    bottom: 82px;
+  }
+  .app-logout-confirm {
+    gap: 6px;
+    padding: 8px;
+    font-size: 11px;
+  }
+}
