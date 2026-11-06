@@ -19,7 +19,9 @@ export async function createEvent(form:FormData){
  if(Number.isNaN(start.getTime())||Number.isNaN(end.getTime())||end<=start)fail("Choose a valid start and end time. The end must be after the start.");
  if(start.getTime()<Date.now()-60*60*1000)fail("Choose a future event start time.");
  const supabase=await createClient(),{data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const groupId=String(form.get("group_id")??"").trim()||null;\n if(groupId){if(!UUID.test(groupId))fail("Choose a valid group.");const {data:manager,error:managerError}=await supabase.rpc("is_group_manager",{g:groupId});if(managerError||!manager)fail("Only that group’s owner or active moderator can create a group event.");}\n const {error}=await supabase.from("events").insert({organizer_id:user.id,group_id:groupId,name,description,category:category||"Community",location,starts_at:start.toISOString(),ends_at:end.toISOString(),is_public:isPublic});
+ const groupId=String(form.get("group_id")??"").trim()||null;
+ if(groupId){if(!UUID.test(groupId))fail("Choose a valid group.");const {data:manager,error:managerError}=await supabase.rpc("is_group_manager",{g:groupId});if(managerError||!manager)fail("Only that group’s owner or active moderator can create a group event.");}
+ const {error}=await supabase.from("events").insert({organizer_id:user.id,group_id:groupId,name,description,category:category||"Community",location,starts_at:start.toISOString(),ends_at:end.toISOString(),is_public:isPublic});
  if(error)fail("Your event could not be created. Please try again.");
  revalidatePath("/home/events");redirect("/home/events?created=1");
 }
