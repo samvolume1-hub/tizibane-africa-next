@@ -2391,3 +2391,59 @@ main > .section .feature {
     border-radius: 18px;
   }
 }
+
+
+/* Landing-page footer: full-width social-sharing photo with a dark readability
+   veil, bright-white foreground copy, and typography enlarged by 50%. */
+main > .footer {
+  position: relative;
+  isolation: isolate;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 24px;
+  min-height: 156px;
+  padding: 34px clamp(18px, 5vw, 76px);
+  border-top: 1px solid rgba(255,255,255,.58);
+  background:
+    linear-gradient(110deg, rgba(5, 4, 12, .82) 0%, rgba(10, 5, 18, .70) 52%, rgba(5, 4, 12, .82) 100%),
+    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+  color: #ffffff !important;
+  font-size: 16.5px;
+}
+
+main > .footer > * {
+  position: relative;
+  z-index: 1;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 2px 5px rgba(0,0,0,.98), 0 0 16px rgba(0,0,0,.72);
+}
+
+main > .footer .royalty-copyright {
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 12px auto 0;
+  padding: 10px 8px 0;
+  border-top: 1px solid rgba(255,255,255,.42);
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 15px;
+  letter-spacing: .255em;
+  line-height: 1.6;
+  text-shadow: 0 2px 5px rgba(0,0,0,.98), 0 0 16px rgba(0,0,0,.72);
+}
+
+@media (max-width: 540px) {
+  main > .footer {
+    display: block;
+    padding: 30px 20px;
+    font-size: 16.5px;
+    line-height: 1.8;
+  }
+
+  main > .footer .royalty-copyright {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+}
