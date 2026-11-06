@@ -4063,3 +4063,89 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-feature-page .feature-admin-item {
   border-color: #7774a8 !important;
 }
+
+
+/* Announcement page: image belongs only to its introduction hero card. */
+.app-layout .community-feature-page > .announcement-hero-card {
+  background-image:
+    linear-gradient(90deg, rgba(10, 10, 30, .88) 0%, rgba(13, 13, 39, .72) 58%, rgba(13, 13, 39, .56) 100%),
+    url("/images/EVENTS.jpg") !important;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid #7774a8 !important;
+}
+
+.app-layout .community-feature-page > .announcement-hero-card,
+.app-layout .community-feature-page > .announcement-hero-card * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* Compact navigation helpers shared by authenticated community pages. */
+.app-page-controls {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+}
+
+.app-page-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 74px;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid #7774a8;
+  border-radius: 999px;
+  background: #29264f;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.app-page-control span:first-child {
+  font-size: 15px;
+  line-height: .9;
+}
+
+.app-page-control:hover {
+  background: #393568;
+  border-color: #aaa6df;
+}
+
+.app-page-control:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 820px) {
+  .app-page-controls {
+    right: 12px;
+    bottom: 88px;
+  }
+}
+
+@media (max-width: 540px) {
+  .app-page-controls {
+    right: 10px;
+    bottom: 82px;
+    gap: 6px;
+  }
+
+  .app-page-control {
+    min-width: 68px;
+    min-height: 32px;
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+}
