@@ -164,9 +164,18 @@ export default async function Home({
             </div>
           </section>
           <nav className="home-quick-actions home-quick-actions-below" aria-label="Quick community actions">
-            <Link href="/home/people" className="home-quick-action">Find people <span aria-hidden="true">↗</span></Link>
-            <Link href="/home/groups" className="home-quick-action">Explore groups <span aria-hidden="true">↗</span></Link>
-            <Link href="/home/events" className="home-quick-action">See events <span aria-hidden="true">↗</span></Link>
+            <Link href="/home/people" className="home-quick-action home-quick-action-primary">
+              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 8v6m-3-3h6"/></svg>
+              <span>People</span>
+            </Link>
+            <Link href="/home/groups" className="home-quick-action">
+              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Groups</span>
+            </Link>
+            <Link href="/home/events" className="home-quick-action">
+              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+              <span>Events</span>
+            </Link>
           </nav>
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
