@@ -4391,3 +4391,100 @@ main > .landing-contacts .landing-contact-panel a {
 /* Small, consistent image and Premium fallback states. */
 .app-layout .image-upload-preview-list{display:grid;gap:8px;width:100%;margin-top:10px}
 .app-layout .premium-product-image-unavailable{display:grid;place-items:center;min-height:180px;padding:24px;text-align:center;color:var(--muted);background:#0b100d;border:1px dashed var(--line);border-radius:12px;font-size:12px}
+
+
+/* Home hero: reuse the member's existing profile photo as a full-bleed card image.
+   No second upload or separate hero-image storage is required. */
+.app-layout .community-home-page .home-welcome-compact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 250px;
+  background: linear-gradient(125deg, #24122f 0%, #45234f 54%, #171021 100%);
+  border: 1px solid rgba(222, 177, 218, .42);
+  box-shadow: 0 16px 38px rgba(30, 12, 38, .2);
+}
+.app-layout .community-home-page .home-welcome-compact::before {
+  content: none;
+}
+.app-layout .community-home-page .home-welcome-photo {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+.app-layout .community-home-page .home-welcome-compact::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(17, 8, 26, .86) 0%, rgba(26, 10, 34, .69) 48%, rgba(24, 10, 32, .43) 100%);
+}
+.app-layout .community-home-page .home-welcome-copy,
+.app-layout .community-home-page .home-welcome-copy h1,
+.app-layout .community-home-page .home-welcome-copy p,
+.app-layout .community-home-page .home-welcome-copy .eyebrow {
+  position: relative;
+  z-index: 1;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.app-layout .community-home-page .home-welcome-copy .eyebrow {
+  color: #ffd7ec !important;
+  -webkit-text-fill-color: #ffd7ec !important;
+}
+.app-layout .community-home-page .home-welcome-copy p {
+  color: rgba(255,255,255,.9) !important;
+  -webkit-text-fill-color: rgba(255,255,255,.9) !important;
+}
+.app-layout .community-home-page .home-quick-actions {
+  position: relative;
+  z-index: 1;
+}
+.app-layout .community-home-page .home-quick-action {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(255,255,255,.42);
+  background: rgba(42, 18, 55, .62);
+  box-shadow: 0 3px 12px rgba(0,0,0,.18);
+  backdrop-filter: blur(8px);
+}
+.app-layout .community-home-page .home-quick-action:hover,
+.app-layout .community-home-page .home-quick-action:focus-visible {
+  background: rgba(132, 48, 105, .82);
+  border-color: rgba(255,220,241,.8);
+}
+@media (max-width: 820px) {
+  .app-layout .community-home-page .home-welcome-compact {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 270px;
+  }
+  .app-layout .community-home-page .home-quick-actions {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout .community-home-page .home-welcome-compact {
+    min-height: 290px;
+    padding: 22px 20px;
+  }
+  .app-layout .community-home-page .home-welcome-copy h1 {
+    font-size: clamp(24px, 7vw, 31px);
+  }
+  .app-layout .community-home-page .home-quick-actions {
+    justify-content: flex-start;
+    gap: 7px;
+  }
+  .app-layout .community-home-page .home-quick-action {
+    min-height: 36px;
+    padding: 8px 11px;
+    font-size: 11px;
+  }
+}
