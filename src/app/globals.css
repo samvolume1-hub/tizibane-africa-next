@@ -4140,3 +4140,28 @@ main > .landing-contacts .landing-contact-panel a {
   color:#fff !important;
   -webkit-text-fill-color:#fff;
 }
+
+
+/* Login readability fix: keep the existing light fields, but make entered
+   text, placeholders and the caret dark and clearly visible. Login only. */
+.auth-wrap .auth-card .field input,
+.auth-wrap .auth-card .password-input-wrap input,
+.auth-wrap .auth-card .field textarea,
+.auth-wrap .auth-card .field select {
+  color: #17131c !important;
+  -webkit-text-fill-color: #17131c !important;
+  caret-color: #17131c !important;
+}
+.auth-wrap .auth-card .field input::placeholder,
+.auth-wrap .auth-card .password-input-wrap input::placeholder,
+.auth-wrap .auth-card .field textarea::placeholder {
+  color: #6b6470 !important;
+  -webkit-text-fill-color: #6b6470 !important;
+  opacity: 1;
+}
+.auth-wrap .auth-card .field input:-webkit-autofill,
+.auth-wrap .auth-card .field input:-webkit-autofill:hover,
+.auth-wrap .auth-card .field input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #17131c !important;
+  caret-color: #17131c !important;
+}
