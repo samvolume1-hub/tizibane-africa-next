@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createPremiumProduct, publishPremiumProduct, pausePremiumProduct, deletePremiumProduct, togglePremiumFeatured } from "../actions";
 
-const ADMIN_EMAIL = "samvolume1@gmail.com";
 type Product = {
   id: string; product_name: string; seller_type: string; seller_name: string;
   business_name: string | null; category: string; price_zmw: number | null;
@@ -16,13 +15,14 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  if ((user.email ?? "").toLowerCase() !== ADMIN_EMAIL) redirect("/home/premium?error=Administrator%20access%20only");
+  const { data: isAdmin, error: adminError } = await supabase.rpc("is_current_platform_admin");
+  if (adminError || !isAdmin) redirect("/home/premium?error=Administrator%20access%20only");
 
   const { data } = await supabase.from("premium_products").select("id,product_name,seller_type,seller_name,business_name,category,price_zmw,status,payment_status,is_featured,created_at,image_paths").order("created_at", { ascending: false }).limit(100);
   const products = (data ?? []) as Product[];
 
   return <main className="app-layout"><CommunityNavigation active="premium" /><section className="app-main">
-    <header className="topbar"><Link href="/home/premium" className="back-link">← Marketplace</Link><span className="muted">ADMINISTRATOR · {ADMIN_EMAIL}</span></header>
+    <header className="topbar"><Link href="/home/premium" className="back-link">← Marketplace</Link><span className="muted">PLATFORM ADMINISTRATOR</span></header>
     <div className="app-content premium-content">
       <section className="premium-admin-heading"><span className="eyebrow">ROYALTY CONTROL CENTRE</span><h1>Premium advertising</h1><p>Create client listings, confirm payment and publish advertisements for the TIZIBANE community.</p></section>
       {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome back!</div>}
