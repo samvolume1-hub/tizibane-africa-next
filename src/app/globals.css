@@ -4758,3 +4758,40 @@ main > .landing-contacts .landing-contact-panel a {
   .app-layout .photo-backdrop { object-position: center 18% !important; }
   .app-layout .community-home-page .home-welcome-photo { object-position: center 18% !important; }
 }
+
+
+/* My Profile page: the member photo is the hero, with only its two-word title. */
+.app-layout .profile-page-hero {
+  height: clamp(240px, 30vw, 340px) !important;
+  min-height: 240px;
+  margin: 0 0 22px;
+  border-radius: 22px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #24172a, #70405f 55%, #2b2038);
+}
+.app-layout .profile-page-hero .profile-cover-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover !important;
+  object-position: center 18% !important;
+}
+.app-layout .profile-page-hero .profile-cover-placeholder {
+  background: linear-gradient(135deg, #24172a, #70405f 55%, #2b2038);
+}
+.app-layout .profile-page-hero-title {
+  position: absolute;
+  left: clamp(18px, 3vw, 32px);
+  bottom: clamp(16px, 3vw, 28px);
+  margin: 0 !important;
+  color: #fff !important;
+  font: 800 clamp(30px, 4vw, 46px)/1.05 Manrope, sans-serif !important;
+  letter-spacing: -.035em;
+  text-shadow: 0 3px 18px rgba(0,0,0,.72);
+  pointer-events: none;
+}
+@media (max-width: 540px) {
+  .app-layout .profile-page-hero { height: 205px !important; min-height: 205px; border-radius: 16px; }
+  .app-layout .profile-page-hero-title { left: 18px; bottom: 17px; font-size: 30px !important; }
+}
