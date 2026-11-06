@@ -215,7 +215,7 @@ export default async function Home({
               <p className="field-help">Photos are optimized toward 1 MB · Maximum 2 MB after optimization.</p>
             </CompressedImageForm>
           </section>
-          {params.posted && <div className="notice" role="status">Your post has been saved and shared with your selected audience.</div>}
+          {params.posted && <div className="notice" role="status">{params.posted === "photo" ? "Your photo and post have been uploaded, saved and shared with your selected audience." : "Your post has been saved and shared with your selected audience."}</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
 
           <div className="feed-heading home-feed-heading">
