@@ -39,7 +39,38 @@ export async function moderateGroupRequest(form:FormData){
  const groupId=String(form.get("group_id")??""),memberId=String(form.get("member_id")??""),decision=String(form.get("decision")??"");
  if(!UUID.test(groupId)||!UUID.test(memberId)||!["approve","decline"].includes(decision))fail("That membership request is invalid.");
  const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const result=decision==="approve"?await supabase.from("group_members").update({status:"active"}).eq("group_id",groupId).eq("user_id",memberId).eq("status","pending"):await supabase.from("group_members").delete().eq("group_id",groupId).eq("user_id",memberId).eq("status","pending");
- if(result.error)fail("You do not have permission to manage that request, or it is no longer pending.");
- revalidatePath("/home/groups");redirect("/home/groups?managed=1");
+ const result=decision==="approve"?await supabase.from("group_members").update({status:"active"}).eq("group_id",groupId).eq("user_id",memberId).eq("status","pending").select("user_id").maybeSingle():await supabase.from("group_members").delete().eq("group_id",groupId).eq("user_id",memberId).eq("status","pending").select("user_id").maybeSingle();
+ if(result.error||!result.data)fail("You do not have permission to manage that request, or it is no longer pending.");
+ revalidatePath("/home/groups");revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?memberUpdated=1");
+}
+
+export async function updateGroupMemberRole(form:FormData){
+ const groupId=String(form.get("group_id")??""),memberId=String(form.get("member_id")??""),role=String(form.get("role")??"");
+ if(!UUID.test(groupId)||!UUID.test(memberId)||!["member","moderator"].includes(role))fail("Choose a valid group member role.");
+ const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
+ const {data:group}=await supabase.from("groups").select("owner_id").eq("id",groupId).maybeSingle();
+ if(group?.owner_id!==user.id)fail("Only the group owner can appoint or remove moderators.");
+ const {data,error}=await supabase.from("group_members").update({role}).eq("group_id",groupId).eq("user_id",memberId).eq("status","active").select("user_id").maybeSingle();
+ if(error||!data)fail("That member's role could not be updated.");
+ revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?memberUpdated=1");
+}
+export async function removeGroupMember(form:FormData){
+ const groupId=String(form.get("group_id")??""),memberId=String(form.get("member_id")??"");
+ if(!UUID.test(groupId)||!UUID.test(memberId))fail("That group member could not be found.");
+ const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
+ const {data:group}=await supabase.from("groups").select("owner_id").eq("id",groupId).maybeSingle();
+ if(group?.owner_id!==user.id)fail("Only the group owner can remove an active member.");
+ if(memberId===user.id)fail("The group owner cannot remove their own membership.");
+ const {data,error}=await supabase.from("group_members").delete().eq("group_id",groupId).eq("user_id",memberId).eq("status","active").select("user_id").maybeSingle();
+ if(error||!data)fail("That member could not be removed.");
+ revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?memberUpdated=1");
+}
+export async function updateGroupSettings(form:FormData){
+ const groupId=String(form.get("group_id")??""),name=String(form.get("name")??"").trim(),description=String(form.get("description")??"").trim(),category=String(form.get("category")??"Community").trim(),rules=String(form.get("rules")??"").trim(),visibility=String(form.get("visibility")??"public"),joinPolicy=String(form.get("join_policy")??"open");
+ if(!UUID.test(groupId)||name.length<2||name.length>80||description.length>500||category.length>60||rules.length>1500)fail("Check the group details and character limits.");
+ if(!["public","private"].includes(visibility)||!["open","approval","invite"].includes(joinPolicy)||(visibility==="public"&&joinPolicy!=="open")||(visibility==="private"&&joinPolicy==="open"))fail("Choose a valid group visibility and joining policy.");
+ const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
+ const {data,error}=await supabase.from("groups").update({name,description,category:category||"Community",rules,visibility,join_policy:joinPolicy}).eq("id",groupId).eq("owner_id",user.id).select("id").maybeSingle();
+ if(error||!data)fail("Only the group owner can update these settings.");
+ revalidatePath("/home/groups");revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?settings=1");
 }
