@@ -38,8 +38,6 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">COMMUNITY STORIES</span></header>
         <div className="app-content community-stories-page">
           <section className="welcome"><span className="eyebrow">A moment from your world</span><h1>Stories</h1><p>Share a photo or a short update. Stories expire automatically after 24 hours.</p></section>
-          {params.error && <div className="notice" role="alert">{params.error}</div>}
-          {params.created && <div className="notice" role="status">Your story has been published and saved.</div>}
           {params.updated && <div className="notice" role="status">Your story has been updated.</div>}
           {params.deleted && <div className="notice" role="status">Your story has been deleted from TIZIBANE.</div>}
           {params.cleanup && <div className="notice" role="alert">Your story change was saved, but an old photo could not be cleared from storage. Please contact support.</div>}
@@ -59,6 +57,8 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
               <p className="field-help">JPG, PNG or WebP · optimized toward 1 MB · maximum 2 MB. Stories are text and photo only and expire after 24 hours.</p>
             </CompressedImageForm>
           </section>
+          {params.created && <div className="notice" role="status">Your story has been saved and published.</div>}
+          {params.error && <div className="notice" role="alert">{params.error}</div>}
           <div className="feed-heading"><div><span className="eyebrow">RECENT MOMENTS</span><h2>Stories from the community</h2></div><span className="muted">{stories.length} active stories</span></div>
           {error ? <div className="module"><h3>Stories are temporarily unavailable</h3><p>Please refresh in a moment.</p></div> : stories.length === 0 ? <div className="empty-state"><h3>No active stories yet.</h3><p>Share the first moment with your community.</p></div> : (
             <div className="story-list">
