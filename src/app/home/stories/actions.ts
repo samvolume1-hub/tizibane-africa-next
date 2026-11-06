@@ -113,7 +113,7 @@ export async function removeStoryPhoto(formData: FormData) {
   const storyId = String(formData.get("story_id") ?? "");
   if (!UUID.test(storyId)) fail("That story could not be found.");
   const { supabase, user } = await signedIn();
-  const { data: current, error: readError } = await supabase.from("stories").select("photo_path").eq("id", storyId).eq("author_id", user.id).maybeSingle();
+  const { data: current, error: readError } = await supabase.from("stories").select("photo_path,caption").eq("id", storyId).eq("author_id", user.id).maybeSingle();
   if (readError || !current) fail("You can remove photos only from your own story.");
   if (!current.caption.trim()) fail("This story has no caption. Add a caption before removing its only photo, or delete the story.");
   const { data: saved, error } = await supabase.from("stories").update({ photo_path: null }).eq("id", storyId).eq("author_id", user.id).select("id").maybeSingle();
