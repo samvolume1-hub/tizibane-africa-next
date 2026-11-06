@@ -77,7 +77,7 @@ export default async function Home({
     .from("posts")
     .select("id,author_id,body,photo_path,visibility,created_at")
     .order("created_at", { ascending: false })
-    .limit(30);
+    .limit(12);
   const posts = ((postResult.data ?? []) as Post[]).filter((post) => !mutedMemberIds.has(post.author_id));
   const postIds = posts.map((post) => post.id);
 
@@ -87,7 +87,7 @@ export default async function Home({
   if (postIds.length) {
     const [reactionResult, commentResult] = await Promise.all([
       supabase.from("post_reactions").select("post_id,user_id,reaction").in("post_id", postIds),
-      supabase.from("comments").select("id,post_id,author_id,body,created_at").in("post_id", postIds).order("created_at", { ascending: true }).limit(500),
+      supabase.from("comments").select("id,post_id,author_id,body,created_at").in("post_id", postIds).order("created_at", { ascending: false }).limit(60),
     ]);
     if (reactionResult.error || commentResult.error) {
       interactionLoadError = "Some reactions or comments could not be loaded. Please refresh and try again.";
@@ -124,20 +124,18 @@ export default async function Home({
 
   const photoUrls: Record<string, string> = {};
   const avatarUrls: Record<string, string> = {};
-  for (const post of posts) {
-    if (!post.photo_path) continue;
-    const { data } = await supabase.storage
-      .from("community-photos")
-      .createSignedUrl(post.photo_path, 60 * 60);
-    if (data?.signedUrl) photoUrls[post.id] = data.signedUrl;
-  }
-  for (const profile of profiles) {
-    if (!profile.avatar_path) continue;
-    const { data } = await supabase.storage
-      .from("community-photos")
-      .createSignedUrl(profile.avatar_path, 60 * 60);
-    if (data?.signedUrl) avatarUrls[profile.id] = data.signedUrl;
-  }
+  const [postPhotoResults, avatarPhotoResults] = await Promise.all([
+    Promise.all(posts.filter((post) => post.photo_path).map(async (post) => {
+      const { data } = await supabase.storage.from("community-photos").createSignedUrl(post.photo_path!, 60 * 60);
+      return { id: post.id, url: data?.signedUrl };
+    })),
+    Promise.all(profiles.filter((profile) => profile.avatar_path).map(async (profile) => {
+      const { data } = await supabase.storage.from("community-photos").createSignedUrl(profile.avatar_path!, 60 * 60);
+      return { id: profile.id, url: data?.signedUrl };
+    })),
+  ]);
+  for (const item of postPhotoResults) if (item.url) photoUrls[item.id] = item.url;
+  for (const item of avatarPhotoResults) if (item.url) avatarUrls[item.id] = item.url;
 
   return (
     <main className="app-layout">
@@ -192,7 +190,7 @@ export default async function Home({
               <textarea id="post-body" name="body" placeholder="What would you like to share with your community?" maxLength={3000} />
               <div className="composer-bottom">
                 <div className="composer-options">
-                  <label className="photo-picker" htmlFor="post-photo">＋ Add photo</label>
+                  <label className="photo-picker" htmlFor="post-photo" aria-label="Add a photo" title="Add a photo"><span aria-hidden="true">＋</span></label>
                   <input id="post-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" />
                   <select name="visibility" aria-label="Who can see this post">
                     <option value="public">Everyone</option>
@@ -219,7 +217,7 @@ export default async function Home({
             <div className="feed-list">
               {posts.map((post) => {
                 const author = profileById.get(post.author_id);
-                const postComments = (commentsByPost[post.id] ?? []).slice(-3);
+                const postComments = (commentsByPost[post.id] ?? []).slice(0, 3).reverse();
                 const myReaction = myReactions[post.id];
                 return (
                   <article className="post-card" key={post.id}>
@@ -233,31 +231,32 @@ export default async function Home({
                     {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" />}
                     <div className="post-interactions">
                       <div className="reaction-picker" aria-label="Choose how you feel about this post">
-                        {[
-                          { value: "like", emoji: "👍", label: "Like" },
-                          { value: "love", emoji: "❤️", label: "Love" },
-                          { value: "laugh", emoji: "😂", label: "Joy" },
-                          { value: "wow", emoji: "😮", label: "Wow" },
-                          { value: "sad", emoji: "😢", label: "Sad" },
-                          { value: "celebrate", emoji: "🎉", label: "Celebrate" },
-                          { value: "support", emoji: "🤗", label: "Support" },
-                          { value: "salute", emoji: "🫡", label: "Salute" },
-                          { value: "pray", emoji: "🙏", label: "Pray" },
-                        ].map((choice) => (
-                          <form action={toggleReaction} key={choice.value}>
-                            <input type="hidden" name="post_id" value={post.id} />
-                            <input type="hidden" name="reaction" value={choice.value} />
-                            <button
-                              className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`}
-                              type="submit"
-                              aria-pressed={myReaction === choice.value}
-                              title={choice.label}
-                            >
-                              <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
-                              <span className="reaction-label">{choice.label}</span>
-                            </button>
-                          </form>
-                        ))}
+                        <details className="reaction-menu">
+                          <summary aria-label="Choose a reaction" title="Choose a reaction">
+                            <span aria-hidden="true">{myReaction === "love" ? "❤️" : myReaction === "laugh" ? "😂" : myReaction === "wow" ? "😮" : myReaction === "sad" ? "😢" : myReaction === "celebrate" ? "🎉" : myReaction === "support" ? "🤗" : myReaction === "salute" ? "🫡" : myReaction === "pray" ? "🙏" : "👍"}</span>
+                          </summary>
+                          <div className="reaction-menu-panel">
+                            {[
+                              { value: "like", emoji: "👍", label: "Like" },
+                              { value: "love", emoji: "❤️", label: "Love" },
+                              { value: "laugh", emoji: "😂", label: "Joy" },
+                              { value: "wow", emoji: "😮", label: "Wow" },
+                              { value: "sad", emoji: "😢", label: "Sad" },
+                              { value: "celebrate", emoji: "🎉", label: "Celebrate" },
+                              { value: "support", emoji: "🤗", label: "Support" },
+                              { value: "salute", emoji: "🫡", label: "Salute" },
+                              { value: "pray", emoji: "🙏", label: "Pray" },
+                            ].map((choice) => (
+                              <form action={toggleReaction} key={choice.value}>
+                                <input type="hidden" name="post_id" value={post.id} />
+                                <input type="hidden" name="reaction" value={choice.value} />
+                                <button className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`} type="submit" aria-pressed={myReaction === choice.value} title={choice.label} aria-label={choice.label}>
+                                  <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
+                                </button>
+                              </form>
+                            ))}
+                          </div>
+                        </details>
                         <span className="reaction-total">{reactionCounts[post.id] ?? 0} reactions</span>
                       </div>
                       <span className="comment-count">{commentsByPost[post.id]?.length ?? 0} comments</span>
@@ -286,7 +285,7 @@ export default async function Home({
                       <input type="hidden" name="post_id" value={post.id} />
                       <label className="sr-only" htmlFor={`comment-${post.id}`}>Write a comment</label>
                       <input id={`comment-${post.id}`} name="body" placeholder="Write a comment…" maxLength={1000} required />
-                      <button className="text-action" type="submit">Comment</button>
+                      <button className="text-action comment-submit-icon" type="submit" aria-label="Send comment" title="Send comment">➤</button>
                     </form>
                     {post.author_id !== user.id && <ReportControl kind="post" targetId={post.id} />}
                   </article>
