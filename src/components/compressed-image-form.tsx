@@ -5,6 +5,7 @@ import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode }
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
 const MAX_EDGE = 1920;
+const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 type Props = {
   action: (formData: FormData) => void | Promise<void>;
@@ -12,10 +13,9 @@ type Props = {
   children: ReactNode;
 };
 
-async function encodeWebp(
-  canvas: HTMLCanvasElement,
-  quality: number,
-): Promise<Blob> {
+type Preview = { url: string; name: string; size: number };
+
+async function encodeWebp(canvas: HTMLCanvasElement, quality: number): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (!blob || blob.type !== "image/webp") {
@@ -28,7 +28,9 @@ async function encodeWebp(
 }
 
 async function optimizeImage(file: File): Promise<File> {
-  if (!file.type.startsWith("image/")) return file;
+  if (!ALLOWED_TYPES.has(file.type)) {
+    throw new Error("Please choose a JPG, PNG or WebP image.");
+  }
   if (file.size <= TARGET_BYTES) return file;
 
   if (typeof createImageBitmap !== "function") {
@@ -58,8 +60,6 @@ async function optimizeImage(file: File): Promise<File> {
           });
         }
       }
-
-      // Keep reducing dimensions until we reach the 1 MB target or exhaust safe passes.
       scale *= 0.82;
     }
 
@@ -76,35 +76,59 @@ async function optimizeImage(file: File): Promise<File> {
   }
 }
 
+function formatSize(bytes: number) {
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 export function CompressedImageForm({ action, className, children }: Props) {
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("Images are checked and optimized before upload.");
-  const [preview, setPreview] = useState<string | null>(null);
-  const [selectedInfo, setSelectedInfo] = useState("");
+  const [message, setMessage] = useState("Photos are checked and optimized before upload.");
+  const [previews, setPreviews] = useState<Preview[]>([]);
 
   useEffect(() => {
-    return () => { if (preview) URL.revokeObjectURL(preview); };
-  }, [preview]);
+    return () => {
+      previews.forEach((preview) => URL.revokeObjectURL(preview.url));
+    };
+  }, [previews]);
 
   function handleFileChange(event: ChangeEvent<HTMLFormElement>) {
     const target = event.target;
     if (!(target instanceof HTMLInputElement) || target.type !== "file") return;
-    const file = target.files?.[0];
-    if (!file) { setPreview(null); setSelectedInfo(""); return; }
-    setPreview(URL.createObjectURL(file));
-    setSelectedInfo(`${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`);
-    setMessage(file.size > MAX_BYTES ? "This image will be compressed before upload. The final file must be 2 MB or smaller." : "Photo selected. It will be checked before it is uploaded.");
+
+    const files = Array.from(target.files ?? []);
+    if (!files.length) {
+      setPreviews([]);
+      setMessage("Photos are checked and optimized before upload.");
+      return;
+    }
+
+    setPreviews(files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+      size: file.size,
+    })));
+
+    const total = files.length;
+    const overLimit = files.some((file) => file.size > MAX_BYTES);
+    const needsCompression = files.some((file) => file.size > TARGET_BYTES);
+    setMessage(
+      overLimit
+        ? `${total} photo${total === 1 ? "" : "s"} selected. Large files will be compressed; each final photo must be 2 MB or smaller.`
+        : needsCompression
+          ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll optimize them toward 1 MB each before upload.`
+          : `${total} photo${total === 1 ? "" : "s"} selected · ${files.map((file) => formatSize(file.size)).join(", ")}.`,
+    );
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (busy) return;
-    setBusy(true);
-    setMessage("Preparing your images…");
 
     const form = event.currentTarget;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
+    setBusy(true);
+    setMessage("Preparing your photos…");
     submitButtons.forEach((button) => {
       const label = button.textContent ?? "";
       button.disabled = true;
@@ -114,28 +138,47 @@ export function CompressedImageForm({ action, className, children }: Props) {
     try {
       const data = new FormData(form);
       const imageInputs = Array.from(form.querySelectorAll<HTMLInputElement>('input[type="file"]'));
+
       for (const input of imageInputs) {
         if (!input.name || !input.files?.length) continue;
-        const original = input.files[0];
-        const optimized = await optimizeImage(original);
-        if (optimized.size > MAX_BYTES) {
-          throw new Error("Images must be 2 MB or smaller after optimization.");
+        const optimizedFiles: File[] = [];
+        for (const original of Array.from(input.files)) {
+          const optimized = await optimizeImage(original);
+          if (optimized.size > MAX_BYTES) {
+            throw new Error(`${original.name} is still larger than 2 MB after optimization. Please choose a smaller image.`);
+          }
+          optimizedFiles.push(optimized);
         }
-        data.set(input.name, optimized, optimized.name);
+        data.delete(input.name);
+        optimizedFiles.forEach((file) => data.append(input.name, file, file.name));
       }
+
       setMessage("Uploading and saving to TIZIBANE…");
       await action(data);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Your image could not be prepared. Please try again.");
+      setMessage(error instanceof Error ? error.message : "Your photos could not be prepared. Please try again.");
       setBusy(false);
-      submitButtons.forEach((button, index) => { button.disabled = false; button.textContent = originalLabels[index]; });
+      submitButtons.forEach((button, index) => {
+        button.disabled = false;
+        button.textContent = originalLabels[index];
+      });
     }
   }
 
   return (
-    <form action={action} className={className} onSubmit={handleSubmit}>
+    <form action={action} className={className} onChange={handleFileChange} onSubmit={handleSubmit}>
       {children}
-      <p className="image-compression-status" aria-live="polite">{message}</p>
+      {previews.length > 0 && (
+        <div className="image-upload-preview-list" aria-label="Selected photo previews">
+          {previews.map((preview, index) => (
+            <div className="image-upload-preview" key={preview.url}>
+              <img src={preview.url} alt={`Selected photo ${index + 1}`} />
+              <span>{preview.name} · {formatSize(preview.size)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      <p className="image-compression-status" role="status" aria-live="polite">{message}</p>
     </form>
   );
 }
