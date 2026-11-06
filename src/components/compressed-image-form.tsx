@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -82,6 +82,7 @@ function formatSize(bytes: number) {
 
 export function CompressedImageForm({ action, className, children }: Props) {
   const [busy, setBusy] = useState(false);
+  const bypassSubmit = useRef(false);
   const [message, setMessage] = useState("Photos are checked and optimized before upload.");
   const [previews, setPreviews] = useState<Preview[]>([]);
 
@@ -121,10 +122,15 @@ export function CompressedImageForm({ action, className, children }: Props) {
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    if (bypassSubmit.current) {
+      bypassSubmit.current = false;
+      return;
+    }
     event.preventDefault();
     if (busy) return;
 
     const form = event.currentTarget;
+    const submitter = event.nativeEvent instanceof SubmitEvent ? event.nativeEvent.submitter : null;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
     setBusy(true);
@@ -136,9 +142,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
     });
 
     try {
-      const data = new FormData(form);
       const imageInputs = Array.from(form.querySelectorAll<HTMLInputElement>('input[type="file"]'));
-
       for (const input of imageInputs) {
         if (!input.name || !input.files?.length) continue;
         const optimizedFiles: File[] = [];
@@ -149,12 +153,15 @@ export function CompressedImageForm({ action, className, children }: Props) {
           }
           optimizedFiles.push(optimized);
         }
-        data.delete(input.name);
-        optimizedFiles.forEach((file) => data.append(input.name, file, file.name));
+        const transfer = new DataTransfer();
+        optimizedFiles.forEach((file) => transfer.items.add(file));
+        input.files = transfer.files;
       }
 
       setMessage("Uploading and saving to TIZIBANE…");
-      await action(data);
+      bypassSubmit.current = true;
+      if (submitter instanceof HTMLButtonElement) form.requestSubmit(submitter);
+      else form.requestSubmit();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Your photos could not be prepared. Please try again.");
       setBusy(false);
