@@ -3042,3 +3042,62 @@ main > .landing-contacts .landing-contact-panel a {
   -webkit-text-fill-color: #8b7884 !important;
   opacity: 1;
 }
+
+
+/* Fine tune: restore a little rose vibrancy while keeping the app predominantly pale.
+   This remains strictly inside the authenticated app layout. */
+.app-layout {
+  --app-blush: #fff7fb;
+  --app-blush-soft: #fff0f6;
+  --app-blush-border: #ebd2df;
+  --app-blush-shadow: rgba(112, 48, 79, .085);
+}
+.app-layout > .sidebar {
+  background: linear-gradient(180deg, #fff8fb 0%, #fff1f7 54%, #faf2fb 100%) !important;
+}
+.app-layout .topbar {
+  background: linear-gradient(110deg, rgba(255,249,252,.99), rgba(255,241,247,.98) 58%, rgba(250,243,251,.98)) !important;
+}
+.app-layout .side-nav a.active,
+.app-layout .side-nav a:hover {
+  background: linear-gradient(110deg, #ffeaf3 0%, #fcebf4 58%, #f4eafa 100%) !important;
+  border-color: #e9cbdc !important;
+  box-shadow: inset 0 0 0 1px rgba(190,145,170,.11), 0 3px 10px rgba(95,48,72,.065) !important;
+}
+.app-layout .welcome,
+.app-layout .people-search-panel,
+.app-layout .profile-editor,
+.app-layout .module-section,
+.app-layout .composer,
+.app-layout .message-composer,
+.app-layout .premium-admin-form,
+.app-layout .premium-admin-list,
+.app-layout .premium-process,
+.app-layout .premium-package,
+.app-layout .premium-audience-card,
+.app-layout .premium-bottom-cta,
+.app-layout .premium-admin-heading {
+  background: linear-gradient(145deg, #fff8fb 0%, #fff0f6 58%, #f9f0fb 100%) !important;
+  border-color: #ebd2df !important;
+}
+.app-layout .person-card,
+.app-layout .notification-card,
+.app-layout .conversation-card,
+.app-layout .conversation-heading,
+.app-layout .post-card,
+.app-layout .group-card,
+.app-layout .event-card {
+  background: linear-gradient(145deg, #fffdfd 0%, #fff3f8 60%, #faf2fb 100%) !important;
+  border-color: #edd5e1 !important;
+}
+.app-layout .composer textarea,
+.app-layout .composer select,
+.app-layout .composer input:not([type="file"]),
+.app-layout .field input,
+.app-layout .field select,
+.app-layout .field textarea,
+.app-layout .comment-form input,
+.app-layout .message-composer textarea {
+  border-color: #e8cbd9 !important;
+  box-shadow: inset 0 1px 3px rgba(70,35,55,.045), 0 2px 8px rgba(95,48,72,.045) !important;
+}
