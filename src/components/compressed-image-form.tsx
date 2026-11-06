@@ -117,7 +117,7 @@ export function CompressedImageForm({ action, className, children }: Props) {
       unsupported
         ? "That file type is not supported. Choose a JPG, PNG or WebP image."
         : overLimit
-          ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll compress large files; each final photo must be 2 MB or smaller.`
+          ? `${total} photo${total === 1 ? "" : "s"} selected. At least one file is over 2 MB. We’ll try to compress it; if it is still over 2 MB, the upload will be stopped and an error will be shown.`
           : needsCompression
             ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll optimize them toward 1 MB each before upload.`
             : `${total} photo${total === 1 ? "" : "s"} selected · ${files.map((file) => formatSize(file.size)).join(", ")}.`,
