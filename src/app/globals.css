@@ -2840,3 +2840,17 @@ main > .landing-contacts {
     width: min(100%, 310px);
   }
 }
+
+/* Final contact-menu polish: brighter royal-purple panels with clear depth. */
+main > .landing-contacts .landing-contact-panel {
+  background: linear-gradient(145deg, #8052a0 0%, #70418e 58%, #5b3679 100%) !important;
+  border: 1px solid rgba(248, 235, 255, .88) !important;
+  box-shadow:
+    0 12px 30px rgba(20, 7, 35, .28),
+    inset 0 1px 0 rgba(255,255,255,.28),
+    0 0 18px rgba(174, 116, 218, .16) !important;
+}
+main > .landing-contacts .landing-contact-panel a {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
