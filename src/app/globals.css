@@ -4268,3 +4268,21 @@ main > .landing-contacts .landing-contact-panel a {
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #ffffff !important;
 }
+
+
+/* On phones the browser renders the existing login fields white.
+   Adjust entered characters only so they remain readable on that surface. */
+@media (max-width: 540px) {
+  .login-page .auth-card .field input,
+  .login-page .auth-card .password-input-wrap input {
+    color: #08050d !important;
+    -webkit-text-fill-color: #08050d !important;
+    caret-color: #08050d !important;
+  }
+  .login-page .auth-card .field input:-webkit-autofill,
+  .login-page .auth-card .field input:-webkit-autofill:hover,
+  .login-page .auth-card .field input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #08050d !important;
+    caret-color: #08050d !important;
+  }
+}
