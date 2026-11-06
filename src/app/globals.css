@@ -4323,3 +4323,40 @@ main > .landing-contacts .landing-contact-panel a {
   color: inherit;
   font-size: 12px;
 }
+
+
+/* App-wide content controls and media feedback. Scoped to authenticated app only. */
+.app-layout .content-more-menu{position:relative;display:inline-block;margin-left:auto;flex:0 0 auto;font-size:12px}
+.app-layout .content-more-menu>summary{list-style:none;display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:#d8c58f;background:#ffffff08;cursor:pointer;font-size:11px;font-weight:700}
+.app-layout .content-more-menu>summary::-webkit-details-marker,.app-layout .content-more-submenu>summary::-webkit-details-marker{display:none}
+.app-layout .content-more-menu>summary:hover,.app-layout .content-more-menu[open]>summary{background:#d8b56b18;border-color:#d8b56b66}
+.app-layout .content-more-panel{position:absolute;right:0;top:calc(100% + 6px);z-index:12;display:grid;gap:7px;width:min(310px,calc(100vw - 34px));max-height:min(70vh,520px);overflow:auto;padding:10px;border:1px solid #d8b56b55;border-radius:14px;background:#101713;box-shadow:0 12px 32px #0009}
+.app-layout .content-more-submenu{border:1px solid #ffffff14;border-radius:9px;padding:0 9px;background:#ffffff05}
+.app-layout .content-more-submenu>summary{list-style:none;padding:10px 2px;color:#f0d69a;cursor:pointer;font-size:12px;font-weight:700}
+.app-layout .content-menu-form{display:grid;gap:9px;padding:0 0 10px}
+.app-layout .content-menu-form textarea,.app-layout .content-menu-form input:not([type=hidden]),.app-layout .content-menu-form select{width:100%;min-width:0;border:1px solid var(--line);border-radius:9px;padding:10px;background:#090e0b;color:var(--text);font-size:12px}
+.app-layout .content-menu-form p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}
+.app-layout .content-menu-form .btn{width:100%}
+.app-layout .content-menu-file{display:grid;gap:6px;color:#d8c58f;font-size:11px}
+.app-layout .content-menu-file input{color:#cbd6ce}
+.app-layout .danger-action{color:#ffb2b2}
+.app-layout .image-upload-preview{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#ffffff06}
+.app-layout .image-upload-preview img{display:block;width:auto;max-width:min(220px,48%);max-height:150px;object-fit:contain;border-radius:8px;background:#050806}
+.app-layout .image-upload-preview span{font-size:11px;color:#d9e3da;overflow-wrap:anywhere}
+.app-layout .image-compression-status{min-height:16px;margin:10px 0 0;color:#b8c7ba;font-size:11px;line-height:1.5}
+.app-layout .profile-image-controls{display:flex;justify-content:flex-end;gap:8px;margin:-8px 0 16px}
+.app-layout .story-list{display:grid;gap:14px}
+.app-layout .story-card{border:1px solid var(--line);background:linear-gradient(145deg,#141c17,#0d120f);border-radius:16px;padding:16px}
+.app-layout .story-card-heading,.app-layout .story-author{display:flex;align-items:center;gap:12px}
+.app-layout .story-card-heading{justify-content:space-between}
+.app-layout .story-author>span:last-child{display:grid;gap:4px}
+.app-layout .story-author strong{font-size:12px}
+.app-layout .story-author small,.app-layout .story-expiry{color:var(--muted);font-size:10px}
+.app-layout .story-photo{display:block;width:100%;max-height:520px;object-fit:contain;border-radius:12px;margin-top:14px;background:#050806}
+.app-layout .story-caption{white-space:pre-wrap;color:#e1e9e2;font-size:13px;line-height:1.7;margin:12px 0 6px}
+.app-layout .story-expiry{display:block;margin-top:10px}
+.app-layout .event-edit-form{min-width:0}
+.app-layout .event-edit-form label{display:grid;gap:5px;color:#cbd6ce;font-size:11px}
+.app-layout .event-edit-form input,.app-layout .event-edit-form select,.app-layout .event-edit-form textarea{width:100%;min-width:0;background:#090e0b;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit}
+.app-layout .event-actions>.content-more-menu{margin:0 0 8px}
+@media(max-width:540px){.app-layout .content-more-panel{right:-4px;width:min(290px,calc(100vw - 28px))}.app-layout .profile-image-controls{justify-content:flex-start;flex-wrap:wrap}.app-layout .image-upload-preview{align-items:flex-start}}
