@@ -5186,3 +5186,9 @@ main > .landing-contacts .landing-contact-panel a {
     max-width: 100% !important;
   }
 }
+
+
+/* Remove the Home Feed hero tagline while retaining the welcome heading. */
+.app-layout .community-home-page .home-welcome-copy p {
+  display: none !important;
+}
