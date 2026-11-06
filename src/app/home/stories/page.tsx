@@ -57,7 +57,7 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
               <p className="field-help">JPG, PNG or WebP · optimized toward 1 MB · maximum 2 MB. Stories are text and photo only and expire after 24 hours.</p>
             </CompressedImageForm>
           </section>
-          {params.created && <div className="notice" role="status">Your story has been saved and published.</div>}
+          {params.created && <div className="notice" role="status">{params.created === "photo" ? "Your story photo and caption have been uploaded, saved and published." : "Your story has been saved and published."}</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           <div className="feed-heading"><div><span className="eyebrow">RECENT MOMENTS</span><h2>Stories from the community</h2></div><span className="muted">{stories.length} active stories</span></div>
           {error ? <div className="module"><h3>Stories are temporarily unavailable</h3><p>Please refresh in a moment.</p></div> : stories.length === 0 ? <div className="empty-state"><h3>No active stories yet.</h3><p>Share the first moment with your community.</p></div> : (
