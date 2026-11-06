@@ -27,7 +27,7 @@ export async function createGroupPost(form:FormData){
  }
  const {error}=await supabase.from("posts").insert({author_id:user.id,body,visibility:"group",group_id:groupId,photo_path:photoPath});
  if(error){if(photoPath)await supabase.storage.from("community-photos").remove([photoPath]);fail(groupId,"Your group post could not be published.");}
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?posted=1");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?posted=1");
 }
 export async function createGroupComment(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),body=String(form.get("body")??"").trim();
@@ -38,7 +38,7 @@ export async function createGroupComment(form:FormData){
  if(!post)fail(groupId,"That post is not available in this group.");
  const {error}=await supabase.from("comments").insert({post_id:postId,author_id:user.id,body});
  if(error)fail(groupId,"Your comment could not be added.");
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?commented=1");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?commented=1");
 }
 export async function toggleGroupReaction(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),reaction=String(form.get("reaction")??"like");
@@ -54,7 +54,7 @@ export async function toggleGroupReaction(form:FormData){
    ? await supabase.from("post_reactions").update({reaction}).eq("post_id",postId).eq("user_id",user.id)
    : await supabase.from("post_reactions").insert({post_id:postId,user_id:user.id,reaction});
  if(result.error)fail(groupId,"Your reaction could not be saved.");
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId);
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId);
 }
 export async function deleteGroupPost(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??"");
@@ -69,7 +69,7 @@ export async function deleteGroupPost(form:FormData){
  if(error||!data)fail(groupId,"You do not have permission to delete this post, or it is no longer available.");
  let cleanupFailed=false;
  if(data.photo_path){const {error:storageError}=await supabase.storage.from("community-photos").remove([data.photo_path]);cleanupFailed=Boolean(storageError)}
- revalidatePath("/home/groups/"+groupId);redirect(cleanupFailed?"/home/groups/"+groupId+"?deleted=1&cleanup=1":"/home/groups/"+groupId+"?deleted=1");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect(cleanupFailed?"/home/groups/"+groupId+"?deleted=1&cleanup=1":"/home/groups/"+groupId+"?deleted=1");
 }
 export async function deleteGroupComment(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),commentId=String(form.get("comment_id")??"");
@@ -82,7 +82,7 @@ export async function deleteGroupComment(form:FormData){
  if(!manager)query=query.eq("author_id",user.id);
  const {data,error}=await query.select("id").maybeSingle();
  if(error||!data)fail(groupId,"You do not have permission to delete this comment, or it is no longer available.");
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?commentDeleted=1");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?commentDeleted=1");
 }
 
 export async function updateGroupPost(form:FormData){
@@ -92,7 +92,7 @@ export async function updateGroupPost(form:FormData){
  const {supabase,user}=await signedIn();
  const {data,error}=await supabase.from("posts").update({body}).eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).select("id").maybeSingle();
  if(error||!data)fail(groupId,"You can edit only your own group post.");
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?updated=post");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?updated=post");
 }
 export async function replaceGroupPostPhoto(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),photo=form.get("photo");
@@ -109,7 +109,7 @@ export async function replaceGroupPostPhoto(form:FormData){
  if(error||!saved){await supabase.storage.from("community-photos").remove([uploaded.path]);fail(groupId,"Your group post was not changed. Please try again.");}
  let cleanupFailed=false;
  if(current.photo_path){const {error:removeError}=await supabase.storage.from("community-photos").remove([current.photo_path]);cleanupFailed=Boolean(removeError)}
- revalidatePath("/home/groups/"+groupId);redirect(cleanupFailed?"/home/groups/"+groupId+"?updated=photo&cleanup=1":"/home/groups/"+groupId+"?updated=photo");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect(cleanupFailed?"/home/groups/"+groupId+"?updated=photo&cleanup=1":"/home/groups/"+groupId+"?updated=photo");
 }
 export async function removeGroupPostPhoto(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??"");
@@ -121,7 +121,7 @@ export async function removeGroupPostPhoto(form:FormData){
  if(error||!saved)fail(groupId,"The photo could not be removed.");
  let cleanupFailed=false;
  if(current.photo_path){const {error:removeError}=await supabase.storage.from("community-photos").remove([current.photo_path]);cleanupFailed=Boolean(removeError)}
- revalidatePath("/home/groups/"+groupId);redirect(cleanupFailed?"/home/groups/"+groupId+"?updated=photo-removed&cleanup=1":"/home/groups/"+groupId+"?updated=photo-removed");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect(cleanupFailed?"/home/groups/"+groupId+"?updated=photo-removed&cleanup=1":"/home/groups/"+groupId+"?updated=photo-removed");
 }
 export async function updateGroupComment(form:FormData){
  const groupId=String(form.get("group_id")??""),commentId=String(form.get("comment_id")??""),body=String(form.get("body")??"").trim();
@@ -133,5 +133,5 @@ export async function updateGroupComment(form:FormData){
  if(!post)fail(groupId,"That comment does not belong to this group.");
  const {data,error}=await supabase.from("comments").update({body}).eq("id",commentId).eq("author_id",user.id).select("id").maybeSingle();
  if(error||!data)fail(groupId,"Your comment could not be updated.");
- revalidatePath("/home/groups/"+groupId);redirect("/home/groups/"+groupId+"?updated=comment");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?updated=comment");
 }
