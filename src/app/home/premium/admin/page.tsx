@@ -27,8 +27,6 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
     <div className="app-content premium-content">
       <section className="premium-admin-heading"><span className="eyebrow">ROYALTY CONTROL CENTRE</span><h1>Premium advertising</h1><p>Create client listings, confirm payment and publish advertisements for the TIZIBANE community.</p></section>
       {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome back!</div>}
-      {params.error && <div className="notice" role="alert">{params.error}</div>}
-      {params.created && <div className="notice" role="status">Listing saved as a draft. Confirm payment before publishing it.</div>}
       <section className="premium-admin-form">
         <div className="feed-heading"><div><span className="eyebrow">NEW CLIENT ADVERTISEMENT</span><h2>Create product canvas</h2></div><span className="muted">Administrator only</span></div>
         <CompressedImageForm action={createPremiumProduct} className="premium-listing-form">
@@ -47,6 +45,8 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
           <button className="btn btn-primary premium-form-full" type="submit">Save product as draft</button>
         </CompressedImageForm>
       </section>
+      {params.created && <div className="notice" role="status">Your listing and photos have been saved as a draft. Confirm payment before publishing.</div>}
+      {params.error && <div className="notice" role="alert">{params.error}</div>}
       <section className="premium-admin-list">
         <div className="feed-heading"><div><span className="eyebrow">LISTING MANAGEMENT</span><h2>Client advertisements</h2></div><span className="muted">{products.length} records · newest first</span></div>
         {products.length === 0 ? <div className="empty-state"><h3>No product listings yet</h3><p>New client advertisements will appear here after you save them.</p></div> :
