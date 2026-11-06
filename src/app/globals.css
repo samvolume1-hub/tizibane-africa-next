@@ -3791,3 +3791,28 @@ main > .landing-contacts .landing-contact-panel a {
     line-height: 1.85;
   }
 }
+
+
+/* Final polish: keep the app canvas untouched; slim only the shared footer
+   and force every part of the upload-photo label to bright white. */
+.app-layout .home-composer .photo-picker,
+.app-layout .home-composer .photo-picker span,
+.app-layout .home-composer .photo-picker span[aria-hidden="true"] {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: none !important;
+}
+.app-layout::after {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 8px 14px !important;
+  line-height: 1.35 !important;
+}
+@media (max-width: 600px) {
+  .app-layout::after {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 8px 12px !important;
+    line-height: 1.35 !important;
+  }
+}
