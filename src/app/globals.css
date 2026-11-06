@@ -3820,3 +3820,144 @@ main > .landing-contacts .landing-contact-panel a {
     letter-spacing: .09em !important;
   }
 }
+
+
+/* Authenticated-app footer: one clean centred line on every app page. */
+.app-layout::after {
+  content: "Connect. Belong. Grow.  ·  © 2026 TIZIBANE Zambia" !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 6px 10px !important;
+  font-size: 10.5px !important;
+  line-height: 1.2 !important;
+  letter-spacing: .08em !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+@media (max-width: 600px) {
+  .app-layout::after {
+    padding: 6px 6px !important;
+    font-size: 9.1px !important;
+    letter-spacing: .025em !important;
+  }
+}
+
+/* Official announcements should read like important community moments,
+   not plain text panels. Keep the treatment within announcement surfaces. */
+.community-feature-page .feature-announcement-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 26px;
+  border: 1px solid #c9a8d8;
+  border-left: 5px solid #80519a;
+  border-radius: 19px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(190,151,214,.24), transparent 42%),
+    linear-gradient(135deg, #fff 0%, #fff6fb 52%, #f3eafa 100%);
+  box-shadow: 0 12px 30px rgba(83,48,104,.12), inset 0 1px 0 rgba(255,255,255,.95);
+}
+.community-feature-page .feature-announcement-card::before {
+  content: "✦  OFFICIAL COMMUNITY MESSAGE";
+  display: inline-flex;
+  align-items: center;
+  margin: -2px 0 14px;
+  padding: 6px 11px;
+  border: 1px solid #d7c0e2;
+  border-radius: 999px;
+  background: linear-gradient(110deg,#efe3f6,#fff0f6);
+  color: #603b78;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .13em;
+}
+.community-feature-page .feature-announcement-meta {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+}
+.community-feature-page .feature-announcement-meta .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: #603b78;
+  color: #fff !important;
+  font-size: 9px;
+  letter-spacing: .11em;
+}
+.community-feature-page .feature-announcement-card h2 {
+  max-width: 850px;
+  margin: 13px 0 8px;
+  color: #35213f;
+  font-size: clamp(23px, 3vw, 31px);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+.community-feature-page .feature-announcement-author {
+  margin: 0 0 19px;
+  padding-bottom: 13px;
+  border-bottom: 1px solid #e7d8ec;
+  color: #70567c !important;
+  font-size: 11px;
+  font-weight: 700;
+}
+.community-feature-page .feature-announcement-body {
+  max-width: 850px;
+  color: #403447;
+  font-size: 15px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.community-feature-page .feature-announcement-reactions {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #e4d5e9;
+}
+.community-home-page .home-announcement-link {
+  position: relative;
+  gap: 7px;
+  padding: 13px 15px 13px 17px;
+  border: 1px solid #d8c2e2;
+  border-left: 4px solid #80519a;
+  border-radius: 13px;
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(190,151,214,.18), transparent 48%),
+    linear-gradient(120deg,#fff 0%,#fff5fb 60%,#f5edfa 100%);
+  box-shadow: 0 5px 16px rgba(83,48,104,.08);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.community-home-page .home-announcement-link:hover {
+  transform: translateY(-1px);
+  border-color: #b995ca;
+  box-shadow: 0 9px 20px rgba(83,48,104,.13);
+}
+.community-home-page .home-announcement-link strong {
+  color: #382343 !important;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.community-home-page .home-announcement-link > span:last-child {
+  color: #65536d !important;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.community-home-page .home-announcement-link .home-pinned-label {
+  width: max-content;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #603b78;
+  color: #fff !important;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+@media (max-width: 520px) {
+  .community-feature-page .feature-announcement-card { padding: 19px 15px; }
+  .community-feature-page .feature-announcement-card h2 { font-size: 22px; }
+  .community-feature-page .feature-announcement-body { font-size: 14px; line-height: 1.75; }
+}
