@@ -4,7 +4,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createPost } from "../auth-actions";
-import { createComment, toggleReaction } from "./post-actions";
+import { createComment, toggleReaction, updatePost, deletePost, replacePostPhoto, removePostPhoto, updateComment, deleteComment } from "./post-actions";
+import { ContentMoreMenu } from "@/components/content-more-menu";
 import { ReportControl } from "./report-control";
 import { PendingIconButton } from "@/components/pending-icon-button";
 import { CompressedImageForm } from "@/components/compressed-image-form";
@@ -40,7 +41,7 @@ type HomeAnnouncement = { id: string; title: string; body: string; is_pinned: bo
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ posted?: string; commented?: string; error?: string; welcome?: string }>;
+  searchParams: Promise<{ posted?: string; commented?: string; error?: string; welcome?: string; updated?: string; deleted?: string; cleanup?: string }>;
 }) {
   const params = await searchParams;
   let supabase;
@@ -162,6 +163,9 @@ export default async function Home({
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
           {params.posted && <div className="notice" role="status">Your post has been shared with your selected audience.</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
+          {params.updated && <div className="notice" role="status">{params.updated === "comment" ? "Your comment has been updated." : params.updated === "photo-removed" ? "The photo has been removed from your post." : "Your post has been updated."}</div>}
+          {params.deleted && <div className="notice" role="status">{params.deleted === "comment" ? "Your comment has been deleted." : "Your post has been deleted from the database."}</div>}
+          {params.cleanup && <div className="notice" role="alert">The content was saved, but an old image could not be cleared from storage. Please contact support if it remains visible in storage.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {interactionLoadError && <div className="notice" role="alert">{interactionLoadError}</div>}
 
@@ -236,6 +240,7 @@ export default async function Home({
                         ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" loading="lazy" decoding="async" />
                         : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable"))}</div>}
                       <div><strong>{author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable")}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
+                      {post.author_id === user.id && <ContentMoreMenu fields={{ post_id: post.id }} edit={{ action: updatePost, value: post.body, label: "Edit post" }} deleteAction={deletePost} deleteLabel="Delete post" replacePhoto={photoUrls[post.id] ? { action: replacePostPhoto } : undefined} removePhoto={photoUrls[post.id] ? { action: removePostPhoto } : undefined} /> }
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
                     {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" loading="lazy" decoding="async" />}
@@ -286,6 +291,7 @@ export default async function Home({
                                 <strong>{commenterName}</strong>
                                 <p>{comment.body}</p>
                               </div>
+                              {comment.author_id === user.id && <ContentMoreMenu fields={{ comment_id: comment.id }} edit={{ action: updateComment, value: comment.body, label: "Edit comment", maxLength: 1000, rows: 3 }} deleteAction={deleteComment} deleteLabel="Delete comment" />}
                             </div>
                           );
                         })}
