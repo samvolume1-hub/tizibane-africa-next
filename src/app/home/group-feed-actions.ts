@@ -27,7 +27,7 @@ export async function createGroupPost(form:FormData){
  }
  const {error}=await supabase.from("posts").insert({author_id:user.id,body,visibility:"group",group_id:groupId,photo_path:photoPath});
  if(error){if(photoPath)await supabase.storage.from("community-photos").remove([photoPath]);fail(groupId,"Your group post could not be published.");}
- revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?posted=1");
+ revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect(photoPath?"/home/groups/"+groupId+"?posted=photo":"/home/groups/"+groupId+"?posted=1");
 }
 export async function createGroupComment(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),body=String(form.get("body")??"").trim();
