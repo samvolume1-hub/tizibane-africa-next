@@ -145,3 +145,26 @@ export async function updateProfile(formData: FormData) {
   revalidatePath("/home/people");
   redirect("/home/profile?saved=1");
 }
+
+export async function removeProfileImage(formData: FormData) {
+  const kind = String(formData.get("image_kind") ?? "");
+  if (kind !== "avatar" && kind !== "cover") fail("Choose a valid profile image.");
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const column = kind === "avatar" ? "avatar_path" : "cover_path";
+  const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
+  if (readError || !profile) fail("Your profile could not be loaded.");
+  const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
+  const { data: saved, error } = await supabase.from("profiles").update({ [column]: null }).eq("id", user.id).select("id").maybeSingle();
+  if (error || !saved) fail("Your profile image could not be removed.");
+  let cleanupFailed = false;
+  if (oldPath) {
+    const { error: storageError } = await supabase.storage.from("community-photos").remove([oldPath]);
+    cleanupFailed = Boolean(storageError);
+  }
+  revalidatePath("/home");
+  revalidatePath("/home/profile");
+  revalidatePath("/home/people");
+  redirect(cleanupFailed ? "/home/profile?removed=1&cleanup=1" : "/home/profile?removed=1");
+}
