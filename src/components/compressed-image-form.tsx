@@ -110,14 +110,17 @@ export function CompressedImageForm({ action, className, children }: Props) {
     })));
 
     const total = files.length;
+    const unsupported = files.find((file) => !ALLOWED_TYPES.has(file.type));
     const overLimit = files.some((file) => file.size > MAX_BYTES);
     const needsCompression = files.some((file) => file.size > TARGET_BYTES);
     setMessage(
-      overLimit
-        ? `${total} photo${total === 1 ? "" : "s"} selected. Large files will be compressed; each final photo must be 2 MB or smaller.`
-        : needsCompression
-          ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll optimize them toward 1 MB each before upload.`
-          : `${total} photo${total === 1 ? "" : "s"} selected · ${files.map((file) => formatSize(file.size)).join(", ")}.`,
+      unsupported
+        ? "That file type is not supported. Choose a JPG, PNG or WebP image."
+        : overLimit
+          ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll compress large files; each final photo must be 2 MB or smaller.`
+          : needsCompression
+            ? `${total} photo${total === 1 ? "" : "s"} selected. We’ll optimize them toward 1 MB each before upload.`
+            : `${total} photo${total === 1 ? "" : "s"} selected · ${files.map((file) => formatSize(file.size)).join(", ")}.`,
     );
   }
 
@@ -135,9 +138,10 @@ export function CompressedImageForm({ action, className, children }: Props) {
     const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
     setBusy(true);
     setMessage("Preparing your photos…");
+    const activeSubmitter = submitter instanceof HTMLButtonElement ? submitter : null;
     submitButtons.forEach((button) => {
       const label = button.textContent ?? "";
-      button.disabled = true;
+      button.disabled = activeSubmitter ? button !== activeSubmitter : true;
       button.textContent = /save/i.test(label) ? "Saving…" : /upload/i.test(label) ? "Uploading…" : /post|share|publish/i.test(label) ? "Posting…" : "Working…";
     });
 
@@ -160,8 +164,9 @@ export function CompressedImageForm({ action, className, children }: Props) {
 
       setMessage("Uploading and saving to TIZIBANE…");
       bypassSubmit.current = true;
-      if (submitter instanceof HTMLButtonElement) form.requestSubmit(submitter);
+      if (activeSubmitter) form.requestSubmit(activeSubmitter);
       else form.requestSubmit();
+      submitButtons.forEach((button) => { button.disabled = true; });
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Your photos could not be prepared. Please try again.");
       setBusy(false);
