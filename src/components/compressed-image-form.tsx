@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -78,7 +78,23 @@ async function optimizeImage(file: File): Promise<File> {
 
 export function CompressedImageForm({ action, className, children }: Props) {
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("Choose a photo to see its preview and size before sharing.");
+  const [preview, setPreview] = useState<string | null>(null);
+  const [selectedInfo, setSelectedInfo] = useState("");
+
+  useEffect(() => {
+    return () => { if (preview) URL.revokeObjectURL(preview); };
+  }, [preview]);
+
+  function handleFileChange(event: ChangeEvent<HTMLFormElement>) {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement) || target.type !== "file") return;
+    const file = target.files?.[0];
+    if (!file) { setPreview(null); setSelectedInfo(""); return; }
+    setPreview(URL.createObjectURL(file));
+    setSelectedInfo(`${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`);
+    setMessage(file.size > MAX_BYTES ? "This image will be compressed before upload. The final file must be 2 MB or smaller." : "Photo selected. It will be checked before it is uploaded.");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -88,7 +104,8 @@ export function CompressedImageForm({ action, className, children }: Props) {
 
     const form = event.currentTarget;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
-    submitButtons.forEach((button) => { button.disabled = true; });
+    const originalLabels = submitButtons.map((button) => button.textContent ?? "Submit");
+    submitButtons.forEach((button) => { button.disabled = true; button.textContent = "Posting…"; });
 
     try {
       const data = new FormData(form);
@@ -102,12 +119,12 @@ export function CompressedImageForm({ action, className, children }: Props) {
         }
         data.set(input.name, optimized, optimized.name);
       }
-      setMessage("Saving…");
+      setMessage("Uploading and saving to TIZIBANE…");
       await action(data);
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Your image could not be prepared. Please try again.");
       setBusy(false);
-      submitButtons.forEach((button) => { button.disabled = false; });
+      submitButtons.forEach((button, index) => { button.disabled = false; button.textContent = originalLabels[index]; });
     }
   }
 
