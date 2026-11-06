@@ -148,14 +148,12 @@ export async function updateProfile(formData: FormData) {
 
 export async function removeProfileImage(formData: FormData) {
   const kind = String(formData.get("image_kind") ?? "");
-  if (kind !== "avatar" && kind !== "cover") fail("Choose a valid profile image.");
+  if (kind !== "avatar") fail("Choose a valid profile image.");
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const column = "avatar_path";
   const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
   if (readError || !profile) fail("Your profile could not be loaded.");
-  const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
   const { data: saved, error } = await supabase.from("profiles").update({ avatar_path: null, cover_path: null }).eq("id", user.id).select("id").maybeSingle();
   if (error || !saved) fail("Your profile image could not be removed.");
   let cleanupFailed = false;
@@ -180,11 +178,9 @@ export async function replaceProfileImage(formData: FormData) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const column = "avatar_path";
   const folder = "avatars";
   const { data: profile, error: readError } = await supabase.from("profiles").select("id,avatar_path,cover_path").eq("id", user.id).maybeSingle();
   if (readError || !profile) fail("Your profile could not be loaded.");
-  const oldPath = kind === "avatar" ? profile.avatar_path : profile.cover_path;
   const newPath = user.id + "/" + folder + "/" + crypto.randomUUID() + "." + extension;
   const { data: uploaded, error: uploadError } = await supabase.storage.from("community-photos").upload(newPath, photo, { contentType: photo.type, cacheControl: "3600", upsert: false });
   if (uploadError || !uploaded?.path) fail("Your new profile image could not be uploaded.");
