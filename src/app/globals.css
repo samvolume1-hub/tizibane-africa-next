@@ -4382,3 +4382,8 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .group-member-actions form{display:flex;align-items:center;gap:7px}
 .app-layout .group-member-actions select{max-width:125px;background:#090e0b;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px;font-size:11px}
 @media(max-width:540px){.app-layout .group-welcome{display:grid}.app-layout .group-settings-menu{margin-left:0}.app-layout .group-member-row{align-items:flex-start;flex-direction:column}.app-layout .group-member-actions{width:100%}}
+
+/* Selected-image previews for the shared upload form. Authenticated app only. */
+.app-layout .image-upload-preview-list{display:grid;gap:8px;margin-top:12px;min-width:0}
+.app-layout .image-upload-preview-list .image-upload-preview{margin:0;min-width:0}
+.app-layout .image-upload-preview-list .image-upload-preview img{max-width:min(180px,42%);max-height:120px;flex:none}
