@@ -3,7 +3,8 @@ import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { updateProfile } from "../profile-actions";
+import { updateProfile, removeProfileImage } from "../profile-actions";
+import { ContentMoreMenu } from "@/components/content-more-menu";
 import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type Profile = {
@@ -20,7 +21,7 @@ type Profile = {
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams: Promise<{ saved?: string; error?: string }>;
+  searchParams: Promise<{ saved?: string; error?: string; removed?: string; cleanup?: string }>;
 }) {
   const params = await searchParams;
   const supabase = await createClient();
@@ -63,6 +64,8 @@ export default async function ProfilePage({
             <p>Keep your details current and choose how other members can discover your profile.</p>
           </section>
           {params.saved && <div className="notice" role="status">Your profile has been saved.</div>}
+          {params.removed && <div className="notice" role="status">Your selected profile image has been removed.</div>}
+          {params.cleanup && <div className="notice" role="alert">Your profile was updated, but an old image could not be cleared from storage. Please contact support.</div>}
           {params.error && <div className="notice" role="alert">{params.error}</div>}
           {!profile && <div className="notice" role="alert">Your member profile is still being created. Please refresh this page in a moment.</div>}
           <section className="profile-editor">
@@ -72,6 +75,10 @@ export default async function ProfilePage({
             <div className="profile-preview">
               {avatarUrl ? <img src={avatarUrl} alt="Your profile" className="profile-avatar-image" /> : <div className="profile-avatar-fallback">{profileInitials}</div>}
               <div><strong>{profileName}</strong><span>Your TIZIBANE community profile</span></div>
+            </div>
+            <div className="profile-image-controls">
+              {avatarUrl && <ContentMoreMenu fields={{ image_kind: "avatar" }} deleteAction={removeProfileImage} deleteLabel="Remove profile photo" />}
+              {coverUrl && <ContentMoreMenu fields={{ image_kind: "cover" }} deleteAction={removeProfileImage} deleteLabel="Remove cover photo" />}
             </div>
             <CompressedImageForm action={updateProfile} className="profile-form">
               <div className="field"><label htmlFor="display_name">Display name</label><input id="display_name" name="display_name" defaultValue={profile?.display_name || String(user.user_metadata?.display_name || "")} maxLength={80} required /></div>
