@@ -90,6 +90,9 @@ export async function updateGroupPost(form:FormData){
  if(!UUID.test(groupId)||!UUID.test(postId))fail(groupId,"That post could not be found.");
  if(body.length>3000)fail(groupId,"Keep your post under 3000 characters.");
  const {supabase,user}=await signedIn();
+ const {data:current,error:readError}=await supabase.from("posts").select("photo_path,body").eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).maybeSingle();
+ if(readError||!current)fail(groupId,"You can edit only your own group post.");
+ if(!body&&!current.photo_path)fail(groupId,"A group post needs text or a photo. Add content or delete the post instead.");
  const {data,error}=await supabase.from("posts").update({body}).eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).select("id").maybeSingle();
  if(error||!data)fail(groupId,"You can edit only your own group post.");
  revalidatePath("/home/groups/"+groupId);revalidatePath("/home");redirect("/home/groups/"+groupId+"?updated=post");
@@ -117,6 +120,7 @@ export async function removeGroupPostPhoto(form:FormData){
  const {supabase,user}=await signedIn();
  const {data:current,error:readError}=await supabase.from("posts").select("photo_path").eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).maybeSingle();
  if(readError||!current)fail(groupId,"You can remove photos only from your own group post.");
+ if(!current.body.trim())fail(groupId,"This group post has no text. Add text before removing its only photo, or delete the post.");
  const {data:saved,error}=await supabase.from("posts").update({photo_path:null}).eq("id",postId).eq("group_id",groupId).eq("author_id",user.id).select("id").maybeSingle();
  if(error||!saved)fail(groupId,"The photo could not be removed.");
  let cleanupFailed=false;
