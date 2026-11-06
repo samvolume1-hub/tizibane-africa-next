@@ -1,6 +1,7 @@
 import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { signOut } from "@/app/auth-actions";
+import { AppPageControls } from "@/components/app-page-controls";
 
 const items = [
   { href: "/home", icon: "⌂", label: "Home", key: "home" },
@@ -58,6 +59,7 @@ export function CommunityNavigation({ active }: { active: string }) {
           <button className="btn" type="submit" style={{ width: "100%" }}>Sign out</button>
         </form>
       </section>
+      <AppPageControls />
     </aside>
   );
 }
