@@ -221,12 +221,12 @@ export default async function Home({
                   <article className="post-card" key={post.id}>
                     <div className="post-author">
                       {avatarUrls[post.author_id]
-                        ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" />
+                        ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" loading="lazy" decoding="async" />
                         : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable"))}</div>}
                       <div><strong>{author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable")}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
-                    {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" />}
+                    {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" loading="lazy" decoding="async" />}
                     <div className="post-interactions">
                       <div className="reaction-picker" aria-label="Choose how you feel about this post">
                         <details className="reaction-menu">
@@ -268,7 +268,7 @@ export default async function Home({
                           return (
                             <div className="comment" key={comment.id}>
                               {avatarUrls[comment.author_id]
-                                ? <img className="comment-avatar avatar-image" src={avatarUrls[comment.author_id]} alt={`${commenterName} profile photo`} />
+                                ? <img className="comment-avatar avatar-image" src={avatarUrls[comment.author_id]} alt={`${commenterName} profile photo`} loading="lazy" decoding="async" />
                                 : <div className="comment-avatar comment-avatar-fallback" style={{ background: commenter?.avatar_color || "#8053ad" }} aria-hidden="true">{commenterInitials}</div>}
                               <div className="comment-content">
                                 <strong>{commenterName}</strong>
