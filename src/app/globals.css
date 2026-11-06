@@ -2931,3 +2931,114 @@ main > .landing-contacts .landing-contact-panel a {
     url("/images/AFRICA%20001.jpg") center center / cover no-repeat !important;
   border: 1px solid rgba(255,255,255,.46) !important;
 }
+
+
+/* TIZIBANE app colour refinement (2026-11-06).
+   Pale blush replaces the previous saturated rose canvases on app pages only.
+   Landing and login pages are deliberately excluded via the .app-layout scope. */
+.app-layout {
+  --app-blush: #fffafd;
+  --app-blush-soft: #fff7fb;
+  --app-blush-border: #f0dce7;
+  --app-blush-shadow: rgba(95, 48, 72, .07);
+}
+.app-layout > .sidebar {
+  background: linear-gradient(180deg, #fffafd 0%, #fff7fb 54%, #fbf7fc 100%) !important;
+  border-color: var(--app-blush-border) !important;
+  box-shadow: 8px 0 26px var(--app-blush-shadow) !important;
+}
+.app-layout .topbar {
+  background: linear-gradient(110deg, rgba(255,252,253,.99), rgba(255,247,251,.98) 58%, rgba(250,247,252,.98)) !important;
+  border-color: var(--app-blush-border) !important;
+  box-shadow: 0 4px 16px var(--app-blush-shadow) !important;
+}
+.app-layout .side-nav a.active,
+.app-layout .side-nav a:hover {
+  background: linear-gradient(110deg, #fff0f6 0%, #fdf1f8 58%, #f7f1fb 100%) !important;
+  border-color: #eed9e6 !important;
+  color: #59384d !important;
+  text-shadow: none !important;
+  box-shadow: inset 0 0 0 1px rgba(190,145,170,.08), 0 3px 10px rgba(95,48,72,.05) !important;
+}
+.app-layout .welcome,
+.app-layout .people-search-panel,
+.app-layout .profile-editor,
+.app-layout .module-section,
+.app-layout .composer,
+.app-layout .message-composer,
+.app-layout .premium-admin-form,
+.app-layout .premium-admin-list,
+.app-layout .premium-process,
+.app-layout .premium-package,
+.app-layout .premium-audience-card,
+.app-layout .premium-bottom-cta,
+.app-layout .premium-admin-heading {
+  background: linear-gradient(145deg, #fffafd 0%, #fff7fb 58%, #faf7fc 100%) !important;
+  border: 1px solid var(--app-blush-border) !important;
+  box-shadow: 0 9px 24px var(--app-blush-shadow), inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+.app-layout .person-card,
+.app-layout .notification-card,
+.app-layout .conversation-card,
+.app-layout .conversation-heading,
+.app-layout .post-card,
+.app-layout .group-card,
+.app-layout .event-card {
+  background: linear-gradient(145deg, #fffefe 0%, #fff8fb 60%, #fbf8fc 100%) !important;
+  border-color: #f0dfe8 !important;
+  box-shadow: 0 7px 20px rgba(95,48,72,.055), inset 0 1px 0 rgba(255,255,255,.98) !important;
+}
+.app-layout .composer,
+.app-layout .composer * {
+  color: #493444 !important;
+  -webkit-text-fill-color: #493444 !important;
+  text-shadow: none !important;
+}
+.app-layout .composer textarea,
+.app-layout .composer select,
+.app-layout .composer input:not([type="file"]) {
+  background: #ffffff !important;
+  border: 1px solid #ead8e2 !important;
+  color: #382b38 !important;
+  -webkit-text-fill-color: #382b38 !important;
+  box-shadow: inset 0 1px 3px rgba(70,35,55,.035), 0 2px 8px rgba(95,48,72,.035) !important;
+}
+.app-layout .composer textarea::placeholder,
+.app-layout .composer input::placeholder {
+  color: #8b7884 !important;
+  -webkit-text-fill-color: #8b7884 !important;
+  opacity: 1;
+}
+.app-layout .composer select option {
+  background: #ffffff !important;
+  color: #382b38 !important;
+}
+.app-layout .welcome {
+  border-color: #efdae6 !important;
+}
+.app-layout .welcome h1,
+.app-layout .welcome p,
+.app-layout .welcome .eyebrow {
+  color: #493444 !important;
+  -webkit-text-fill-color: #493444 !important;
+  text-shadow: none !important;
+}
+.app-layout .field input,
+.app-layout .field select,
+.app-layout .field textarea,
+.app-layout .comment-form input,
+.app-layout .message-composer textarea {
+  background: #ffffff !important;
+  border-color: #ead8e2 !important;
+  color: #382b38 !important;
+  -webkit-text-fill-color: #382b38 !important;
+  box-shadow: inset 0 1px 3px rgba(70,35,55,.035), 0 2px 8px rgba(95,48,72,.035) !important;
+}
+.app-layout .field input::placeholder,
+.app-layout .field textarea::placeholder,
+.app-layout .comment-form input::placeholder,
+.app-layout .message-composer textarea::placeholder {
+  color: #8b7884 !important;
+  -webkit-text-fill-color: #8b7884 !important;
+  opacity: 1;
+}
