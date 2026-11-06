@@ -2361,3 +2361,31 @@ main > .section .feature {
   border-radius: 20px !important;
   box-shadow: 0 14px 34px rgba(75, 20, 55, .28), inset 0 1px 0 rgba(255,255,255,.36) !important;
 }
+
+
+/* Landing hero copy: put the introduction and account actions on the same
+   rose-pink canvas used by the rest of TIZIBANE. */
+.hero-copy-card {
+  padding: clamp(22px, 3.2vw, 38px);
+  border: 1px solid rgba(255,255,255,.76);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #ed9fc4 0%, #e58fba 52%, #d69bdc 100%);
+  box-shadow: 0 14px 34px rgba(75, 20, 55, .28), inset 0 1px 0 rgba(255,255,255,.36);
+}
+.hero-copy-card .eyebrow,
+.hero-copy-card h1,
+.hero-copy-card .gradient,
+.hero-copy-card .lead {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(70, 15, 48, .32);
+}
+.hero-copy-card .lead {
+  opacity: 1;
+}
+@media (max-width: 600px) {
+  .hero-copy-card {
+    padding: 22px 18px;
+    border-radius: 18px;
+  }
+}
