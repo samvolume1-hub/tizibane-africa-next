@@ -99,11 +99,13 @@ export default async function EventsPage({
 
   const attendeeIds = [...new Set(attendance.map((entry) => entry.user_id))];
   let attendeeProfiles: AttendeeProfile[] = [];
-  if (attendeeIds.length) {
+  const profileBatchSize = 500;
+  for (let from = 0; from < attendeeIds.length; from += profileBatchSize) {
+    const profileBatch = attendeeIds.slice(from, from + profileBatchSize);
     const { data } = await supabase.from("profiles")
       .select("id,display_name")
-      .in("id", attendeeIds);
-    attendeeProfiles = (data ?? []) as AttendeeProfile[];
+      .in("id", profileBatch);
+    attendeeProfiles.push(...((data ?? []) as AttendeeProfile[]));
   }
 
   const profileById = new Map(attendeeProfiles.map((profile) => [profile.id, profile]));
