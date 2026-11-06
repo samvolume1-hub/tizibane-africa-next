@@ -5192,3 +5192,87 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-home-page .home-welcome-copy p {
   display: none !important;
 }
+
+
+/* Home Feed quick actions: individual compact controls, with no tray behind them. */
+.app-layout .community-home-page .home-quick-actions-below {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  width: 100%;
+  margin: 10px 0 22px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(224, 196, 239, .25) !important;
+  border-radius: 9px !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: linear-gradient(135deg, #382044 0%, #24142f 58%, #130d1c 100%) !important;
+  box-shadow: 0 3px 9px rgba(8, 3, 14, .22) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  letter-spacing: .025em !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action-primary {
+  border-color: rgba(255, 190, 231, .5) !important;
+  background: linear-gradient(135deg, #a83c83 0%, #81346f 56%, #59264f 100%) !important;
+  box-shadow: 0 4px 12px rgba(126, 36, 105, .22) !important;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-icon {
+  display: block;
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .96;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action:hover,
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action:focus-visible {
+  border-color: rgba(255, 205, 239, .72) !important;
+  background: linear-gradient(135deg, #67315f 0%, #382044 100%) !important;
+  box-shadow: 0 5px 14px rgba(8, 3, 14, .3) !important;
+  transform: translateY(-1px);
+  outline: none;
+}
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action-primary:hover,
+.app-layout .community-home-page .home-quick-actions-below .home-quick-action-primary:focus-visible {
+  background: linear-gradient(135deg, #c04b98 0%, #923c7d 100%) !important;
+}
+@media (max-width: 540px) {
+  .app-layout .community-home-page .home-quick-actions-below {
+    justify-content: flex-start !important;
+    gap: 7px !important;
+    margin: 9px 0 18px !important;
+  }
+  .app-layout .community-home-page .home-quick-actions-below .home-quick-action {
+    height: 33px !important;
+    min-height: 33px !important;
+    padding: 0 10px !important;
+    font-size: 9.5px !important;
+  }
+}
