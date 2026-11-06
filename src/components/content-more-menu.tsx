@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type ServerAction = (formData: FormData) => void | Promise<void>;
 type EditOption = {
@@ -55,11 +56,11 @@ export function ContentMoreMenu({
           </details>
         )}
         {replacePhoto && (
-          <form action={replacePhoto.action} className="content-menu-form" encType="multipart/form-data">
+          <CompressedImageForm action={replacePhoto.action} className="content-menu-form">
             <HiddenFields fields={fields} />
             <label className="content-menu-file">{replacePhoto.label ?? "Replace photo"}<input type="file" name="photo" accept="image/jpeg,image/png,image/webp" required /></label>
             <button className="text-action" type="submit">Upload replacement</button>
-          </form>
+          </CompressedImageForm>
         )}
         {removePhoto && (
           <details className="content-more-submenu">
