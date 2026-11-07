@@ -3,7 +3,7 @@ import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 import {createClient} from "@/lib/supabase/server";
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const REASONS=["spam","harassment","impersonation","inappropriate","other"];
+const REASONS=["spam","harassment","unsafe","impersonation","other"];
 function peopleError(message:string):never{redirect("/home/people?error="+encodeURIComponent(message))}
 async function signedIn(){const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");return {supabase,user}}
 export async function reportMember(form:FormData){
