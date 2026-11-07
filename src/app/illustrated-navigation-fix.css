@@ -255,3 +255,28 @@
     min-height: 52px !important;
   }
 }
+
+
+/* Slim the artwork horizontally by 20% without moving its centered position. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  transform: scale(0.56, 0.7) !important;
+  transform-origin: center center !important;
+}
+
+/* Replace the navigation rail's pure-white surfaces with a soft, elegant pink. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  background-color: #fff0f6 !important;
+}
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  border-right-color: #f2c8d9 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:hover,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:focus-visible {
+  background-color: #ffe1ed !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
+  background-color: #ffd5e6 !important;
+}
