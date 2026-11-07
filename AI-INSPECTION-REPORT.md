@@ -97,3 +97,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:**
 - **Blockers/risks:**
 - **Next safe step:**
+
+
+### 7 November 2026 — 13 illustrated navigation redesign
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/13-illustrated-navigation`, created from latest `main` commit `ac476a8c63b64a23c6f4e6387067b9250533082c`.
+- **Agreed scope:** Replace the old dropdown navigation with 13 clickable illustrations in a pure-white vertical navigation column; preserve existing destination routes; retain logout separately; address desktop and mobile layouts.
+- **Commit/PR:** `e168a1f57ff91df5042bc8d003a5b2fbfb7141dd`; PR [#3](https://github.com/samvolume1-hub/tizibane-africa-next/pull/3), open Draft and unmerged.
+- **Files inspected:** `AI-HANDOVER.md`, `AI-INSPECTION-REPORT.md`, `README.md`, `src/components/community-navigation.tsx`, `src/app/globals.css`, `src/components/app-page-controls.tsx`, `src/components/brand.tsx`, `src/app/home/page.tsx`, `package.json`, and `.github/workflows/ci.yml`.
+- **Files changed:** `src/components/community-navigation.tsx`; `src/app/globals.css`; added `public/images/tizibane-navigation-3d-sprite.webp` from the user's original glossy 3D icon artwork. This report entry is also being added as required by the project handover protocol.
+- **Findings and decisions:** Removed the mobile More/dropdown navigation and the old text-icon navigation list. Added 13 illustration links in the existing route order, with My profile and Stories mapped to the avatar and plus artwork respectively. Existing hrefs and active-route indicators are preserved. Logout remains a separate confirmation control through `AppPageControls`. The sidebar is a white vertical rail; mobile retains the vertical rail at a narrower width with independently scrollable navigation. The 13 original illustrations are stored in one optimized local WebP sprite (about 8.6 KB) to avoid 13 separate network requests. No destination-page or feed code was changed. PR #2 was closed without merging earlier in this session; it remains unmerged.
+- **Tests/checks run and actual results:** GitHub Actions run [42362724702](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/42362724702) completed successfully. Both TypeScript typecheck and production build passed. Local build was not run because this environment could not resolve github.com for cloning. Source diff was reviewed and limited to the navigation component, global stylesheet, and local sprite asset (plus this required report entry).
+- **Deployment status (verified/unverified):** No production deployment performed or verified. PR remains open and unmerged.
+- **Production, hosting, Supabase, or data changes:** None. No hosting, environment, Supabase, database, authentication, or member-data changes.
+- **Blockers/risks:** Visual browser verification at real desktop/mobile viewport sizes remains outstanding. The mobile rail is deliberately narrow; confirm content usability on the smallest supported device before merge.
+- **Next safe step:** Review PR #3 visually and on mobile. Merge and production deployment require separate explicit user approval.
