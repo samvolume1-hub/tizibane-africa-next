@@ -114,3 +114,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None. No hosting, environment, Supabase, database, authentication, or member-data changes.
 - **Blockers/risks:** Visual browser verification at real desktop/mobile viewport sizes remains outstanding. The mobile rail is deliberately narrow; confirm content usability on the smallest supported device before merge.
 - **Next safe step:** Review PR #3 visually and on mobile. Merge and production deployment require separate explicit user approval.
+
+
+### 7 November 2026 — Final illustrated navigation asset and layout repair
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/13-illustrated-navigation`
+- **Agreed scope:** Complete the approved 13-icon-only navigation repair using the user's original artwork; pure-white vertical rail; no text labels, hover tooltips, or dropdown; preserve routes and separate logout.
+- **Commit/PR:** PR [#3](https://github.com/samvolume1-hub/tizibane-africa-next/pull/3), updated branch; review/build pending.
+- **Files inspected:** Original Library artwork `TIZIBANE DESIGN-Glossy 3D App Icon Collection.png`; navigation component; global stylesheet; root layout; previous navigation sprite; existing PR and main branch history.
+- **Files changed:** Added `public/images/tizibane-navigation-3d-sprite.svg` with the verified 13-cell WebP artwork embedded locally; added `src/app/illustrated-navigation-fix.css`; updated `src/components/community-navigation.tsx` to remove title tooltips and retain accessible aria labels; updated `src/app/layout.tsx` to load the final stylesheet after global CSS; removed the invalid `.webp` asset.
+- **Findings and decisions:** Confirmed production `main` was still at `ac476a8`, while PR #3 was unmerged. The prior sprite file did not have a valid WebP file signature. Rebuilt the sprite directly from the user's original artwork, with 13 48×48 cells in the approved route-artwork mapping. Final stylesheet overrides conflicting legacy navigation rules, hides all visible labels/tooltips, keeps a compact white vertical rail on desktop and mobile, and preserves the separate logout control. No destination pages, feed content, database, authentication, Supabase settings, or hosting configuration were changed.
+- **Tests/checks run and actual results:** Verified the new SVG wrapper and embedded WebP signature/size, stylesheet import order, local sprite reference, no tooltip pseudo-element, 13 artwork mappings, and no mobile dropdown in the component. GitHub Actions production build and browser viewport verification are still pending.
+- **Deployment status (verified/unverified):** Not deployed. PR #3 remains separate from `main`; Render production remains on the existing main deployment until the PR is merged and Render confirms the new deployment.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** Await GitHub Actions checks and then verify actual desktop/mobile rendering before merge. The original Library artwork is preserved as the source; the new sprite is a local, single-request asset.
+- **Next safe step:** Run CI, review the rendered navigation on desktop and mobile, then merge PR #3 and confirm Render auto-deploys the merge commit.
