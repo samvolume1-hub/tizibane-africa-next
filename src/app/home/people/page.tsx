@@ -36,9 +36,14 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
  const friendByMember=new Map<string,Friendship>();
  for(const f of friendships){const other=f.requester_id===user.id?f.recipient_id:f.requester_id;friendByMember.set(other,f)}
  const avatarUrls:Record<string,string>={},coverUrls:Record<string,string>={};
- for(const p of allProfiles){
-  if(p.avatar_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
-  if(p.cover_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.cover_path,3600);if(data?.signedUrl)coverUrls[p.id]=data.signedUrl}
+ const imagePaths=allProfiles.flatMap(p=>[p.avatar_path,p.cover_path].filter((path):path is string=>Boolean(path)));
+ if(imagePaths.length){
+  const {data:signedFiles}=await supabase.storage.from("community-photos").createSignedUrls(imagePaths,3600);
+  const signedByPath=new Map((signedFiles??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl]));
+  for(const p of allProfiles){
+   if(p.avatar_path){const url=signedByPath.get(p.avatar_path);if(url)avatarUrls[p.id]=url}
+   if(p.cover_path){const url=signedByPath.get(p.cover_path);if(url)coverUrls[p.id]=url}
+  }
  }
  return <main className="app-layout"><CommunityNavigation active="people" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">MEMBER DIRECTORY</span></header><div className="app-content">
