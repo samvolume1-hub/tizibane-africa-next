@@ -299,3 +299,12 @@
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
   background-color: #ded4ff !important;
 }
+
+
+/* Give the lavender navigation a coordinated near-black purple outline. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  border-right: 2px solid #241632 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  border: 1px solid #241632 !important;
+}
