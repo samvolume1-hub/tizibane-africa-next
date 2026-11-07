@@ -97,3 +97,37 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:**
 - **Blockers/risks:**
 - **Next safe step:**
+
+
+### 7 November 2026 — 13 illustrated navigation redesign
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/13-illustrated-navigation`, created from latest `main` commit `ac476a8c63b64a23c6f4e6387067b9250533082c`.
+- **Agreed scope:** Replace the old dropdown navigation with 13 clickable illustrations in a pure-white vertical navigation column; preserve existing destination routes; retain logout separately; address desktop and mobile layouts.
+- **Commit/PR:** `e168a1f57ff91df5042bc8d003a5b2fbfb7141dd`; PR [#3](https://github.com/samvolume1-hub/tizibane-africa-next/pull/3), open Draft and unmerged.
+- **Files inspected:** `AI-HANDOVER.md`, `AI-INSPECTION-REPORT.md`, `README.md`, `src/components/community-navigation.tsx`, `src/app/globals.css`, `src/components/app-page-controls.tsx`, `src/components/brand.tsx`, `src/app/home/page.tsx`, `package.json`, and `.github/workflows/ci.yml`.
+- **Files changed:** `src/components/community-navigation.tsx`; `src/app/globals.css`; added `public/images/tizibane-navigation-3d-sprite.webp` from the user's original glossy 3D icon artwork. This report entry is also being added as required by the project handover protocol.
+- **Findings and decisions:** Removed the mobile More/dropdown navigation and the old text-icon navigation list. Added 13 illustration links in the existing route order, with My profile and Stories mapped to the avatar and plus artwork respectively. Existing hrefs and active-route indicators are preserved. Logout remains a separate confirmation control through `AppPageControls`. The sidebar is a white vertical rail; mobile retains the vertical rail at a narrower width with independently scrollable navigation. The 13 original illustrations are stored in one optimized local WebP sprite (about 8.6 KB) to avoid 13 separate network requests. No destination-page or feed code was changed. PR #2 was closed without merging earlier in this session; it remains unmerged.
+- **Tests/checks run and actual results:** GitHub Actions run [42362724702](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/42362724702) completed successfully. Both TypeScript typecheck and production build passed. Local build was not run because this environment could not resolve github.com for cloning. Source diff was reviewed and limited to the navigation component, global stylesheet, and local sprite asset (plus this required report entry).
+- **Deployment status (verified/unverified):** No production deployment performed or verified. PR remains open and unmerged.
+- **Production, hosting, Supabase, or data changes:** None. No hosting, environment, Supabase, database, authentication, or member-data changes.
+- **Blockers/risks:** Visual browser verification at real desktop/mobile viewport sizes remains outstanding. The mobile rail is deliberately narrow; confirm content usability on the smallest supported device before merge.
+- **Next safe step:** Review PR #3 visually and on mobile. Merge and production deployment require separate explicit user approval.
+
+
+### 7 November 2026 — Final illustrated navigation asset and layout repair
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/13-illustrated-navigation`
+- **Agreed scope:** Complete the approved 13-icon-only navigation repair using the user's original artwork; pure-white vertical rail; no text labels, hover tooltips, or dropdown; preserve routes and separate logout.
+- **Commit/PR:** PR [#3](https://github.com/samvolume1-hub/tizibane-africa-next/pull/3), updated branch; review/build pending.
+- **Files inspected:** Original Library artwork `TIZIBANE DESIGN-Glossy 3D App Icon Collection.png`; navigation component; global stylesheet; root layout; previous navigation sprite; existing PR and main branch history.
+- **Files changed:** Added `public/images/tizibane-navigation-3d-sprite.svg` with the verified 13-cell WebP artwork embedded locally; added `src/app/illustrated-navigation-fix.css`; updated `src/components/community-navigation.tsx` to remove title tooltips and retain accessible aria labels; updated `src/app/layout.tsx` to load the final stylesheet after global CSS; removed the invalid `.webp` asset.
+- **Findings and decisions:** Confirmed production `main` was still at `ac476a8`, while PR #3 was unmerged. The prior sprite file did not have a valid WebP file signature. Rebuilt the sprite directly from the user's original artwork, with 13 48×48 cells in the approved route-artwork mapping. Final stylesheet overrides conflicting legacy navigation rules, hides all visible labels/tooltips, keeps a compact white vertical rail on desktop and mobile, and preserves the separate logout control. No destination pages, feed content, database, authentication, Supabase settings, or hosting configuration were changed.
+- **Tests/checks run and actual results:** Verified the new SVG wrapper and embedded WebP signature/size, stylesheet import order, local sprite reference, no tooltip pseudo-element, 13 artwork mappings, and no mobile dropdown in the component. GitHub Actions production build and browser viewport verification are still pending.
+- **Deployment status (verified/unverified):** Not deployed. PR #3 remains separate from `main`; Render production remains on the existing main deployment until the PR is merged and Render confirms the new deployment.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** Await GitHub Actions checks and then verify actual desktop/mobile rendering before merge. The original Library artwork is preserved as the source; the new sprite is a local, single-request asset.
+- **Next safe step:** Run CI, review the rendered navigation on desktop and mobile, then merge PR #3 and confirm Render auto-deploys the merge commit.

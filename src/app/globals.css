@@ -5361,3 +5361,295 @@ main > .landing-contacts .landing-contact-panel a {
   }
 }
 
+
+
+/* TIZIBANE illustrated navigation — scoped to the authenticated sidebar only. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  position: sticky !important;
+  top: 0;
+  align-self: start;
+  width: 108px;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: visible;
+  padding: 12px 8px 76px;
+  display: flex;
+  flex-direction: column;
+  background: #fff !important;
+  color: #151515;
+  border-right: 1px solid #ececec;
+  z-index: 20;
+}
+.tizibane-illustrated-sidebar .community-nav-section {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: #fff !important;
+  color: #171717;
+}
+.tizibane-illustrated-sidebar .community-nav-brand {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 12px;
+  border-bottom: 1px solid #eeeeee;
+}
+.tizibane-illustrated-sidebar .community-nav-brand .brand {
+  justify-content: center;
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  color: #171717;
+}
+.tizibane-illustrated-sidebar .community-nav-brand .brand > span:last-child {
+  display: none;
+}
+.tizibane-illustrated-sidebar .community-nav-brand .brand-mark {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d6b36a;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+}
+.tizibane-illustrated-sidebar .community-nav-brand .brand-letter {
+  color: #171717;
+  text-shadow: none;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav {
+  display: flex !important;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 10px 0 0;
+  padding: 2px 0 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #e6d6b1 transparent;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  position: relative;
+  display: grid;
+  flex: 0 0 52px;
+  place-items: center;
+  width: 64px;
+  min-height: 52px;
+  padding: 2px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background: #fff !important;
+  color: #171717;
+  box-shadow: none;
+  transition: border-color .16s ease, background-color .16s ease, transform .16s ease;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover,
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible {
+  border-color: #ead8ad;
+  background: #fffdf8 !important;
+  transform: translateY(-1px);
+  outline: none;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
+  border-color: #d6b36a;
+  background: #fffaf0 !important;
+  box-shadow: inset 0 0 0 1px #d6b36a22;
+}
+.tizibane-illustrated-sidebar .nav-illustration {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  background-image: url('/images/tizibane-navigation-3d-sprite.webp');
+  background-repeat: no-repeat;
+  background-size: 48px 624px;
+  background-position-x: center;
+  image-rendering: auto;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a::after {
+  content: attr(aria-label);
+  position: absolute;
+  left: calc(100% + 9px);
+  top: 50%;
+  z-index: 60;
+  transform: translateY(-50%) translateX(-3px);
+  padding: 7px 10px;
+  border: 1px solid #ead8ad;
+  border-radius: 8px;
+  background: #fff;
+  color: #171717;
+  box-shadow: 0 5px 18px #00000012;
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover::after,
+.tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.tizibane-illustrated-sidebar .sidebar-note,
+.tizibane-illustrated-sidebar .sidebar-signout,
+.tizibane-illustrated-sidebar .mobile-bottom-nav {
+  display: none !important;
+}
+.tizibane-illustrated-sidebar .app-logout-controls {
+  position: absolute !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 10px !important;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  width: 64px;
+}
+.tizibane-illustrated-sidebar .app-logout-trigger {
+  display: grid;
+  place-items: center;
+  gap: 0;
+  width: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: 1px solid #e8e1d3;
+  border-radius: 14px;
+  background: #fff;
+  color: #171717;
+  opacity: 1;
+}
+.tizibane-illustrated-sidebar .app-logout-trigger span:last-child {
+  display: none;
+}
+.tizibane-illustrated-sidebar .app-logout-trigger span:first-child {
+  color: #b58b3f;
+  font-size: 20px;
+}
+.tizibane-illustrated-sidebar .app-logout-confirm {
+  position: absolute;
+  left: calc(100% + 8px);
+  bottom: 0;
+  width: max-content;
+  max-width: min(320px, calc(100vw - 90px));
+  background: #fff;
+  color: #171717;
+  border-color: #e8d7b0;
+  box-shadow: 0 8px 28px #0002;
+}
+.tizibane-illustrated-sidebar .app-logout-confirm .app-page-control {
+  color: #171717;
+  border-color: #e8d7b0;
+  background: #fff;
+}
+@media (max-width: 820px) {
+  .app-layout {
+    min-height: 100vh;
+    padding-bottom: 0 !important;
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+  }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar {
+    position: sticky !important;
+    inset: auto !important;
+    grid-column: 1;
+    grid-row: 1;
+    width: 72px;
+    height: 100vh;
+    height: 100dvh;
+    padding: 8px 4px 72px;
+    border-right: 1px solid #ececec;
+    border-bottom: 0;
+  }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar .community-nav-brand {
+    padding-bottom: 8px;
+  }
+  .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+    display: flex !important;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 3px;
+    margin-top: 7px;
+  }
+  .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    width: 58px;
+    min-height: 48px;
+    flex-basis: 48px;
+    border-radius: 12px;
+  }
+  .tizibane-illustrated-sidebar .nav-illustration {
+    width: 44px;
+    height: 44px;
+    background-size: 44px 572px;
+  }
+  .tizibane-illustrated-sidebar .app-logout-controls {
+    bottom: 8px !important;
+    width: 56px;
+  }
+  .tizibane-illustrated-sidebar .app-logout-trigger {
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .app-layout > .app-main {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .app-layout > .app-main .app-content {
+    min-width: 0;
+    padding: 22px 14px;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout {
+    grid-template-columns: 64px minmax(0, 1fr) !important;
+  }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar {
+    width: 64px;
+    padding: 6px 2px 66px;
+  }
+  .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    width: 54px;
+    min-height: 46px;
+    flex-basis: 46px;
+  }
+  .tizibane-illustrated-sidebar .nav-illustration {
+    width: 42px;
+    height: 42px;
+    background-size: 42px 546px;
+  }
+  .tizibane-illustrated-sidebar .app-logout-controls {
+    width: 52px;
+  }
+  .tizibane-illustrated-sidebar .app-logout-trigger {
+    width: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+  .app-layout > .app-main .app-content {
+    padding: 16px 10px;
+  }
+}
+
+/* Match the desktop grid track to the compact illustration rail. */
+.app-layout {
+  grid-template-columns: 108px minmax(0, 1fr);
+}
+/* Keep sprite-cell spacing exact at every viewport size. */
+@media (max-width: 820px) {
+  .tizibane-illustrated-sidebar .nav-illustration {
+    width: 48px !important;
+    height: 48px !important;
+    background-size: 48px 624px !important;
+  }
+}
