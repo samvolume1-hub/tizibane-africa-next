@@ -450,3 +450,15 @@
     border-right: 4.6px solid #ffffff !important;
   }
 }
+
+
+/* Final navigation rail refinement: 4.6px white divider and near-white lavender surfaces. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  border-right: 4.6px solid #ffffff !important;
+}
+.app-layout > .sidebar.tizibane-illustrated-sidebar,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  background-color: #f0eafb !important;
+}
