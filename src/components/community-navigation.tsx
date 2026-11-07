@@ -20,6 +20,8 @@ const items = [
 ];
 
 function NavigationLink({ item, active }: { item: (typeof items)[number]; active: string }) {
+  const imageOffset = 26 - (item.spriteY * 68) / 281;
+
   return (
     <Link
       href={item.href}
@@ -28,11 +30,15 @@ function NavigationLink({ item, active }: { item: (typeof items)[number]; active
       aria-current={active === item.key ? "page" : undefined}
       title={item.label}
     >
-      <span
-        className="nav-illustration"
-        aria-hidden="true"
-        style={{ backgroundPosition: `center ${26 - (item.spriteY * 68) / 281}px` }}
-      />
+      <span className="nav-illustration-window" aria-hidden="true">
+        <img
+          className="nav-illustration-image"
+          src="/images/tizibane-navigation-icons.webp"
+          alt=""
+          draggable={false}
+          style={{ transform: `translateY(${imageOffset}px)` }}
+        />
+      </span>
     </Link>
   );
 }
