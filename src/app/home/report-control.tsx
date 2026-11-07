@@ -6,7 +6,7 @@ import { reportMember, reportPost } from "./safety-actions";
 const reasons = [
   { value: "spam", label: "Spam or unwanted content" },
   { value: "harassment", label: "Harassment or bullying" },
-  { value: "inappropriate", label: "Inappropriate content" },
+  { value: "unsafe", label: "Unsafe or inappropriate content" },
   { value: "impersonation", label: "Impersonation" },
   { value: "other", label: "Something else" },
 ] as const;
