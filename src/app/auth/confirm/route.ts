@@ -10,12 +10,18 @@ export async function GET(request: NextRequest) {
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://tizibane-africa-next.onrender.com"
-  ).replace(/\/+$/, "");
+  ).replace(/\\/+$/, "");
 
-  const safeNext =
-    requestedNext.startsWith("/") && !requestedNext.startsWith("//")
-      ? requestedNext
-      : "/home";
+  const siteOrigin = new URL(siteUrl).origin;
+  let safeNext = "/home";
+  try {
+    const candidate = new URL(requestedNext, siteUrl);
+    if (candidate.origin === siteOrigin) {
+      safeNext = candidate.pathname + candidate.search + candidate.hash;
+    }
+  } catch {
+    safeNext = "/home";
+  }
 
   if (!tokenHash) {
     return NextResponse.redirect(
@@ -46,10 +52,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const destination =
-      user.email?.toLowerCase() === "samvolume1@gmail.com"
-        ? "/home/premium/admin"
-        : safeNext;
+    const { data: isAdmin, error: adminError } = await supabase.rpc("is_current_platform_admin");
+    const destination = !adminError && isAdmin ? "/home/premium/admin" : safeNext;
 
     return NextResponse.redirect(new URL(destination, siteUrl));
   } catch {
