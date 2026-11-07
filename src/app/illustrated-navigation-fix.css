@@ -462,3 +462,10 @@
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
   background-color: #f0eafb !important;
 }
+
+
+/* Match both vertical edges with strong white 6.6px dividers. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  border-left: 6.6px solid #ffffff !important;
+  border-right: 6.6px solid #ffffff !important;
+}
