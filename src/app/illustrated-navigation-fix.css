@@ -268,15 +268,15 @@
 .app-layout .tizibane-illustrated-sidebar .community-nav-section,
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
-  background-color: #fff0f6 !important;
+  background-color: #f3f0ff !important;
 }
 .app-layout > .sidebar.tizibane-illustrated-sidebar {
-  border-right-color: #f2c8d9 !important;
+  border-right-color: #dcd3f5 !important;
 }
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:hover,
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:focus-visible {
-  background-color: #ffe1ed !important;
+  background-color: #e9e2ff !important;
 }
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
-  background-color: #ffd5e6 !important;
+  background-color: #ded4ff !important;
 }
