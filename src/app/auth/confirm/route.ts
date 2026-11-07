@@ -12,10 +12,22 @@ export async function GET(request: NextRequest) {
     "https://tizibane-africa-next.onrender.com"
   ).replace(/\/+$/, "");
 
-  const safeNext =
-    requestedNext.startsWith("/") && !requestedNext.startsWith("//")
-      ? requestedNext
-      : "/home";
+  // Resolve against the configured site and require the same origin.
+  // A leading slash alone is insufficient: URL treats backslashes as slashes,
+  // so a value such as "/\\evil.example" can otherwise become an external URL.
+  let safeNext = "/home";
+  try {
+    const nextUrl = new URL(requestedNext, siteUrl);
+    if (
+      requestedNext.startsWith("/") &&
+      !requestedNext.startsWith("//") &&
+      nextUrl.origin === new URL(siteUrl).origin
+    ) {
+      safeNext = `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`;
+    }
+  } catch {
+    safeNext = "/home";
+  }
 
   if (!tokenHash) {
     return NextResponse.redirect(
