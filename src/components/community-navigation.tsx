@@ -33,7 +33,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               <span
                 className="nav-illustration"
                 aria-hidden="true"
-                style={{ backgroundPosition: `center -${item.artwork * 48}px` }}
+                style={{ backgroundPosition: `center -${item.artwork * 36}px` }}
               />
             </Link>
           ))}
