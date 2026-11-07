@@ -268,15 +268,34 @@
 .app-layout .tizibane-illustrated-sidebar .community-nav-section,
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
-  background-color: #e58eb1 !important;
+  background-color: #f3f0ff !important;
 }
 .app-layout > .sidebar.tizibane-illustrated-sidebar {
-  border-right-color: #c9799b !important;
+  border-right-color: #000000 !important;
 }
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:hover,
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:focus-visible {
-  background-color: #d978a1 !important;
+  background-color: #e9e2ff !important;
 }
 .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
-  background-color: #cb648f !important;
+  background-color: #ded4ff !important;
+}
+
+
+/* Restore the light lavender rail and add a crisp black divider at its right edge. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  background-color: #f3f0ff !important;
+  border-right: 2px solid #000000 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  background-color: #f3f0ff !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:hover,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:focus-visible {
+  background-color: #e9e2ff !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
+  background-color: #ded4ff !important;
 }
