@@ -323,3 +323,18 @@
   border: 1px solid #ffffff !important;
   border-radius: 7px !important;
 }
+
+
+/* Use clean white detailing, with the outline hugging each illustration rather than its full touch target. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  border-right: 2px solid #ffffff !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  border: 1px solid transparent !important;
+  background-color: #f3f0ff !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  box-sizing: border-box !important;
+  border: 1px solid #ffffff !important;
+  border-radius: 7px !important;
+}
