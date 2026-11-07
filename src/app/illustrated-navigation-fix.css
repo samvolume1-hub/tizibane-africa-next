@@ -407,3 +407,20 @@
     -1.8px 5.775px 7.35px rgba(0, 0, 0, 0.14),
     inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
 }
+
+
+/* Warm the navigation surface to very light orange and refine shadow direction. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  background-color: #ffd681 !important;
+}
+
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  box-shadow:
+    -1.89px 1.16px 1.16px rgba(0, 0, 0, 0.43),
+    -1.89px 3.47px 4.62px rgba(0, 0, 0, 0.29),
+    -1.89px 5.78px 8.09px rgba(0, 0, 0, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
