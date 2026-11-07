@@ -5640,3 +5640,16 @@ main > .landing-contacts .landing-contact-panel a {
     padding: 16px 10px;
   }
 }
+
+/* Match the desktop grid track to the compact illustration rail. */
+.app-layout {
+  grid-template-columns: 108px minmax(0, 1fr);
+}
+/* Keep sprite-cell spacing exact at every viewport size. */
+@media (max-width: 820px) {
+  .tizibane-illustrated-sidebar .nav-illustration {
+    width: 48px !important;
+    height: 48px !important;
+    background-size: 48px 624px !important;
+  }
+}
