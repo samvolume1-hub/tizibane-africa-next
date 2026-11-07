@@ -1,4 +1,3 @@
-import { Brand } from "@/components/brand";
 import Link from "next/link";
 import { AppPageControls } from "@/components/app-page-controls";
 
@@ -22,7 +21,6 @@ export function CommunityNavigation({ active }: { active: string }) {
   return (
     <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-        <div className="community-nav-brand"><Brand /></div>
         <nav className="side-nav desktop-side-nav illustrated-side-nav" aria-label="Main navigation">
           {items.map((item) => (
             <Link
@@ -31,7 +29,6 @@ export function CommunityNavigation({ active }: { active: string }) {
               className={active === item.key ? "active" : undefined}
               aria-current={active === item.key ? "page" : undefined}
               aria-label={item.label}
-              title={item.label}
             >
               <span
                 className="nav-illustration"
