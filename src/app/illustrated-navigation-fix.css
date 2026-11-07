@@ -167,3 +167,42 @@
     padding: 14px 9px !important;
   }
 }
+
+/* Distribute the 13 icon links evenly down the full-height rail. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  position: sticky !important;
+  top: 0 !important;
+  align-self: start !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 620px !important;
+  box-sizing: border-box !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
+  padding: 8px 0 12px !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  flex: 0 0 44px !important;
+}
+@media (max-height: 700px) {
+  .app-layout > .sidebar.tizibane-illustrated-sidebar {
+    min-height: 0 !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+    justify-content: flex-start !important;
+    gap: 2px !important;
+  }
+}
