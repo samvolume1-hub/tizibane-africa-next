@@ -21,7 +21,7 @@ export function CommunityNavigation({ active }: { active: string }) {
   return (
     <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-        <nav className="side-nav desktop-side-nav illustrated-side-nav" aria-label="Main navigation">
+        <nav className="side-nav illustrated-side-nav" aria-label="Main navigation">
           {items.map((item) => (
             <Link
               key={item.key}
