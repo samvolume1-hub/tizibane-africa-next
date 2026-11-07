@@ -1,64 +1,46 @@
 import { Brand } from "@/components/brand";
 import Link from "next/link";
-import { signOut } from "@/app/auth-actions";
 import { AppPageControls } from "@/components/app-page-controls";
 
 const items = [
-  { href: "/home", icon: "⌂", label: "Home", key: "home" },
-  { href: "/home/profile", icon: "◎", label: "My profile", key: "profile" },
-  { href: "/home/stories", icon: "◉", label: "Stories", key: "stories" },
-  { href: "/home/people", icon: "♧", label: "People", key: "people" },
-  { href: "/home/messages", icon: "✉", label: "Messages", key: "messages" },
-  { href: "/home/notifications", icon: "♢", label: "Notifications", key: "notifications" },
-  { href: "/home/announcements", icon: "✦", label: "Announcements", key: "announcements" },
-  { href: "/home/activity", icon: "◷", label: "Community activity", key: "activity" },
-  { href: "/home/blocked", icon: "⊘", label: "Blocked", key: "blocked" },
-  { href: "/home/groups", icon: "◈", label: "Groups", key: "groups" },
-  { href: "/home/events", icon: "◇", label: "Events", key: "events" },
-  { href: "/home/premium", icon: "✦", label: "Premium advertising", key: "premium" },
-  { href: "/home/connect", icon: "↗", label: "Company links", key: "connect" },
+  { href: "/home", label: "Home", key: "home", artwork: 0 },
+  { href: "/home/profile", label: "My profile", key: "profile", artwork: 3 },
+  { href: "/home/stories", label: "Stories", key: "stories", artwork: 4 },
+  { href: "/home/people", label: "People", key: "people", artwork: 1 },
+  { href: "/home/messages", label: "Messages", key: "messages", artwork: 2 },
+  { href: "/home/notifications", label: "Notifications", key: "notifications", artwork: 5 },
+  { href: "/home/announcements", label: "Announcements", key: "announcements", artwork: 6 },
+  { href: "/home/activity", label: "Community activity", key: "activity", artwork: 7 },
+  { href: "/home/blocked", label: "Blocked", key: "blocked", artwork: 8 },
+  { href: "/home/groups", label: "Groups", key: "groups", artwork: 9 },
+  { href: "/home/events", label: "Events", key: "events", artwork: 10 },
+  { href: "/home/premium", label: "Premium advertising", key: "premium", artwork: 11 },
+  { href: "/home/connect", label: "Company links", key: "connect", artwork: 12 },
 ];
 
-const mobilePrimary = ["home", "people", "messages", "groups"];
-const mobileMore = ["profile", "stories", "notifications", "announcements", "activity", "blocked", "events", "premium", "connect"];
-
 export function CommunityNavigation({ active }: { active: string }) {
-  const moreIsActive = mobileMore.includes(active);
   return (
-    <aside className="sidebar">
+    <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
         <div className="community-nav-brand"><Brand /></div>
-        <nav className="side-nav desktop-side-nav" aria-label="Main navigation">
+        <nav className="side-nav desktop-side-nav illustrated-side-nav" aria-label="Main navigation">
           {items.map((item) => (
-            <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-              <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
+            <Link
+              key={item.key}
+              href={item.href}
+              className={active === item.key ? "active" : undefined}
+              aria-current={active === item.key ? "page" : undefined}
+              aria-label={item.label}
+              title={item.label}
+            >
+              <span
+                className="nav-illustration"
+                aria-hidden="true"
+                style={{ backgroundPosition: `center -${item.artwork * 48}px` }}
+              />
             </Link>
           ))}
         </nav>
-        <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
-          {items.filter((item) => mobilePrimary.includes(item.key)).map((item) => (
-            <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-              <span className="nav-icon" aria-hidden="true">{item.icon}</span><span>{item.label}</span>
-            </Link>
-          ))}
-          <details className={"mobile-more-menu" + (moreIsActive ? " active" : "")}>
-            <summary aria-label="More navigation options" aria-current={moreIsActive ? "page" : undefined}>
-              <span className="nav-icon" aria-hidden="true">•••</span><span>More</span>
-            </summary>
-            <div className="mobile-more-panel">
-              {items.filter((item) => mobileMore.includes(item.key)).map((item) => (
-                <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-                  <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
-                </Link>
-              ))}
-              <form action={signOut} className="mobile-more-signout"><button type="submit">Sign out</button></form>
-            </div>
-          </details>
-        </nav>
-        <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
-        <form action={signOut} className="sidebar-signout">
-          <button className="btn" type="submit" style={{ width: "100%" }}>Sign out</button>
-        </form>
       </section>
       <AppPageControls />
     </aside>
