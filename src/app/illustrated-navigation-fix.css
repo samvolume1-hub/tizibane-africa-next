@@ -9,7 +9,7 @@
   background: #fff !important;
   border-right: 1px solid #ececec !important;
 }
-.tizibane-illustrated-sidebar .community-nav-section {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
   width: 100% !important;
   min-height: 0 !important;
   padding: 0 !important;
@@ -18,10 +18,10 @@
   background: #fff !important;
   box-shadow: none !important;
 }
-.tizibane-illustrated-sidebar .community-nav-brand {
+.app-layout .tizibane-illustrated-sidebar .community-nav-brand {
   display: none !important;
 }
-.tizibane-illustrated-sidebar nav.illustrated-side-nav {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
   display: flex !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
@@ -32,8 +32,9 @@
   padding: 2px 0 8px !important;
   overflow-x: hidden !important;
   overflow-y: auto !important;
+  grid-template-columns: none !important;
 }
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
   position: relative;
   display: grid !important;
   flex: 0 0 52px !important;
@@ -47,7 +48,7 @@
   box-shadow: none !important;
   font-size: 0 !important;
 }
-.tizibane-illustrated-sidebar .nav-illustration {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
   display: block !important;
   width: 48px !important;
   height: 48px !important;
@@ -57,28 +58,28 @@
   background-size: 48px 624px !important;
   image-rendering: auto;
 }
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a::after {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a::after {
   display: none !important;
   content: none !important;
 }
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover,
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:hover,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a:focus-visible {
   border-color: #ead8ad !important;
   background: #fffdf8 !important;
   transform: translateY(-1px);
   outline: none;
 }
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a.active {
   border-color: #d6b36a !important;
   background: #fffaf0 !important;
   box-shadow: inset 0 0 0 1px #d6b36a22 !important;
 }
-.tizibane-illustrated-sidebar .sidebar-note,
-.tizibane-illustrated-sidebar .sidebar-signout,
-.tizibane-illustrated-sidebar .mobile-bottom-nav {
+.app-layout .tizibane-illustrated-sidebar .sidebar-note,
+.app-layout .tizibane-illustrated-sidebar .sidebar-signout,
+.app-layout .tizibane-illustrated-sidebar .mobile-bottom-nav {
   display: none !important;
 }
-.tizibane-illustrated-sidebar .app-logout-controls {
+.app-layout .tizibane-illustrated-sidebar .app-logout-controls {
   position: absolute !important;
   left: 50% !important;
   right: auto !important;
@@ -88,7 +89,7 @@
   justify-content: center !important;
   width: 56px !important;
 }
-.tizibane-illustrated-sidebar .app-logout-trigger {
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
   display: grid !important;
   place-items: center !important;
   width: 44px !important;
@@ -100,10 +101,10 @@
   background: #fff !important;
   color: #171717 !important;
 }
-.tizibane-illustrated-sidebar .app-logout-trigger span:last-child {
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger span:last-child {
   display: none !important;
 }
-.tizibane-illustrated-sidebar .app-logout-trigger span:first-child {
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger span:first-child {
   color: #b58b3f !important;
   font-size: 20px !important;
 }
@@ -129,10 +130,11 @@
     border-bottom: 0 !important;
     z-index: 20 !important;
   }
-  .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+  .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+    display: flex !important;
     gap: 2px !important;
   }
-  .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
     width: 58px !important;
     min-height: 50px !important;
     flex-basis: 50px !important;
@@ -156,7 +158,7 @@
     min-width: 60px !important;
     padding: 5px 1px 60px !important;
   }
-  .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  .app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
     width: 56px !important;
     min-height: 48px !important;
     flex-basis: 48px !important;
