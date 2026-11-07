@@ -347,3 +347,12 @@
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
   background-color: #aaa8b3 !important;
 }
+
+
+/* Add about 30% more purple vibrancy to the navigation background only. */
+.app-layout > .sidebar.tizibane-illustrated-sidebar,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a,
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  background-color: #cdb8f5 !important;
+}
