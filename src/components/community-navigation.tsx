@@ -19,40 +19,31 @@ const items = [
   { href: "/home/connect", label: "Company links", key: "connect", spriteY: 1424 },
 ];
 
-function NavigationLink({ item, active }: { item: (typeof items)[number]; active: string }) {
-  const imageOffset = 26 - (item.spriteY * 68) / 281;
-
-  return (
-    <Link
-      href={item.href}
-      className={active === item.key ? "active" : undefined}
-      aria-label={item.label}
-      aria-current={active === item.key ? "page" : undefined}
-      title={item.label}
-    >
-      <span className="nav-illustration-window" aria-hidden="true">
-        <img
-          className="nav-illustration-image"
-          src="/images/tizibane-navigation-icons.webp"
-          alt=""
-          draggable={false}
-          style={{ transform: `translateY(${imageOffset}px)` }}
-        />
-      </span>
-      <span className="nav-illustration-label">{item.label}</span>
-    </Link>
-  );
-}
-
 export function CommunityNavigation({ active }: { active: string }) {
   return (
     <aside className="sidebar tizibane-icon-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-        <nav className="tizibane-illustration-nav" aria-label="Main navigation">
-          {items.map((item) => (
-            <NavigationLink key={item.key} item={item} active={active} />
-          ))}
-        </nav>
+        <div className="tizibane-icon-rail">
+          <img
+            className="tizibane-icon-artwork"
+            src="/images/tizibane-navigation-icons.webp"
+            alt=""
+            draggable={false}
+          />
+          <nav className="tizibane-icon-hotspots" aria-label="Main navigation">
+            {items.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className={active === item.key ? "active" : undefined}
+                aria-label={item.label}
+                aria-current={active === item.key ? "page" : undefined}
+                title={item.label}
+                style={{ top: `calc(${(item.spriteY / 1535) * 100}% - 13px)` }}
+              />
+            ))}
+          </nav>
+        </div>
       </section>
       <AppPageControls />
     </aside>
