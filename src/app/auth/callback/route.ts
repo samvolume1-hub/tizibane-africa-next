@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const siteUrl = (
     process.env.NEXT_PUBLIC_SITE_URL ||
     "https://tizibane-africa-next.onrender.com"
-  ).replace(/\\/+$/, "");
+  ).replace(/\/+$/, "");
 
   const siteOrigin = new URL(siteUrl).origin;
   const code = searchParams.get("code");
