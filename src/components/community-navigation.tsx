@@ -39,6 +39,7 @@ function NavigationLink({ item, active }: { item: (typeof items)[number]; active
           style={{ transform: `translateY(${imageOffset}px)` }}
         />
       </span>
+      <span className="nav-illustration-label">{item.label}</span>
     </Link>
   );
 }
