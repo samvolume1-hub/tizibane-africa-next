@@ -19,46 +19,68 @@ const items = [
   { href: "/home/connect", icon: "↗", label: "Company links", key: "connect" },
 ];
 
-const mobilePrimary = ["home", "people", "messages", "groups"];
-const mobileMore = ["profile", "stories", "notifications", "announcements", "activity", "blocked", "events", "premium", "connect"];
+const primaryKeys = ["home", "messages", "people"];
+const moreKeys = ["profile", "stories", "notifications", "announcements", "activity", "blocked", "groups", "events", "premium", "connect"];
+
+function NavigationLink({ item, active }: { item: (typeof items)[number]; active: string }) {
+  return (
+    <Link
+      href={item.href}
+      className={active === item.key ? "active" : undefined}
+      aria-current={active === item.key ? "page" : undefined}
+    >
+      <span className="nav-icon" aria-hidden="true">{item.icon}</span>
+      <span>{item.label}</span>
+    </Link>
+  );
+}
 
 export function CommunityNavigation({ active }: { active: string }) {
-  const moreIsActive = mobileMore.includes(active);
+  const moreIsActive = moreKeys.includes(active);
   return (
     <aside className="sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
         <div className="community-nav-brand"><Brand /></div>
+
         <nav className="side-nav desktop-side-nav" aria-label="Main navigation">
-          {items.map((item) => (
-            <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-              <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
-            </Link>
+          {items.filter((item) => primaryKeys.includes(item.key)).map((item) => (
+            <NavigationLink key={item.key} item={item} active={active} />
           ))}
+          <details className={"desktop-more-menu" + (moreIsActive ? " active" : "")}>
+            <summary aria-label="More navigation options" aria-current={moreIsActive ? "page" : undefined}>
+              <span className="nav-icon" aria-hidden="true">•••</span>
+              <span>More</span>
+              <span className="more-chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div className="desktop-more-panel">
+              {items.filter((item) => moreKeys.includes(item.key)).map((item) => (
+                <NavigationLink key={item.key} item={item} active={active} />
+              ))}
+              <form action={signOut} className="desktop-more-signout">
+                <button type="submit"><span className="nav-icon" aria-hidden="true">↪</span>Sign out</button>
+              </form>
+            </div>
+          </details>
         </nav>
+
         <nav className="mobile-bottom-nav" aria-label="Mobile navigation">
-          {items.filter((item) => mobilePrimary.includes(item.key)).map((item) => (
-            <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-              <span className="nav-icon" aria-hidden="true">{item.icon}</span><span>{item.label}</span>
-            </Link>
+          {items.filter((item) => primaryKeys.includes(item.key)).map((item) => (
+            <NavigationLink key={item.key} item={item} active={active} />
           ))}
           <details className={"mobile-more-menu" + (moreIsActive ? " active" : "")}>
             <summary aria-label="More navigation options" aria-current={moreIsActive ? "page" : undefined}>
               <span className="nav-icon" aria-hidden="true">•••</span><span>More</span>
             </summary>
             <div className="mobile-more-panel">
-              {items.filter((item) => mobileMore.includes(item.key)).map((item) => (
-                <Link key={item.key} href={item.href} className={active === item.key ? "active" : undefined} aria-current={active === item.key ? "page" : undefined}>
-                  <span className="nav-icon" aria-hidden="true">{item.icon}</span>{item.label}
-                </Link>
+              {items.filter((item) => moreKeys.includes(item.key)).map((item) => (
+                <NavigationLink key={item.key} item={item} active={active} />
               ))}
-              <form action={signOut} className="mobile-more-signout"><button type="submit">Sign out</button></form>
+              <form action={signOut} className="mobile-more-signout">
+                <button type="submit"><span className="nav-icon" aria-hidden="true">↪</span>Sign out</button>
+              </form>
             </div>
           </details>
         </nav>
-        <p className="sidebar-note">More community spaces are being connected and tested before they appear here.</p>
-        <form action={signOut} className="sidebar-signout">
-          <button className="btn" type="submit" style={{ width: "100%" }}>Sign out</button>
-        </form>
       </section>
       <AppPageControls />
     </aside>
