@@ -54,8 +54,8 @@ export default async function GroupDetailPage({params,searchParams}:{params:Prom
   postPhotoPaths.length?supabase.storage.from("community-photos").createSignedUrls(postPhotoPaths,3600):Promise.resolve({data:[]}),
   avatarPaths.length?supabase.storage.from("community-photos").createSignedUrls(avatarPaths,3600):Promise.resolve({data:[]}),
  ]);
- const postUrlsByPath=new Map((postPhotoResult.data??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl]));
- const avatarUrlsByPath=new Map((avatarResult.data??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl]));
+ const postUrlsByPath=new Map((postPhotoResult.data??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl] as const));
+ const avatarUrlsByPath=new Map((avatarResult.data??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl] as const));
  for(const p of posts){if(p.photo_path){const url=postUrlsByPath.get(p.photo_path);if(url)photoUrls[p.id]=url}}
  for(const p of profiles){if(p.avatar_path){const url=avatarUrlsByPath.get(p.avatar_path);if(url)avatarUrls[p.id]=url}}
  return <main className="app-layout"><CommunityNavigation active="groups" />
