@@ -25,13 +25,16 @@ export default async function PremiumPage() {
     .order("is_featured", { ascending: false }).order("published_at", { ascending: false }).limit(40);
   const products = (productRows ?? []) as PremiumProduct[];
   const imageUrlsByProduct: Record<string, string[]> = {};
-  await Promise.all(products.map(async (product) => {
-    const signedUrls = await Promise.all(product.image_paths.map(async (imagePath) => {
-      const { data, error } = await supabase.storage.from("premium-marketplace").createSignedUrl(imagePath, 60 * 60);
-      return error ? null : data?.signedUrl ?? null;
-    }));
-    imageUrlsByProduct[product.id] = signedUrls.filter((url): url is string => Boolean(url));
-  }));
+  const imagePaths = [...new Set(products.flatMap((product) => product.image_paths))];
+  const { data: signedFiles } = imagePaths.length
+    ? await supabase.storage.from("premium-marketplace").createSignedUrls(imagePaths, 60 * 60)
+    : { data: [] };
+  const signedByPath = new Map((signedFiles ?? []).filter((file) => Boolean(file.path && file.signedUrl)).map((file) => [file.path, file.signedUrl] as const));
+  for (const product of products) {
+    imageUrlsByProduct[product.id] = product.image_paths
+      .map((imagePath) => signedByPath.get(imagePath))
+      .filter((url): url is string => Boolean(url));
+  }
 
   return (
     <main className="app-layout">

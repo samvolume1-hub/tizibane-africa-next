@@ -127,18 +127,30 @@ export default async function Home({
 
   const photoUrls: Record<string, string> = {};
   const avatarUrls: Record<string, string> = {};
-  const [postPhotoResults, avatarPhotoResults] = await Promise.all([
-    Promise.all(posts.filter((post) => post.photo_path).map(async (post) => {
-      const { data } = await supabase.storage.from("community-photos").createSignedUrl(post.photo_path!, 60 * 60);
-      return { id: post.id, url: data?.signedUrl };
-    })),
-    Promise.all(profiles.filter((profile) => profile.avatar_path).map(async (profile) => {
-      const { data } = await supabase.storage.from("community-photos").createSignedUrl(profile.avatar_path!, 60 * 60);
-      return { id: profile.id, url: data?.signedUrl };
-    })),
+  const postPhotoPaths = posts.map((post) => post.photo_path).filter((path): path is string => Boolean(path));
+  const avatarPaths = profiles.map((profile) => profile.avatar_path).filter((path): path is string => Boolean(path));
+  const [postPhotoResult, avatarPhotoResult] = await Promise.all([
+    postPhotoPaths.length
+      ? supabase.storage.from("community-photos").createSignedUrls(postPhotoPaths, 60 * 60)
+      : Promise.resolve({ data: [] }),
+    avatarPaths.length
+      ? supabase.storage.from("community-photos").createSignedUrls(avatarPaths, 60 * 60)
+      : Promise.resolve({ data: [] }),
   ]);
-  for (const item of postPhotoResults) if (item.url) photoUrls[item.id] = item.url;
-  for (const item of avatarPhotoResults) if (item.url) avatarUrls[item.id] = item.url;
+  const postUrlsByPath = new Map((postPhotoResult.data ?? []).filter((file) => Boolean(file.path && file.signedUrl)).map((file) => [file.path, file.signedUrl] as const));
+  const avatarUrlsByPath = new Map((avatarPhotoResult.data ?? []).filter((file) => Boolean(file.path && file.signedUrl)).map((file) => [file.path, file.signedUrl] as const));
+  for (const post of posts) {
+    if (post.photo_path) {
+      const url = postUrlsByPath.get(post.photo_path);
+      if (url) photoUrls[post.id] = url;
+    }
+  }
+  for (const profile of profiles) {
+    if (profile.avatar_path) {
+      const url = avatarUrlsByPath.get(profile.avatar_path);
+      if (url) avatarUrls[profile.id] = url;
+    }
+  }
 
   return (
     <main className="app-layout">
