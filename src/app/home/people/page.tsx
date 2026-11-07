@@ -39,7 +39,7 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
  const imagePaths=allProfiles.flatMap(p=>[p.avatar_path,p.cover_path].filter((path):path is string=>Boolean(path)));
  if(imagePaths.length){
   const {data:signedFiles}=await supabase.storage.from("community-photos").createSignedUrls(imagePaths,3600);
-  const signedByPath=new Map((signedFiles??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl]));
+  const signedByPath=new Map((signedFiles??[]).filter(file=>Boolean(file.path&&file.signedUrl)).map(file=>[file.path,file.signedUrl] as const));
   for(const p of allProfiles){
    if(p.avatar_path){const url=signedByPath.get(p.avatar_path);if(url)avatarUrls[p.id]=url}
    if(p.cover_path){const url=signedByPath.get(p.cover_path);if(url)coverUrls[p.id]=url}
