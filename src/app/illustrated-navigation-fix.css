@@ -386,3 +386,14 @@
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
   background-color: #dccdf8 !important;
 }
+
+
+/* Soften the black 3D treatment while slightly widening its visible depth. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  border-color: #514b57 !important;
+  box-shadow:
+    0 1.05px 1.05px rgba(0, 0, 0, 0.43),
+    0 3.15px 4.2px rgba(0, 0, 0, 0.29),
+    0 5.25px 7.35px rgba(0, 0, 0, 0.14),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+}
