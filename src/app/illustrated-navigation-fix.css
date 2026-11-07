@@ -436,3 +436,17 @@
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
   background-color: #ffebc0 !important;
 }
+
+/* Latest navigation finish: stronger white divider and near-white lavender surfaces. */
+@media (min-width: 0px) {
+  .sidebar,
+  .community-nav-section,
+  .community-nav-section .nav-link,
+  .community-nav-section .logout-button {
+    background-color: #f0eafb !important;
+  }
+
+  .sidebar {
+    border-right: 4.6px solid #ffffff !important;
+  }
+}
