@@ -111,7 +111,7 @@
     0 4px 9px rgba(67,49,20,.302),
     0 0 0 1px rgba(198,155,77,.12) !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
   --gold: #94651f;
   --gold-light: #d9b66e;
   --gold-hi: #fff3d3;
@@ -135,8 +135,8 @@
   filter: drop-shadow(0 1px 0 rgba(255,255,255,.95)) drop-shadow(0 1px 1.5px rgba(70,43,8,.28));
   pointer-events: none;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration::before,
-.app-layout .tizibane-illustrated-sidebar .nav-illustration::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::before,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::after {
   content: "" !important;
   position: absolute !important;
   display: block !important;
@@ -145,7 +145,7 @@
   background-image: none;
   box-shadow: none;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::before {
   left: 50% !important;
   top: 50% !important;
   width: 21px !important;
@@ -156,7 +156,7 @@
   background: linear-gradient(145deg, #fff 0%, var(--gold-hi) 48%, #f4e6c6 100%);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.9), 0 1px 2px rgba(86,60,18,.15);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::after {
   left: 50% !important;
   top: 50% !important;
   width: 12px !important;
@@ -168,13 +168,13 @@
 }
 
 /* Home — pitched roof, walls and inset doorway. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="home"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="home"]::before {
   width: 17px !important; height: 14px !important; top: 56% !important;
   border: 1.9px solid var(--gold); border-top: 0; border-radius: 2px 2px 3px 3px;
   background: linear-gradient(90deg, transparent 39%, var(--gold) 40% 47%, transparent 48%),
               linear-gradient(180deg, transparent 0 68%, rgba(184,138,54,.18) 68%);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="home"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="home"]::after {
   width: 13px !important; height: 13px !important; top: 31% !important;
   border: 2px solid var(--gold); border-right: 0; border-bottom: 0;
   border-radius: 2px 0 0 0; background: transparent;
@@ -182,12 +182,12 @@
 }
 
 /* Profile — portrait head with curved shoulders. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="profile"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="profile"]::before {
   width: 8px !important; height: 8px !important; top: 31% !important;
   border: 1.9px solid var(--gold); border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #fff 0 1px, transparent 1.4px), var(--gold-hi);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="profile"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="profile"]::after {
   width: 18px !important; height: 11px !important; top: 69% !important;
   border: 1.9px solid var(--gold); border-radius: 12px 12px 5px 5px;
   background: linear-gradient(90deg, transparent 47%, rgba(184,138,54,.2) 48% 54%, transparent 55%);
@@ -196,38 +196,38 @@
 
 
 /* People — two profiles, deliberately different heights. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="people"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="people"]::before {
   width: 7px !important; height: 7px !important; top: 35% !important; left: 39% !important;
   border: 2px solid var(--gold); border-radius: 50%; background: var(--gold-hi);
   box-shadow: 9px 2px 0 -1px var(--gold-hi), 9px 2px 0 0 var(--gold);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="people"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="people"]::after {
   width: 20px !important; height: 10px !important; top: 69% !important;
   border: 2px solid var(--gold); border-radius: 12px 12px 4px 4px;
   background: linear-gradient(90deg, transparent 45%, rgba(184,138,54,.22) 46% 54%, transparent 55%);
 }
 
 /* Messages — overlapping conversation bubbles with a visible tail. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="messages"]::before {
   width: 17px !important; height: 13px !important; top: 44% !important; left: 47% !important;
   border: 1.9px solid var(--gold); border-radius: 5px;
   background: radial-gradient(circle at 28% 50%, var(--gold) 0 1px, transparent 1.4px),
               radial-gradient(circle at 50% 50%, var(--gold) 0 1px, transparent 1.4px),
               radial-gradient(circle at 72% 50%, var(--gold) 0 1px, transparent 1.4px), #fffdf8;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="messages"]::after {
   width: 10px !important; height: 8px !important; top: 66% !important; left: 33% !important;
   border: 1.5px solid var(--ink); border-radius: 4px 4px 2px 4px;
   background: #f4e6c6; box-shadow: 5px -11px 0 -2px #fff, 5px -11px 0 -1px var(--gold);
 }
 
 /* Notifications — bell dome, rim and clapper. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="notifications"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="notifications"]::before {
   width: 15px !important; height: 16px !important; top: 45% !important;
   border: 1.9px solid var(--gold); border-radius: 9px 9px 4px 4px;
   background: linear-gradient(90deg, transparent 42%, rgba(184,138,54,.22) 43% 56%, transparent 57%), #fffaf0;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="notifications"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="notifications"]::after {
   width: 19px !important; height: 5px !important; top: 72% !important;
   border: 2px solid var(--gold); border-radius: 0 0 9px 9px;
   background: radial-gradient(circle at 50% 0, var(--gold) 0 2px, transparent 2.5px), #fff;
@@ -238,38 +238,38 @@
 
 
 /* Blocked — protective shield with a diagonal prohibition slash. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="blocked"]::before {
   width: 18px !important; height: 21px !important; top: 48% !important;
   border: 2px solid var(--gold); border-radius: 7px 7px 9px 9px;
   clip-path: polygon(50% 0, 100% 18%, 91% 72%, 50% 100%, 9% 72%, 0 18%);
   background: linear-gradient(145deg, #fffdf8, #ead7ad);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="blocked"]::after {
   width: 18px !important; height: 2px !important; border: 0 !important; border-radius: 2px;
   background: var(--ink); transform: translate(-50%,-50%) rotate(-43deg) !important;
 }
 
 /* Groups — three heads and a shared curved shoulder line. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="groups"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="groups"]::before {
   width: 6px !important; height: 6px !important; top: 31% !important;
   border: 2px solid var(--gold); border-radius: 50%; background: var(--gold-hi);
   box-shadow: -8px 4px 0 -1px var(--gold-hi), -8px 4px 0 0 var(--gold),
                8px 4px 0 -1px var(--gold-hi), 8px 4px 0 0 var(--gold);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="groups"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="groups"]::after {
   width: 21px !important; height: 11px !important; top: 69% !important;
   border: 2px solid var(--gold); border-radius: 13px 13px 4px 4px;
   background: linear-gradient(90deg, transparent 28%, rgba(184,138,54,.2) 29% 71%, transparent 72%);
 }
 
 /* Events — calendar page, binding rings and date squares. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="events"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="events"]::before {
   width: 18px !important; height: 19px !important;
   border: 1.9px solid var(--gold); border-radius: 3px;
   background: linear-gradient(180deg, #e7c986 0 23%, #fffaf0 24% 100%);
   box-shadow: inset 0 -5px 0 rgba(184,138,54,.07);
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="events"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="events"]::after {
   width: 10px !important; height: 8px !important; top: 60% !important;
   border: 0 !important; border-radius: 1px;
   background: linear-gradient(var(--gold) 0 1.4px, transparent 1.4px 4px, var(--ink) 4px 5.2px, transparent 5.2px),
@@ -380,7 +380,7 @@
 }
 
 /* Stories — unmistakable story ring surrounding a person/profile silhouette. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="stories"]::before {
   width: 22px !important;
   height: 22px !important;
   border: 2px solid var(--gold) !important;
@@ -388,7 +388,7 @@
   background: conic-gradient(from -35deg, #e4c47f 0 24%, #fffaf0 25% 43%, #d9b66e 44% 68%, #fffaf0 69% 84%, #e4c47f 85% 100%) !important;
   box-shadow: inset 0 0 0 2px #fffaf0 !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="stories"]::after {
   width: 11px !important;
   height: 12px !important;
   top: 52% !important;
@@ -402,7 +402,7 @@
 }
 
 /* Announcements — bold megaphone bell, wide horn, narrow mouth and handle. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="announcements"]::before {
   width: 21px !important;
   height: 15px !important;
   top: 43% !important;
@@ -412,7 +412,7 @@
   clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%) !important;
   background: linear-gradient(90deg, #fffaf0 0 30%, #e4c47f 31% 100%) !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="announcements"]::after {
   width: 6px !important;
   height: 12px !important;
   top: 68% !important;
@@ -424,14 +424,14 @@
 }
 
 /* Activity — high-contrast heartbeat pulse, no monitor/device ambiguity. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="activity"]::before {
   width: 22px !important;
   height: 16px !important;
   border: 0 !important;
   border-radius: 0 !important;
   background: linear-gradient(180deg, transparent 0 44%, var(--gold) 45% 54%, transparent 55%) !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="activity"]::after {
   width: 22px !important;
   height: 16px !important;
   border: 0 !important;
@@ -441,7 +441,7 @@
 }
 
 /* Premium — clear three-point crown with a broad jewelled band. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::before {
   width: 23px !important;
   height: 19px !important;
   top: 52% !important;
@@ -451,7 +451,7 @@
   background: linear-gradient(180deg, #fff3d3 0%, #e4c47f 48%, #b7832d 100%) !important;
   filter: drop-shadow(0 1px 0 var(--ink)) !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::after {
   width: 19px !important;
   height: 4px !important;
   top: 78% !important;
@@ -461,7 +461,7 @@
 }
 
 /* Connect — two large, overlapping oval chain links, not a dotted thread. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::before {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::before {
   width: 15px !important;
   height: 10px !important;
   top: 50% !important;
@@ -472,7 +472,7 @@
   transform: translate(-50%, -50%) rotate(42deg) !important;
   box-shadow: 0 0 0 1px #fff inset !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::after {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::after {
   width: 15px !important;
   height: 10px !important;
   top: 50% !important;
@@ -614,7 +614,7 @@
 }
 
 /* Reduce only the illustrated symbols by 12%; button shells and spacing stay fixed. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration {
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
   transform: scale(.88) !important;
   transform-origin: center center !important;
 }
