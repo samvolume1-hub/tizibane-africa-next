@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CommunityNavigation } from "@/components/community-navigation";
@@ -62,7 +63,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
             <span>{itemReactions.length} reactions · {itemComments.length} comments</span>
           </div>
           <div className="feature-announcement-comments">{itemComments.map((comment) => <div className="feature-announcement-comment" key={comment.id}><strong>{profileNames.get(comment.author_id) ?? "Member"}</strong><p>{comment.body}</p>{comment.author_id === user.id && <ContentMoreMenu fields={{ comment_id: comment.id }} edit={{ action: updateAnnouncementComment, value: comment.body, label: "Edit comment", maxLength: 1000, rows: 3 }} deleteAction={deleteAnnouncementComment} deleteLabel="Delete comment" />}</div>)}</div>
-          <form action={commentOnAnnouncement} className="feature-announcement-comment-form"><input type="hidden" name="announcement_id" value={item.id}/><label className="sr-only" htmlFor={"announcement-comment-" + item.id}>Write a comment</label><input id={"announcement-comment-" + item.id} name="body" maxLength={1000} required placeholder="Add a thoughtful comment…"/><button className="btn btn-primary" type="submit">Comment</button></form>
+          <form action={commentOnAnnouncement} className="feature-announcement-comment-form"><input type="hidden" name="announcement_id" value={item.id}/><label className="sr-only" htmlFor={"announcement-comment-" + item.id}>Write a comment</label><input id={"announcement-comment-" + item.id} name="body" maxLength={1000} required placeholder="Add a thoughtful comment…"/><PendingIconButton className="btn btn-primary" label="Comment on announcement" pendingLabel="Sending…">Comment</PendingIconButton></form>
         </article>;
       })}</div> : <div className="empty-state"><div className="empty-symbol">✦</div><h3>No official announcements yet.</h3><p>When the TIZIBANE team publishes an update, it will appear here.</p></div>}
       <RoyaltyCopyright />
