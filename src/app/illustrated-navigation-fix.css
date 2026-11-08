@@ -73,8 +73,8 @@
     0 1px 0 rgba(255,255,255,.98) inset,
     0 -1px 0 rgba(205,181,139,.16) inset,
     0 2px 0 #e7ddcb,
-    0 4px 8px rgba(67,49,20,.10),
-    0 1px 2px rgba(67,49,20,.08) !important;
+    0 4px 8px rgba(67,49,20,.14),
+    0 1px 2px rgba(67,49,20,.112) !important;
   color: inherit !important;
   font-size: 0 !important;
   text-decoration: none !important;
@@ -88,8 +88,8 @@
     0 1px 0 rgba(255,255,255,.98) inset,
     0 -1px 0 rgba(205,181,139,.18) inset,
     0 3px 0 #dfcfad,
-    0 7px 12px rgba(67,49,20,.15),
-    0 2px 4px rgba(67,49,20,.09) !important;
+    0 7px 12px rgba(67,49,20,.21),
+    0 2px 4px rgba(67,49,20,.126) !important;
   outline: 2px solid #c69b4d !important;
   outline-offset: 2px;
 }
@@ -99,7 +99,7 @@
     0 1px 0 rgba(255,255,255,.9) inset,
     0 0 0 1px rgba(184,138,54,.12) inset,
     0 1px 0 #e7ddcb,
-    0 2px 3px rgba(67,49,20,.10) !important;
+    0 2px 3px rgba(67,49,20,.14) !important;
 }
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
   border-color: #c69b4d !important;
@@ -108,7 +108,7 @@
     0 1px 0 rgba(255,255,255,.95) inset,
     0 -1px 0 rgba(184,138,54,.12) inset,
     0 2px 0 #e1d0ad,
-    0 4px 9px rgba(67,49,20,.12),
+    0 4px 9px rgba(67,49,20,.168),
     0 0 0 1px rgba(198,155,77,.12) !important;
 }
 .app-layout .tizibane-illustrated-sidebar .nav-illustration {
