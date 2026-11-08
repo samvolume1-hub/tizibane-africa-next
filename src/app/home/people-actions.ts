@@ -40,24 +40,24 @@ export async function respondFriendRequest(form:FormData){
  const id=String(form.get("friendship_id")??""),response=String(form.get("response")??""),query=String(form.get("query")??"");
  if(!UUID.test(id)||!["accepted","declined"].includes(response))back(query,"That request is invalid.",true);
  const {supabase}=await currentUser();
- const {error}=await supabase.from("friendships").update({status:response}).eq("id",id).eq("status","pending");
- if(error)back(query,"Your response could not be saved. Please refresh and try again.",true);
+ const {data:updated,error}=await supabase.from("friendships").update({status:response}).eq("id",id).eq("recipient_id",(await currentUser()).user.id).eq("status","pending").select("id").maybeSingle();
+ if(error||!updated)back(query,"Your response could not be saved. Refresh the page and make sure the request is still waiting for you.",true);
  revalidatePath("/home/people");back(query,response==="accepted"?"Friend request accepted.":"Friend request declined.");
 }
 export async function cancelFriendRequest(form:FormData){
  const id=String(form.get("friendship_id")??""),query=String(form.get("query")??"");
  if(!UUID.test(id))back(query,"That request is invalid.",true);
  const {supabase}=await currentUser();
- const {error}=await supabase.from("friendships").delete().eq("id",id).eq("status","pending");
- if(error)back(query,"Your request could not be cancelled.",true);
+ const {data:deleted,error}=await supabase.from("friendships").delete().eq("id",id).eq("requester_id",(await currentUser()).user.id).eq("status","pending").select("id").maybeSingle();
+ if(error||!deleted)back(query,"Your request could not be cancelled. It may already have been handled.",true);
  revalidatePath("/home/people");back(query,"Friend request cancelled.");
 }
 export async function endFriendship(form:FormData){
  const id=String(form.get("friendship_id")??""),query=String(form.get("query")??"");
  if(!UUID.test(id))back(query,"That friendship is invalid.",true);
  const {supabase}=await currentUser();
- const {error}=await supabase.from("friendships").delete().eq("id",id).eq("status","accepted");
- if(error)back(query,"This friendship could not be removed.",true);
+ const {data:deleted,error}=await supabase.from("friendships").delete().eq("id",id).eq("status","accepted").or("requester_id.eq."+ (await currentUser()).user.id + ",recipient_id.eq." + (await currentUser()).user.id).select("id").maybeSingle();
+ if(error||!deleted)back(query,"This friendship could not be removed. It may already have changed.",true);
  revalidatePath("/home/people");back(query,"Friendship removed.");
 }
 export async function toggleFollow(form:FormData){
