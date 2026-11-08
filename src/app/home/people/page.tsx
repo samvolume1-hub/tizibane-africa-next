@@ -36,10 +36,22 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
  const friendByMember=new Map<string,Friendship>();
  for(const f of friendships){const other=f.requester_id===user.id?f.recipient_id:f.requester_id;friendByMember.set(other,f)}
  const avatarUrls:Record<string,string>={},coverUrls:Record<string,string>={};
- for(const p of allProfiles){
-  if(p.avatar_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
-  if(p.cover_path){const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.cover_path,3600);if(data?.signedUrl)coverUrls[p.id]=data.signedUrl}
- }
+ // Batch signed-URL creation into at most two Storage requests instead of
+ // making one or two sequential requests for every member in the directory.
+ const avatarProfiles=allProfiles.filter(p=>p.avatar_path);
+ const coverProfiles=allProfiles.filter(p=>p.cover_path);
+ const [avatarResult,coverResult]=await Promise.all([
+  avatarProfiles.length
+   ?supabase.storage.from("community-photos").createSignedUrls(avatarProfiles.map(p=>p.avatar_path!),3600)
+   :Promise.resolve({data:[]}),
+  coverProfiles.length
+   ?supabase.storage.from("community-photos").createSignedUrls(coverProfiles.map(p=>p.cover_path!),3600)
+   :Promise.resolve({data:[]}),
+ ]);
+ const avatarUrlByPath=new Map((avatarResult.data??[]).map(item=>[item.path,item.signedUrl]));
+ const coverUrlByPath=new Map((coverResult.data??[]).map(item=>[item.path,item.signedUrl]));
+ for(const p of avatarProfiles){const url=avatarUrlByPath.get(p.avatar_path!);if(url)avatarUrls[p.id]=url}
+ for(const p of coverProfiles){const url=coverUrlByPath.get(p.cover_path!);if(url)coverUrls[p.id]=url}
  return <main className="app-layout"><CommunityNavigation active="people" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">MEMBER DIRECTORY</span></header><div className="app-content">
  <section className="welcome"><span className="eyebrow">Find your people</span><h1>Good connections start here.</h1><p>Discover members, build friendships and follow the people and communities you want to keep up with.</p></section>
