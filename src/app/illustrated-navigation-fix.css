@@ -576,3 +576,54 @@
   box-shadow: none !important;
   filter: none !important;
 }
+
+
+/* Final requested finish: exact violet gradient and 30% smaller button faces/artwork.
+   Keep the larger independent hit areas so each icon remains easy to tap. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+  background: linear-gradient(
+    90deg,
+    #4F2C70 0%,
+    #432364 50%,
+    #3A1D57 100%
+  ) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+  align-items: center !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  display: grid !important;
+  place-items: center !important;
+  box-sizing: border-box !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  position: relative !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 20.412px !important;
+  height: 25.2px !important;
+  flex: 0 0 20.412px !important;
+  margin: 0 auto !important;
+  transform: none !important;
+  transform-origin: center center !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration::before {
+  left: 50% !important;
+  top: 50% !important;
+  width: 17.64px !important;
+  height: 17.64px !important;
+  transform: translate(-50%, -50%) !important;
+  background-size: 17.64px 229.32px !important;
+  background-repeat: no-repeat !important;
+  background-position: inherit !important;
+}
+/* Preserve a generous, separate 52px tap target around each compact visual button. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  width: 52px !important;
+  min-width: 52px !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  flex: 0 0 52px !important;
+  padding: 0 !important;
+}
