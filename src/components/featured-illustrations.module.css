@@ -1,5 +1,7 @@
-/* Four featured-button illustrations: bold, solid-white CSS artwork inspired by
-   the People Hub's white people silhouette. Button shells and layout are untouched. */
+/* Pure-CSS artwork only for the four featured controls.
+   The shared 32x29 icon footprint is retained. Button shells, purple
+   translucent backgrounds, opacity, layout, labels and interactions live
+   elsewhere and are intentionally not styled here. */
 .illustration {
   position: relative;
   display: block;
@@ -10,38 +12,37 @@
   filter: drop-shadow(0 1px 1px rgba(32, 15, 45, .28));
 }
 
-/* Company links: a connected three-node community/network mark. */
+/* Company links: three connected people, echoing the People Hub's solid
+   white silhouettes while reading as a connected community. */
 .connect::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 19%, #fff 0 4px, transparent 4.5px),
-    radial-gradient(circle at 17% 76%, #fff 0 4px, transparent 4.5px),
-    radial-gradient(circle at 83% 76%, #fff 0 4px, transparent 4.5px);
+    radial-gradient(circle at 50% 19%, #fff 0 3.5px, transparent 4px),
+    radial-gradient(circle at 15% 43%, #fff 0 3.5px, transparent 4px),
+    radial-gradient(circle at 85% 43%, #fff 0 3.5px, transparent 4px);
 }
 .connect::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 11px;
-  width: 22px;
-  height: 15px;
+  inset: 11px 0 0;
   background:
-    linear-gradient(31deg, transparent 43%, #fff 44% 57%, transparent 58%) left top / 50% 100% no-repeat,
-    linear-gradient(-31deg, transparent 43%, #fff 44% 57%, transparent 58%) right top / 50% 100% no-repeat;
+    radial-gradient(ellipse at 50% 100%, #fff 0 7px, transparent 7.5px),
+    radial-gradient(ellipse at 0% 100%, #fff 0 6px, transparent 6.5px),
+    radial-gradient(ellipse at 100% 100%, #fff 0 6px, transparent 6.5px);
 }
 
-/* Premium advertising: a solid megaphone with a handle and sound rays. */
+/* Premium advertising: bold megaphone, handle and two broadcast rays. */
 .premium::before {
   content: "";
   position: absolute;
-  left: 5px;
+  left: 4px;
   top: 5px;
   width: 22px;
   height: 17px;
   background: #fff;
-  clip-path: polygon(0 31%, 100% 0, 100% 100%, 0 69%);
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%);
   border-radius: 2px;
 }
 .premium::after {
@@ -49,15 +50,17 @@
   position: absolute;
   left: 8px;
   top: 19px;
-  width: 7px;
+  width: 5px;
   height: 9px;
   background: #fff;
   border-radius: 1px 1px 3px 3px;
-  transform: rotate(-17deg);
-  box-shadow: 20px -12px 0 -2px #fff;
+  transform: rotate(-16deg);
+  box-shadow:
+    19px -13px 0 -2px #fff,
+    23px -7px 0 -2px #fff;
 }
 
-/* Events: a solid calendar silhouette with white binding tabs and purple date cutouts. */
+/* Events: a solid white calendar with purple negative-space date marks. */
 .events::before {
   content: "";
   position: absolute;
@@ -67,8 +70,8 @@
   height: 21px;
   border-radius: 4px;
   background:
-    radial-gradient(circle, rgba(86,52,119,.95) 0 1.5px, transparent 1.8px) 4px 11px / 7px 6px repeat,
-    linear-gradient(#fff 0 0) 0 0 / 100% 6px no-repeat,
+    radial-gradient(circle, #563477 0 1.35px, transparent 1.7px) 4px 10px / 7px 6px repeat,
+    linear-gradient(#563477, #563477) 0 6px / 100% 1.5px no-repeat,
     #fff;
 }
 .events::after {
@@ -83,15 +86,16 @@
   box-shadow: 9px 0 0 #fff;
 }
 
-/* Community activity: three solid people silhouettes, echoing the People Hub artwork. */
+/* Community activity: a lively three-person community mark with a central
+   figure and two supporting figures, all in the same solid-white language. */
 .activity::before {
   content: "";
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 23%, #fff 0 4px, transparent 4.5px),
-    radial-gradient(circle at 17% 34%, #fff 0 3.5px, transparent 4px),
-    radial-gradient(circle at 83% 34%, #fff 0 3.5px, transparent 4px);
+    radial-gradient(circle at 50% 22%, #fff 0 4px, transparent 4.5px),
+    radial-gradient(circle at 15% 37%, #fff 0 3px, transparent 3.5px),
+    radial-gradient(circle at 85% 37%, #fff 0 3px, transparent 3.5px);
 }
 .activity::after {
   content: "";
@@ -99,9 +103,9 @@
   left: 1px;
   bottom: 0;
   width: 30px;
-  height: 17px;
+  height: 16px;
   background:
-    radial-gradient(ellipse at 50% 100%, #fff 0 9px, transparent 9.5px),
-    radial-gradient(ellipse at 0% 100%, #fff 0 7px, transparent 7.5px),
-    radial-gradient(ellipse at 100% 100%, #fff 0 7px, transparent 7.5px);
+    radial-gradient(ellipse at 50% 100%, #fff 0 8px, transparent 8.5px),
+    radial-gradient(ellipse at 0% 100%, #fff 0 6px, transparent 6.5px),
+    radial-gradient(ellipse at 100% 100%, #fff 0 6px, transparent 6.5px);
 }
