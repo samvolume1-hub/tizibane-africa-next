@@ -1,4 +1,5 @@
 import { CommunityNavigation } from "@/components/community-navigation";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -79,7 +80,7 @@ export default async function ProfilePage({
               <div className="field"><label htmlFor="location">Location (optional)</label><input id="location" name="location" defaultValue={profile?.location || ""} maxLength={120} placeholder="City or region" /></div>
               <div className="field"><label htmlFor="visibility">Who can discover your profile?</label><select id="visibility" name="visibility" defaultValue={profile?.visibility || "public"}><option value="public">Public to signed-in members</option><option value="members">All registered members</option><option value="friends">Accepted friends</option><option value="private">Only me</option></select></div>
               <p className="field-help">Your single profile photo is shared across your profile and Home Feed hero. Photos are optimized toward 1 MB, with a 2 MB maximum.</p>
-              <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><button className="btn btn-primary" type="submit">Save profile</button></div>
+              <div className="profile-form-actions"><Link href="/home" className="btn">Cancel</Link><PendingIconButton className="btn btn-primary" label="Save profile" pendingLabel="Saving…">Save profile</PendingIconButton></div>
             </form>
           </section>
         <RoyaltyCopyright /></div>
