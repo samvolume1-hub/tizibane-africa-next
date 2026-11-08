@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { CompressedImageForm } from "@/components/compressed-image-form";
 
 type ServerAction = (formData: FormData) => void | Promise<void>;
@@ -60,7 +61,7 @@ export function ContentMoreMenu({
                   </select>
                 </label>
               )}
-              <button className="btn btn-primary" type="submit">Save changes</button>
+              <PendingIconButton className="btn btn-primary" label="Save content changes" pendingLabel="Saving…">Save changes</PendingIconButton>
             </form>
           </details>
         )}
@@ -77,7 +78,7 @@ export function ContentMoreMenu({
             <form action={removePhoto.action} className="content-menu-form">
               <HiddenFields fields={fields} />
               <p>This removes the image while keeping the rest of the content unchanged.</p>
-              <button className="text-action danger-action" type="submit">Confirm removal</button>
+              <PendingIconButton className="text-action danger-action" label="Confirm photo removal" pendingLabel="Removing…">Confirm removal</PendingIconButton>
             </form>
           </details>
         )}
@@ -87,7 +88,7 @@ export function ContentMoreMenu({
             <form action={deleteAction} className="content-menu-form">
               <HiddenFields fields={fields} />
               <p>This permanently deletes this item from TIZIBANE.</p>
-              <button className="text-action danger-action" type="submit">Confirm delete</button>
+              <PendingIconButton className="text-action danger-action" label="Confirm delete content" pendingLabel="Deleting…">Confirm delete</PendingIconButton>
             </form>
           </details>
         )}
