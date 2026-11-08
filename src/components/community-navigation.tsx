@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useState } from "react";
 import { AppPageControls } from "@/components/app-page-controls";
 
 const items = [
@@ -18,6 +19,7 @@ const items = [
 ];
 
 export function CommunityNavigation({ active }: { active: string }) {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   return (
     <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
@@ -29,8 +31,16 @@ export function CommunityNavigation({ active }: { active: string }) {
               className={active === item.key ? "active" : undefined}
               aria-current={active === item.key ? "page" : undefined}
               aria-label={item.label}
+              onMouseEnter={() => setHoveredItem(item.key)}
+              onMouseLeave={() => setHoveredItem(null)}
+              onFocus={() => setHoveredItem(item.key)}
+              onBlur={() => setHoveredItem(null)}
+              onClick={() => setHoveredItem(null)}
             >
               <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
+              <span className={`nav-hover-label${hoveredItem === item.key ? " is-visible" : ""}`} aria-hidden="true">
+                {item.label}
+              </span>
             </Link>
           ))}
         </nav>
