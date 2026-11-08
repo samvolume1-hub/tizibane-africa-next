@@ -818,3 +818,15 @@
     border-radius: 13px !important;
   }
 }
+
+
+/* Final spacing refinement: give each featured right-side button clear,
+   comfortable separation without changing button size, position, or artwork. */
+.app-layout .app-featured-side-controls {
+  gap: 16px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .app-featured-side-controls {
+    gap: 13px !important;
+  }
+}
