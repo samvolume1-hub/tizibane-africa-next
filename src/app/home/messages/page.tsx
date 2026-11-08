@@ -24,7 +24,11 @@ export default async function MessagesPage({searchParams}:{searchParams:Promise<
  if(otherIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle,initials,avatar_color,avatar_path").in("id",otherIds);profiles=(data??[]) as Profile[]}
  const profileById=new Map(profiles.map(p=>[p.id,p])),otherByConversation=new Map(members.map(m=>[m.conversation_id,m.user_id])),lastByConversation=new Map<string,Message>();
  for(const m of messages){if(!lastByConversation.has(m.conversation_id))lastByConversation.set(m.conversation_id,m)}
- const avatarUrls:Record<string,string>={};for(const p of profiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
+ const avatarUrls:Record<string,string>={};
+ const avatarPaths=[...new Set(profiles.map(p=>p.avatar_path).filter((path):path is string=>Boolean(path)))];
+ const {data:signedAvatars}=avatarPaths.length?await supabase.storage.from("community-photos").createSignedUrls(avatarPaths,3600):{data:[]};
+ const avatarUrlByPath=new Map((signedAvatars??[]).map(item=>[item.path,item.signedUrl]));
+ for(const p of profiles){const url=p.avatar_path?avatarUrlByPath.get(p.avatar_path):null;if(url)avatarUrls[p.id]=url}
  return <main className="app-layout"><CommunityNavigation active="messages" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">PRIVATE MESSAGES</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">One-to-one conversations</span><h1>Your conversations.</h1><p>Private text messages with members you have connected with as friends.</p></section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
