@@ -1004,3 +1004,49 @@
   background: #563477 !important;
   transform: rotate(-42deg) !important;
 }
+
+
+/* Lightweight route feedback: gives phone users an immediate visual response
+   while authenticated community pages finish loading their server data.
+   These selectors are isolated from the four locked featured controls. */
+.app-route-loading .route-loading-content {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 60vh;
+}
+.route-loading-status {
+  margin: 0 0 2px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.route-loading-hero,
+.route-loading-line,
+.route-loading-card {
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 14px;
+  background: linear-gradient(100deg, rgba(125,98,149,.12) 20%, rgba(125,98,149,.25) 42%, rgba(125,98,149,.12) 64%);
+  background-size: 220% 100%;
+  animation: route-loading-shimmer 1.35s ease-in-out infinite;
+}
+.route-loading-hero { min-height: 132px; border-radius: 18px; }
+.route-loading-line { width: 72%; height: 12px; border: 0; border-radius: 999px; }
+.route-loading-line-short { width: 38%; }
+.route-loading-card { min-height: 112px; }
+.route-loading-card-small { min-height: 76px; }
+@keyframes route-loading-shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0 0; }
+}
+@media (max-width: 540px) {
+  .app-route-loading .route-loading-content { gap: 11px; padding-top: 16px; }
+  .route-loading-hero { min-height: 104px; }
+  .route-loading-card { min-height: 92px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-loading-hero,
+  .route-loading-line,
+  .route-loading-card { animation: none; }
+}
