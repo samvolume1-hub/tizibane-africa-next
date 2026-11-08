@@ -539,3 +539,57 @@
   background: #f3e4c3 !important;
   transform: translate(-50%, -50%) rotate(42deg) !important;
 }
+
+/* Temporary hover/focus labels; never permanent navigation text. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  overflow: visible !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label {
+  position: absolute !important;
+  z-index: 60 !important;
+  left: calc(100% + 10px) !important;
+  top: 50% !important;
+  display: block !important;
+  width: max-content !important;
+  max-width: 220px !important;
+  padding: 6px 10px !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  border-radius: 7px !important;
+  background: #352344 !important;
+  color: #fff !important;
+  font: 600 12px/1.25 system-ui, sans-serif !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate(4px,-50%) !important;
+  transition: opacity .12s ease, transform .12s ease, visibility .12s ease !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate(0,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:active .nav-hover-label {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Reduce the button shells by about 30%; leave the icon artwork untouched. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  flex-basis: 36px !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 10px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    flex-basis: 34px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+}
