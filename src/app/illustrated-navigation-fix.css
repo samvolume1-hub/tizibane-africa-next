@@ -1169,7 +1169,7 @@
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="home"]::after {
   left:50% !important; top:68% !important; width:6px !important; height:9px !important;
   border:0 !important; border-radius:2px 2px 0 0 !important;
-  background:#563477df9 !important; transform:translate(-50%,-50%) !important;
+  background:#fffdf9 !important; transform:translate(-50%,-50%) !important;
 }
 
 /* Profile — clean head and shoulder silhouette. */
@@ -1208,16 +1208,16 @@
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::before {
   left:50% !important; top:45% !important; width:23px !important; height:16px !important;
   border:2px solid #563477 !important; border-radius:6px !important;
-  background:radial-gradient(circle at 28% 50%,#563477df9 0 1.5px,transparent 1.8px),
-             radial-gradient(circle at 50% 50%,#563477df9 0 1.5px,transparent 1.8px),
-             radial-gradient(circle at 72% 50%,#563477df9 0 1.5px,transparent 1.8px),
+  background:radial-gradient(circle at 28% 50%,#fffdf9 0 1.5px,transparent 1.8px),
+             radial-gradient(circle at 50% 50%,#fffdf9 0 1.5px,transparent 1.8px),
+             radial-gradient(circle at 72% 50%,#fffdf9 0 1.5px,transparent 1.8px),
              linear-gradient(145deg,#563477,#7D6295) !important;
   transform:translate(-50%,-50%) !important;
 }
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::after {
   left:31% !important; top:69% !important; width:8px !important; height:8px !important;
   border:0 !important; border-left:2px solid #563477 !important; border-bottom:2px solid #563477 !important;
-  background:#563477df9 !important; transform:translate(-50%,-50%) skewY(-35deg) !important;
+  background:#fffdf9 !important; transform:translate(-50%,-50%) skewY(-35deg) !important;
 }
 
 /* Notifications — unmistakable bell and clapper. */
@@ -1245,7 +1245,7 @@
 }
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::after {
   left:50% !important; top:49% !important; width:22px !important; height:3px !important;
-  border:0 !important; border-radius:3px !important; background:#563477df9 !important;
+  border:0 !important; border-radius:3px !important; background:#fffdf9 !important;
   transform:translate(-50%,-50%) rotate(-43deg) !important;
 }
 
@@ -1276,11 +1276,11 @@
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="events"]::after {
   left:50% !important; top:63% !important; width:12px !important; height:8px !important;
   border:0 !important; border-radius:1px !important;
-  background:radial-gradient(circle at 15% 20%,#563477df9 0 1px,transparent 1.3px),
-             radial-gradient(circle at 50% 20%,#563477df9 0 1px,transparent 1.3px),
-             radial-gradient(circle at 85% 20%,#563477df9 0 1px,transparent 1.3px),
-             radial-gradient(circle at 15% 80%,#563477df9 0 1px,transparent 1.3px),
-             radial-gradient(circle at 50% 80%,#563477df9 0 1px,transparent 1.3px) !important;
+  background:radial-gradient(circle at 15% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 50% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 85% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 15% 80%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 50% 80%,#fffdf9 0 1px,transparent 1.3px) !important;
   transform:translate(-50%,-50%) !important;
 }
 
@@ -1289,14 +1289,14 @@
   left:50% !important; top:50% !important; width:24px !important; height:24px !important;
   border:3px solid #563477 !important; border-radius:50% !important;
   background:conic-gradient(from -35deg,#563477 0 22%,#d9c9e5 23% 27%,#563477 28% 62%,#d9c9e5 63% 67%,#563477 68% 100%) !important;
-  box-shadow:inset 0 0 0 2px #563477df9 !important;
+  box-shadow:inset 0 0 0 2px #fffdf9 !important;
   transform:translate(-50%,-50%) !important;
 }
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::after {
   left:50% !important; top:53% !important; width:11px !important; height:12px !important;
   border:0 !important; border-radius:0 !important;
-  background:radial-gradient(circle at 50% 22%,#563477df9 0 2px,transparent 2.4px),
-             radial-gradient(ellipse at 50% 100%,#563477df9 0 5px,transparent 5.4px) !important;
+  background:radial-gradient(circle at 50% 22%,#fffdf9 0 2px,transparent 2.4px),
+             radial-gradient(ellipse at 50% 100%,#fffdf9 0 5px,transparent 5.4px) !important;
   transform:translate(-50%,-50%) !important;
 }
 
