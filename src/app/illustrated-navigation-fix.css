@@ -553,3 +553,26 @@
   box-shadow: none !important;
   filter: none !important;
 }
+
+
+/* Refine the navigation buttons: 10% narrower, artwork 30% smaller, never stretched. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section,
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+  background-color: #550866 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  width: 29.16px !important;
+  height: 36px !important;
+  flex: 0 0 29.16px !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration::before {
+  width: 25.2px !important;
+  height: 25.2px !important;
+  background-size: 25.2px 327.6px !important;
+  background-repeat: no-repeat !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
