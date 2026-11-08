@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { deleteEvent, updateEvent } from "../event-actions";
 
 type Props = {
@@ -49,7 +50,7 @@ export function EventManagementMenu({ event }: Props) {
             <label>Starts<input name="starts_at" type="datetime-local" value={startsAt} onChange={(e) => setStartsAt(e.target.value)} required/></label>
             <label>Ends<input name="ends_at" type="datetime-local" value={endsAt} onChange={(e) => setEndsAt(e.target.value)} required/></label>
             <label>Visibility<select name="is_public" defaultValue={event.isPublic ? "true" : "false"}><option value="true">Public event</option><option value="false">Group / organiser only</option></select></label>
-            <button className="btn btn-primary" type="submit">Save event changes</button>
+            <PendingIconButton className="btn btn-primary" label="Save event changes" pendingLabel="Saving…">Save event changes</PendingIconButton>
           </form>
         </details>
         <details className="content-more-submenu">
@@ -57,7 +58,7 @@ export function EventManagementMenu({ event }: Props) {
           <form action={deleteEvent} className="content-menu-form">
             <input type="hidden" name="event_id" value={event.id}/>
             <p>Cancel and permanently remove this event. Existing attendance responses will be removed with it.</p>
-            <button className="text-action danger-action" type="submit">Confirm cancellation</button>
+            <PendingIconButton className="text-action danger-action" label="Confirm event cancellation" pendingLabel="Cancelling…">Confirm cancellation</PendingIconButton>
           </form>
         </details>
       </div>

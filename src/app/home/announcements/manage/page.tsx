@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CommunityNavigation } from "@/components/community-navigation";
@@ -28,13 +29,13 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
         <label htmlFor="announcement-body">Message</label><textarea id="announcement-body" name="body" minLength={3} maxLength={8000} rows={6} required placeholder="Write the official update for the TIZIBANE community…"/>
         <div className="feature-admin-form-row"><div><label htmlFor="announcement-status">Publishing status</label><select id="announcement-status" name="status"><option value="draft">Save as draft</option><option value="published">Publish now</option></select></div><div><label htmlFor="announcement-expiry">Optional expiry</label><input id="announcement-expiry" name="expires_at" type="datetime-local"/></div></div>
         <label className="feature-pin-check"><input type="checkbox" name="is_pinned"/> Pin this notice at the top</label>
-        <button className="btn btn-primary" type="submit">Save announcement</button>
+        <PendingIconButton className="btn btn-primary" label="Save announcement" pendingLabel="Saving…">Save announcement</PendingIconButton>
       </form></section>
       <section className="feature-admin-list"><div className="feed-heading"><div><span className="eyebrow">CONTENT CONTROL</span><h2>All announcements</h2></div><span className="muted">{announcements.length} total</span></div>
         {announcements.length ? announcements.map((item) => <article className="feature-admin-item" key={item.id}><div className="feature-admin-item-copy"><span className={"feature-status status-" + item.status}>{item.status}</span>{item.is_pinned && <span className="home-pinned-label">PINNED</span>}<h3>{item.title}</h3><p>{item.body.length > 180 ? item.body.slice(0,180) + "…" : item.body}</p></div><div className="feature-admin-item-actions">
-          {item.status !== "published" ? <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="published"/><button className="btn btn-primary" type="submit">Publish</button></form> : <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="archived"/><button className="feature-secondary-button" type="submit">Archive</button></form>}
-          <form action={toggleAnnouncementPin}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="pinned" value={String(item.is_pinned)}/><button className="feature-secondary-button" type="submit">{item.is_pinned ? "Unpin" : "Pin"}</button></form>
-          <form action={deleteAnnouncement}><input type="hidden" name="id" value={item.id}/><button className="feature-danger-button" type="submit">Delete</button></form>
+          {item.status !== "published" ? <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="published"/><PendingIconButton className="btn btn-primary" label="Publish announcement" pendingLabel="Publishing…">Publish</PendingIconButton></form> : <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="archived"/><PendingIconButton className="feature-secondary-button" label="Archive announcement" pendingLabel="Archiving…">Archive</PendingIconButton></form>}
+          <form action={toggleAnnouncementPin}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="pinned" value={String(item.is_pinned)}/><PendingIconButton className="feature-secondary-button" label={item.is_pinned ? "Unpin announcement" : "Pin announcement"} pendingLabel="Updating…">{item.is_pinned ? "Unpin" : "Pin"}</PendingIconButton></form>
+          <form action={deleteAnnouncement}><input type="hidden" name="id" value={item.id}/><PendingIconButton className="feature-danger-button" label="Delete announcement" pendingLabel="Deleting…">Delete</PendingIconButton></form>
         </div>
         <details className="feature-admin-edit">
             <summary>Edit announcement text</summary>
@@ -42,7 +43,7 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
               <input type="hidden" name="id" value={item.id}/>
               <label htmlFor={"edit-title-" + item.id}>Title</label><input id={"edit-title-" + item.id} name="title" minLength={3} maxLength={140} required defaultValue={item.title}/>
               <label htmlFor={"edit-body-" + item.id}>Message</label><textarea id={"edit-body-" + item.id} name="body" minLength={3} maxLength={8000} rows={5} required defaultValue={item.body}/>
-              <button className="btn btn-primary" type="submit">Save changes</button>
+              <PendingIconButton className="btn btn-primary" label="Save announcement changes" pendingLabel="Saving…">Save changes</PendingIconButton>
             </form>
           </details></article>) : <p className="home-empty-preview">Your drafts and published notices will appear here.</p>}
       </section>

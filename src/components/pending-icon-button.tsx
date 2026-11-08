@@ -6,11 +6,13 @@ export function PendingIconButton({
   className,
   label,
   pressed,
+  pendingLabel,
   children,
 }: {
   className: string;
   label: string;
   pressed?: boolean;
+  pendingLabel?: string;
   children: React.ReactNode;
 }) {
   const { pending } = useFormStatus();
@@ -24,7 +26,7 @@ export function PendingIconButton({
       aria-pressed={pressed}
       aria-busy={pending}
     >
-      {pending ? <span aria-hidden="true">…</span> : children}
+      {pending ? <span aria-hidden="true">{pendingLabel ?? "…"}</span> : children}
     </button>
   );
 }

@@ -1,4 +1,5 @@
 import { CommunityNavigation } from "@/components/community-navigation";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -44,7 +45,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
           <label className="premium-form-full">Product description<textarea name="description" rows={4} maxLength={1200} placeholder="Describe the product, key features and useful details…"/></label>
           <label className="premium-form-full">Product photographs <span className="muted">(2–4 photos · JPG, PNG or WebP · optimized toward 1 MB each · maximum 2 MB each)</span><input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required/></label>
           <p className="premium-form-full premium-form-hint">Listings are saved as unpaid drafts. After you verify the client's payment, use Publish below to mark the payment as confirmed and set the advertising period. Do not publish until payment has actually been received.</p>
-          <button className="btn btn-primary premium-form-full" type="submit">Save product as draft</button>
+          <PendingIconButton className="btn btn-primary premium-form-full" label="Save product as draft" pendingLabel="Saving…">Save product as draft</PendingIconButton>
         </CompressedImageForm>
       </section>
       {params.created && <div className="notice" role="status">Your listing and photos have been saved as a draft. Confirm payment before publishing.</div>}
@@ -76,7 +77,7 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
                   <label>WhatsApp<input name="whatsapp_number" defaultValue={product.whatsapp_number ?? ""} required maxLength={30}/></label>
                   <label>Contact email<input name="contact_email" type="email" defaultValue={product.contact_email ?? ""} maxLength={254}/></label>
                   <label>Description<textarea name="description" defaultValue={product.description ?? ""} rows={4} maxLength={1200}/></label>
-                  <button className="btn btn-primary" type="submit">Save listing changes</button>
+                  <PendingIconButton className="btn btn-primary" label="Save listing changes" pendingLabel="Saving…">Save listing changes</PendingIconButton>
                 </form>
               </details>
               <details className="content-more-submenu">
@@ -85,13 +86,13 @@ export default async function PremiumAdminPage({ searchParams }: { searchParams:
                   <input type="hidden" name="product_id" value={product.id}/>
                   <label className="content-menu-file">Choose 2–4 new photos<input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required/></label>
                   <p>New photos are optimized toward 1 MB each and must be no larger than 2 MB after optimization.</p>
-                  <button className="btn btn-primary" type="submit">Save replacement photos</button>
+                  <PendingIconButton className="btn btn-primary" label="Save replacement photos" pendingLabel="Uploading…">Save replacement photos</PendingIconButton>
                 </CompressedImageForm>
               </details>
-              {product.status !== "published" && <details className="content-more-submenu"><summary>Publish listing</summary><form action={publishPremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><label>Advertising period<select name="days" defaultValue="30"><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option></select></label><p>Only publish after payment has actually been received and verified.</p><button className="btn btn-primary" type="submit">Confirm paid & publish</button></form></details>}
-              {product.status === "published" && <details className="content-more-submenu"><summary>Pause listing</summary><form action={pausePremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><p>Pause this advertisement so it no longer appears in the marketplace.</p><button className="btn" type="submit">Confirm pause</button></form></details>}
-              <details className="content-more-submenu"><summary>{product.is_featured ? "Remove featured placement" : "Feature listing"}</summary><form action={togglePremiumFeatured} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><input type="hidden" name="featured" value={product.is_featured ? "false" : "true"}/><button className="btn" type="submit">{product.is_featured ? "Remove featured" : "Feature listing"}</button></form></details>
-              <details className="content-more-submenu"><summary>Delete listing</summary><form action={deletePremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><p>This permanently removes the advertisement and its database record.</p><button className="text-action danger-action" type="submit">Confirm delete</button></form></details>
+              {product.status !== "published" && <details className="content-more-submenu"><summary>Publish listing</summary><form action={publishPremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><label>Advertising period<select name="days" defaultValue="30"><option value="14">14 days</option><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option></select></label><p>Only publish after payment has actually been received and verified.</p><PendingIconButton className="btn btn-primary" label="Confirm payment and publish listing" pendingLabel="Publishing…">Confirm paid & publish</PendingIconButton></form></details>}
+              {product.status === "published" && <details className="content-more-submenu"><summary>Pause listing</summary><form action={pausePremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><p>Pause this advertisement so it no longer appears in the marketplace.</p><PendingIconButton className="btn" label="Pause advertisement" pendingLabel="Pausing…">Confirm pause</PendingIconButton></form></details>}
+              <details className="content-more-submenu"><summary>{product.is_featured ? "Remove featured placement" : "Feature listing"}</summary><form action={togglePremiumFeatured} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><input type="hidden" name="featured" value={product.is_featured ? "false" : "true"}/><PendingIconButton className="btn" label={product.is_featured ? "Remove featured placement" : "Feature listing"} pendingLabel="Updating…">{product.is_featured ? "Remove featured" : "Feature listing"}</PendingIconButton></form></details>
+              <details className="content-more-submenu"><summary>Delete listing</summary><form action={deletePremiumProduct} className="content-menu-form"><input type="hidden" name="id" value={product.id}/><p>This permanently removes the advertisement and its database record.</p><PendingIconButton className="text-action danger-action" label="Delete advertisement" pendingLabel="Deleting…">Confirm delete</PendingIconButton></form></details>
             </ContentMoreMenu>
           </div>
         </article>)}</div>}

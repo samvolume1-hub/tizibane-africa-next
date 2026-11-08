@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { CommunityNavigation } from "@/components/community-navigation";
@@ -58,11 +59,11 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
           <h2>{item.title}</h2><p className="feature-announcement-author">Published by {profileNames.get(item.created_by) ?? "TIZIBANE Administration"}</p>
           <div className="feature-announcement-body">{item.body}</div>
           <div className="feature-announcement-reactions">
-            {(["like","love","support","celebrate"] as const).map((reaction) => <form action={reactToAnnouncement} key={reaction}><input type="hidden" name="announcement_id" value={item.id}/><input type="hidden" name="reaction" value={reaction}/><button className={"feature-reaction" + (myReaction === reaction ? " selected" : "")} type="submit" aria-pressed={myReaction === reaction}>{reaction === "like" ? "👍 Like" : reaction === "love" ? "❤️ Love" : reaction === "support" ? "🤗 Support" : "🎉 Celebrate"}</button></form>)}
+            {(["like","love","support","celebrate"] as const).map((reaction) => <form action={reactToAnnouncement} key={reaction}><input type="hidden" name="announcement_id" value={item.id}/><input type="hidden" name="reaction" value={reaction}/><PendingIconButton className={"feature-reaction" + (myReaction === reaction ? " selected" : "")} label={`React ${reaction} to announcement`} pressed={myReaction === reaction} pendingLabel="Saving…">{reaction === "like" ? "👍 Like" : reaction === "love" ? "❤️ Love" : reaction === "support" ? "🤗 Support" : "🎉 Celebrate"}</PendingIconButton></form>)}
             <span>{itemReactions.length} reactions · {itemComments.length} comments</span>
           </div>
           <div className="feature-announcement-comments">{itemComments.map((comment) => <div className="feature-announcement-comment" key={comment.id}><strong>{profileNames.get(comment.author_id) ?? "Member"}</strong><p>{comment.body}</p>{comment.author_id === user.id && <ContentMoreMenu fields={{ comment_id: comment.id }} edit={{ action: updateAnnouncementComment, value: comment.body, label: "Edit comment", maxLength: 1000, rows: 3 }} deleteAction={deleteAnnouncementComment} deleteLabel="Delete comment" />}</div>)}</div>
-          <form action={commentOnAnnouncement} className="feature-announcement-comment-form"><input type="hidden" name="announcement_id" value={item.id}/><label className="sr-only" htmlFor={"announcement-comment-" + item.id}>Write a comment</label><input id={"announcement-comment-" + item.id} name="body" maxLength={1000} required placeholder="Add a thoughtful comment…"/><button className="btn btn-primary" type="submit">Comment</button></form>
+          <form action={commentOnAnnouncement} className="feature-announcement-comment-form"><input type="hidden" name="announcement_id" value={item.id}/><label className="sr-only" htmlFor={"announcement-comment-" + item.id}>Write a comment</label><input id={"announcement-comment-" + item.id} name="body" maxLength={1000} required placeholder="Add a thoughtful comment…"/><PendingIconButton className="btn btn-primary" label="Comment on announcement" pendingLabel="Sending…">Comment</PendingIconButton></form>
         </article>;
       })}</div> : <div className="empty-state"><div className="empty-symbol">✦</div><h3>No official announcements yet.</h3><p>When the TIZIBANE team publishes an update, it will appear here.</p></div>}
       <RoyaltyCopyright />

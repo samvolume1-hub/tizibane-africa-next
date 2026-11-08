@@ -26,10 +26,10 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
   }
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
   const photoUrls: Record<string, string> = {};
-  await Promise.all(stories.filter((story) => story.photo_path).map(async (story) => {
-    const { data } = await supabase.storage.from("community-photos").createSignedUrl(story.photo_path!, 3600);
-    if (data?.signedUrl) photoUrls[story.id] = data.signedUrl;
-  }));
+  const photoPaths=[...new Set(stories.map(story=>story.photo_path).filter((path):path is string=>Boolean(path)))];
+  const {data:signedPhotos}=photoPaths.length?await supabase.storage.from("community-photos").createSignedUrls(photoPaths,3600):{data:[]};
+  const photoUrlByPath=new Map((signedPhotos??[]).map(item=>[item.path,item.signedUrl]));
+  for(const story of stories){const url=story.photo_path?photoUrlByPath.get(story.photo_path):null;if(url)photoUrls[story.id]=url}
 
   return (
     <main className="app-layout">
