@@ -615,3 +615,44 @@
     gap: 0 !important;
   }
 }
+
+
+/* Final button sizing and navigation colour treatment.
+   Reduce only the clickable shells; retain the illustrated artwork dimensions. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  flex-basis: 31px !important;
+  width: 31px !important;
+  min-width: 31px !important;
+  height: 31px !important;
+  min-height: 31px !important;
+  border-radius: 8.5px !important;
+}
+
+/* Keep the existing lavender/pink-purple rail colour, softened by 30%. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
+  background: rgba(125, 98, 149, 0.7) !important;
+}
+
+/* All transient button labels: solid purple label surface and pure-white type. */
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label,
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
+  background: #7D6295 !important;
+  color: #FFFFFF !important;
+  opacity: 0 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Phone buttons were 34px; 29px is approximately 15% smaller. */
+@media (max-width: 540px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    flex-basis: 29px !important;
+    width: 29px !important;
+    min-width: 29px !important;
+    height: 29px !important;
+    min-height: 29px !important;
+    border-radius: 8px !important;
+  }
+}
