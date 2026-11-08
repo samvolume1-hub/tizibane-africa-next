@@ -593,3 +593,31 @@
     min-height: 34px !important;
   }
 }
+
+
+/* Navigation interaction polish:
+   - Labels are revealed only while the pointer/focus is on a button.
+   - The existing component clears the label on pointer leave and click.
+   - Reduce only the clickable button shell; keep illustration dimensions untouched. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 10px !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration {
+  flex: 0 0 25.82118px !important;
+  width: 25.82118px !important;
+  height: 31.878px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+}
