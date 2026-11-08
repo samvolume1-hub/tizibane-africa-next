@@ -546,3 +546,10 @@
   background-position: inherit !important;
   pointer-events: none !important;
 }
+
+
+/* Remove all decorative shadows from the illustrated navigation buttons. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  box-shadow: none !important;
+  filter: none !important;
+}
