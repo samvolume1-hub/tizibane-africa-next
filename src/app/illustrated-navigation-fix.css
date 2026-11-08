@@ -618,14 +618,14 @@
 
 
 /* Final button sizing and navigation colour treatment.
-   Reduce only the clickable shells; retain the illustrated artwork dimensions. */
+   Reduce only the clickable shells by approximately 20%; keep icon artwork untouched. */
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-  flex-basis: 31px !important;
-  width: 31px !important;
-  min-width: 31px !important;
-  height: 31px !important;
-  min-height: 31px !important;
-  border-radius: 8.5px !important;
+  flex-basis: 29px !important;
+  width: 29px !important;
+  min-width: 29px !important;
+  height: 29px !important;
+  min-height: 29px !important;
+  border-radius: 8px !important;
 }
 
 /* Keep the existing lavender/pink-purple rail colour, softened by 30%. */
@@ -645,14 +645,14 @@
   visibility: visible !important;
 }
 
-/* Phone buttons were 34px; 29px is approximately 15% smaller. */
+/* Phone buttons: 34px to 27px, approximately 20% smaller. */
 @media (max-width: 540px) {
   .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-    flex-basis: 29px !important;
-    width: 29px !important;
-    min-width: 29px !important;
-    height: 29px !important;
-    min-height: 29px !important;
-    border-radius: 8px !important;
+    flex-basis: 27px !important;
+    width: 27px !important;
+    min-width: 27px !important;
+    height: 27px !important;
+    min-height: 27px !important;
+    border-radius: 7px !important;
   }
 }
