@@ -705,7 +705,6 @@
   margin: 0 !important;
   padding: 0 !important;
   transform: none !important;
-  background-position: center !important;
 }
 .app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration::before {
   left: 50% !important;
