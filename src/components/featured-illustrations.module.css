@@ -1,0 +1,103 @@
+/* Featured right-side illustrations — match the clean, bold white People Hub artwork.
+   These styles affect only the four featured icon spans; button shells remain untouched. */
+.illustration {
+  position: relative;
+  display: block;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 29px;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 1px rgba(32, 15, 45, .28));
+}
+
+/* Company links: two interlocking, softly rounded white chain links. */
+.connect::before,
+.connect::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 17px;
+  height: 11px;
+  box-sizing: border-box;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  background: transparent;
+}
+.connect::before { left: 1px; transform: rotate(38deg); }
+.connect::after { right: 1px; transform: rotate(38deg); }
+
+/* Premium advertising: a confident crown with three raised points and a solid band. */
+.premium::before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 26px;
+  height: 20px;
+  background: #fff;
+  clip-path: polygon(0 18%, 23% 42%, 36% 0, 53% 42%, 76% 0, 100% 18%, 88% 76%, 12% 76%);
+}
+.premium::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  bottom: 1px;
+  width: 18px;
+  height: 5px;
+  border-radius: 1px 1px 3px 3px;
+  background: #fff;
+}
+
+/* Events: a white calendar tile with binding rings and clear date marks. */
+.events::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  width: 20px;
+  height: 22px;
+  box-sizing: border-box;
+  border: 2.5px solid #fff;
+  border-radius: 4px;
+  background:
+    linear-gradient(#fff 0 0) 4px 11px / 3px 3px no-repeat,
+    linear-gradient(#fff 0 0) 9px 11px / 3px 3px no-repeat,
+    linear-gradient(#fff 0 0) 14px 11px / 3px 3px no-repeat,
+    linear-gradient(#fff 0 0) 4px 16px / 3px 3px no-repeat,
+    linear-gradient(#fff 0 0) 9px 16px / 3px 3px no-repeat,
+    linear-gradient(#fff 0 0) 14px 16px / 3px 3px no-repeat,
+    linear-gradient(rgba(255,255,255,.32) 0 0) 0 0 / 100% 7px no-repeat;
+}
+.events::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 1px;
+  width: 3px;
+  height: 7px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 8px 0 0 #fff;
+}
+
+/* Community activity: a crisp rising pulse with a visible baseline. */
+.activity::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 5px;
+  width: 30px;
+  height: 20px;
+  background: #fff;
+  clip-path: polygon(0 48%, 22% 48%, 34% 13%, 46% 88%, 58% 34%, 68% 48%, 100% 48%, 100% 61%, 65% 61%, 58% 53%, 46% 100%, 34% 40%, 28% 61%, 0 61%);
+}
+.activity::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.55);
+}

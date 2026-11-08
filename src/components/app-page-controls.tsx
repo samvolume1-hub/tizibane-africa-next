@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { PendingIconButton } from "@/components/pending-icon-button";
+import featuredIllustrations from "@/components/featured-illustrations.module.css";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
@@ -73,7 +74,7 @@ export function AppPageControls() {
         <nav className="app-featured-side-controls" aria-label="Featured navigation">
           {featuredLinks.map((item) => (
             <Link key={item.key} href={item.href} className="app-featured-side-control" aria-label={item.label} title={item.label}>
-              <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
+              <span className={`nav-illustration ${featuredIllustrations.illustration} ${featuredIllustrations[item.key]}`} data-icon={item.key} aria-hidden="true" />
               <span className="app-featured-side-label" aria-hidden="true">{item.label}</span>
             </Link>
           ))}
