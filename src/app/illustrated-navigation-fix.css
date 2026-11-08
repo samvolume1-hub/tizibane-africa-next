@@ -627,3 +627,19 @@
   flex: 0 0 52px !important;
   padding: 0 !important;
 }
+
+
+/* Button-only correction: restore every sprite tile and enlarge each face by 15%.
+   The section gradient above is intentionally left unchanged. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  width: 23.4738px !important;
+  height: 28.98px !important;
+  flex: 0 0 23.4738px !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration::before {
+  width: 20.286px !important;
+  height: 20.286px !important;
+  background-size: 20.286px 263.718px !important;
+  background-repeat: no-repeat !important;
+  background-position: inherit !important;
+}
