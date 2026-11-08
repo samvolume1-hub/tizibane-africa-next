@@ -55,15 +55,15 @@ export function AppPageControls() {
           {peopleHubOpen && (
             <nav id="app-people-hub-menu" className="app-people-hub-menu" aria-label="People destinations">
               <Link href="/home/people" onClick={() => setPeopleHubOpen(false)} aria-current={undefined}>
-                <span className="app-people-hub-menu-icon" aria-hidden="true">♧</span>
+                <span className="app-people-hub-menu-icon people" aria-hidden="true" />
                 <span>Find People</span>
               </Link>
               <Link href="/home/messages" onClick={() => setPeopleHubOpen(false)}>
-                <span className="app-people-hub-menu-icon" aria-hidden="true">✉</span>
+                <span className="app-people-hub-menu-icon messages" aria-hidden="true" />
                 <span>Messages</span>
               </Link>
               <Link href="/home/blocked" onClick={() => setPeopleHubOpen(false)}>
-                <span className="app-people-hub-menu-icon" aria-hidden="true">⊘</span>
+                <span className="app-people-hub-menu-icon blocked" aria-hidden="true" />
                 <span>Blocked</span>
               </Link>
             </nav>
