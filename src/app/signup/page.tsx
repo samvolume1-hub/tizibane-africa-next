@@ -1,4 +1,5 @@
 import { Brand } from "@/components/brand";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { PasswordField } from "@/components/password-field";
 import Link from "next/link";
 import { signUp } from "../auth-actions";
@@ -32,7 +33,7 @@ export default async function Signup({ searchParams }: { searchParams: Promise<{
             minLength={10}
           />
           <p className="muted password-help">Use at least 10 characters.</p>
-          <button className="btn btn-primary" type="submit">Create my account</button>
+          <PendingIconButton className="btn btn-primary" label="Create my account" pendingLabel="Creating account…">Create my account</PendingIconButton>
         </form>
 
         <p>Already a member? <Link href="/login" style={{ color: "var(--gold2)" }}>Sign in</Link></p>
