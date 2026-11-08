@@ -37,10 +37,10 @@ export function CommunityNavigation({ active }: { active: string }) {
               onMouseLeave={() => setHoveredItem(null)}
               onFocus={() => setHoveredItem(item.key)}
               onBlur={() => setHoveredItem(null)}
-              onClick={() => setHoveredItem(null)}
+              onClick={() => setHoveredItem(item.key)}
             >
               <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
-              <span className={`nav-hover-label${hoveredItem === item.key ? " is-visible" : ""}`} aria-hidden="true">
+              <span className={`nav-hover-label${hoveredItem === item.key || active === item.key ? " is-visible" : ""}`} aria-hidden="true">
                 {item.label}
               </span>
             </Link>

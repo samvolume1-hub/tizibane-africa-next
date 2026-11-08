@@ -1133,3 +1133,355 @@
   box-shadow: 19px -12px 0 -1px var(--left-accent), 22px -5px 0 -1px var(--left-accent) !important;
   transform: translate(-50%, -50%) rotate(-16deg) !important;
 }
+
+
+/* -------------------------------------------------------------------------
+   LEFT COMMUNITY NAVIGATION — matched to the approved right-side controls.
+   Scope is deliberately limited to the left rail. The four featured controls,
+   People Hub, page controls, destinations and all other app pages are untouched.
+   ------------------------------------------------------------------------- */
+.app-layout {
+  grid-template-columns: 64px minmax(0, 1fr) !important;
+  overflow: visible !important;
+}
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  position: sticky !important;
+  top: 0 !important;
+  align-self: start !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 64px !important;
+  min-width: 64px !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+  padding: 8px 5px 70px !important;
+  overflow: visible !important;
+  z-index: 35 !important;
+  background: #ffffff !important;
+  border-right: 1px solid #ececec !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-evenly !important;
+  gap: 16px !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 12px 0 !important;
+  overflow: visible !important;
+  overscroll-behavior: auto !important;
+  background: transparent !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  position: relative !important;
+  isolation: isolate !important;
+  display: grid !important;
+  flex: 0 0 54px !important;
+  place-items: center !important;
+  width: 54px !important;
+  min-width: 54px !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 1px solid rgba(255,255,255,.64) !important;
+  border-radius: 15px !important;
+  background: #563477 !important;
+  box-shadow: 0 4px 12px rgba(25,12,35,.20) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  touch-action: manipulation !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease !important;
+}
+/* Remove the older aria-label pseudo-tooltip; the single real label span below
+   is the only label surface, preventing duplicate layers and visual collisions. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a::after {
+  content: none !important;
+  display: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible {
+  border-color: rgba(255,255,255,.95) !important;
+  background: #68458a !important;
+  box-shadow: 0 5px 14px rgba(25,12,35,.26) !important;
+  outline: 2px solid rgba(86,52,119,.28) !important;
+  outline-offset: 2px !important;
+  transform: translateY(-1px) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
+  border-color: #ffffff !important;
+  background: #68458a !important;
+  box-shadow: 0 0 0 2px rgba(86,52,119,.20), 0 5px 14px rgba(25,12,35,.24) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 6px rgba(25,12,35,.22) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
+  position: relative !important;
+  display: block !important;
+  flex: 0 0 32px !important;
+  width: 32px !important;
+  height: 29px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  --left-icon: #ffffff !important;
+  --left-accent: #ffffff !important;
+  --gold: #ffffff !important;
+  --gold-light: #ffffff !important;
+  --gold-hi: #ffffff !important;
+  --ink: #ffffff !important;
+  filter: drop-shadow(0 1px 1px rgba(20,8,32,.22)) !important;
+  transform: none !important;
+  transform-origin: center center !important;
+  pointer-events: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::before,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::after {
+  content: "" !important;
+  position: absolute !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  pointer-events: none !important;
+  box-shadow: none !important;
+}
+
+/* Home — crisp white house with a purple doorway. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="home"]::before {
+  left: 50% !important; top: 50% !important;
+  width: 27px !important; height: 25px !important;
+  border: 0 !important; border-radius: 0 !important;
+  clip-path: polygon(50% 0, 100% 43%, 88% 43%, 88% 100%, 12% 100%, 12% 43%, 0 43%) !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="home"]::after {
+  left: 50% !important; top: 70% !important;
+  width: 6px !important; height: 10px !important;
+  border: 0 !important; border-radius: 2px 2px 0 0 !important;
+  background: #563477 !important;
+  transform: translate(-50%,-5%) !important;
+}
+
+/* Profile — distinct head and shoulder silhouette. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="profile"]::before {
+  left: 50% !important; top: 29% !important;
+  width: 10px !important; height: 10px !important;
+  border: 0 !important; border-radius: 50% !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="profile"]::after {
+  left: 50% !important; top: 73% !important;
+  width: 27px !important; height: 15px !important;
+  border: 0 !important; border-radius: 13px 13px 4px 4px !important;
+  clip-path: polygon(0 100%, 8% 48%, 28% 12%, 50% 0, 72% 12%, 92% 48%, 100% 100%) !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+
+/* Stories — segmented white story ring with purple breaks and centre. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="stories"]::before {
+  left: 50% !important; top: 50% !important;
+  width: 26px !important; height: 26px !important;
+  border: 0 !important; border-radius: 50% !important;
+  background:
+    radial-gradient(circle, #563477 0 6px, transparent 6.6px),
+    conic-gradient(from -35deg, #ffffff 0 24%, #563477 24% 29%, #ffffff 29% 61%, #563477 61% 66%, #ffffff 66% 100%) !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="stories"]::after {
+  left: 76% !important; top: 23% !important;
+  width: 5px !important; height: 5px !important;
+  border: 1px solid #ffffff !important; border-radius: 50% !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+
+/* Notifications — unmistakable bell with clapper and small alert rays. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="notifications"]::before {
+  left: 50% !important; top: 47% !important;
+  width: 22px !important; height: 23px !important;
+  border: 0 !important; border-radius: 0 !important;
+  clip-path: polygon(50% 0, 75% 8%, 91% 29%, 94% 72%, 100% 84%, 0 84%, 6% 72%, 9% 29%, 25% 8%) !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="notifications"]::after {
+  left: 50% !important; top: 85% !important;
+  width: 8px !important; height: 4px !important;
+  border: 0 !important; border-radius: 0 0 5px 5px !important;
+  background: #ffffff !important;
+  box-shadow: -11px -16px 0 -1px #ffffff, 11px -16px 0 -1px #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+
+/* Announcements — white megaphone, handle and broadcast marks. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="announcements"]::before {
+  left: 50% !important; top: 44% !important;
+  width: 26px !important; height: 19px !important;
+  border: 0 !important; border-radius: 2px 7px 7px 2px !important;
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%) !important;
+  background: #ffffff !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="announcements"]::after {
+  left: 34% !important; top: 72% !important;
+  width: 6px !important; height: 11px !important;
+  border: 0 !important; border-radius: 1px 1px 3px 3px !important;
+  background: #ffffff !important;
+  box-shadow: 20px -13px 0 -1px #ffffff, 24px -6px 0 -1px #ffffff !important;
+  transform: translate(-50%,-50%) rotate(-16deg) !important;
+}
+
+/* Groups — three white heads and one shared shoulder silhouette. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="groups"]::before {
+  left: 50% !important; top: 48% !important;
+  width: 32px !important; height: 27px !important;
+  border: 0 !important; border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 50% 18%, #ffffff 0 4px, transparent 4.6px),
+    radial-gradient(circle at 15% 34%, #ffffff 0 3.2px, transparent 3.8px),
+    radial-gradient(circle at 85% 34%, #ffffff 0 3.2px, transparent 3.8px),
+    radial-gradient(ellipse at 50% 100%, #ffffff 0 8px, transparent 8.6px),
+    radial-gradient(ellipse at 3% 100%, #ffffff 0 6px, transparent 6.6px),
+    radial-gradient(ellipse at 97% 100%, #ffffff 0 6px, transparent 6.6px) !important;
+  transform: translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="groups"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* The label is persistent for the selected destination and appears on hover
+   or keyboard focus. It is one clean purple panel with black lettering. */
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label,
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
+  position: absolute !important;
+  z-index: 100 !important;
+  left: calc(100% + 10px) !important;
+  right: auto !important;
+  top: 50% !important;
+  display: block !important;
+  width: max-content !important;
+  max-width: min(220px, calc(100vw - 88px)) !important;
+  padding: 8px 12px !important;
+  border: 1px solid rgba(255,255,255,.72) !important;
+  border-radius: 9px !important;
+  outline: 0 !important;
+  background: #7D6295 !important;
+  background-color: #7D6295 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  box-shadow: 0 4px 12px rgba(25,12,35,.20) !important;
+  text-shadow: none !important;
+  filter: none !important;
+  font: 700 12px/1.2 system-ui,sans-serif !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate(4px,-50%) !important;
+  transition: opacity .14s ease, transform .14s ease, visibility .14s ease !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover .nav-hover-label,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible .nav-hover-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate(0,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label::before,
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* The six destinations fit the rail at normal heights; compact the rail only
+   on short screens rather than clipping, overlapping or hiding buttons. */
+@media (max-width: 820px) {
+  .app-layout {
+    grid-template-columns: 60px minmax(0, 1fr) !important;
+  }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar {
+    width: 60px !important;
+    min-width: 60px !important;
+    padding: 7px 4px 66px !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+    gap: 13px !important;
+    padding: 8px 0 !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    flex-basis: 48px !important;
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: 13px !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
+    flex-basis: 30px !important;
+    width: 30px !important;
+    height: 28px !important;
+  }
+}
+@media (max-height: 560px) {
+  .app-layout > .sidebar.tizibane-illustrated-sidebar {
+    padding-top: 4px !important;
+    padding-bottom: 58px !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+    gap: 6px !important;
+    padding: 4px 0 !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    flex-basis: 42px !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    border-radius: 11px !important;
+  }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
+    transform: scale(.86) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a,
+  .app-layout .tizibane-illustrated-sidebar .nav-hover-label {
+    transition: none !important;
+  }
+}
