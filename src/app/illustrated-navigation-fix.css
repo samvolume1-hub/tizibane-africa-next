@@ -593,3 +593,25 @@
     min-height: 34px !important;
   }
 }
+
+
+/* Final responsive rail polish: purple hover labels and evenly distributed
+   icons on tablet/phone only. Desktop/laptop spacing remains unchanged. */
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label {
+  background-color: #7D6295 !important;
+  color: #FFFFFF !important;
+}
+@media (max-width: 820px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+    justify-content: space-evenly !important;
+    gap: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+}
+@media (max-width: 820px) and (max-height: 820px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+    justify-content: space-evenly !important;
+    gap: 0 !important;
+  }
+}
