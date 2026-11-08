@@ -503,3 +503,46 @@
   transform: scale(1.1, 0.7) !important;
   transform-origin: center center !important;
 }
+
+
+/* Refine button silhouette without distorting or clipping the original sprite artwork. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
+  background-color: #13021f !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav {
+  background-color: #13021f !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section nav.illustrated-side-nav a {
+  background-color: transparent !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  position: relative !important;
+  box-sizing: border-box !important;
+  width: 32.4px !important;
+  height: 36px !important;
+  flex: 0 0 32.4px !important;
+  background-color: #3e0866 !important;
+  background-image: none !important;
+  box-shadow:
+    -1.89px 1.16px 1.16px #ffd681,
+    -1.89px 3.47px 4.62px #ffd681,
+    -1.89px 5.78px 8.09px #ffd681,
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  transform: none !important;
+  transform-origin: center center !important;
+}
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  transform: translate(-50%, -50%) !important;
+  background-image: inherit !important;
+  background-image: url('/images/tizibane-navigation-3d-sprite.svg') !important;
+  background-repeat: no-repeat !important;
+  background-size: 36px 468px !important;
+  background-position: inherit !important;
+  pointer-events: none !important;
+}
