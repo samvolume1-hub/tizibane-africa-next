@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
@@ -94,7 +95,7 @@ export function AppPageControls() {
           <div className="app-logout-confirm" role="group" aria-label="Confirm sign out">
             <span>Are you sure you want to log out?</span>
             <form action={signOut}>
-              <button type="submit" className="app-page-control app-logout-yes">YES</button>
+              <PendingIconButton className="app-page-control app-logout-yes" label="Confirm sign out" pendingLabel="Signing out…">YES</PendingIconButton>
             </form>
             <button type="button" className="app-page-control app-logout-no" onClick={() => setConfirmLogout(false)}>NO</button>
           </div>
