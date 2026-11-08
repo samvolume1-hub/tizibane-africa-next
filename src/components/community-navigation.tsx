@@ -2,19 +2,19 @@ import Link from "next/link";
 import { AppPageControls } from "@/components/app-page-controls";
 
 const items = [
-  { href: "/home", label: "Home", key: "home", artwork: 0 },
-  { href: "/home/profile", label: "My profile", key: "profile", artwork: 3 },
-  { href: "/home/stories", label: "Stories", key: "stories", artwork: 4 },
-  { href: "/home/people", label: "People", key: "people", artwork: 1 },
-  { href: "/home/messages", label: "Messages", key: "messages", artwork: 2 },
-  { href: "/home/notifications", label: "Notifications", key: "notifications", artwork: 5 },
-  { href: "/home/announcements", label: "Announcements", key: "announcements", artwork: 6 },
-  { href: "/home/activity", label: "Community activity", key: "activity", artwork: 7 },
-  { href: "/home/blocked", label: "Blocked", key: "blocked", artwork: 8 },
-  { href: "/home/groups", label: "Groups", key: "groups", artwork: 9 },
-  { href: "/home/events", label: "Events", key: "events", artwork: 10 },
-  { href: "/home/premium", label: "Premium advertising", key: "premium", artwork: 11 },
-  { href: "/home/connect", label: "Company links", key: "connect", artwork: 12 },
+  { href: "/home", label: "Home", key: "home" },
+  { href: "/home/profile", label: "My profile", key: "profile" },
+  { href: "/home/stories", label: "Stories", key: "stories" },
+  { href: "/home/people", label: "People", key: "people" },
+  { href: "/home/messages", label: "Messages", key: "messages" },
+  { href: "/home/notifications", label: "Notifications", key: "notifications" },
+  { href: "/home/announcements", label: "Announcements", key: "announcements" },
+  { href: "/home/activity", label: "Community activity", key: "activity" },
+  { href: "/home/blocked", label: "Blocked", key: "blocked" },
+  { href: "/home/groups", label: "Groups", key: "groups" },
+  { href: "/home/events", label: "Events", key: "events" },
+  { href: "/home/premium", label: "Premium advertising", key: "premium" },
+  { href: "/home/connect", label: "Company links", key: "connect" },
 ];
 
 export function CommunityNavigation({ active }: { active: string }) {
@@ -30,11 +30,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               aria-current={active === item.key ? "page" : undefined}
               aria-label={item.label}
             >
-              <span
-                className="nav-illustration"
-                data-icon={item.key}
-                aria-hidden="true"
-              />
+              <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
             </Link>
           ))}
         </nav>
