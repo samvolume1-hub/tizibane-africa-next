@@ -469,3 +469,20 @@
   border-left: 6.6px solid #ffffff !important;
   border-right: 6.6px solid #ffffff !important;
 }
+
+
+/* Premium button finish: deep violet faces, warm orange depth, and a wider/flatter silhouette. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section .nav-illustration {
+  box-sizing: border-box !important;
+  width: 39.6px !important;
+  height: 25.2px !important;
+  flex: 0 0 39.6px !important;
+  background-color: #3e0866 !important;
+  box-shadow:
+    -1.89px 1.16px 1.16px rgba(255, 214, 129, 0.72),
+    -1.89px 3.47px 4.62px rgba(255, 214, 129, 0.48),
+    -1.89px 5.78px 8.09px rgba(255, 214, 129, 0.28),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9) !important;
+  transform: scale(0.56, 0.7) !important;
+  transform-origin: center center !important;
+}
