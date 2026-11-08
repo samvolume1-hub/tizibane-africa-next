@@ -1,5 +1,5 @@
-/* Featured right-side illustrations — match the clean, bold white People Hub artwork.
-   These styles affect only the four featured icon spans; button shells remain untouched. */
+/* Four featured-button illustrations: bold, solid-white CSS artwork inspired by
+   the People Hub's white people silhouette. Button shells and layout are untouched. */
 .illustration {
   position: relative;
   display: block;
@@ -10,94 +10,98 @@
   filter: drop-shadow(0 1px 1px rgba(32, 15, 45, .28));
 }
 
-/* Company links: two interlocking, softly rounded white chain links. */
-.connect::before,
+/* Company links: a connected three-node community/network mark. */
+.connect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 19%, #fff 0 4px, transparent 4.5px),
+    radial-gradient(circle at 17% 76%, #fff 0 4px, transparent 4.5px),
+    radial-gradient(circle at 83% 76%, #fff 0 4px, transparent 4.5px);
+}
 .connect::after {
   content: "";
   position: absolute;
-  top: 8px;
-  width: 17px;
-  height: 11px;
-  box-sizing: border-box;
-  border: 3px solid #fff;
-  border-radius: 999px;
-  background: transparent;
+  left: 5px;
+  top: 11px;
+  width: 22px;
+  height: 15px;
+  background:
+    linear-gradient(31deg, transparent 43%, #fff 44% 57%, transparent 58%) left top / 50% 100% no-repeat,
+    linear-gradient(-31deg, transparent 43%, #fff 44% 57%, transparent 58%) right top / 50% 100% no-repeat;
 }
-.connect::before { left: 1px; transform: rotate(38deg); }
-.connect::after { right: 1px; transform: rotate(38deg); }
 
-/* Premium advertising: a confident crown with three raised points and a solid band. */
+/* Premium advertising: a solid megaphone with a handle and sound rays. */
 .premium::before {
   content: "";
   position: absolute;
-  left: 3px;
-  top: 3px;
-  width: 26px;
-  height: 20px;
+  left: 5px;
+  top: 5px;
+  width: 22px;
+  height: 17px;
   background: #fff;
-  clip-path: polygon(0 18%, 23% 42%, 36% 0, 53% 42%, 76% 0, 100% 18%, 88% 76%, 12% 76%);
+  clip-path: polygon(0 31%, 100% 0, 100% 100%, 0 69%);
+  border-radius: 2px;
 }
 .premium::after {
   content: "";
   position: absolute;
-  left: 7px;
-  bottom: 1px;
-  width: 18px;
-  height: 5px;
-  border-radius: 1px 1px 3px 3px;
+  left: 8px;
+  top: 19px;
+  width: 7px;
+  height: 9px;
   background: #fff;
+  border-radius: 1px 1px 3px 3px;
+  transform: rotate(-17deg);
+  box-shadow: 20px -12px 0 -2px #fff;
 }
 
-/* Events: a white calendar tile with binding rings and clear date marks. */
+/* Events: a solid calendar silhouette with white binding tabs and purple date cutouts. */
 .events::before {
   content: "";
   position: absolute;
-  left: 6px;
-  top: 4px;
-  width: 20px;
-  height: 22px;
-  box-sizing: border-box;
-  border: 2.5px solid #fff;
+  left: 5px;
+  top: 5px;
+  width: 22px;
+  height: 21px;
   border-radius: 4px;
   background:
-    linear-gradient(#fff 0 0) 4px 11px / 3px 3px no-repeat,
-    linear-gradient(#fff 0 0) 9px 11px / 3px 3px no-repeat,
-    linear-gradient(#fff 0 0) 14px 11px / 3px 3px no-repeat,
-    linear-gradient(#fff 0 0) 4px 16px / 3px 3px no-repeat,
-    linear-gradient(#fff 0 0) 9px 16px / 3px 3px no-repeat,
-    linear-gradient(#fff 0 0) 14px 16px / 3px 3px no-repeat,
-    linear-gradient(rgba(255,255,255,.32) 0 0) 0 0 / 100% 7px no-repeat;
+    radial-gradient(circle, rgba(86,52,119,.95) 0 1.5px, transparent 1.8px) 4px 11px / 7px 6px repeat,
+    linear-gradient(#fff 0 0) 0 0 / 100% 6px no-repeat,
+    #fff;
 }
 .events::after {
   content: "";
   position: absolute;
-  left: 11px;
+  left: 10px;
   top: 1px;
   width: 3px;
-  height: 7px;
+  height: 9px;
   border-radius: 3px;
   background: #fff;
-  box-shadow: 8px 0 0 #fff;
+  box-shadow: 9px 0 0 #fff;
 }
 
-/* Community activity: a crisp rising pulse with a visible baseline. */
+/* Community activity: three solid people silhouettes, echoing the People Hub artwork. */
 .activity::before {
   content: "";
   position: absolute;
-  left: 1px;
-  top: 5px;
-  width: 30px;
-  height: 20px;
-  background: #fff;
-  clip-path: polygon(0 48%, 22% 48%, 34% 13%, 46% 88%, 58% 34%, 68% 48%, 100% 48%, 100% 61%, 65% 61%, 58% 53%, 46% 100%, 34% 40%, 28% 61%, 0 61%);
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 23%, #fff 0 4px, transparent 4.5px),
+    radial-gradient(circle at 17% 34%, #fff 0 3.5px, transparent 4px),
+    radial-gradient(circle at 83% 34%, #fff 0 3.5px, transparent 4px);
 }
 .activity::after {
   content: "";
   position: absolute;
   left: 1px;
-  right: 1px;
-  bottom: 2px;
-  height: 2px;
-  border-radius: 2px;
-  background: rgba(255,255,255,.55);
+  bottom: 0;
+  width: 30px;
+  height: 17px;
+  background:
+    radial-gradient(ellipse at 50% 100%, #fff 0 9px, transparent 9.5px),
+    radial-gradient(ellipse at 0% 100%, #fff 0 7px, transparent 7.5px),
+    radial-gradient(ellipse at 100% 100%, #fff 0 7px, transparent 7.5px);
 }
