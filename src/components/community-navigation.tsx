@@ -32,8 +32,8 @@ export function CommunityNavigation({ active }: { active: string }) {
             >
               <span
                 className="nav-illustration"
+                data-icon={item.key}
                 aria-hidden="true"
-                style={{ backgroundPosition: `center -${item.artwork * 22.3146}px` }}
               />
             </Link>
           ))}
