@@ -131,3 +131,17 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** Await GitHub Actions checks and then verify actual desktop/mobile rendering before merge. The original Library artwork is preserved as the source; the new sprite is a local, single-request asset.
 - **Next safe step:** Run CI, review the rendered navigation on desktop and mobile, then merge PR #3 and confirm Render auto-deploys the merge commit.
+
+
+### 8 November 2026 — Replace repeated navigation sprite with CSS-only gold icons
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/css-gold-navigation`, created from main at `1347d6e7d0d2a84da48a6ba42e8e409490cdebf8`.
+- **Agreed scope:** Remove image-based navigation artwork and implement 13 individually recognisable pure-CSS gold illustrations. Preserve all 13 routes, icon-only accessible controls, separate logout, compact rail geometry, and responsive behaviour.
+- **Files inspected:** `src/components/community-navigation.tsx`, `src/app/illustrated-navigation-fix.css`, `src/app/layout.tsx`, `package.json`, repository tree, and PR #3 history.
+- **Findings:** The navigation component still carried obsolete artwork indices. The stylesheet contained multiple competing historical overrides, including important sprite URL declarations that could override later CSS-only declarations and cause the repeated image appearance. Two navigation-specific assets remained in `public/images`: `tizibane-navigation-3d-sprite.svg` and `tizibane-navigation-icons.webp`.
+- **Files changed:** Rebuilt the navigation stylesheet as a single CSS-only source of truth; removed unused artwork index fields from the component; removed both navigation sprite assets. The 13 destination hrefs and aria labels are retained, as is the independent logout control.
+- **Tests/checks:** Source-level verification confirms 13 unique navigation keys and 13 matching CSS icon definitions; no navigation image URL, SVG, raster asset, icon font, or external icon package is used by the new navigation implementation. CI/typecheck/production build and rendered desktop/mobile checks are pending.
+- **Deployment:** Not performed or verified in this session. No Render, Supabase, environment, authentication, database, or member-data changes.
+- **Next safe step:** Run the repository CI checks, inspect their result, and only then merge the completed change into `main`.
