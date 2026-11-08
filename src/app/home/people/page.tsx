@@ -7,7 +7,8 @@ import {sendFriendRequest,respondFriendRequest,cancelFriendRequest,endFriendship
 import {startDirectMessage} from "../message-actions";
 import {blockMember} from "../safety-actions";
 import {toggleMemberPreference} from "../member-preference-actions";
-import { ReportControl } from "../report-control";\nimport { PendingIconButton } from "@/components/pending-icon-button";
+import { ReportControl } from "../report-control";
+import { PendingIconButton } from "@/components/pending-icon-button";
 
 type Profile={id:string;handle:string|null;display_name:string;bio:string;location:string;avatar_path:string|null;cover_path:string|null;avatar_color:string;initials:string};
 type Friendship={id:string;requester_id:string;recipient_id:string;status:string};
