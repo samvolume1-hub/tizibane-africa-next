@@ -16,6 +16,7 @@ export function AppPageControls() {
   const router = useRouter();
   const [showTop, setShowTop] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
+  const [peopleHubOpen, setPeopleHubOpen] = useState(false);
 
   useEffect(() => {
     const updateVisibility = () => setShowTop(window.scrollY > 240);
@@ -39,6 +40,35 @@ export function AppPageControls() {
   return (
     <>
       <div className="app-page-controls" aria-label="Page navigation controls">
+        <section className={`app-people-hub${peopleHubOpen ? " is-open" : ""}`} aria-label="People hub">
+          <button
+            type="button"
+            className="app-people-hub-trigger"
+            aria-expanded={peopleHubOpen}
+            aria-controls="app-people-hub-menu"
+            onClick={() => setPeopleHubOpen((open) => !open)}
+          >
+            <span className="app-people-hub-icon" aria-hidden="true" />
+            <span>PEOPLE</span>
+            <span className="app-people-hub-chevron" aria-hidden="true">{peopleHubOpen ? "⌃" : "⌄"}</span>
+          </button>
+          {peopleHubOpen && (
+            <nav id="app-people-hub-menu" className="app-people-hub-menu" aria-label="People destinations">
+              <Link href="/home/people" onClick={() => setPeopleHubOpen(false)} aria-current={undefined}>
+                <span className="app-people-hub-menu-icon" aria-hidden="true">♧</span>
+                <span>Find People</span>
+              </Link>
+              <Link href="/home/messages" onClick={() => setPeopleHubOpen(false)}>
+                <span className="app-people-hub-menu-icon" aria-hidden="true">✉</span>
+                <span>Messages</span>
+              </Link>
+              <Link href="/home/blocked" onClick={() => setPeopleHubOpen(false)}>
+                <span className="app-people-hub-menu-icon" aria-hidden="true">⊘</span>
+                <span>Blocked</span>
+              </Link>
+            </nav>
+          )}
+        </section>
         <nav className="app-featured-side-controls" aria-label="Featured navigation">
           {featuredLinks.map((item) => (
             <Link key={item.key} href={item.href} className="app-featured-side-control" aria-label={item.label} title={item.label}>
