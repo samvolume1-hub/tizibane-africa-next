@@ -1,4 +1,4 @@
-import { CommunityNavigation } from "@/components/community-navigation";
+import { CommunityNavigation } from "@/components/community-navigation";\nimport { PendingIconButton } from "@/components/pending-icon-button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -187,7 +187,7 @@ export default async function EventsPage({
                 </div>
               </div>
               <p className="field-help">Event times are saved using your device's local timezone.</p>
-              <button className="btn btn-primary" type="submit">Publish event</button>
+              <PendingIconButton className="btn btn-primary" label="Publish event" pendingLabel="Publishing…">Publish event</PendingIconButton>
             </form>
           </section>
 
@@ -260,7 +260,7 @@ export default async function EventsPage({
                           <span className="member-state">{response === "going" ? "You are going" : "Interested"}</span>
                           <form action={cancelAttendance}>
                             <input type="hidden" name="event_id" value={event.id} />
-                            <button className="text-action muted-action" type="submit">Remove response</button>
+                            <PendingIconButton className="text-action muted-action" label="Remove event response" pendingLabel="Removing…">Remove response</PendingIconButton>
                           </form>
                         </>
                       ) : canRespond ? (
@@ -268,12 +268,12 @@ export default async function EventsPage({
                           <form action={updateAttendance}>
                             <input type="hidden" name="event_id" value={event.id} />
                             <input type="hidden" name="response" value="going" />
-                            <button className="btn btn-primary" type="submit">I’m going</button>
+                            <PendingIconButton className="btn btn-primary" label="RSVP going" pendingLabel="Saving…">I’m going</PendingIconButton>
                           </form>
                           <form action={updateAttendance}>
                             <input type="hidden" name="event_id" value={event.id} />
                             <input type="hidden" name="response" value="interested" />
-                            <button className="text-action" type="submit">Interested</button>
+                            <PendingIconButton className="text-action" label="RSVP interested" pendingLabel="Saving…">Interested</PendingIconButton>
                           </form>
                         </>
                       ) : <span className="member-state">Private</span>}
