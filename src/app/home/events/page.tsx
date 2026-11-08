@@ -1,4 +1,5 @@
-import { CommunityNavigation } from "@/components/community-navigation";\nimport { PendingIconButton } from "@/components/pending-icon-button";
+import { CommunityNavigation } from "@/components/community-navigation";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
