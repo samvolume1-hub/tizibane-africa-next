@@ -54,7 +54,7 @@ export function AppPageControls() {
           </button>
           {peopleHubOpen && (
             <nav id="app-people-hub-menu" className="app-people-hub-menu" aria-label="People destinations">
-              <Link href="/home/people" onClick={() => setPeopleHubOpen(false)} aria-current={undefined}>
+              <Link href="/home/people" onClick={() => setPeopleHubOpen(false)}>
                 <span className="app-people-hub-menu-icon people" aria-hidden="true" />
                 <span>Find People</span>
               </Link>
