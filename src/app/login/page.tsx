@@ -1,4 +1,5 @@
 import { Brand } from "@/components/brand";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { PasswordField } from "@/components/password-field";
 import { LoginEmailField } from "@/components/login-email-field";
 import Link from "next/link";
@@ -31,7 +32,7 @@ export default async function Login({
             label="Password"
             autoComplete="current-password"
           />
-          <button className="btn btn-primary" type="submit">Sign in securely</button>
+          <PendingIconButton className="btn btn-primary" label="Sign in securely" pendingLabel="Signing in…">Sign in securely</PendingIconButton>
         </form>
 
         <div className="field" style={{ marginTop: "1.25rem" }}>
@@ -43,7 +44,7 @@ export default async function Login({
             <label htmlFor="resend-email">Email address</label>
             <LoginEmailField id="resend-email" name="email" />
           </div>
-          <button className="btn" type="submit">Resend confirmation email</button>
+          <PendingIconButton className="btn" label="Resend confirmation email" pendingLabel="Sending…">Resend confirmation email</PendingIconButton>
         </form>
 
         <p>New to TIZIBANE? <Link href="/signup" style={{ color: "var(--gold2)" }}>Create an account</Link></p>
