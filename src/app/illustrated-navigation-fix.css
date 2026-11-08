@@ -425,3 +425,117 @@
     transform: translateY(-1px);
   }
 }
+
+
+/* TIZIBANE navigation refinement — section colour and five clearer symbols.
+   Keep the rail, 52px buttons, icon frame dimensions, and destinations unchanged. */
+.app-layout .tizibane-illustrated-sidebar .community-nav-section {
+  background: #7D6295 !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+  background: transparent !important;
+}
+
+/* Stories — unmistakable story ring surrounding a person/profile silhouette. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::before {
+  width: 22px !important;
+  height: 22px !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 50% !important;
+  background: conic-gradient(from -35deg, #e4c47f 0 24%, #fffaf0 25% 43%, #d9b66e 44% 68%, #fffaf0 69% 84%, #e4c47f 85% 100%) !important;
+  box-shadow: inset 0 0 0 2px #fffaf0 !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::after {
+  width: 11px !important;
+  height: 12px !important;
+  top: 52% !important;
+  left: 50% !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 50% 24%, var(--ink) 0 2px, transparent 2.3px),
+    radial-gradient(ellipse at 50% 100%, var(--ink) 0 5px, transparent 5.4px) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Announcements — bold megaphone bell, wide horn, narrow mouth and handle. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::before {
+  width: 21px !important;
+  height: 15px !important;
+  top: 43% !important;
+  left: 51% !important;
+  border: 1.8px solid var(--ink) !important;
+  border-radius: 2px 8px 8px 2px !important;
+  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%) !important;
+  background: linear-gradient(90deg, #fffaf0 0 30%, #e4c47f 31% 100%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::after {
+  width: 6px !important;
+  height: 12px !important;
+  top: 68% !important;
+  left: 34% !important;
+  border: 1.8px solid var(--ink) !important;
+  border-radius: 1px 1px 3px 3px !important;
+  background: linear-gradient(90deg, #fffaf0, #e4c47f) !important;
+  transform: translate(-50%, -50%) rotate(-17deg) !important;
+}
+
+/* Activity — high-contrast heartbeat pulse, no monitor/device ambiguity. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::before {
+  width: 22px !important;
+  height: 16px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg, transparent 0 44%, var(--gold) 45% 54%, transparent 55%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::after {
+  width: 22px !important;
+  height: 16px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--ink) !important;
+  clip-path: polygon(0 48%, 25% 48%, 37% 8%, 49% 94%, 62% 28%, 72% 48%, 100% 48%, 100% 60%, 68% 60%, 62% 48%, 49% 100%, 37% 37%, 31% 60%, 0 60%) !important;
+}
+
+/* Premium — clear three-point crown with a broad jewelled band. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::before {
+  width: 23px !important;
+  height: 19px !important;
+  top: 52% !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: polygon(0 16%, 24% 43%, 39% 0, 57% 43%, 78% 0, 100% 16%, 88% 77%, 12% 77%) !important;
+  background: linear-gradient(180deg, #fff3d3 0%, #e4c47f 48%, #b7832d 100%) !important;
+  filter: drop-shadow(0 1px 0 var(--ink)) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::after {
+  width: 19px !important;
+  height: 4px !important;
+  top: 78% !important;
+  border: 1.5px solid var(--ink) !important;
+  border-radius: 1px 1px 3px 3px !important;
+  background: linear-gradient(180deg, #fff3d3, #d9b66e) !important;
+}
+
+/* Connect — two large, overlapping oval chain links, not a dotted thread. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::before {
+  width: 15px !important;
+  height: 10px !important;
+  top: 50% !important;
+  left: 39% !important;
+  border: 3px solid var(--gold) !important;
+  border-radius: 999px !important;
+  background: #fffaf0 !important;
+  transform: translate(-50%, -50%) rotate(42deg) !important;
+  box-shadow: 0 0 0 1px #fff inset !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::after {
+  width: 15px !important;
+  height: 10px !important;
+  top: 50% !important;
+  left: 61% !important;
+  border: 3px solid var(--ink) !important;
+  border-radius: 999px !important;
+  background: #f3e4c3 !important;
+  transform: translate(-50%, -50%) rotate(42deg) !important;
+}
