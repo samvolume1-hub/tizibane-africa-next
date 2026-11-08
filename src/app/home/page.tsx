@@ -127,18 +127,24 @@ export default async function Home({
 
   const photoUrls: Record<string, string> = {};
   const avatarUrls: Record<string, string> = {};
-  const [postPhotoResults, avatarPhotoResults] = await Promise.all([
-    Promise.all(posts.filter((post) => post.photo_path).map(async (post) => {
-      const { data } = await supabase.storage.from("community-photos").createSignedUrl(post.photo_path!, 60 * 60);
-      return { id: post.id, url: data?.signedUrl };
-    })),
-    Promise.all(profiles.filter((profile) => profile.avatar_path).map(async (profile) => {
-      const { data } = await supabase.storage.from("community-photos").createSignedUrl(profile.avatar_path!, 60 * 60);
-      return { id: profile.id, url: data?.signedUrl };
-    })),
-  ]);
-  for (const item of postPhotoResults) if (item.url) photoUrls[item.id] = item.url;
-  for (const item of avatarPhotoResults) if (item.url) avatarUrls[item.id] = item.url;
+  // Sign every feed image in one Storage request instead of issuing a request
+  // for each post photo and member avatar on slower mobile connections.
+  const imagePaths = [...new Set([
+    ...posts.map((post) => post.photo_path),
+    ...profiles.map((profile) => profile.avatar_path),
+  ].filter((path): path is string => Boolean(path)))];
+  const { data: signedImages } = imagePaths.length
+    ? await supabase.storage.from("community-photos").createSignedUrls(imagePaths, 60 * 60)
+    : { data: [] };
+  const signedUrlByPath = new Map((signedImages ?? []).map((item) => [item.path, item.signedUrl]));
+  for (const post of posts) {
+    const url = post.photo_path ? signedUrlByPath.get(post.photo_path) : null;
+    if (url) photoUrls[post.id] = url;
+  }
+  for (const profile of profiles) {
+    const url = profile.avatar_path ? signedUrlByPath.get(profile.avatar_path) : null;
+    if (url) avatarUrls[profile.id] = url;
+  }
 
   return (
     <main className="app-layout">
