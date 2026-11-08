@@ -617,15 +617,15 @@
 }
 
 
-/* Final button sizing and navigation colour treatment.
-   Reduce only the clickable shells by approximately 20%; keep icon artwork untouched. */
+/* Final button sizing: a further 10% reduction from the current desktop size.
+   Keep the illustrated icon artwork and its proportions untouched. */
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-  flex-basis: 29px !important;
-  width: 29px !important;
-  min-width: 29px !important;
-  height: 29px !important;
-  min-height: 29px !important;
-  border-radius: 8px !important;
+  flex-basis: 26px !important;
+  width: 26px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  border-radius: 7px !important;
 }
 
 /* Keep the existing lavender/pink-purple rail colour, softened by 30%. */
@@ -633,10 +633,11 @@
   background: rgba(125, 98, 149, 0.7) !important;
 }
 
-/* All transient button labels: solid purple label surface and pure-white type. */
+/* Match the tooltip surface to the navigation rail's translucent purple background. */
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label,
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
-  background: #7D6295 !important;
+  background: rgba(125, 98, 149, 0.7) !important;
+  background-color: rgba(125, 98, 149, 0.7) !important;
   color: #FFFFFF !important;
   opacity: 0 !important;
 }
@@ -645,14 +646,14 @@
   visibility: visible !important;
 }
 
-/* Phone buttons: 34px to 27px, approximately 20% smaller. */
+/* Phone buttons: reduce the current 27px size by approximately 10%. */
 @media (max-width: 540px) {
   .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-    flex-basis: 27px !important;
-    width: 27px !important;
-    min-width: 27px !important;
-    height: 27px !important;
-    min-height: 27px !important;
-    border-radius: 7px !important;
+    flex-basis: 24px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    height: 24px !important;
+    min-height: 24px !important;
+    border-radius: 6px !important;
   }
 }
