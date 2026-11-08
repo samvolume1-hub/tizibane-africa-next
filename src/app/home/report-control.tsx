@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { PendingIconButton } from "@/components/pending-icon-button";
 import { reportMember, reportPost } from "./safety-actions";
 
 const reasons = [
@@ -103,7 +104,7 @@ export function ReportControl(props: Props) {
                   <input type="hidden" name="reason" value={reason} />
                   <div className="report-dialog-actions">
                     <button className="btn" type="button" onClick={() => setStep(1)}>Go back</button>
-                    <button className="btn btn-primary" type="submit">Submit report</button>
+                    <PendingIconButton className="btn btn-primary" label="Submit report" pendingLabel="Submitting…">Submit report</PendingIconButton>
                   </div>
                 </form>
               </>
