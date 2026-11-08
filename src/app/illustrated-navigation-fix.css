@@ -724,3 +724,210 @@
     overflow-y: auto !important;
   }
 }
+
+
+/* PURE-CSS navigation artwork — 13 individually drawn symbols.
+   No image URLs, SVG, fonts, sprite sheets, or external icon packages.
+   The existing icon box, button dimensions, rail background, spacing and routes are untouched. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration {
+  position: relative !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 25.82118px !important;
+  height: 31.878px !important;
+  flex: 0 0 25.82118px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+  color: #d7b66f;
+  --nav-ink: #38264f;
+  --nav-gold: #c69b4d;
+  --nav-hi: #f2dfb6;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration::before,
+.app-layout .tizibane-illustrated-sidebar .nav-illustration::after {
+  content: "" !important;
+  position: absolute !important;
+  display: block !important;
+  left: 50% !important;
+  top: 50% !important;
+  box-sizing: border-box !important;
+  pointer-events: none !important;
+  background-image: none;
+  box-shadow: none;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration::before {
+  width: 19px !important;
+  height: 19px !important;
+  transform: translate(-50%, -50%) !important;
+  border: 1.45px solid var(--nav-gold);
+  border-radius: 5px;
+  background: linear-gradient(145deg, rgba(255,255,255,.92), rgba(245,239,226,.42));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.8), 0 1px 2px rgba(43,27,57,.12);
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration::after {
+  width: 11px !important;
+  height: 11px !important;
+  transform: translate(-50%, -50%) !important;
+  border: 1.35px solid var(--nav-ink);
+  border-radius: 3px;
+  background: transparent;
+}
+
+/* Home — roof, walls and doorway. */
+.nav-illustration[data-icon="home"]::before {
+  width: 17px !important; height: 15px !important; top: 54% !important;
+  border: 1.5px solid var(--nav-ink); border-top: 0; border-radius: 2px 2px 3px 3px;
+  background: linear-gradient(90deg, transparent 42%, var(--nav-gold) 42% 56%, transparent 56%);
+}
+.nav-illustration[data-icon="home"]::after {
+  width: 13px !important; height: 13px !important; top: 31% !important;
+  border: 1.5px solid var(--nav-gold); border-right: 0; border-bottom: 0;
+  border-radius: 2px 0 0 0; transform: translate(-50%,-50%) rotate(45deg) !important;
+  background: transparent;
+}
+
+/* Profile — head and shoulders. */
+.nav-illustration[data-icon="profile"]::before {
+  width: 8px !important; height: 8px !important; top: 29% !important;
+  border: 1.5px solid var(--nav-ink); border-radius: 50%; background: #fffaf0;
+}
+.nav-illustration[data-icon="profile"]::after {
+  width: 17px !important; height: 10px !important; top: 68% !important;
+  border: 1.5px solid var(--nav-gold); border-radius: 10px 10px 5px 5px;
+  background: linear-gradient(90deg, transparent 47%, rgba(198,155,77,.16) 47%);
+}
+
+/* Stories — a refined ring with a small highlight. */
+.nav-illustration[data-icon="stories"]::before {
+  width: 19px !important; height: 19px !important; border-radius: 50%;
+  border: 1.6px solid var(--nav-gold);
+  background: radial-gradient(circle, transparent 48%, rgba(198,155,77,.16) 50% 57%, transparent 59%);
+}
+.nav-illustration[data-icon="stories"]::after {
+  width: 6px !important; height: 6px !important; top: 34% !important; left: 65% !important;
+  border: 1.2px solid var(--nav-ink); border-radius: 50%; background: #fff;
+}
+
+/* People — two distinct heads and shoulders. */
+.nav-illustration[data-icon="people"]::before {
+  width: 7px !important; height: 7px !important; top: 34% !important; left: 39% !important;
+  border: 1.35px solid var(--nav-ink); border-radius: 50%; background: #fffaf0;
+  box-shadow: 8px 1px 0 -1px #fffaf0, 8px 1px 0 0 var(--nav-gold);
+}
+.nav-illustration[data-icon="people"]::after {
+  width: 19px !important; height: 9px !important; top: 68% !important;
+  border: 1.4px solid var(--nav-gold); border-radius: 10px 10px 5px 5px;
+  background: linear-gradient(90deg, transparent 48%, rgba(198,155,77,.12) 48%);
+}
+
+/* Messages — speech panel with a pointed tail. */
+.nav-illustration[data-icon="messages"]::before {
+  width: 18px !important; height: 13px !important; border: 1.5px solid var(--nav-ink);
+  border-radius: 5px; background: linear-gradient(180deg,#fffdf8,#f4ead7);
+}
+.nav-illustration[data-icon="messages"]::after {
+  width: 6px !important; height: 6px !important; top: 68% !important; left: 31% !important;
+  border-left: 1.4px solid var(--nav-gold); border-bottom: 1.4px solid var(--nav-gold);
+  transform: translate(-50%,-50%) rotate(-18deg) !important; background: #f4ead7;
+}
+
+/* Notifications — bell dome and clapper. */
+.nav-illustration[data-icon="notifications"]::before {
+  width: 15px !important; height: 15px !important; top: 44% !important;
+  border: 1.5px solid var(--nav-ink); border-radius: 9px 9px 4px 4px;
+  background: linear-gradient(90deg,transparent 45%,rgba(198,155,77,.18) 45%);
+}
+.nav-illustration[data-icon="notifications"]::after {
+  width: 19px !important; height: 4px !important; top: 72% !important;
+  border: 1.3px solid var(--nav-gold); border-radius: 0 0 8px 8px;
+  background: #fffaf0;
+}
+
+/* Announcements — megaphone body and handle. */
+.nav-illustration[data-icon="announcements"]::before {
+  width: 17px !important; height: 12px !important; border: 1.5px solid var(--nav-ink);
+  border-radius: 2px 8px 8px 2px; transform: translate(-44%,-50%) !important;
+  background: linear-gradient(90deg,#fffaf0 0 45%,rgba(198,155,77,.22) 46%);
+}
+.nav-illustration[data-icon="announcements"]::after {
+  width: 5px !important; height: 9px !important; top: 68% !important; left: 36% !important;
+  border: 1.3px solid var(--nav-gold); border-radius: 1px 1px 3px 3px; background: #fffaf0;
+}
+
+/* Community activity — a measured pulse line. */
+.nav-illustration[data-icon="activity"]::before {
+  width: 20px !important; height: 13px !important; border: 1.3px solid rgba(198,155,77,.72);
+  border-radius: 4px; background: linear-gradient(180deg,rgba(255,255,255,.85),rgba(244,234,215,.55));
+}
+.nav-illustration[data-icon="activity"]::after {
+  width: 17px !important; height: 8px !important; border: 0 !important; border-radius: 0 !important;
+  background: linear-gradient(110deg,transparent 0 17%,var(--nav-ink) 18% 24%,transparent 25% 37%,var(--nav-gold) 38% 45%,transparent 46% 55%,var(--nav-ink) 56% 62%,transparent 63%);
+  clip-path: polygon(0 55%,22% 55%,34% 0,48% 100%,61% 35%,72% 55%,100% 55%,100% 72%,75% 72%,60% 54%,47% 100%,34% 26%,25% 72%,0 72%);
+}
+
+/* Blocked — shield and diagonal bar. */
+.nav-illustration[data-icon="blocked"]::before {
+  width: 17px !important; height: 19px !important; top: 48% !important;
+  border: 1.5px solid var(--nav-ink); border-radius: 8px 8px 7px 7px;
+  clip-path: polygon(50% 0,100% 18%,91% 72%,50% 100%,9% 72%,0 18%);
+  background: linear-gradient(145deg,#fffdf8,#eadfc9);
+}
+.nav-illustration[data-icon="blocked"]::after {
+  width: 17px !important; height: 2px !important; border: 0 !important; border-radius: 2px;
+  background: var(--nav-gold); transform: translate(-50%,-50%) rotate(-42deg) !important;
+}
+
+/* Groups — three heads and a shared base. */
+.nav-illustration[data-icon="groups"]::before {
+  width: 6px !important; height: 6px !important; top: 30% !important;
+  border: 1.25px solid var(--nav-ink); border-radius: 50%; background: #fffaf0;
+  box-shadow: -7px 4px 0 -1px #fffaf0, -7px 4px 0 0 var(--nav-gold), 7px 4px 0 -1px #fffaf0, 7px 4px 0 0 var(--nav-gold);
+}
+.nav-illustration[data-icon="groups"]::after {
+  width: 20px !important; height: 9px !important; top: 68% !important;
+  border: 1.4px solid var(--nav-gold); border-radius: 10px 10px 4px 4px;
+  background: linear-gradient(90deg,transparent 32%,rgba(198,155,77,.18) 32% 68%,transparent 68%);
+}
+
+/* Events — calendar page, rings and date marks. */
+.nav-illustration[data-icon="events"]::before {
+  width: 17px !important; height: 17px !important; border: 1.5px solid var(--nav-ink);
+  border-radius: 3px; background: linear-gradient(180deg,#ead9b8 0 22%,#fffaf0 22%);
+}
+.nav-illustration[data-icon="events"]::after {
+  width: 9px !important; height: 7px !important; top: 59% !important;
+  border: 0 !important; border-radius: 1px;
+  background: linear-gradient(var(--nav-gold) 0 1.3px,transparent 1.3px 4px,var(--nav-ink) 4px 5.2px,transparent 5.2px);
+}
+
+/* Premium — crown and jewel. */
+.nav-illustration[data-icon="premium"]::before {
+  width: 19px !important; height: 13px !important; top: 54% !important;
+  border: 1.5px solid var(--nav-gold); border-radius: 2px 2px 5px 5px;
+  clip-path: polygon(0 20%,24% 48%,43% 0,63% 48%,100% 15%,86% 100%,13% 100%);
+  background: linear-gradient(180deg,#fff8e7,#e9d2a1);
+}
+.nav-illustration[data-icon="premium"]::after {
+  width: 5px !important; height: 5px !important; top: 31% !important;
+  border: 1.2px solid var(--nav-ink); border-radius: 50%; background: #fff;
+}
+
+/* Company links — connected nodes. */
+.nav-illustration[data-icon="connect"]::before {
+  width: 18px !important; height: 2px !important; border: 0 !important; border-radius: 2px;
+  background: var(--nav-gold);
+}
+.nav-illustration[data-icon="connect"]::after {
+  width: 18px !important; height: 18px !important; border: 0 !important; border-radius: 50%;
+  background: radial-gradient(circle at 10% 50%,#fffaf0 0 3px,var(--nav-ink) 3.2px 4px,transparent 4.2px),
+              radial-gradient(circle at 90% 50%,#fffaf0 0 3px,var(--nav-ink) 3.2px 4px,transparent 4.2px),
+              radial-gradient(circle at 50% 50%,#fffaf0 0 2.4px,var(--nav-gold) 2.6px 3.5px,transparent 3.7px);
+}
