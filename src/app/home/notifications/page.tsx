@@ -16,7 +16,10 @@ export default async function NotificationsPage({searchParams}:{searchParams:Pro
  const notifications=((rows??[]) as Notification[]).filter(n=>!n.actor_id||!mutedActorIds.has(n.actor_id)).slice(0,60),unread=notifications.filter(n=>!n.read_at).length,actorIds=[...new Set(notifications.map(n=>n.actor_id).filter((id):id is string=>Boolean(id)))];
  let profiles:Profile[]=[];if(actorIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle,initials,avatar_color,avatar_path").in("id",actorIds);profiles=(data??[]) as Profile[]}
  const profileById=new Map(profiles.map(p=>[p.id,p])),avatarUrls:Record<string,string>={};
- for(const p of profiles){if(!p.avatar_path)continue;const {data}=await supabase.storage.from("community-photos").createSignedUrl(p.avatar_path,3600);if(data?.signedUrl)avatarUrls[p.id]=data.signedUrl}
+ const avatarPaths=[...new Set(profiles.map(p=>p.avatar_path).filter((path):path is string=>Boolean(path)))];
+ const {data:signedAvatars}=avatarPaths.length?await supabase.storage.from("community-photos").createSignedUrls(avatarPaths,3600):{data:[]};
+ const avatarUrlByPath=new Map((signedAvatars??[]).map(item=>[item.path,item.signedUrl]));
+ for(const p of profiles){const url=p.avatar_path?avatarUrlByPath.get(p.avatar_path):null;if(url)avatarUrls[p.id]=url}
  return <main className="app-layout"><CommunityNavigation active="notifications" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">YOUR INBOX</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Stay in the loop</span><h1>Notifications.</h1><p>Friend requests, messages, group activity and updates from your community.</p></section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
