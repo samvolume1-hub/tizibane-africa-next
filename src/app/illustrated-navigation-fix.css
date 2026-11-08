@@ -1133,3 +1133,24 @@
   box-shadow: 19px -12px 0 -1px var(--left-accent), 22px -5px 0 -1px var(--left-accent) !important;
   transform: translate(-50%, -50%) rotate(-16deg) !important;
 }
+
+
+/* Left navigation proportion refinement:
+   reduce button height by 20% while preserving width, and enlarge each
+   CSS illustration by 10%. Desktop: 52px -> 41.6px; phone: 48px -> 38.4px. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  height: 41.6px !important;
+  min-height: 41.6px !important;
+  flex-basis: 41.6px !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
+  transform: scale(1.1) !important;
+  transform-origin: center center !important;
+}
+@media (max-width: 540px) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    height: 38.4px !important;
+    min-height: 38.4px !important;
+    flex-basis: 38.4px !important;
+  }
+}
