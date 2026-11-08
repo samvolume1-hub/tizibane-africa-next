@@ -657,3 +657,20 @@
     border-radius: 6px !important;
   }
 }
+
+
+/* Tooltip finish: solid purple face in the foreground with a white lower layer. */
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label,
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
+  background: #7D6295 !important;
+  background-color: #7D6295 !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255,255,255,.95) !important;
+  box-shadow: 0 3px 0 #FFFFFF, 0 5px 9px rgba(35,20,48,.22) !important;
+}
+
+/* Reduce only the illustrated symbols by 12%; button shells and spacing stay fixed. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration {
+  transform: scale(.88) !important;
+  transform-origin: center center !important;
+}
