@@ -17,7 +17,8 @@
   min-height: 0 !important;
   box-sizing: border-box !important;
   padding: 6px 2px 60px !important;
-  overflow: hidden !important;
+  overflow: visible !important;
+  z-index: 30 !important;
   background: #fff !important;
   border-right: 1px solid #ececec !important;
 }
@@ -48,10 +49,9 @@
   gap: 8px !important;
   margin: 0 !important;
   padding: 12px 0 !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  overscroll-behavior: contain;
-  background: #fff !important;
+  overflow: visible !important;
+  overscroll-behavior: auto;
+  background: transparent !important;
 }
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
   position: relative !important;
