@@ -66,10 +66,15 @@
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  border: 1px solid transparent !important;
-  border-radius: 12px !important;
-  background: #fff !important;
-  box-shadow: none !important;
+  border: 1px solid #eadfc9 !important;
+  border-radius: 13px !important;
+  background: linear-gradient(145deg, #ffffff 0%, #fffdf9 48%, #f5efe3 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.98) inset,
+    0 -1px 0 rgba(205,181,139,.16) inset,
+    0 2px 0 #e7ddcb,
+    0 4px 8px rgba(67,49,20,.10),
+    0 1px 2px rgba(67,49,20,.08) !important;
   color: inherit !important;
   font-size: 0 !important;
   text-decoration: none !important;
@@ -77,15 +82,34 @@
 }
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover,
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible {
-  border-color: #e5d2a5 !important;
-  background: #fffdf8 !important;
+  border-color: #d5b875 !important;
+  background: linear-gradient(145deg, #fffefb 0%, #fff8e9 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.98) inset,
+    0 -1px 0 rgba(205,181,139,.18) inset,
+    0 3px 0 #dfcfad,
+    0 7px 12px rgba(67,49,20,.15),
+    0 2px 4px rgba(67,49,20,.09) !important;
   outline: 2px solid #c69b4d !important;
-  outline-offset: 1px;
+  outline-offset: 2px;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:active {
+  transform: translateY(2px) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 0 0 1px rgba(184,138,54,.12) inset,
+    0 1px 0 #e7ddcb,
+    0 2px 3px rgba(67,49,20,.10) !important;
 }
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
   border-color: #c69b4d !important;
-  background: #fffaf0 !important;
-  box-shadow: inset 0 0 0 1px rgba(198,155,77,.12) !important;
+  background: linear-gradient(145deg, #fffdf8 0%, #f8edda 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 -1px 0 rgba(184,138,54,.12) inset,
+    0 2px 0 #e1d0ad,
+    0 4px 9px rgba(67,49,20,.12),
+    0 0 0 1px rgba(198,155,77,.12) !important;
 }
 .app-layout .tizibane-illustrated-sidebar .nav-illustration {
   --gold: #b88a36;
@@ -394,7 +418,7 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-    transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+    transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;
   }
   .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover {
     transform: translateY(-1px);
