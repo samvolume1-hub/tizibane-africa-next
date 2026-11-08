@@ -193,20 +193,7 @@
   background: linear-gradient(90deg, transparent 47%, rgba(184,138,54,.2) 48% 54%, transparent 55%);
 }
 
-/* Stories — layered story ring and play glint. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::before {
-  width: 20px !important; height: 20px !important; border-radius: 50%;
-  border: 2px solid var(--gold);
-  background: radial-gradient(circle, transparent 0 42%, rgba(184,138,54,.16) 44% 53%, transparent 55%),
-              conic-gradient(from 35deg, #fff 0 18%, #f0dcae 20% 32%, #fff 34% 68%, #e5c47e 70% 82%, #fff 84%);
-  box-shadow: inset 0 0 0 2px #fff;
-}
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::after {
-  width: 0 !important; height: 0 !important; top: 50% !important; left: 53% !important;
-  border-top: 4px solid transparent; border-bottom: 4px solid transparent;
-  border-left: 6px solid var(--gold); border-radius: 1px;
-  background: transparent; transform: translate(-35%,-50%) !important;
-}
+
 
 /* People — two profiles, deliberately different heights. */
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="people"]::before {
@@ -246,31 +233,9 @@
   background: radial-gradient(circle at 50% 0, var(--gold) 0 2px, transparent 2.5px), #fff;
 }
 
-/* Announcements — megaphone flare and grip. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::before {
-  width: 17px !important; height: 12px !important; top: 43% !important; left: 48% !important;
-  border: 1.9px solid var(--gold); border-radius: 2px 8px 8px 2px;
-  clip-path: polygon(0 28%, 100% 0, 100% 100%, 0 72%);
-  background: linear-gradient(90deg, #fffaf0 0 35%, #f0dcae 36% 100%);
-}
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::after {
-  width: 5px !important; height: 10px !important; top: 69% !important; left: 35% !important;
-  border: 1.5px solid var(--ink); border-radius: 1px 1px 3px 3px;
-  background: #fffaf0; transform: translate(-50%,-50%) rotate(-15deg) !important;
-}
 
-/* Community activity — pulse line inside a small framed monitor. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::before {
-  width: 21px !important; height: 15px !important;
-  border: 1.9px solid var(--gold); border-radius: 4px;
-  background: linear-gradient(180deg, #fff, #f8edda);
-}
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::after {
-  width: 16px !important; height: 8px !important; border: 0 !important; border-radius: 0 !important;
-  background: linear-gradient(110deg, transparent 0 12%, var(--gold) 13% 19%, transparent 20% 32%,
-    var(--ink) 33% 39%, transparent 40% 48%, var(--gold) 49% 56%, transparent 57% 100%);
-  clip-path: polygon(0 55%, 20% 55%, 34% 0, 47% 100%, 60% 34%, 72% 55%, 100% 55%, 100% 72%, 75% 72%, 60% 54%, 47% 100%, 34% 26%, 25% 72%, 0 72%);
-}
+
+
 
 /* Blocked — protective shield with a diagonal prohibition slash. */
 .app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::before {
@@ -311,31 +276,9 @@
               linear-gradient(90deg, transparent 0 30%, rgba(184,138,54,.35) 30% 43%, transparent 43% 57%, rgba(184,138,54,.35) 57% 70%, transparent 70%);
 }
 
-/* Premium advertising — sculpted crown and central jewel. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::before {
-  width: 21px !important; height: 15px !important; top: 55% !important;
-  border: 1.9px solid var(--gold); border-radius: 2px 2px 5px 5px;
-  clip-path: polygon(0 20%, 23% 48%, 42% 0, 62% 48%, 100% 14%, 87% 100%, 13% 100%);
-  background: linear-gradient(180deg, #fff8e7, #e4c47f);
-  box-shadow: inset 0 -3px 0 rgba(126,83,17,.12);
-}
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::after {
-  width: 5px !important; height: 5px !important; top: 30% !important;
-  border: 1.6px solid var(--ink); border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff 0 1px, #d7a83e 1.4px);
-}
 
-/* Company links — three connected nodes and a fine linking line. */
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::before {
-  width: 22px !important; height: 3px !important; border: 0 !important; border-radius: 3px;
-  background: linear-gradient(90deg, transparent 0 10%, var(--gold) 10% 90%, transparent 90%);
-}
-.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::after {
-  width: 22px !important; height: 22px !important; border: 0 !important; border-radius: 50%;
-  background: radial-gradient(circle at 10% 50%, #fffaf0 0 3px, var(--gold) 3.2px 4.5px, transparent 4.8px),
-              radial-gradient(circle at 90% 50%, #fffaf0 0 3px, var(--gold) 3.2px 4.5px, transparent 4.8px),
-              radial-gradient(circle at 50% 50%, #fffaf0 0 3px, var(--ink) 3.2px 4.5px, transparent 4.8px);
-}
+
+
 
 .app-layout .tizibane-illustrated-sidebar .app-logout-controls {
   position: absolute !important;
