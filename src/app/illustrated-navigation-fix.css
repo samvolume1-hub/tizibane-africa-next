@@ -1133,3 +1133,230 @@
   box-shadow: 19px -12px 0 -1px var(--left-accent), 22px -5px 0 -1px var(--left-accent) !important;
   transform: translate(-50%, -50%) rotate(-16deg) !important;
 }
+
+
+/* =========================================================
+   TIZIBANE — left rail matched to the right-side glass-purple
+   controls. Pure CSS artwork only; preserve the existing 52px
+   hit area, rail width, spacing, destinations and click targets.
+   ========================================================= */
+/* Preserve the established left-button shells, dimensions, backgrounds,
+   rail geometry, spacing, active states and responsive layout. Only the
+   13 CSS illustrations below are brought into the right-side visual style,
+   using a high-contrast purple/white treatment on the existing light tiles. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
+  --nav-white: #563477;
+  --nav-soft: #7D6295;
+  --nav-shadow: rgba(255,255,255,.72);
+  color: var(--nav-white) !important;
+  filter: drop-shadow(0 1px 1px var(--nav-shadow)) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::before,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration::after {
+  border-color: var(--nav-white) !important;
+  background-color: var(--nav-white);
+  box-shadow: none;
+}
+
+/* Home — solid house with a distinct inset doorway. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="home"]::before {
+  left:50% !important; top:51% !important; width:23px !important; height:22px !important;
+  border:0 !important; border-radius:2px !important;
+  clip-path:polygon(50% 0,100% 43%,88% 43%,88% 100%,12% 100%,12% 43%,0 43%) !important;
+  background:linear-gradient(145deg,#563477 0%,#7D6295 100%) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="home"]::after {
+  left:50% !important; top:68% !important; width:6px !important; height:9px !important;
+  border:0 !important; border-radius:2px 2px 0 0 !important;
+  background:#fffdf9 !important; transform:translate(-50%,-50%) !important;
+}
+
+/* Profile — clean head and shoulder silhouette. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="profile"]::before {
+  left:50% !important; top:31% !important; width:9px !important; height:9px !important;
+  border:0 !important; border-radius:50% !important;
+  background:linear-gradient(145deg,#563477,#7D6295) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="profile"]::after {
+  left:50% !important; top:72% !important; width:23px !important; height:13px !important;
+  border:0 !important; border-radius:13px 13px 4px 4px !important;
+  clip-path:polygon(0 100%,8% 48%,28% 12%,50% 0,72% 12%,92% 48%,100% 100%) !important;
+  background:linear-gradient(90deg,#7D6295,#563477 52%,#e7dced) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* People — two clearly separated heads and shoulders. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="people"]::before {
+  left:50% !important; top:34% !important; width:8px !important; height:8px !important;
+  border:0 !important; border-radius:50% !important;
+  background:#563477 !important;
+  box-shadow:-9px 3px 0 -1px #7D6295,9px 3px 0 -1px #7D6295 !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="people"]::after {
+  left:50% !important; top:72% !important; width:25px !important; height:12px !important;
+  border:0 !important; border-radius:13px 13px 4px 4px !important;
+  background:radial-gradient(ellipse at 50% 100%,#563477 0 8px,transparent 8.5px),
+             radial-gradient(ellipse at 5% 100%,#7D6295 0 7px,transparent 7.5px),
+             radial-gradient(ellipse at 95% 100%,#7D6295 0 7px,transparent 7.5px) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Messages — rounded speech bubble, tail and three visible dots. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::before {
+  left:50% !important; top:45% !important; width:23px !important; height:16px !important;
+  border:2px solid #563477 !important; border-radius:6px !important;
+  background:radial-gradient(circle at 28% 50%,#fffdf9 0 1.5px,transparent 1.8px),
+             radial-gradient(circle at 50% 50%,#fffdf9 0 1.5px,transparent 1.8px),
+             radial-gradient(circle at 72% 50%,#fffdf9 0 1.5px,transparent 1.8px),
+             linear-gradient(145deg,#563477,#7D6295) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="messages"]::after {
+  left:31% !important; top:69% !important; width:8px !important; height:8px !important;
+  border:0 !important; border-left:2px solid #563477 !important; border-bottom:2px solid #563477 !important;
+  background:#fffdf9 !important; transform:translate(-50%,-50%) skewY(-35deg) !important;
+}
+
+/* Notifications — unmistakable bell and clapper. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="notifications"]::before {
+  left:50% !important; top:46% !important; width:20px !important; height:21px !important;
+  border:0 !important; border-radius:10px 10px 4px 4px !important;
+  clip-path:polygon(50% 0,75% 8%,91% 29%,94% 72%,100% 84%,0 84%,6% 72%,9% 29%,25% 8%) !important;
+  background:linear-gradient(90deg,#7D6295,#563477 50%,#e8ddef) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="notifications"]::after {
+  left:50% !important; top:83% !important; width:8px !important; height:4px !important;
+  border:0 !important; border-radius:0 0 5px 5px !important; background:#563477 !important;
+  box-shadow:-9px -14px 0 -1px #7D6295,9px -14px 0 -1px #7D6295 !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Blocked — shield with a clear diagonal slash. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::before {
+  left:50% !important; top:49% !important; width:21px !important; height:24px !important;
+  border:0 !important; border-radius:0 !important;
+  clip-path:polygon(50% 0,100% 18%,91% 72%,50% 100%,9% 72%,0 18%) !important;
+  background:linear-gradient(145deg,#563477,#e8ddef) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="blocked"]::after {
+  left:50% !important; top:49% !important; width:22px !important; height:3px !important;
+  border:0 !important; border-radius:3px !important; background:#fffdf9 !important;
+  transform:translate(-50%,-50%) rotate(-43deg) !important;
+}
+
+/* Groups — three heads over one shared base. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="groups"]::before {
+  left:50% !important; top:32% !important; width:7px !important; height:7px !important;
+  border:0 !important; border-radius:50% !important; background:#563477 !important;
+  box-shadow:-9px 4px 0 -1px #7D6295,9px 4px 0 -1px #7D6295 !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="groups"]::after {
+  left:50% !important; top:72% !important; width:25px !important; height:12px !important;
+  border:0 !important; border-radius:13px 13px 4px 4px !important;
+  background:radial-gradient(ellipse at 50% 100%,#563477 0 8px,transparent 8.5px),
+             radial-gradient(ellipse at 4% 100%,#7D6295 0 7px,transparent 7.5px),
+             radial-gradient(ellipse at 96% 100%,#7D6295 0 7px,transparent 7.5px) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Events — calendar page with rings and date marks. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="events"]::before {
+  left:50% !important; top:51% !important; width:21px !important; height:22px !important;
+  border:2px solid #563477 !important; border-radius:4px !important;
+  background:linear-gradient(#563477 0 25%,#d9c9e5 25% 34%,#563477 34% 100%) !important;
+  box-shadow:inset 0 -1px 0 #7D6295 !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="events"]::after {
+  left:50% !important; top:63% !important; width:12px !important; height:8px !important;
+  border:0 !important; border-radius:1px !important;
+  background:radial-gradient(circle at 15% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 50% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 85% 20%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 15% 80%,#fffdf9 0 1px,transparent 1.3px),
+             radial-gradient(circle at 50% 80%,#fffdf9 0 1px,transparent 1.3px) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Stories — segmented ring with a person at its centre. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::before {
+  left:50% !important; top:50% !important; width:24px !important; height:24px !important;
+  border:3px solid #563477 !important; border-radius:50% !important;
+  background:conic-gradient(from -35deg,#563477 0 22%,#d9c9e5 23% 27%,#563477 28% 62%,#d9c9e5 63% 67%,#563477 68% 100%) !important;
+  box-shadow:inset 0 0 0 2px #fffdf9 !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="stories"]::after {
+  left:50% !important; top:53% !important; width:11px !important; height:12px !important;
+  border:0 !important; border-radius:0 !important;
+  background:radial-gradient(circle at 50% 22%,#fffdf9 0 2px,transparent 2.4px),
+             radial-gradient(ellipse at 50% 100%,#fffdf9 0 5px,transparent 5.4px) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Announcements — broad megaphone horn, mouth and handle. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::before {
+  left:51% !important; top:43% !important; width:24px !important; height:17px !important;
+  border:0 !important; border-radius:2px 8px 8px 2px !important;
+  clip-path:polygon(0 30%,100% 0,100% 100%,0 70%) !important;
+  background:linear-gradient(90deg,#7D6295 0 28%,#563477 29% 100%) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="announcements"]::after {
+  left:35% !important; top:70% !important; width:6px !important; height:11px !important;
+  border:0 !important; border-radius:1px 1px 3px 3px !important;
+  background:#563477 !important;
+  box-shadow:18px -12px 0 -2px #7D6295,22px -5px 0 -2px #7D6295 !important;
+  transform:translate(-50%,-50%) rotate(-16deg) !important;
+}
+
+/* Activity — crisp heartbeat waveform. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::before {
+  left:50% !important; top:52% !important; width:25px !important; height:18px !important;
+  border:0 !important; border-radius:0 !important;
+  clip-path:polygon(0 48%,23% 48%,35% 12%,47% 91%,60% 28%,70% 48%,100% 48%,100% 61%,67% 61%,60% 47%,47% 100%,35% 39%,29% 61%,0 61%) !important;
+  background:linear-gradient(180deg,#563477,#7D6295) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="activity"]::after {
+  content:none !important; display:none !important;
+}
+
+/* Premium — three-point crown and jewelled band. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::before {
+  left:50% !important; top:49% !important; width:25px !important; height:20px !important;
+  border:0 !important; border-radius:0 !important;
+  clip-path:polygon(0 14%,23% 43%,38% 0,57% 43%,78% 0,100% 14%,88% 77%,12% 77%) !important;
+  background:linear-gradient(180deg,#563477 0%,#7D6295 100%) !important;
+  transform:translate(-50%,-50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="premium"]::after {
+  left:50% !important; top:80% !important; width:20px !important; height:4px !important;
+  border:0 !important; border-radius:2px !important; background:#563477 !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+/* Connect — two interlocking chain links. */
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::before {
+  left:40% !important; top:43% !important; width:15px !important; height:10px !important;
+  border:3px solid #563477 !important; border-radius:7px !important;
+  background:transparent !important; transform:translate(-50%,-50%) rotate(-38deg) !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-illustration[data-icon="connect"]::after {
+  left:61% !important; top:60% !important; width:15px !important; height:10px !important;
+  border:3px solid #7D6295 !important; border-radius:7px !important;
+  background:transparent !important; transform:translate(-50%,-50%) rotate(-38deg) !important;
+}
+
+/* Keep the glass treatment legible without changing hover motion or geometry. */
+@media (prefers-reduced-motion: no-preference) {
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+    transition: background .16s ease,border-color .16s ease,box-shadow .16s ease,transform .16s ease !important;
+  }
+}
