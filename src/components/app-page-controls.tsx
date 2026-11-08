@@ -1,8 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
+
+const featuredLinks = [
+  { href: "/home/connect", label: "Company links", key: "connect" },
+  { href: "/home/premium", label: "Premium advertising", key: "premium" },
+  { href: "/home/events", label: "Events", key: "events" },
+  { href: "/home/activity", label: "Community activity", key: "activity" },
+];
 
 export function AppPageControls() {
   const router = useRouter();
@@ -31,14 +39,24 @@ export function AppPageControls() {
   return (
     <>
       <div className="app-page-controls" aria-label="Page navigation controls">
-        {showTop && (
-          <button type="button" className="app-page-control" onClick={goToTop} aria-label="Back to top" title="Back to top">
-            <span aria-hidden="true">↑</span><span>Top</span>
+        <nav className="app-featured-side-controls" aria-label="Featured navigation">
+          {featuredLinks.map((item) => (
+            <Link key={item.key} href={item.href} className="app-featured-side-control" aria-label={item.label} title={item.label}>
+              <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
+              <span className="app-featured-side-label" aria-hidden="true">{item.label}</span>
+            </Link>
+          ))}
+        </nav>
+        <div className="app-page-control-actions">
+          {showTop && (
+            <button type="button" className="app-page-control" onClick={goToTop} aria-label="Back to top" title="Back to top">
+              <span aria-hidden="true">↑</span><span>Top</span>
+            </button>
+          )}
+          <button type="button" className="app-page-control" onClick={goBack} aria-label="Back to previous page" title="Back to previous page">
+            <span aria-hidden="true">←</span><span>Back</span>
           </button>
-        )}
-        <button type="button" className="app-page-control" onClick={goBack} aria-label="Back to previous page" title="Back to previous page">
-          <span aria-hidden="true">←</span><span>Back</span>
-        </button>
+        </div>
       </div>
 
       <div className="app-logout-controls" aria-label="Account controls">
