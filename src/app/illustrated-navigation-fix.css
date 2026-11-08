@@ -722,3 +722,99 @@
   transform: none !important;
   opacity: 1 !important;
 }
+
+
+/* Featured navigation moved to the right edge, directly above Top and Back.
+   Keep the existing left icon rail free of these four destinations. */
+.app-layout .tizibane-illustrated-sidebar .app-page-controls {
+  position: fixed !important;
+  z-index: 80 !important;
+  right: 14px !important;
+  bottom: 14px !important;
+  left: auto !important;
+  top: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 10px !important;
+  width: auto !important;
+  transform: none !important;
+}
+.app-layout .app-featured-side-controls {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 9px !important;
+}
+.app-layout .app-featured-side-control {
+  position: relative !important;
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 54px !important;
+  width: 54px !important;
+  height: 54px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(255,255,255,.56) !important;
+  border-radius: 15px !important;
+  background: rgba(125,98,149,.70) !important;
+  box-shadow: 0 4px 12px rgba(25,12,35,.18) !important;
+  text-decoration: none !important;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: background .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+.app-layout .app-featured-side-control:hover,
+.app-layout .app-featured-side-control:focus-visible {
+  background: rgba(125,98,149,.9) !important;
+  transform: translateX(-3px);
+  outline: 2px solid rgba(255,255,255,.8) !important;
+  outline-offset: 2px;
+}
+.app-layout .app-featured-side-control .nav-illustration {
+  transform: scale(1.12) !important;
+  transform-origin: center center !important;
+}
+.app-layout .app-featured-side-label {
+  position: absolute !important;
+  right: calc(100% + 10px) !important;
+  top: 50% !important;
+  width: max-content !important;
+  max-width: 220px !important;
+  padding: 8px 11px !important;
+  border-radius: 8px !important;
+  background: #7D6295 !important;
+  color: #fff !important;
+  font: 600 12px/1.2 system-ui,sans-serif !important;
+  white-space: nowrap !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate(4px,-50%) !important;
+  transition: opacity .12s ease, transform .12s ease, visibility .12s ease !important;
+}
+.app-layout .app-featured-side-control:hover .app-featured-side-label,
+.app-layout .app-featured-side-control:focus-visible .app-featured-side-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translate(0,-50%) !important;
+}
+.app-layout .app-page-control-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  gap: 8px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .tizibane-illustrated-sidebar .app-page-controls {
+    right: 8px !important;
+    bottom: 8px !important;
+    gap: 7px !important;
+  }
+  .app-layout .app-featured-side-controls { gap: 7px !important; }
+  .app-layout .app-featured-side-control {
+    flex-basis: 48px !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 13px !important;
+  }
+}
