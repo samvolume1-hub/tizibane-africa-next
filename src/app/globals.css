@@ -6045,3 +6045,66 @@ main > .landing-contacts .landing-contact-panel a {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
+
+
+/* FINAL APP-WIDE PHOTO-HERO CONTRAST
+   Only image-backed hero canvases are targeted; text-only and pink feature
+   panels retain their existing appearance. */
+.app-layout .welcome:has(> .photo-backdrop) :is(.eyebrow, h1, p),
+.app-layout .premium-hero-photo :is(.premium-kicker, .eyebrow, h1, .premium-lead),
+.app-layout .community-home-page .home-welcome-has-photo .home-welcome-copy :is(h1, p),
+.app-layout .profile-page-hero:has(.profile-cover-image) .profile-page-hero-title,
+.app-layout .community-stories-page > .welcome :is(.eyebrow, h1, p) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .72) !important;
+}
+
+/* STORIES FROM THE COMMUNITY — real member photos, readable white canvas,
+   and a stronger purple More control. */
+.app-layout .community-stories-page .story-card {
+  color: #ffffff !important;
+}
+.app-layout .community-stories-page .story-card :is(strong, small, p, span) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .community-stories-page .story-card .story-caption,
+.app-layout .community-stories-page .story-card .story-author small,
+.app-layout .community-stories-page .story-card .story-expiry {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .community-stories-page .story-card .content-more-menu > summary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  min-height: 38px !important;
+  padding: 9px 14px !important;
+  border: 1px solid #9a72d0 !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #6b35a5 0%, #452071 100%) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 15.4px !important;
+  font-weight: 800 !important;
+  line-height: 1.1 !important;
+  box-shadow: 0 4px 12px rgba(57, 24, 92, .38) !important;
+}
+.app-layout .community-stories-page .story-card .content-more-menu > summary span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 18px !important;
+}
+.app-layout .community-stories-page .story-card .content-more-menu > summary:hover,
+.app-layout .community-stories-page .story-card .content-more-menu[open] > summary {
+  background: linear-gradient(135deg, #7d45bd 0%, #54298a 100%) !important;
+  border-color: #c2a1eb !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .community-stories-page .story-card .content-more-panel :is(summary, p, label, span) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
