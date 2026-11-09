@@ -165,7 +165,7 @@ export default async function Home({
               />
             )}
             <div className="home-welcome-copy">
-              <h1>Welcome back, {displayName}.</h1>
+              <h1 className="tizibane-welcome-title"><span className="tizibane-flourish-letter">W</span>elcome back, <span className="tizibane-welcome-name">{displayName}</span>.</h1>
               <p>Connect. Belong. Grow.</p>
             </div>
           </section>
