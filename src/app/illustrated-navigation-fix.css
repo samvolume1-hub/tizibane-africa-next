@@ -735,8 +735,7 @@
   transform: translate(4px,-50%) !important;
   transition: opacity .12s ease, transform .12s ease, visibility .12s ease !important;
 }
-.app-layout .app-featured-side-control:hover .app-featured-side-label,
-.app-layout .app-featured-side-control:focus-visible .app-featured-side-label {
+.app-layout .app-featured-side-label.is-visible {
   opacity: 1 !important;
   visibility: visible !important;
   transform: translate(0,-50%) !important;
@@ -1416,9 +1415,7 @@
   transform: translate(4px,-50%) !important;
   transition: opacity .14s ease, transform .14s ease, visibility .14s ease !important;
 }
-.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible,
-.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover .nav-hover-label,
-.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible .nav-hover-label {
+.app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
   opacity: 1 !important;
   visibility: visible !important;
   transform: translate(0,-50%) !important;
