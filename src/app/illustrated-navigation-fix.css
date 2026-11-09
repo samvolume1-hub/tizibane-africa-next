@@ -1600,8 +1600,9 @@
   border-right: 2px solid #fff !important;
   transform: rotate(45deg) !important;
 }
-.app-layout .tizibane-illustrated-sidebar .app-logout-trigger > span:not(.app-logout-icon) {
-  display: none !important;
+/* The tooltip label must remain renderable; visibility is controlled by .is-visible. */
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger .app-logout-label {
+  display: block !important;
 }
 .app-layout .tizibane-illustrated-sidebar .app-logout-label {
   position: absolute !important;
