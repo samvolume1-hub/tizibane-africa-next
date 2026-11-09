@@ -20,6 +20,7 @@ export function AppPageControls() {
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [peopleHubOpen, setPeopleHubOpen] = useState(false);
   const [featuredLabel, setFeaturedLabel] = useState<string | null>(null);
+  const [logoutLabelVisible, setLogoutLabelVisible] = useState(false);
 
   useEffect(() => {
     const updateVisibility = () => setShowTop(window.scrollY > 240);
@@ -112,8 +113,18 @@ export function AppPageControls() {
             <button type="button" className="app-page-control app-logout-no" onClick={() => setConfirmLogout(false)}>NO</button>
           </div>
         ) : (
-          <button type="button" className="app-page-control app-logout-trigger" onClick={() => setConfirmLogout(true)} aria-label="Log out" title="Log out">
-            <span aria-hidden="true">↪</span><span>Log out</span>
+          <button
+            type="button"
+            className="app-page-control app-logout-trigger"
+            onMouseEnter={() => setLogoutLabelVisible(true)}
+            onMouseLeave={() => setLogoutLabelVisible(false)}
+            onFocus={() => setLogoutLabelVisible(true)}
+            onBlur={() => setLogoutLabelVisible(false)}
+            onClick={() => { setLogoutLabelVisible(false); setConfirmLogout(true); }}
+            aria-label="Log out"
+          >
+            <span className="app-logout-icon" aria-hidden="true" />
+            <span className={`app-logout-label${logoutLabelVisible ? " is-visible" : ""}`} aria-hidden="true">Log out</span>
           </button>
         )}
       </div>
