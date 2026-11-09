@@ -54,7 +54,7 @@ export default async function ProfilePage({
         <div className="app-content">
           <section className="profile-cover-preview profile-cover-shared profile-page-hero" aria-label="My Profile">
             {avatarUrl ? <img src={avatarUrl} alt="Profile hero" className="profile-cover-image" /> : <div className="profile-cover-placeholder" />}
-            <h1 className="profile-page-hero-title tizibane-welcome-title">M<span className="tizibane-flourish-letter">Y</span> Profile</h1>
+            <h1 className="profile-page-hero-title tizibane-welcome-title"><span className="tizibane-flourish-letter">M</span>y Profile</h1>
           </section>
           {params.saved && <div className="notice" role="status">Your profile has been saved.</div>}
           {params.removed && <div className="notice" role="status">Your selected profile image has been removed.</div>}
