@@ -8,7 +8,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createStory, updateStory, deleteStory, replaceStoryPhoto, removeStoryPhoto } from "./actions";
 
 type Story = { id: string; author_id: string; caption: string; photo_path: string | null; visibility: string; created_at: string; expires_at: string };
-type Profile = { id: string; display_name: string; initials: string; avatar_color: string };
+type Profile = { id: string; display_name: string; initials: string; avatar_color: string; avatar_path: string | null };
 
 export default async function StoriesPage({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string; cleanup?: string }> }) {
   const params = await searchParams;
@@ -21,15 +21,29 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
   const authorIds = [...new Set(stories.map((story) => story.author_id))];
   let profiles: Profile[] = [];
   if (authorIds.length) {
-    const { data } = await supabase.from("profiles").select("id,display_name,initials,avatar_color").in("id", authorIds);
+    const { data } = await supabase.from("profiles").select("id,display_name,initials,avatar_color,avatar_path").in("id", authorIds);
     profiles = (data ?? []) as Profile[];
   }
   const profileById = new Map(profiles.map((profile) => [profile.id, profile]));
   const photoUrls: Record<string, string> = {};
-  const photoPaths=[...new Set(stories.map(story=>story.photo_path).filter((path):path is string=>Boolean(path)))];
-  const {data:signedPhotos}=photoPaths.length?await supabase.storage.from("community-photos").createSignedUrls(photoPaths,3600):{data:[]};
-  const photoUrlByPath=new Map((signedPhotos??[]).map(item=>[item.path,item.signedUrl]));
-  for(const story of stories){const url=story.photo_path?photoUrlByPath.get(story.photo_path):null;if(url)photoUrls[story.id]=url}
+  const avatarUrls: Record<string, string> = {};
+  // Sign story photos and member avatars together to keep the page lightweight.
+  const imagePaths = [...new Set([
+    ...stories.map((story) => story.photo_path),
+    ...profiles.map((profile) => profile.avatar_path),
+  ].filter((path): path is string => Boolean(path)))];
+  const { data: signedImages } = imagePaths.length
+    ? await supabase.storage.from("community-photos").createSignedUrls(imagePaths, 3600)
+    : { data: [] };
+  const signedUrlByPath = new Map((signedImages ?? []).map((item) => [item.path, item.signedUrl]));
+  for (const story of stories) {
+    const url = story.photo_path ? signedUrlByPath.get(story.photo_path) : null;
+    if (url) photoUrls[story.id] = url;
+  }
+  for (const profile of profiles) {
+    const url = profile.avatar_path ? signedUrlByPath.get(profile.avatar_path) : null;
+    if (url) avatarUrls[profile.id] = url;
+  }
 
   return (
     <main className="app-layout">
@@ -66,7 +80,7 @@ export default async function StoriesPage({ searchParams }: { searchParams: Prom
                 const author = profileById.get(story.author_id);
                 const own = story.author_id === user.id;
                 return <article className="story-card" key={story.id}>
-                  <div className="story-card-heading"><div className="story-author"><span className="avatar" style={{ background: author?.avatar_color || "#8053ad" }}>{author?.initials || "M"}</span><span><strong>{own ? "Your story" : author?.display_name || "TIZIBANE member"}</strong><small>{new Date(story.created_at).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})} · {story.visibility}</small></span></div>
+                  <div className="story-card-heading"><div className="story-author">{avatarUrls[story.author_id] ? <img className="avatar avatar-image story-author-avatar" src={avatarUrls[story.author_id]} alt={author?.display_name ? `${author.display_name} profile photo` : ""} loading="lazy" decoding="async" /> : <span className="avatar" style={{ background: author?.avatar_color || "#8053ad" }}>{author?.initials || "M"}</span>}<span><strong>{own ? "Your story" : author?.display_name || "TIZIBANE member"}</strong><small>{new Date(story.created_at).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})} · {story.visibility}</small></span></div>
                     {own && <ContentMoreMenu fields={{story_id:story.id}} edit={{action:updateStory,value:story.caption,label:"Edit story",fieldName:"caption",maxLength:500,rows:3,select:{label:"Who can see this story?",value:story.visibility,options:[{value:"public",label:"Everyone"},{value:"friends",label:"My friends"},{value:"private",label:"Only me"}]}}} replacePhoto={{action:replaceStoryPhoto,label:story.photo_path?"Replace photo":"Add photo"}} removePhoto={story.photo_path?{action:removeStoryPhoto}:undefined} deleteAction={deleteStory} deleteLabel="Delete story"/>}
                   </div>
                   {photoUrls[story.id] && <img className="story-photo" src={photoUrls[story.id]} alt="Story shared with the community" loading="lazy" decoding="async"/>}
