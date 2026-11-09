@@ -6132,3 +6132,49 @@ main > .landing-contacts .landing-contact-panel a {
     transform-origin: bottom left !important;
   }
 }
+
+
+/* Welcome contact dropdowns: true black, pure white, and 30% larger. */
+main > .landing-contacts .landing-contact {
+  min-width: 195px !important;
+}
+main > .landing-contacts .landing-contact summary {
+  min-height: 57px !important;
+  padding: 13px 28.6px !important;
+  gap: 11.7px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: #000000 !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+  font-size: 16.9px !important;
+}
+main > .landing-contacts .landing-contact summary::after {
+  color: #ffffff !important;
+  font-size: 19.5px !important;
+}
+main > .landing-contacts .landing-contact-panel {
+  box-sizing: border-box !important;
+  width: max-content !important;
+  min-width: min(305px, calc(100vw - 24px)) !important;
+  max-width: min(403px, calc(100vw - 24px)) !important;
+  padding: 19.5px !important;
+  gap: 13px !important;
+  background: #000000 !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+}
+main > .landing-contacts .landing-contact-panel a {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: 16.9px !important;
+  line-height: 1.45 !important;
+}
+@media (max-width: 600px) {
+  main > .landing-contacts {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  main > .landing-contacts .landing-contact {
+    flex: 0 1 195px !important;
+    min-width: 195px !important;
+  }
+}
