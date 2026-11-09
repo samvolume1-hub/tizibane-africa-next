@@ -6108,3 +6108,7 @@ main > .landing-contacts .landing-contact-panel a {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
+/* Notifications-only action button refinement */
+.notifications-page .notification-action-button{display:inline-flex;align-items:center;justify-content:center;border:1px solid #d8b56b66;border-radius:999px;padding:4px 8px;min-height:0;background:linear-gradient(120deg,#d9b66d,#b88b45);color:#15130e;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap;}
+.notifications-page .notification-action-button:hover{filter:brightness(1.08);}
+.notifications-page .notification-action-button:disabled{opacity:.7;cursor:wait;}
