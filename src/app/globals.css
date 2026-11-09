@@ -5953,3 +5953,29 @@ main > .landing-contacts .landing-contact-panel a {
   }
 }
 
+/* Home hero: align the welcome and member name on one clean baseline.
+   Desktop-only sizing; phone and tablet typography remains unchanged. */
+@media (min-width: 821px) {
+  .app-layout .community-home-page .home-welcome-copy h1.tizibane-welcome-title {
+    display: inline-flex !important;
+    align-items: baseline !important;
+    justify-content: flex-start !important;
+    gap: .38em !important;
+    font-size: clamp(17px, 1.65vw, 22px) !important;
+    line-height: 1 !important;
+  }
+  .app-layout .community-home-page .home-welcome-copy h1.tizibane-welcome-title .tizibane-flourish-letter {
+    font-size: 1.35em !important;
+    line-height: 1 !important;
+  }
+  .app-layout .community-home-page .home-welcome-copy h1.tizibane-welcome-title .tizibane-welcome-script {
+    font-size: 1.15em !important;
+    line-height: 1 !important;
+  }
+  .app-layout .community-home-page .home-welcome-copy .tizibane-welcome-name {
+    font-size: 1.3em !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+}
