@@ -6178,3 +6178,15 @@ main > .landing-contacts .landing-contact-panel a {
     min-width: 195px !important;
   }
 }
+
+
+/* Phone-width safeguard: keep expanded contact panels fully inside the viewport. */
+@media (max-width: 600px) {
+  main > .landing-contacts .landing-contact-panel {
+    box-sizing: border-box !important;
+    width: min(403px, calc(100vw - 24px)) !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 24px) !important;
+    align-self: center !important;
+  }
+}
