@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { PendingIconButton } from "@/components/pending-icon-button";
 import featuredIllustrations from "@/components/featured-illustrations.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
 
@@ -21,13 +21,67 @@ export function AppPageControls() {
   const [peopleHubOpen, setPeopleHubOpen] = useState(false);
   const [featuredLabel, setFeaturedLabel] = useState<string | null>(null);
   const [logoutLabelVisible, setLogoutLabelVisible] = useState(false);
+  const [controlsVisible, setControlsVisible] = useState(false);
+  const [controlsPinned, setControlsPinned] = useState(false);
+  const hideControlsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearControlsHideTimer() {
+    if (hideControlsTimer.current) {
+      clearTimeout(hideControlsTimer.current);
+      hideControlsTimer.current = null;
+    }
+  }
+
+  function scheduleControlsHide() {
+    clearControlsHideTimer();
+    if (controlsPinned || peopleHubOpen) return;
+    hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+  }
+
+  function revealControls() {
+    clearControlsHideTimer();
+    setControlsVisible(true);
+    if (!controlsPinned && !peopleHubOpen) {
+      hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+    }
+  }
+
+  function toggleControlsPin() {
+    if (controlsPinned) {
+      setControlsPinned(false);
+      setControlsVisible(true);
+      hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+    } else {
+      clearControlsHideTimer();
+      setControlsPinned(true);
+      setControlsVisible(true);
+    }
+  }
+
+  function revealAndPinControls() {
+    clearControlsHideTimer();
+    setControlsPinned(true);
+    setControlsVisible(true);
+  }
 
   useEffect(() => {
     const updateVisibility = () => setShowTop(window.scrollY > 240);
+    const revealWhileScrolling = () => {
+      setControlsVisible(true);
+      clearControlsHideTimer();
+      if (!controlsPinned && !peopleHubOpen) {
+        hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+      }
+    };
     updateVisibility();
-    window.addEventListener("scroll", updateVisibility, { passive: true });
-    return () => window.removeEventListener("scroll", updateVisibility);
-  }, []);
+    window.addEventListener("scroll", updateVisibility);
+    window.addEventListener("scroll", revealWhileScrolling, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("scroll", revealWhileScrolling);
+      clearControlsHideTimer();
+    };
+  }, [controlsPinned, peopleHubOpen]);
 
   function goBack() {
     if (window.history.length > 1) {
@@ -43,14 +97,40 @@ export function AppPageControls() {
 
   return (
     <>
-      <div className="app-page-controls" aria-label="Page navigation controls">
+      <div
+        className={`app-page-controls${controlsVisible || controlsPinned ? " is-visible" : " is-auto-hidden"}`}
+        aria-label="Page navigation controls"
+        inert={!controlsVisible && !controlsPinned}
+        onMouseEnter={revealControls}
+        onMouseLeave={scheduleControlsHide}
+        onFocusCapture={revealControls}
+      >
+        <button
+          type="button"
+          className="app-page-controls-pin"
+          onClick={toggleControlsPin}
+          aria-label={controlsPinned ? "Return navigation to auto-hide" : "Keep navigation controls visible"}
+          aria-pressed={controlsPinned}
+          title={controlsPinned ? "Unpin navigation" : "Pin navigation open"}
+        >
+          <span aria-hidden="true">{controlsPinned ? "●" : "⌖"}</span>
+        </button>
         <section className={`app-people-hub${peopleHubOpen ? " is-open" : ""}`} aria-label="People hub">
           <button
             type="button"
             className="app-people-hub-trigger"
             aria-expanded={peopleHubOpen}
             aria-controls="app-people-hub-menu"
-            onClick={() => setPeopleHubOpen((open) => !open)}
+            onClick={() => {
+              const nextOpen = !peopleHubOpen;
+              setPeopleHubOpen(nextOpen);
+              if (nextOpen) {
+                clearControlsHideTimer();
+                setControlsVisible(true);
+              } else {
+                scheduleControlsHide();
+              }
+            }}
           >
             <span className="app-people-hub-icon" aria-hidden="true" />
             <span>PEOPLE</span>
@@ -102,6 +182,17 @@ export function AppPageControls() {
           </button>
         </div>
       </div>
+
+      <button
+        type="button"
+        className={`app-page-controls-edge-toggle${controlsVisible || controlsPinned ? " is-panel-visible" : ""}`}
+        onClick={revealAndPinControls}
+        aria-label="Reveal and pin navigation controls"
+        title="Show navigation controls"
+        tabIndex={controlsVisible || controlsPinned ? -1 : 0}
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
 
       <div className="app-logout-controls" aria-label="Account controls">
         {confirmLogout ? (
