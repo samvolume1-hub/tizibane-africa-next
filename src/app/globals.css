@@ -5979,3 +5979,29 @@ main > .landing-contacts .landing-contact-panel a {
     white-space: nowrap !important;
   }
 }
+
+/* Matching desktop hero word spacing: keep decorative initials joined to
+   their word, then give the following text group comfortable breathing room.
+   The mobile/tablet rules below 821px are deliberately untouched. */
+@media (min-width: 821px) {
+  .app-layout .community-home-page .home-welcome-copy h1.tizibane-welcome-title,
+  .app-layout .profile-page-hero-title.tizibane-welcome-title {
+    align-items: baseline !important;
+    gap: .08em !important;
+  }
+  .app-layout .community-home-page .home-welcome-copy .tizibane-welcome-name,
+  .app-layout .profile-page-hero-title .profile-title-rest {
+    margin-left: .62em !important;
+  }
+  .app-layout .profile-page-hero-title.tizibane-welcome-title {
+    display: inline-flex !important;
+    justify-content: flex-start !important;
+    font-size: clamp(17px, 1.65vw, 22px) !important;
+    line-height: 1 !important;
+  }
+  .app-layout .profile-page-hero-title .profile-title-initial,
+  .app-layout .profile-page-hero-title .tizibane-flourish-letter,
+  .app-layout .profile-page-hero-title .profile-title-rest {
+    line-height: 1 !important;
+  }
+}
