@@ -6230,3 +6230,68 @@ main > .landing-contacts .landing-contact-panel a:focus-visible {
     transform: none !important;
   }
 }
+
+
+/* WELCOME PAGE — exact requested refinements only.
+   Preserve the pink top ribbon and both finished hero cards. */
+main:has(> .landing-contacts) {
+  background: #4b1d75 !important;
+}
+
+/* Enlarge only the two account buttons inside the existing pink top ribbon.
+   The ribbon dimensions, background, position and contents remain unchanged. */
+main > .topbar .actions > .btn {
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  padding: 16.9px 24.7px !important;
+  font-size: 20.8px !important;
+  line-height: 1.2 !important;
+}
+@media (max-width: 600px) {
+  main > .topbar .actions > .btn {
+    padding: 13px 15.6px !important;
+    font-size: 14.3px !important;
+  }
+}
+
+/* WhatsApp and Email controls: royal purple, brighter than the previous black.
+   The expanded contact panels remain true black with white text. */
+main > .landing-contacts .landing-contact > summary {
+  background: linear-gradient(135deg, #7542a5 0%, #63358f 55%, #542b7c 100%) !important;
+  border: 1px solid rgba(255,255,255,.82) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+main > .landing-contacts .landing-contact-panel {
+  background: #000000 !important;
+  border: 1px solid rgba(255,255,255,.78) !important;
+}
+main > .landing-contacts .landing-contact-panel a {
+  display: block !important;
+  box-sizing: border-box !important;
+  padding: 9px 11px !important;
+  margin: -4px -5px !important;
+  border: 1px solid transparent !important;
+  border-radius: 9px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+  transition: background-color 160ms ease, border-color 160ms ease !important;
+}
+main > .landing-contacts .landing-contact-panel a:hover,
+main > .landing-contacts .landing-contact-panel a:focus-visible {
+  background: #7542a5 !important;
+  border-color: rgba(255,255,255,.58) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  main > .landing-contacts .landing-contact-panel a {
+    transition: none !important;
+  }
+}
