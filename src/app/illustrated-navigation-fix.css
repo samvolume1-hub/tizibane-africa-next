@@ -1653,3 +1653,37 @@
 .app-layout .tizibane-illustrated-sidebar .app-logout-trigger > span.app-logout-label {
   display: block !important;
 }
+
+
+/* PEOPLE BUTTON ONLY — 40% transparent and 20% more compact.
+   Keep the People menu and every other navigation control unchanged. */
+.app-layout .app-people-hub-trigger {
+  width: 69px !important;
+  height: 69px !important;
+  flex-basis: 69px !important;
+  gap: 2.4px !important;
+  padding: 5.6px 4px !important;
+  background: rgba(86, 52, 119, .6) !important;
+  font-size: 9.6px !important;
+}
+.app-layout .app-people-hub-trigger:hover,
+.app-layout .app-people-hub-trigger:focus-visible,
+.app-layout .app-people-hub.is-open .app-people-hub-trigger {
+  background: rgba(104, 69, 138, .6) !important;
+}
+.app-layout .app-people-hub-trigger .app-people-hub-icon {
+  width: 25.6px !important;
+  height: 23.2px !important;
+}
+.app-layout .app-people-hub-trigger .app-people-hub-chevron {
+  right: 6.4px !important;
+  bottom: 5.6px !important;
+  font-size: 10.4px !important;
+}
+@media (max-width: 540px) {
+  .app-layout .app-people-hub-trigger {
+    width: 62.4px !important;
+    height: 62.4px !important;
+    flex-basis: 62.4px !important;
+  }
+}
