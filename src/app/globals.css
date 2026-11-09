@@ -6005,3 +6005,15 @@ main > .landing-contacts .landing-contact-panel a {
     line-height: 1 !important;
   }
 }
+
+
+/* My Profile hero — small phones only: add breathing room after “MY”
+   and enlarge the complete heading by 20%. Larger screens stay unchanged. */
+@media (max-width: 540px) {
+  .app-layout .profile-page-hero-title.tizibane-welcome-title {
+    font-size: 20.4px !important;
+  }
+  .app-layout .profile-page-hero-title .profile-title-rest {
+    margin-left: .62em !important;
+  }
+}
