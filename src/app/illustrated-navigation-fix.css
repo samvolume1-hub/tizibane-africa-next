@@ -1645,3 +1645,11 @@
     transition: none !important;
   }
 }
+
+
+/* FINAL LOG OUT LABEL FIX — override the legacy span:last-child hide rule.
+   The label is the button's last span, so it must remain displayable for
+   the React .is-visible hover/focus state to reveal it. */
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger > span.app-logout-label {
+  display: block !important;
+}
