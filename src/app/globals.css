@@ -6017,3 +6017,31 @@ main > .landing-contacts .landing-contact-panel a {
     margin-left: .62em !important;
   }
 }
+
+
+/* STORIES ONLY — laugh.jpg hero artwork and high-contrast white controls.
+   Scoped to the Stories page so Home, My Profile and other sections are untouched. */
+.app-layout .community-stories-page > .welcome {
+  background:
+    linear-gradient(105deg, rgba(20, 8, 28, .76) 0%, rgba(28, 10, 34, .58) 55%, rgba(18, 8, 27, .68) 100%),
+    url("/images/laugh.jpg") center 42% / cover no-repeat !important;
+  border-color: rgba(255, 255, 255, .34) !important;
+}
+.app-layout .community-stories-page > .welcome,
+.app-layout .community-stories-page > .welcome .eyebrow,
+.app-layout .community-stories-page > .welcome h1,
+.app-layout .community-stories-page > .welcome p {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .72) !important;
+}
+.app-layout .community-stories-page .story-composer .photo-picker,
+.app-layout .community-stories-page .story-composer .btn-primary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .community-stories-page .story-composer .photo-picker *,
+.app-layout .community-stories-page .story-composer .btn-primary * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
