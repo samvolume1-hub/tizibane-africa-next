@@ -38,9 +38,13 @@ export function AppPageControls() {
     hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
   }
 
-  function revealControls() {
+  function holdControlsVisible() {
     clearControlsHideTimer();
     setControlsVisible(true);
+  }
+
+  function revealControls() {
+    holdControlsVisible();
     if (!controlsPinned && !peopleHubOpen) {
       hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
     }
@@ -101,9 +105,9 @@ export function AppPageControls() {
         className={`app-page-controls${controlsVisible || controlsPinned ? " is-visible" : " is-auto-hidden"}`}
         aria-label="Page navigation controls"
         inert={!controlsVisible && !controlsPinned}
-        onMouseEnter={revealControls}
+        onMouseEnter={holdControlsVisible}
         onMouseLeave={scheduleControlsHide}
-        onFocusCapture={revealControls}
+        onFocusCapture={holdControlsVisible}
       >
         <button
           type="button"
@@ -128,7 +132,10 @@ export function AppPageControls() {
                 clearControlsHideTimer();
                 setControlsVisible(true);
               } else {
-                scheduleControlsHide();
+                clearControlsHideTimer();
+                if (!controlsPinned) {
+                  hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+                }
               }
             }}
           >
