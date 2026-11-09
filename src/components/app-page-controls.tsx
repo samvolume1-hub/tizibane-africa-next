@@ -19,6 +19,7 @@ export function AppPageControls() {
   const [showTop, setShowTop] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [peopleHubOpen, setPeopleHubOpen] = useState(false);
+  const [featuredLabel, setFeaturedLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const updateVisibility = () => setShowTop(window.scrollY > 240);
@@ -73,9 +74,19 @@ export function AppPageControls() {
         </section>
         <nav className="app-featured-side-controls" aria-label="Featured navigation">
           {featuredLinks.map((item) => (
-            <Link key={item.key} href={item.href} className="app-featured-side-control" aria-label={item.label} title={item.label}>
+            <Link
+              key={item.key}
+              href={item.href}
+              className="app-featured-side-control"
+              aria-label={item.label}
+              onMouseEnter={() => setFeaturedLabel(item.key)}
+              onMouseLeave={() => setFeaturedLabel(null)}
+              onFocus={() => setFeaturedLabel(item.key)}
+              onBlur={() => setFeaturedLabel(null)}
+              onClick={() => setFeaturedLabel(null)}
+            >
               <span className={`nav-illustration ${featuredIllustrations.illustration} ${featuredIllustrations[item.key]}`} data-icon={item.key} aria-hidden="true" />
-              <span className="app-featured-side-label" aria-hidden="true">{item.label}</span>
+              <span className={`app-featured-side-label${featuredLabel === item.key ? " is-visible" : ""}`} aria-hidden="true">{item.label}</span>
             </Link>
           ))}
         </nav>
