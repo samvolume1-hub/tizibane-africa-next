@@ -6732,85 +6732,410 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 }
 
 
-/* FIND PEOPLE PAGE — action buttons only.
-   Keep desktop dimensions unchanged; refine the shape and finish to match TIZIBANE.
-   The search field and Search people button are deliberately excluded. */
-.app-layout .people-list .person-actions .btn,
-.app-layout .module-section .person-actions .btn {
-  box-sizing: border-box !important;
-  border-radius: 999px !important;
-  border: 1px solid rgba(255,255,255,.72) !important;
-  background: linear-gradient(135deg, #7542a5 0%, #63358f 58%, #542b7c 100%) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  font-weight: 800 !important;
-  box-shadow: 0 3px 10px rgba(66, 31, 91, .22), inset 0 1px 0 rgba(255,255,255,.16) !important;
-  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease !important;
+/* PEOPLE DIRECTORY — unified responsive design system.
+   Scoped to Find People; shared profile, messaging and Community styles stay untouched. */
+.app-layout .people-directory {
+  container-type: inline-size;
+  container-name: people-directory;
+  width: 100%;
+  max-width: 1160px;
+  margin-inline: auto;
+  padding: clamp(18px, 2.4vw, 30px);
+  box-sizing: border-box;
 }
-.app-layout .people-list .person-actions .text-action,
-.app-layout .module-section .person-actions .text-action {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 30px !important;
-  padding: 7px 12px !important;
-  border: 1px solid rgba(117,66,165,.30) !important;
-  border-radius: 999px !important;
-  background: rgba(117,66,165,.10) !important;
-  color: #65358e !important;
-  -webkit-text-fill-color: #65358e !important;
+.app-layout .people-directory > .people-hero-search {
+  display: grid !important;
+  grid-template-columns: minmax(0, .95fr) minmax(320px, 1.05fr);
+  align-items: center;
+  gap: clamp(22px, 3vw, 42px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto clamp(26px, 3vw, 38px) !important;
+  padding: clamp(26px, 3.2vw, 42px) !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 26px !important;
+  background: linear-gradient(128deg, #ffc3df 0%, #f19bc4 56%, #dda8e2 100%) !important;
+  box-shadow: 0 18px 42px rgba(73, 27, 72, .20), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+.app-layout .people-hero-copy { min-width: 0; }
+.app-layout .people-hero-kicker {
+  display: block;
+  margin: 0 0 10px;
+  color: #71365d !important;
   font-size: 11px !important;
+  font-weight: 900 !important;
+  letter-spacing: .16em;
+}
+.app-layout .people-hero-search h1 {
+  margin: 0 !important;
+  color: #40203d !important;
+  font-size: clamp(34px, 4vw, 48px) !important;
+  font-weight: 900 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em;
+}
+.app-layout .people-hero-search h2 {
+  margin: 12px 0 0 !important;
+  color: #5a2b50 !important;
+  font-size: clamp(19px, 2vw, 25px) !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+}
+.app-layout .people-hero-search .people-search {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0;
+  margin: 0 !important;
+}
+.app-layout .people-hero-search .people-search .field {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+.app-layout .people-hero-search .people-search .field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #48263f !important;
+  font-size: 14px !important;
   font-weight: 800 !important;
-  line-height: 1.15 !important;
-  text-decoration: none !important;
 }
-.app-layout .people-list .person-actions .btn:hover,
-.app-layout .module-section .person-actions .btn:hover,
-.app-layout .people-list .person-actions .text-action:hover,
-.app-layout .module-section .person-actions .text-action:hover,
-.app-layout .people-list .person-actions .btn:focus-visible,
-.app-layout .module-section .person-actions .btn:focus-visible,
-.app-layout .people-list .person-actions .text-action:focus-visible,
-.app-layout .module-section .person-actions .text-action:focus-visible {
+.app-layout .people-hero-search .people-search input {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  padding: 13px 16px !important;
+  border: 1px solid rgba(91, 44, 80, .24) !important;
+  border-radius: 14px !important;
+  background: rgba(255,255,255,.94) !important;
+  color: #332033 !important;
+  font-size: 16px !important;
+}
+.app-layout .people-hero-search .people-search .btn {
+  width: 100% !important;
+  min-height: 50px !important;
+  border: 1px solid rgba(255,255,255,.24) !important;
+  border-radius: 14px !important;
   background: #9168b7 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 850 !important;
+  box-shadow: 0 5px 14px rgba(66,35,91,.20);
+  transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+}
+.app-layout .people-hero-search .people-search .text-action {
+  justify-self: start;
+  min-height: 40px;
+  padding: 10px 4px;
+  color: #542b7c !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):hover,
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):focus-visible {
+  background-color: #7542a5 !important;
   border-color: rgba(255,255,255,.82) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(80, 42, 112, .24) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 7px 17px rgba(66,35,91,.26);
+  transform: translateY(-1px);
 }
-.app-layout .people-list .person-actions :is(button, a):focus-visible,
-.app-layout .module-section .person-actions :is(button, a):focus-visible {
-  outline: 2px solid rgba(117,66,165,.55) !important;
-  outline-offset: 2px !important;
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):focus-visible {
+  outline: 2px solid #7542a5;
+  outline-offset: 3px;
 }
-
-/* Tablet and phone: reduce People action controls to 60% of their former
-   visual footprint while preserving comfortable wrapping and tap spacing.
-   Search field and Search people button are not selected by these rules. */
+.app-layout .people-hero-search .people-search .btn:hover,
+.app-layout .people-hero-search .people-search .btn:focus-visible {
+  background: #7542a5 !important;
+}
+.app-layout .people-directory > .feed-heading,
+.app-layout .people-directory > .module-section {
+  max-width: 100%;
+}
+.app-layout .people-directory > .feed-heading {
+  margin: 0 0 16px !important;
+  align-items: end;
+}
+.app-layout .people-directory > .feed-heading h2,
+.app-layout .people-directory > .module-section h2 {
+  color: #fff !important;
+  font-size: clamp(21px, 2.4vw, 28px) !important;
+  font-weight: 900 !important;
+}
+.app-layout .people-directory > .people-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 20px !important;
+}
+.app-layout .people-directory .person-card {
+  box-sizing: border-box;
+  min-width: 0;
+  border: 1px solid rgba(174, 48, 112, .34) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(145deg, #fff0f7 0%, #f8d8e9 58%, #efd8f2 100%) !important;
+  box-shadow: 0 12px 28px rgba(45, 16, 43, .17), inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+.app-layout .people-directory .person-card-with-cover {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  overflow: visible;
+}
+.app-layout .people-directory .person-cover-image,
+.app-layout .people-directory .person-cover-placeholder {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 190px !important;
+  min-height: 190px !important;
+  border-radius: 21px 21px 0 0;
+}
+.app-layout .people-directory .person-cover-image {
+  object-fit: cover !important;
+  object-position: center 35% !important;
+  background: linear-gradient(135deg, #24152b, #53304f) !important;
+}
+.app-layout .people-directory .person-cover-placeholder {
+  background: linear-gradient(120deg, #7542a5 0%, #a64d86 55%, #d778ad 100%) !important;
+}
+.app-layout .people-directory .module-section .people-list {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px !important;
+}
+.app-layout .people-directory .module-section .person-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+}
+.app-layout .people-directory .module-section .person-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.app-layout .people-directory .person-card-with-cover .person-identity {
+  display: flex;
+  align-items: center !important;
+  gap: 15px;
+  min-width: 0;
+  padding: 0 20px 12px !important;
+}
+.app-layout .people-directory .person-card-with-cover .person-avatar {
+  box-sizing: border-box;
+  width: 78px !important;
+  height: 78px !important;
+  min-width: 78px !important;
+  min-height: 78px !important;
+  margin-top: -36px !important;
+  border: 4px solid #fff0f7 !important;
+  box-shadow: 0 4px 14px rgba(54,25,47,.20);
+}
+.app-layout .people-directory .person-copy { min-width: 0; padding-top: 12px; }
+.app-layout .people-directory .person-copy strong,
+.app-layout .people-directory .person-identity strong {
+  color: #3f243a !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.app-layout .people-directory .person-copy span,
+.app-layout .people-directory .person-identity span {
+  color: #76546d !important;
+  font-size: 13px !important;
+  font-weight: 650 !important;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.app-layout .people-directory .person-copy p {
+  color: #543c50 !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+.app-layout .people-directory .person-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center;
+  justify-content: flex-start !important;
+  gap: 9px !important;
+  width: auto !important;
+  min-width: 0;
+  padding: 12px 20px 20px !important;
+  margin: 0 !important;
+}
+.app-layout .people-directory .person-actions form {
+  display: inline-flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+.app-layout .people-directory .person-actions :is(button, a, .member-state) {
+  box-sizing: border-box;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 42px !important;
+  padding: 9px 14px !important;
+  border: 1px solid rgba(255,255,255,.24) !important;
+  border-radius: 999px !important;
+  background: #9168b7 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  line-height: 1.2 !important;
+  text-decoration: none !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: 0 4px 12px rgba(66,35,91,.16);
+  transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease, border-color .18s ease;
+}
+.app-layout .people-directory .person-actions :is(button, a):hover,
+.app-layout .people-directory .person-actions :is(button, a):focus-visible {
+  background: #7542a5 !important;
+  border-color: rgba(255,255,255,.82) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 7px 17px rgba(66,35,91,.26);
+  transform: translateY(-1px);
+}
+.app-layout .people-directory .person-actions :is(button, a):focus-visible {
+  outline: 2px solid #7542a5;
+  outline-offset: 3px;
+}
+.app-layout .people-directory .person-actions :is(button, a):disabled {
+  cursor: wait;
+  opacity: .68;
+  transform: none;
+  box-shadow: none;
+}
+.app-layout .people-directory .person-actions .report-menu-trigger {
+  display: grid !important;
+  place-items: center;
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,.92) !important;
+  color: #684b78 !important;
+  -webkit-text-fill-color: #684b78 !important;
+  font-size: 17px !important;
+  box-shadow: 0 3px 9px rgba(66,35,91,.12);
+}
+.app-layout .people-directory .person-actions .report-menu-trigger:hover,
+.app-layout .people-directory .person-actions .report-menu-trigger:focus-visible {
+  background: #7542a5 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.app-layout .people-directory .person-actions .report-menu-popover {
+  z-index: 40;
+}
+.app-layout .people-directory .person-actions .report-menu-popover button {
+  display: block !important;
+  width: 100%;
+  min-height: 40px !important;
+  padding: 9px 12px !important;
+  border: 0 !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  color: #633b75 !important;
+  -webkit-text-fill-color: #633b75 !important;
+  text-align: left;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.app-layout .people-directory .person-actions .report-menu-popover button:hover,
+.app-layout .people-directory .person-actions .report-menu-popover button:focus-visible {
+  background: #f4edf8 !important;
+  color: #542b7c !important;
+  -webkit-text-fill-color: #542b7c !important;
+  outline: 2px solid #9168b7;
+  outline-offset: 1px;
+}
+.app-layout .people-directory .member-state {
+  color: #542b7c !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+.app-layout .people-directory .report-member-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-width: 0;
+}
+.app-layout .people-directory .report-member-form select {
+  min-height: 42px;
+  max-width: 150px;
+  border-radius: 12px;
+  color: #3f243a !important;
+  font-size: 13px !important;
+}
+.app-layout .people-directory .empty-state,
+.app-layout .people-directory > .module {
+  max-width: 100%;
+  border-radius: 20px;
+}
+@container people-directory (max-width: 760px) {
+  .app-layout .people-directory > .people-hero-search {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .app-layout .people-directory > .people-list { grid-template-columns: minmax(0, 1fr); }
+  .app-layout .people-directory .person-cover-image,
+  .app-layout .people-directory .person-cover-placeholder {
+    height: 175px !important;
+    min-height: 175px !important;
+  }
+}
 @media (max-width: 900px) {
-  .app-layout .people-list .person-actions,
-  .app-layout .module-section .person-actions {
-    gap: 6px !important;
-  }
-  .app-layout .people-list .person-actions .btn,
-  .app-layout .module-section .person-actions .btn {
-    min-height: 20px !important;
-    padding: 5px 9px !important;
-    font-size: 8px !important;
-    line-height: 1.2 !important;
-  }
-  .app-layout .people-list .person-actions .text-action,
-  .app-layout .module-section .person-actions .text-action {
-    min-height: 18px !important;
-    padding: 4px 7px !important;
-    font-size: 8px !important;
-    line-height: 1.1 !important;
-  }
+  .app-layout .people-directory { padding: 18px; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .app-layout .people-list .person-actions .btn,
-  .app-layout .module-section .person-actions .btn {
-    transition: none !important;
+@media (max-width: 600px) {
+  .app-layout .people-directory { padding: 14px 12px 24px; }
+  .app-layout .people-directory > .people-hero-search {
+    padding: 22px 18px !important;
+    border-radius: 20px !important;
   }
+  .app-layout .people-hero-search h1 { font-size: clamp(32px, 9vw, 42px) !important; }
+  .app-layout .people-hero-search h2 { font-size: clamp(18px, 5vw, 22px) !important; }
+  .app-layout .people-directory .person-cover-image,
+  .app-layout .people-directory .person-cover-placeholder {
+    height: 160px !important;
+    min-height: 160px !important;
+  }
+  .app-layout .people-directory .person-avatar {
+    width: 70px !important;
+    height: 70px !important;
+    min-width: 70px !important;
+    min-height: 70px !important;
+    margin-top: -32px !important;
+  }
+  .app-layout .people-directory .person-actions { padding: 10px 14px 16px !important; gap: 8px !important; }
+  .app-layout .people-directory .person-actions :is(button, a, .member-state) {
+    min-height: 44px !important;
+    padding: 10px 13px !important;
+    font-size: 14px !important;
+  }
+  .app-layout .people-directory .person-card-with-cover .person-identity { padding-inline: 14px !important; }
+}
+@media (max-width: 360px) {
+  .app-layout .people-directory > .people-hero-search { padding: 20px 15px !important; }
+  .app-layout .people-directory .person-actions form { flex: 1 1 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-layout .people-directory * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
