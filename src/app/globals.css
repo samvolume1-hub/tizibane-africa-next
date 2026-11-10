@@ -6235,7 +6235,7 @@ main > .landing-contacts .landing-contact-panel a:focus-visible {
 /* WELCOME PAGE — exact requested refinements only.
    Preserve the pink top ribbon and both finished hero cards. */
 main:has(> .landing-contacts) {
-  background: #4b1d75 !important;
+  background: #2d1246 !important;
 }
 
 /* Enlarge only the two account buttons by 30%.
