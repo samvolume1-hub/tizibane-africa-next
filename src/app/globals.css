@@ -6701,3 +6701,17 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     font-size: clamp(8.5px, 1.3vw, 10px) !important;
   }
 }
+
+
+/* GROUPS PAGE — strengthen all text below the Groups Hero only.
+   Keep text-entry fields at normal weight; the Hero and other pages are excluded. */
+.groups-page .app-content > .groups-welcome ~ * {
+  font-weight: 800 !important;
+}
+.groups-page .app-content > .groups-welcome ~ * :where(*):not(input):not(textarea) {
+  font-weight: 800 !important;
+}
+.groups-page .app-content > .groups-welcome ~ * input,
+.groups-page .app-content > .groups-welcome ~ * textarea {
+  font-weight: 400 !important;
+}
