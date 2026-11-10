@@ -6676,3 +6676,18 @@ main:has(> .landing-contacts) {
     transition: none !important;
   }
 }
+
+
+/* WELCOME HERO ACCOUNT ACTIONS — text-only alignment and weight refinement.
+   The primary label is centered on both axes; the secondary label is only strengthened.
+   The top ribbon and all other page areas remain untouched. */
+main > .hero .hero-actions > a.btn-primary {
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+}
+main > .hero .hero-actions > a.btn:not(.btn-primary) {
+  font-weight: 800 !important;
+}
