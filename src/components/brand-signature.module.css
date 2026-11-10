@@ -5,9 +5,10 @@
   object-fit: contain;
 }
 
-/* Give the two original marks clear separation: approximately 30% of icon size. */
-:global(.brand-signature) {
-  gap: 20px;
+/* CSS Modules requires a local selector. Use symmetric icon margins to
+   create the requested separation without targeting the global wrapper. */
+.signatureIcon {
+  margin-inline: 8.5px;
 }
 
 @media (max-width: 520px) {
@@ -16,7 +17,7 @@
     height: 57px;
   }
 
-  :global(.brand-signature) {
-    gap: 17px;
+  .signatureIcon {
+    margin-inline: 7.5px;
   }
 }
