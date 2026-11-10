@@ -130,7 +130,7 @@ export default async function EventsPage({
         </header>
         <div className="app-content">
           <section className="welcome groups-welcome">
-            <img className="photo-backdrop" src="/images/events-hero.webp" alt="" aria-hidden="true" loading="eager" />
+            <img className="photo-backdrop" src="/images/TJGQqBIoB8TE7nFx0yNv5FKE0KywI8NCXQPo9sPxTRz7GL3wDoS9X3Yr_oCbox8P1v8wsw95DLhOhb2y-lW2WxJs1DA_L2cAAF-nZee_Hn-9J0828avLeqAN2f8qhb8KqFGS3GL2-OSa4d93-JHwulzMfWmcdsoVmNITjKM0vOxcmD1BfCRX_o5Z5CcNJ8TW.jpg" alt="" aria-hidden="true" loading="eager" />
             <h1 style={{ fontWeight: 800 }}>Create Events</h1>
           </section>
 
@@ -143,7 +143,7 @@ export default async function EventsPage({
 
           <section className="module-section events-create-section">
             <div className="section-title-row">
-              <div><span className="eyebrow">Host a gathering</span><h2>Create an event</h2></div>
+              <div><span className="eyebrow">Host a gathering</span><h2>Create Events</h2></div>
             </div>
             <form action={createEvent} className="module-form">
               <TimezoneOffsetField />
