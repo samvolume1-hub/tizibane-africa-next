@@ -10,7 +10,7 @@
 
 /* Keep the two original marks in their intended positions: spacing belongs
    between the icons, not as outer margins that shift both marks. */
-.signatureGroup {
+:global(.brand-signature).signatureGroup {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
@@ -26,7 +26,7 @@
     height: 57px;
   }
 
-  .signatureGroup {
+  :global(.brand-signature).signatureGroup {
     gap: 17px;
     margin-left: 5px;
   }
