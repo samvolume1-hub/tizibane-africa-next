@@ -6814,11 +6814,15 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 .app-layout .people-hero-search .people-search .btn {
   width: 100% !important;
   min-height: 50px !important;
+  border: 1px solid rgba(255,255,255,.24) !important;
   border-radius: 14px !important;
-  background: linear-gradient(135deg, #7542a5, #542b7c) !important;
+  background: #9168b7 !important;
   color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   font-size: 15px !important;
   font-weight: 850 !important;
+  box-shadow: 0 5px 14px rgba(66,35,91,.20);
+  transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease, border-color .18s ease;
 }
 .app-layout .people-hero-search .people-search .text-action {
   justify-self: start;
@@ -6827,6 +6831,23 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   color: #542b7c !important;
   font-size: 14px !important;
   font-weight: 800 !important;
+}
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):hover,
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):focus-visible {
+  background-color: #7542a5 !important;
+  border-color: rgba(255,255,255,.82) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 7px 17px rgba(66,35,91,.26);
+  transform: translateY(-1px);
+}
+.app-layout .people-directory :is(button, input[type="submit"], input[type="button"], a.btn):focus-visible {
+  outline: 2px solid #7542a5;
+  outline-offset: 3px;
+}
+.app-layout .people-hero-search .people-search .btn:hover,
+.app-layout .people-hero-search .people-search .btn:focus-visible {
+  background: #7542a5 !important;
 }
 .app-layout .people-directory > .feed-heading,
 .app-layout .people-directory > .module-section {
@@ -6945,34 +6966,32 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   min-width: 0;
   min-height: 42px !important;
   padding: 9px 14px !important;
-  border: 1px solid rgba(117,66,165,.30) !important;
+  border: 1px solid rgba(255,255,255,.24) !important;
   border-radius: 999px !important;
-  background: rgba(117,66,165,.12) !important;
-  color: #542b7c !important;
-  -webkit-text-fill-color: #542b7c !important;
+  background: #9168b7 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   font-size: 14px !important;
   font-weight: 850 !important;
   line-height: 1.2 !important;
   text-decoration: none !important;
   white-space: normal;
   overflow-wrap: anywhere;
-}
-.app-layout .people-directory .person-actions .btn {
-  border-color: transparent !important;
-  background: linear-gradient(135deg, #7542a5, #542b7c) !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 4px 12px rgba(66,35,91,.16);
+  transition: background-color .18s ease, box-shadow .18s ease, transform .18s ease, border-color .18s ease;
 }
 .app-layout .people-directory .person-actions :is(button, a):hover,
 .app-layout .people-directory .person-actions :is(button, a):focus-visible {
-  background: #9168b7 !important;
+  background: #7542a5 !important;
   border-color: rgba(255,255,255,.82) !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 7px 17px rgba(66,35,91,.26);
+  transform: translateY(-1px);
 }
 .app-layout .people-directory .person-actions :is(button, a):focus-visible {
   outline: 2px solid #7542a5;
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 .app-layout .people-directory .member-state {
   color: #542b7c !important;
