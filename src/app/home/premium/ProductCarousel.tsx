@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-export default function PremiumProductCarousel({ images, title }: { images: string[]; title: string }) {
+export default function PremiumProductCarousel({ images, title, priority = false }: { images: string[]; title: string; priority?: boolean }) {
   const track = useRef<HTMLDivElement>(null);
   function move(direction: number) {
     const node = track.current;
@@ -12,7 +12,7 @@ export default function PremiumProductCarousel({ images, title }: { images: stri
   return (
     <div className="premium-product-gallery">
       <div className="premium-product-track" ref={track} aria-label={`${title} photographs`}>
-        {images.map((src, index) => <img key={src} src={src} alt={`${title}, photo ${index + 1}`} loading="lazy" />)}
+        {images.map((src, index) => <img key={src} src={src} alt={`${title}, photo ${index + 1}`} loading={priority && index === 0 ? "eager" : "lazy"} decoding="async" fetchPriority={priority && index === 0 ? "high" : "auto"} />)}
       </div>
       {images.length > 1 && <div className="premium-gallery-controls">
         <button type="button" onClick={() => move(-1)} aria-label="Previous photo">‹</button>

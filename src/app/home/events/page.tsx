@@ -60,18 +60,21 @@ export default async function EventsPage({
     ...(ownedGroups ?? []).map((group) => group.id as string),
     ...(moderatorRows ?? []).map((membership) => membership.group_id as string),
   ])];
-  const { data: manageableGroups } = manageableIds.length
-    ? await supabase.from("groups").select("id,name,owner_id").in("id", manageableIds)
-    : { data: [] };
-
   const manageableGroupIds = new Set(manageableIds);
   const activeGroupIds = new Set((activeMemberships ?? []).map((membership) => membership.group_id as string));
   const events = (rows ?? []) as Event[];
   const eventIds = events.map((event) => event.id);
   const eventGroupIds = [...new Set(events.flatMap((event) => event.group_id ? [event.group_id] : []))];
-  const { data: eventGroups } = eventGroupIds.length
-    ? await supabase.from("groups").select("id,name").in("id", eventGroupIds)
-    : { data: [] };
+  const [manageableGroupsResult, eventGroupsResult] = await Promise.all([
+    manageableIds.length
+      ? supabase.from("groups").select("id,name,owner_id").in("id", manageableIds)
+      : Promise.resolve({ data: [] }),
+    eventGroupIds.length
+      ? supabase.from("groups").select("id,name").in("id", eventGroupIds)
+      : Promise.resolve({ data: [] }),
+  ]);
+  const manageableGroups = manageableGroupsResult.data;
+  const eventGroups = eventGroupsResult.data;
   const groupNameById = new Map([
     ...(manageableGroups ?? []).map((group) => [group.id, group.name] as const),
     ...(eventGroups ?? []).map((group) => [group.id, group.name] as const),
