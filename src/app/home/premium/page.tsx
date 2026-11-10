@@ -47,7 +47,6 @@ export default async function PremiumPage() {
               <a className="btn btn-primary" href={whatsapp("260760930509", generalMessage)} target="_blank" rel="noopener noreferrer">Ask about advertising ↗</a>
               <a className="premium-secondary-action" href="mailto:samryt26@gmail.com?subject=TIZIBANE%20advertising%20enquiry">Email Royalty</a>
             </div>
-            <div className="premium-trust-row"><span>✦ Paid advertising service</span><span>◇ Reviewed by an administrator</span><span>↗ Direct seller enquiries</span></div>
           </section>
 
 
