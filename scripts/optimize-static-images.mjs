@@ -35,6 +35,7 @@ for (const asset of assets) {
 
   mkdirSync(dirname(outputPath), { recursive: true });
   const sourceBytes = statSync(sourcePath).size;
+  const sourceMetadata = await sharp(sourcePath).metadata();
   const output = await sharp(sourcePath)
     .rotate()
     .resize({
@@ -43,7 +44,7 @@ for (const asset of assets) {
       fit: "inside",
       withoutEnlargement: true,
     })
-    .webp({ quality: 84, effort: 5 })
+    .webp({ quality: 90, effort: 5 })
     .toFile(outputPath);
 
   const savedBytes = Math.max(0, sourceBytes - output.size);
@@ -52,6 +53,6 @@ for (const asset of assets) {
     : "0.0";
 
   console.info(
-    `[image-optimization] ${asset.source} -> ${asset.output}: ${sourceBytes} -> ${output.size} bytes (${savedPercent}% smaller)`,
+    `[image-optimization] ${asset.source} (${sourceMetadata.width}x${sourceMetadata.height}) -> ${asset.output} (${output.width}x${output.height}): ${sourceBytes} -> ${output.size} bytes (${savedPercent}% smaller)`,
   );
 }
