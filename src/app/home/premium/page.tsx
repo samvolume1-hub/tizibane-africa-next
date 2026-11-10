@@ -17,21 +17,26 @@ export default async function PremiumPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
-  const { data: isPremiumAdmin } = await supabase.rpc("is_current_platform_admin");
-  const { data: productRows } = await supabase.from("premium_products")
-    .select("id,seller_type,product_name,category,description,price_zmw,seller_name,business_name,seller_location,whatsapp_number,contact_email,image_paths,is_featured,published_at")
-    .eq("status", "published").eq("payment_status", "paid")
-    .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
-    .order("is_featured", { ascending: false }).order("published_at", { ascending: false }).limit(40);
+  const [{ data: isPremiumAdmin }, { data: productRows }] = await Promise.all([
+    supabase.rpc("is_current_platform_admin"),
+    supabase.from("premium_products")
+      .select("id,seller_type,product_name,category,description,price_zmw,seller_name,business_name,seller_location,whatsapp_number,contact_email,image_paths,is_featured,published_at")
+      .eq("status", "published").eq("payment_status", "paid")
+      .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
+      .order("is_featured", { ascending: false }).order("published_at", { ascending: false }).limit(40),
+  ]);
   const products = (productRows ?? []) as PremiumProduct[];
+  const imagePaths = [...new Set(products.flatMap((product) => product.image_paths))];
+  const { data: signedImages } = imagePaths.length
+    ? await supabase.storage.from("premium-marketplace").createSignedUrls(imagePaths, 60 * 60)
+    : { data: [] };
+  const signedUrlByPath = new Map((signedImages ?? []).map((image) => [image.path, image.signedUrl]));
   const imageUrlsByProduct: Record<string, string[]> = {};
-  await Promise.all(products.map(async (product) => {
-    const signedUrls = await Promise.all(product.image_paths.map(async (imagePath) => {
-      const { data, error } = await supabase.storage.from("premium-marketplace").createSignedUrl(imagePath, 60 * 60);
-      return error ? null : data?.signedUrl ?? null;
-    }));
-    imageUrlsByProduct[product.id] = signedUrls.filter((url): url is string => Boolean(url));
-  }));
+  for (const product of products) {
+    imageUrlsByProduct[product.id] = product.image_paths
+      .map((imagePath) => signedUrlByPath.get(imagePath))
+      .filter((url): url is string => Boolean(url));
+  }
 
   return (
     <main className="app-layout">
@@ -59,13 +64,13 @@ export default async function PremiumPage() {
               <div className="premium-empty-market"><span className="premium-card-symbol">✦</span><h3>Our first products are on the way.</h3><p>New advertisements approved by Royalty will appear here. Check back soon and discover businesses and independent sellers from our community.</p></div>
             ) : (
               <div className="premium-product-grid">
-                {products.map((product) => {
+                {products.map((product, index) => {
                   const images = imageUrlsByProduct[product.id] ?? [];
                   const seller = product.seller_type === "business" ? (product.business_name || product.seller_name) : product.seller_name;
                   const message = `Hello ${seller}, I saw your ${product.product_name} advertisement on TIZIBANE. Is it still available?`;
                   return <article className="premium-product-card" key={product.id}>
                     {product.is_featured && <span className="premium-product-featured">✦ FEATURED</span>}
-                    {images.length ? <PremiumProductCarousel images={images} title={product.product_name}/> : <div className="premium-product-image-unavailable">Product photographs are temporarily unavailable.</div>}
+                    {images.length ? <PremiumProductCarousel images={images} title={product.product_name} priority={index === 0}/> : <div className="premium-product-image-unavailable">Product photographs are temporarily unavailable.</div>}
                     <div className="premium-product-copy">
                       <span className="premium-product-category">{product.category}</span>
                       <h3>{product.product_name}</h3>
