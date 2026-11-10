@@ -7254,3 +7254,37 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     backdrop-filter: blur(4px) !important;
   }
 }
+
+
+/* EVENTS — reuse the existing hero photograph behind the Create Events form only. */
+.app-layout.events-page .events-create-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: rgba(255,255,255,.62) !important;
+  background-color: #26152f !important;
+  background-image:
+    linear-gradient(110deg, rgba(31, 13, 39, .88), rgba(43, 20, 48, .78)),
+    url("/images/events-hero.webp") !important;
+  background-position: center, center 42%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 16px 38px rgba(38, 17, 42, .20), inset 0 1px 0 rgba(255,255,255,.16);
+}
+.app-layout.events-page .events-create-section .section-title-row h2 {
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.app-layout.events-page .events-create-section .section-title-row .eyebrow,
+.app-layout.events-page .events-create-section .field label,
+.app-layout.events-page .events-create-section .field-help {
+  color: #fff !important;
+}
+.app-layout.events-page .events-create-section .field label {
+  text-shadow: 0 1px 3px rgba(0,0,0,.45);
+}
+@media (max-width: 600px) {
+  .app-layout.events-page .events-create-section {
+    background-position: center, center 38%;
+  }
+}
