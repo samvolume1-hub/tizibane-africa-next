@@ -6518,6 +6518,7 @@ main:has(> .landing-contacts) {
   main > .topbar {
     box-sizing: border-box !important;
     display: flex !important;
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: space-between !important;
