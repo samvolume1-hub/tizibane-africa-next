@@ -5,14 +5,30 @@ import { createClient } from "@/lib/supabase/server";
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 function fail(message:string):never{redirect(`/home/groups?error=${encodeURIComponent(message)}`)}
 export async function createGroup(form:FormData){
- const name=String(form.get("name")??"").trim(),description=String(form.get("description")??"").trim(),category=String(form.get("category")??"Community").trim(),visibility=String(form.get("visibility")??"public"),join_policy=String(form.get("join_policy")??"open"),rules=String(form.get("rules")??"").trim();
+ const name=String(form.get("name")??"").trim(),description=String(form.get("description")??"").trim(),category=String(form.get("category")??"Community").trim(),visibility=String(form.get("visibility")??"public"),join_policy=String(form.get("join_policy")??"open"),rules=String(form.get("rules")??"").trim(),photo=form.get("cover_photo");
  if(name.length<2||name.length>80)fail("Group names must be between 2 and 80 characters.");
  if(description.length>500||rules.length>1500||category.length>60)fail("Please shorten the group details.");
  if(!["public","private"].includes(visibility)||!["open","approval","invite"].includes(join_policy))fail("Choose valid group access settings.");
  if((visibility==="public"&&join_policy!=="open")||(visibility==="private"&&join_policy==="open"))fail("Public groups use open joining. Private groups use approval or invite-only access.");
  const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");
- const {error}=await supabase.from("groups").insert({owner_id:user.id,name,description,category:category||"Community",visibility,join_policy,rules});
- if(error)fail("Your group could not be created. Please try again.");
+ let coverPath:string|null=null;
+ if(photo instanceof File&&photo.size>0){
+  const extensions:Record<string,string>={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"};
+  const extension=extensions[photo.type];
+  if(!extension||photo.size>2*1024*1024)fail("Choose a JPG, PNG or WebP group cover photo up to 2 MB.");
+  const groupId=crypto.randomUUID();
+  coverPath=user.id+"/groups/"+groupId+"/cover-"+crypto.randomUUID()+"."+extension;
+  const {data:uploaded,error:uploadError}=await supabase.storage.from("community-photos").upload(coverPath,photo,{contentType:photo.type,cacheControl:"3600",upsert:false});
+  if(uploadError||!uploaded?.path)fail("Your group cover photo could not be uploaded. Please try again.");
+  const {error:insertError}=await supabase.from("groups").insert({id:groupId,owner_id:user.id,name,description,category:category||"Community",visibility,join_policy,rules,cover_path:coverPath});
+  if(insertError){
+   await supabase.storage.from("community-photos").remove([coverPath]);
+   fail("Your group could not be created. Please try again.");
+  }
+ }else{
+  const {error}=await supabase.from("groups").insert({owner_id:user.id,name,description,category:category||"Community",visibility,join_policy,rules});
+  if(error)fail("Your group could not be created. Please try again.");
+ }
  revalidatePath("/home/groups");redirect("/home/groups?created=1");
 }
 export async function joinGroup(form:FormData){
