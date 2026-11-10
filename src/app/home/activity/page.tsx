@@ -22,7 +22,7 @@ export default async function CommunityActivityPage() {
   return <main className="app-layout"><CommunityNavigation active="activity"/><section className="app-main">
     <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">COMMUNITY PULSE</span></header>
     <div className="app-content community-feature-page">
-      <section className="welcome"><span className="eyebrow">WHAT'S HAPPENING ACROSS TIZIBANE</span><h1>Community activity</h1><p>A shared view of public discussions, new groups and community events. Private posts, messages and private-group activity never appear here.</p></section>
+      <section className="welcome"><h1 style={{ fontWeight: 800 }}>Community Activity</h1></section>
       {error ? <div className="module"><h3>Activity is temporarily unavailable</h3><p>Please refresh in a moment.</p></div> : activity.length ? <div className="feature-activity-feed">{activity.map((item) => {
         const label = item.event_type === "public_post" ? "shared a public discussion" : item.event_type === "public_comment" ? "joined a public discussion" : item.event_type === "public_reaction" ? "reacted to a public discussion" : item.event_type === "public_group_created" ? "started a public group" : item.event_type === "public_event_created" ? "created a public event" : "responded to a public event";
         const target = item.target_type === "group" ? groupNames.get(item.target_id) : item.target_type === "event" ? eventNames.get(item.target_id) : null;
