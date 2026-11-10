@@ -33,10 +33,10 @@ export default async function ConversationPage({ params, searchParams }: { param
 
   const [profileResult, messageResult] = await Promise.all([
     supabase.from("profiles").select("id,display_name,handle,initials,avatar_color,avatar_path").eq("id", otherMember.user_id).maybeSingle(),
-    supabase.from("messages").select("id,sender_id,body,created_at").eq("conversation_id", id).order("created_at", { ascending: true }).limit(100),
+    supabase.from("messages").select("id,sender_id,body,created_at").eq("conversation_id", id).order("created_at", { ascending: false }).limit(100),
   ]);
   const profile = profileResult.data as Profile | null;
-  const messages = (messageResult.data ?? []) as Message[];
+  const messages = ((messageResult.data ?? []) as Message[]).reverse();
   const otherName = profile?.display_name || "TIZIBANE member";
   let avatarUrl: string | null = null;
   if (profile?.avatar_path) {

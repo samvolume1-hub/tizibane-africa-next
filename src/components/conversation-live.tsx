@@ -1,7 +1,9 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { FormEvent } from "react";
+import type { RealtimeChannel } from "@supabase/supabase-js";
 
 type Message = { id: string; sender_id: string; body: string; created_at: string };
 type Presence = { user_id?: string };
@@ -32,13 +34,14 @@ export function ConversationLive({
   const [isOnline, setIsOnline] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [otherLastReadAt, setOtherLastReadAt] = useState(initialOtherLastReadAt);
-  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const channelRef = useRef<RealtimeChannel | null>(null);
   const typingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const typingClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastTypingSentRef = useRef(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const keepScrollRef = useRef(false);
   const previousHeightRef = useRef(0);
+  const previousScrollTopRef = useRef(0);
 
   const appendMessage = useCallback((message: Message) => {
     setMessages((current) => current.some((item) => item.id === message.id)
@@ -48,14 +51,14 @@ export function ConversationLive({
 
   useEffect(() => {
     const channel = supabase
-      .channel("conversation:" + conversationId, { config: { private: true, presence: { key: userId } } })
+      .channel("conversation:" + conversationId, { config: { private: true, presence: { key: userId } } }) as RealtimeChannel;
       .on("postgres_changes", {
         event: "INSERT",
         schema: "public",
         table: "messages",
         filter: "conversation_id=eq." + conversationId,
-      }, (payload) => {
-        const message = payload.new as Message;
+      }, (payload: { new: Message }) => {
+        const message = payload.new;
         appendMessage(message);
         if (message.sender_id !== userId) {
           const readAt = new Date().toISOString();
@@ -76,11 +79,11 @@ export function ConversationLive({
         schema: "public",
         table: "conversation_members",
         filter: "conversation_id=eq." + conversationId,
-      }, (payload) => {
-        const member = payload.new as MemberUpdate;
+      }, (payload: { new: MemberUpdate }) => {
+        const member = payload.new;
         if (member.user_id === otherUserId) setOtherLastReadAt(member.last_read_at);
       })
-      .on("broadcast", { event: "typing" }, ({ payload }) => {
+      .on("broadcast", { event: "typing" }, ({ payload }: { payload: { user_id?: string; is_typing?: boolean } }) => {
         if (payload?.user_id !== userId) {
           setIsTyping(Boolean(payload?.is_typing));
           if (typingClearRef.current) clearTimeout(typingClearRef.current);
@@ -90,8 +93,8 @@ export function ConversationLive({
         }
       })
       .on("presence", { event: "sync" }, () => {
-        const presence = channel.presenceState<Presence>();
-        const online = Object.values(presence).flat().some((entry) => entry.user_id === otherUserId);
+        const presence = channel.presenceState() as Record<string, Presence[]>;
+        const online = Object.values(presence).flat().some((entry: Presence) => entry.user_id === otherUserId);
         setIsOnline(online);
       })
       .subscribe(async (status) => {
@@ -113,7 +116,7 @@ export function ConversationLive({
     const container = scrollRef.current;
     if (!container) return;
     if (keepScrollRef.current) {
-      container.scrollTop = container.scrollHeight - previousHeightRef.current;
+      container.scrollTop = previousScrollTopRef.current + (container.scrollHeight - previousHeightRef.current);
       keepScrollRef.current = false;
     } else {
       container.scrollTop = container.scrollHeight;
@@ -145,6 +148,7 @@ export function ConversationLive({
     setError("");
     const container = scrollRef.current;
     previousHeightRef.current = container?.scrollHeight ?? 0;
+    previousScrollTopRef.current = container?.scrollTop ?? 0;
     keepScrollRef.current = true;
     const oldest = messages[0];
     const { data, error: loadError } = await supabase
