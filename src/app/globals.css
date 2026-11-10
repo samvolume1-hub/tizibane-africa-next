@@ -6547,7 +6547,6 @@ main:has(> .landing-contacts) {
     padding: 0 !important;
     gap: 0 !important;
     opacity: 0 !important;
-    visibility: hidden !important;
     overflow: hidden !important;
     pointer-events: none !important;
     transform: translateY(-8px) !important;
