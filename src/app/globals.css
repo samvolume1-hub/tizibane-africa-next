@@ -6346,3 +6346,8 @@ main > .landing-contacts .landing-contact > summary:focus-visible {
     transition: none !important;
   }
 }
+
+
+/* Welcome-page-only Zambia and Royalty brand signature. */
+.landing-brand-signature{display:inline-flex;align-items:center;gap:7px;margin-left:-3px;font-size:19px;line-height:1;white-space:nowrap;filter:drop-shadow(0 1px 4px rgba(216,181,107,.22))}
+@media(max-width:520px){.landing-brand-signature{font-size:16px;gap:5px;margin-left:-6px}}
