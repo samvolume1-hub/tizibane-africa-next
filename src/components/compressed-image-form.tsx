@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
 
 const TARGET_BYTES = 1 * 1024 * 1024;
+const ENCODE_THRESHOLD_BYTES = 256 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
 const MAX_EDGE = 1600;
 const MAX_SIZE_PASSES = 4;
@@ -42,7 +43,8 @@ async function optimizeImage(file: File): Promise<File> {
   const bitmap = await createImageBitmap(file);
   try {
     const longestEdge = Math.max(bitmap.width, bitmap.height);
-    if (file.size <= TARGET_BYTES && longestEdge <= MAX_EDGE) return file;
+    const needsWebp = file.type !== "image/webp" && file.size > ENCODE_THRESHOLD_BYTES;
+    if (file.size <= TARGET_BYTES && longestEdge <= MAX_EDGE && !needsWebp) return file;
     let scale = Math.min(1, MAX_EDGE / longestEdge);
     let best: Blob | null = null;
 
