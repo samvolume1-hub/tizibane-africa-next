@@ -121,7 +121,7 @@ export default async function EventsPage({
   }
 
   return (
-    <main className="app-layout">
+    <main className="app-layout events-page">
       <CommunityNavigation active="events" />
       <section className="app-main">
         <header className="topbar">
@@ -131,7 +131,7 @@ export default async function EventsPage({
         <div className="app-content">
           <section className="welcome groups-welcome">
             <img className="photo-backdrop" src="/images/events-hero.webp" alt="" aria-hidden="true" loading="eager" />
-            <h1 style={{ fontWeight: 800 }}>Events</h1>
+            <h1 style={{ fontWeight: 800 }}>Create Events</h1>
           </section>
 
           {params.error && <div className="notice" role="alert">{params.error}</div>}
@@ -141,7 +141,7 @@ export default async function EventsPage({
           {params.updated && <div className="notice" role="status">Your event has been updated.</div>}
           {params.deleted && <div className="notice" role="status">The event has been cancelled.</div>}
 
-          <section className="module-section">
+          <section className="module-section events-create-section">
             <div className="section-title-row">
               <div><span className="eyebrow">Host a gathering</span><h2>Create an event</h2></div>
             </div>
