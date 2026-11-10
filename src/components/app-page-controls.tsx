@@ -24,6 +24,7 @@ export function AppPageControls() {
   const [controlsVisible, setControlsVisible] = useState(false);
   const [controlsPinned, setControlsPinned] = useState(false);
   const hideControlsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scrollFrame = useRef<number | null>(null);
 
   function clearControlsHideTimer() {
     if (hideControlsTimer.current) {
@@ -69,20 +70,31 @@ export function AppPageControls() {
   }
 
   useEffect(() => {
-    const updateVisibility = () => setShowTop(window.scrollY > 240);
-    const revealWhileScrolling = () => {
-      setControlsVisible(true);
-      clearControlsHideTimer();
-      if (!controlsPinned && !peopleHubOpen) {
-        hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
-      }
+    const updateVisibility = () => {
+      const shouldShowTop = window.scrollY > 240;
+      setShowTop((current) => current === shouldShowTop ? current : shouldShowTop);
     };
+    const handleScroll = () => {
+      if (scrollFrame.current !== null) return;
+      scrollFrame.current = window.requestAnimationFrame(() => {
+        scrollFrame.current = null;
+        updateVisibility();
+        setControlsVisible(true);
+        clearControlsHideTimer();
+        if (!controlsPinned && !peopleHubOpen) {
+          hideControlsTimer.current = setTimeout(() => setControlsVisible(false), 1500);
+        }
+      });
+    };
+
     updateVisibility();
-    window.addEventListener("scroll", updateVisibility);
-    window.addEventListener("scroll", revealWhileScrolling, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      window.removeEventListener("scroll", updateVisibility);
-      window.removeEventListener("scroll", revealWhileScrolling);
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollFrame.current !== null) {
+        window.cancelAnimationFrame(scrollFrame.current);
+        scrollFrame.current = null;
+      }
       clearControlsHideTimer();
     };
   }, [controlsPinned, peopleHubOpen]);
