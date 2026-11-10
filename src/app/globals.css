@@ -6814,3 +6814,94 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     transition: none !important;
   }
 }
+
+
+/* FIND PEOPLE — one unified hero and search panel.
+   Search input/button markup and GET behaviour remain unchanged. */
+.app-layout .people-hero-search {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 12px !important;
+  margin: 0 0 24px !important;
+  padding: clamp(22px, 3vw, 34px) !important;
+  border-radius: 24px !important;
+  background: linear-gradient(128deg, #f8d9e8 0%, #efc5df 58%, #e5c9f0 100%) !important;
+}
+.app-layout .people-hero-search h1 {
+  margin: 0 !important;
+  color: #48263a !important;
+  font-size: clamp(28px, 3.4vw, 40px) !important;
+  font-weight: 900 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.035em !important;
+  white-space: nowrap !important;
+}
+.app-layout .people-hero-search h2 {
+  margin: 0 0 8px !important;
+  color: #653452 !important;
+  font-size: clamp(17px, 2vw, 23px) !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+}
+.app-layout .people-hero-search .people-search {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+.app-layout .people-hero-search .people-search .field {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+.app-layout .people-hero-search .people-search .btn {
+  align-self: stretch !important;
+  width: 100% !important;
+  min-height: 48px !important;
+}
+.app-layout .people-hero-search .people-search .text-action {
+  align-self: flex-start !important;
+}
+
+/* EXPLORE / PEOPLE YOU MAY KNOW — give member photos real display area.
+   Cover photos remain fully visible (contain); avatars are enlarged without cropping. */
+.app-layout .person-card-with-cover .person-cover-image,
+.app-layout .person-card-with-cover .person-cover-placeholder {
+  height: 190px !important;
+  min-height: 190px !important;
+}
+.app-layout .person-card-with-cover .person-cover-image {
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: linear-gradient(135deg, #10141b, #1b2330 55%, #10141b) !important;
+}
+.app-layout .person-card-with-cover .person-identity {
+  align-items: center !important;
+}
+.app-layout .person-card-with-cover .person-avatar {
+  width: 82px !important;
+  height: 82px !important;
+  min-width: 82px !important;
+  min-height: 82px !important;
+  margin-top: -40px !important;
+  border-width: 4px !important;
+}
+@media (max-width: 600px) {
+  .app-layout .people-hero-search h1 { font-size: clamp(25px, 7vw, 32px) !important; }
+  .app-layout .people-hero-search h2 { font-size: clamp(15px, 4.3vw, 18px) !important; }
+  .app-layout .person-card-with-cover .person-cover-image,
+  .app-layout .person-card-with-cover .person-cover-placeholder {
+    height: 155px !important;
+    min-height: 155px !important;
+  }
+  .app-layout .person-card-with-cover .person-avatar {
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    margin-top: -34px !important;
+  }
+}
