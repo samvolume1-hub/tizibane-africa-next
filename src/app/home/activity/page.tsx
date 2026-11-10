@@ -21,7 +21,7 @@ export default async function CommunityActivityPage() {
   const eventNames = new Map((eventsResult.data ?? []).map((e) => [e.id,e.name]));
   return <main className="app-layout"><CommunityNavigation active="activity"/><section className="app-main">
     <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">COMMUNITY PULSE</span></header>
-    <div className="app-content community-feature-page">
+    <div className="app-content community-feature-page community-activity-page">
       <section className="welcome"><h1 style={{ fontWeight: 800 }}>Community Activity</h1></section>
       {error ? <div className="module"><h3>Activity is temporarily unavailable</h3><p>Please refresh in a moment.</p></div> : activity.length ? <div className="feature-activity-feed">{activity.map((item) => {
         const label = item.event_type === "public_post" ? "shared a public discussion" : item.event_type === "public_comment" ? "joined a public discussion" : item.event_type === "public_reaction" ? "reacted to a public discussion" : item.event_type === "public_group_created" ? "started a public group" : item.event_type === "public_event_created" ? "created a public event" : "responded to a public event";
