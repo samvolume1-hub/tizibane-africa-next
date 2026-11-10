@@ -7288,3 +7288,30 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     background-position: center, center 38%;
   }
 }
+
+
+/* Private real-time messaging enhancements — preserve the existing conversation theme. */
+.conversation-card-copy{min-width:0;flex:1}
+.conversation-card-copy strong,.conversation-card-copy>span{display:block}
+.conversation-card-copy p{margin:6px 0 0;color:#b9c5bc;font-size:11px;line-height:1.5;max-width:600px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conversation-card-meta{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.conversation-unread{display:inline-flex;min-width:22px;height:22px;padding:0 6px;align-items:center;justify-content:center;border-radius:999px;background:#d8b56b;color:#15130e;font-size:10px;font-weight:800}
+.message-live-panel{margin-top:18px}
+.message-presence-line{display:flex;align-items:center;gap:8px;min-height:24px;margin:0 4px 8px;color:var(--muted);font-size:11px}
+.message-presence-dot{width:8px;height:8px;border-radius:50%;background:#77847b;box-shadow:0 0 0 3px #77847b18}
+.message-presence-dot.is-online{background:#42bd78;box-shadow:0 0 0 3px #42bd7822}
+.message-thread{display:flex;flex-direction:column;gap:10px;margin:12px 0;max-height:58vh;min-height:240px;overflow:auto;overscroll-behavior:contain;padding:12px 6px;scrollbar-gutter:stable}
+.message-load-older{align-self:center;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:transparent;color:var(--muted);font-size:11px;cursor:pointer}
+.message-load-older:disabled{opacity:.55;cursor:wait}
+.message-empty{padding:18px 8px;min-height:160px}
+.message-seen-status{margin:0 8px 8px;text-align:right;color:var(--muted);font-size:10px}
+.message-composer-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.message-composer-footer .btn:disabled{opacity:.55;cursor:not-allowed}
+.message-composer .field-help{margin:0}
+@media(max-width:540px){
+ .conversation-card-meta{align-items:flex-end;gap:6px}
+ .conversation-card-copy p{max-width:220px}
+ .message-thread{max-height:54vh;min-height:220px}
+ .message-composer-footer{align-items:stretch;flex-direction:column}
+ .message-composer-footer .btn{width:100%}
+}
