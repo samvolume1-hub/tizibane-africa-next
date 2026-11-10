@@ -6359,6 +6359,7 @@ main > .landing-contacts .landing-contact > summary:focus-visible {
    changing the brand name, artwork, ribbon dimensions, or other sections. */
 main > .topbar .brand > span > small {
   margin-top: -24px !important;
+  transform: translateY(-4px) !important;
 }
 @media (max-width: 520px) {
   main > .topbar .brand > span > small {
