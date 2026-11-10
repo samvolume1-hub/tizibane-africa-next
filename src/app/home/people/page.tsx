@@ -69,6 +69,6 @@ export default async function PeoplePage({searchParams}:{searchParams:Promise<{q
 <form action={toggleMemberPreference}><input type="hidden" name="member_id" value={p.id}/><input type="hidden" name="preference" value="muted"/><input type="hidden" name="enabled" value={String(!preferences.get(p.id)?.muted)}/><PendingIconButton className="text-action muted-action" label={preferences.get(p.id)?.muted?"Unmute member":"Mute member"} pendingLabel="Updating…" pressed={Boolean(preferences.get(p.id)?.muted)}>{preferences.get(p.id)?.muted?"Unmute":"Mute"}</PendingIconButton></form>
 <form action={blockMember}><input type="hidden" name="member_id" value={p.id}/><PendingIconButton className="text-action muted-action" label="Block member" pendingLabel="Blocking…">Block</PendingIconButton></form>
 <ReportControl kind="member" targetId={p.id} displayName={p.display_name} />
-</div></details></div></div></article>})}</div>}
+</div></details></div></article>})}</div>}
  <section className="people-search-panel people-search-bottom" aria-label="Search people"><form method="get" className="people-search"><div className="field"><label htmlFor="people-query">Search friends and members</label><input id="people-query" name="q" defaultValue={q} maxLength={50} placeholder="Type a name or username…"/></div><button className="btn btn-primary" type="submit">Search people</button>{q&&<Link className="text-action" href="/home/people">Clear search</Link>}</form></section> </div></section></main>;
 }
