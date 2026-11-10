@@ -1,12 +1,22 @@
-/* Landing ribbon artwork only. Override the legacy global icon dimensions without changing ribbon geometry. */
-.brand-signature-icon.signatureIcon {
+/* Landing ribbon artwork only. Keep the supplied originals undistorted and override legacy global icon sizing. */
+:global(.brand-signature-icon).signatureIcon {
   width: 68px;
   height: 68px;
   object-fit: contain;
 }
+
+/* Give the two original marks clear separation: approximately 30% of icon size. */
+:global(.brand-signature) {
+  gap: 20px;
+}
+
 @media (max-width: 520px) {
-  .brand-signature-icon.signatureIcon {
+  :global(.brand-signature-icon).signatureIcon {
     width: 57px;
     height: 57px;
+  }
+
+  :global(.brand-signature) {
+    gap: 17px;
   }
 }
