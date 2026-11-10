@@ -6881,14 +6881,14 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 .app-layout .people-directory .person-cover-placeholder {
   background: linear-gradient(120deg, #7542a5 0%, #a64d86 55%, #d778ad 100%) !important;
 }
-.app-layout .people-directory .person-identity {
+.app-layout .people-directory .person-card-with-cover .person-identity {
   display: flex;
   align-items: center !important;
   gap: 15px;
   min-width: 0;
   padding: 0 20px 12px !important;
 }
-.app-layout .people-directory .person-avatar {
+.app-layout .people-directory .person-card-with-cover .person-avatar {
   box-sizing: border-box;
   width: 78px !important;
   height: 78px !important;
@@ -7036,7 +7036,7 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     padding: 10px 13px !important;
     font-size: 14px !important;
   }
-  .app-layout .people-directory .person-identity { padding-inline: 14px !important; }
+  .app-layout .people-directory .person-card-with-cover .person-identity { padding-inline: 14px !important; }
 }
 @media (max-width: 360px) {
   .app-layout .people-directory > .people-hero-search { padding: 20px 15px !important; }
