@@ -1,33 +1,79 @@
-/* Landing ribbon artwork only. Keep the supplied originals undistorted and override legacy global icon sizing. */
-:global(.brand-signature-icon).signatureIcon {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
-  align-self: center;
-  vertical-align: middle;
-  margin: 0;
+/* Landing ribbon lockup: separate the text stack from the supplied artwork.
+   The logo pair is a flex row, not part of an inline text baseline. */
+.brandCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
-/* Keep the two original marks in their intended positions: spacing belongs
-   between the icons, not as outer margins that shift both marks. */
-:global(.brand-signature).signatureGroup {
+.brandNameRow {
   display: inline-flex;
   align-items: center;
-  vertical-align: middle;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 68px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.brandName {
+  display: inline-block;
+  flex: 0 0 auto;
+  line-height: 1;
+}
+
+.signatureGroup {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-start;
   gap: 20px;
   margin-left: 7px;
-  line-height: 1;
+  padding: 0;
+  line-height: 0;
   white-space: nowrap;
 }
 
+.signatureIcon {
+  display: block;
+  flex: 0 0 68px;
+  width: 68px;
+  height: 68px;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: initial;
+}
+
+.brandAfrica {
+  display: block;
+  margin-top: -24px !important;
+  transform: translateY(-4px) !important;
+  line-height: normal;
+}
+
 @media (max-width: 520px) {
-  :global(.brand-signature-icon).signatureIcon {
+  .brandNameRow {
+    min-height: 57px;
+  }
+
+  .signatureGroup {
+    gap: 17px;
+    margin-left: 5px;
+  }
+
+  .signatureIcon {
+    flex-basis: 57px;
     width: 57px;
     height: 57px;
   }
 
-  :global(.brand-signature).signatureGroup {
-    gap: 17px;
-    margin-left: 5px;
+  .brandAfrica {
+    margin-top: -13px !important;
   }
 }
