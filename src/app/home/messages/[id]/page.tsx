@@ -44,11 +44,15 @@ export default async function ConversationPage({ params, searchParams }: { param
     avatarUrl = data?.signedUrl ?? null;
   }
 
-  const readAt = new Date().toISOString();
-  await Promise.all([
-    supabase.from("conversation_members").update({ last_read_at: readAt }).eq("conversation_id", id).eq("user_id", user.id),
-    supabase.from("notifications").update({ read_at: readAt }).eq("recipient_id", user.id).eq("kind", "message").eq("subject_id", id).is("read_at", null),
-  ]);
+  if (!messageResult.error) {
+    // Advance only to the newest message actually loaded, so a message arriving
+    // between the fetch and this update remains unread until it is delivered.
+    const readAt = messages.length ? messages[messages.length - 1].created_at : new Date().toISOString();
+    await Promise.all([
+      supabase.from("conversation_members").update({ last_read_at: readAt }).eq("conversation_id", id).eq("user_id", user.id),
+      supabase.from("notifications").update({ read_at: readAt }).eq("recipient_id", user.id).eq("kind", "message").eq("subject_id", id).lte("created_at", readAt).is("read_at", null),
+    ]);
+  }
 
   return (
     <main className="app-layout">

@@ -50,64 +50,58 @@ export function ConversationLive({
   }, []);
 
   useEffect(() => {
-    const channel = supabase.channel("conversation:" + conversationId, {
-      config: { private: true, presence: { key: userId } },
-    }) as RealtimeChannel;
-
-    channel.on("postgres_changes", {
-      event: "INSERT",
-      schema: "public",
-      table: "messages",
-      filter: "conversation_id=eq." + conversationId,
-    }, (payload: { new: Message }) => {
-      const message = payload.new;
-      appendMessage(message);
-      if (message.sender_id !== userId) {
-        const readAt = new Date().toISOString();
-        void supabase.from("conversation_members")
-          .update({ last_read_at: readAt })
-          .eq("conversation_id", conversationId)
-          .eq("user_id", userId);
-        void supabase.from("notifications")
-          .update({ read_at: readAt })
-          .eq("recipient_id", userId)
-          .eq("kind", "message")
-          .eq("subject_id", conversationId)
-          .is("read_at", null);
-      }
-    });
-
-    channel.on("postgres_changes", {
-      event: "UPDATE",
-      schema: "public",
-      table: "conversation_members",
-      filter: "conversation_id=eq." + conversationId,
-    }, (payload: { new: MemberUpdate }) => {
-      const member = payload.new;
-      if (member.user_id === otherUserId) setOtherLastReadAt(member.last_read_at);
-    });
-
-    channel.on("broadcast", { event: "typing" }, (message: { payload: { user_id?: string; is_typing?: boolean } }) => {
-      if (message.payload?.user_id !== userId) {
-        setIsTyping(Boolean(message.payload?.is_typing));
-        if (typingClearRef.current) clearTimeout(typingClearRef.current);
-        if (message.payload?.is_typing) {
-          typingClearRef.current = setTimeout(() => setIsTyping(false), 2200);
+    const channel = supabase
+      .channel("conversation:" + conversationId, { config: { private: true, presence: { key: userId } } }) as RealtimeChannel;
+      .on("postgres_changes", {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter: "conversation_id=eq." + conversationId,
+      }, (payload: { new: Message }) => {
+        const message = payload.new;
+        appendMessage(message);
+        if (message.sender_id !== userId) {
+          const readAt = new Date().toISOString();
+          void supabase.from("conversation_members")
+            .update({ last_read_at: readAt })
+            .eq("conversation_id", conversationId)
+            .eq("user_id", userId);
+          void supabase.from("notifications")
+            .update({ read_at: readAt })
+            .eq("recipient_id", userId)
+            .eq("kind", "message")
+            .eq("subject_id", conversationId)
+            .is("read_at", null);
         }
-      }
-    });
-
-    channel.on("presence", { event: "sync" }, () => {
-      const presence = channel.presenceState() as Record<string, Presence[]>;
-      const online = Object.values(presence).flat().some((entry: Presence) => entry.user_id === otherUserId);
-      setIsOnline(online);
-    });
-
-    channel.subscribe(async (status: string) => {
-      if (status === "SUBSCRIBED") {
-        await channel.track({ user_id: userId, online_at: new Date().toISOString() });
-      }
-    });
+      })
+      .on("postgres_changes", {
+        event: "UPDATE",
+        schema: "public",
+        table: "conversation_members",
+        filter: "conversation_id=eq." + conversationId,
+      }, (payload: { new: MemberUpdate }) => {
+        const member = payload.new;
+        if (member.user_id === otherUserId) setOtherLastReadAt(member.last_read_at);
+      })
+      .on("broadcast", { event: "typing" }, ({ payload }: { payload: { user_id?: string; is_typing?: boolean } }) => {
+        if (payload?.user_id !== userId) {
+          setIsTyping(Boolean(payload?.is_typing));
+          if (typingClearRef.current) clearTimeout(typingClearRef.current);
+          if (payload?.is_typing) {
+            typingClearRef.current = setTimeout(() => setIsTyping(false), 2200);
+          }
+        }
+      })
+      .on("presence", { event: "sync" }, () => {
+        const presence = channel.presenceState() as Record<string, Presence[]>;
+        const online = Object.values(presence).flat().some((entry: Presence) => entry.user_id === otherUserId);
+        setIsOnline(online);
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") {
+          await channel.track({ user_id: userId, online_at: new Date().toISOString() });
+        }
+      });
 
     channelRef.current = channel;
     return () => {
