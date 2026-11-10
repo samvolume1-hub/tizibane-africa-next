@@ -6295,3 +6295,32 @@ main > .landing-contacts .landing-contact-panel a:focus-visible {
     transition: none !important;
   }
 }
+
+
+/* Consistent button hover state — match the approved black contact-menu links. */
+button:not(.text-action):not(.premium-gallery-controls button):hover,
+a.btn:hover,
+[role="button"]:hover,
+.photo-picker:hover,
+.reaction-choice:hover,
+.home-quick-action:hover {
+  background: #9168b7 !important;
+  border-color: rgba(255,255,255,.68) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+button:not(.text-action):not(.premium-gallery-controls button):focus-visible,
+a.btn:focus-visible,
+[role="button"]:focus-visible,
+.photo-picker:focus-visible,
+.reaction-choice:focus-visible,
+.home-quick-action:focus-visible {
+  outline: 2px solid rgba(255,255,255,.88) !important;
+  outline-offset: 2px !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  button, a.btn, [role="button"], .photo-picker, .reaction-choice, .home-quick-action {
+    transition: none !important;
+  }
+}
