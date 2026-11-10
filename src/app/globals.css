@@ -6691,3 +6691,13 @@ main > .hero .hero-actions > a.btn-primary {
 main > .hero .hero-actions > a.btn:not(.btn-primary) {
   font-weight: 800 !important;
 }
+
+
+/* HOME PAGE — reduce the complete “Welcome Back + member name” wordmark
+   by 50% on tablets and phones only. Desktop and the locked landing page
+   remain unchanged; profile-page headings are deliberately excluded. */
+@media (max-width: 820px) {
+  .app-layout .community-home-page .home-welcome-copy h1.tizibane-welcome-title {
+    font-size: clamp(8.5px, 1.3vw, 10px) !important;
+  }
+}
