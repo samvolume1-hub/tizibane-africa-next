@@ -5,6 +5,8 @@ import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type Rea
 const TARGET_BYTES = 1 * 1024 * 1024;
 const MAX_BYTES = 2 * 1024 * 1024;
 const MAX_EDGE = 1920;
+const MAX_SIZE_PASSES = 4;
+const QUALITY_STEPS = [0.86, 0.78, 0.68, 0.56] as const;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 type Props = {
@@ -43,7 +45,7 @@ async function optimizeImage(file: File): Promise<File> {
     let scale = Math.min(1, MAX_EDGE / Math.max(bitmap.width, bitmap.height));
     let best: Blob | null = null;
 
-    for (let sizePass = 0; sizePass < 6; sizePass += 1) {
+    for (let sizePass = 0; sizePass < MAX_SIZE_PASSES; sizePass += 1) {
       const canvas = document.createElement("canvas");
       canvas.width = Math.max(1, Math.round(bitmap.width * scale));
       canvas.height = Math.max(1, Math.round(bitmap.height * scale));
@@ -51,7 +53,7 @@ async function optimizeImage(file: File): Promise<File> {
       if (!context) throw new Error("Your image could not be prepared. Please try again.");
       context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
 
-      for (const quality of [0.86, 0.8, 0.74, 0.68, 0.62, 0.56]) {
+      for (const quality of QUALITY_STEPS) {
         const blob = await encodeWebp(canvas, quality);
         if (!best || blob.size < best.size) best = blob;
         if (blob.size <= TARGET_BYTES) {
