@@ -2355,7 +2355,7 @@ main > .footer {
   border-top: 1px solid rgba(255,255,255,.58);
   background:
     linear-gradient(110deg, rgba(5, 4, 12, .82) 0%, rgba(10, 5, 18, .70) 52%, rgba(5, 4, 12, .82) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
   color: #ffffff !important;
   font-size: 16.5px;
 }
@@ -2402,7 +2402,7 @@ main > .footer .royalty-copyright {
 main > .footer {
   background:
     linear-gradient(110deg, rgba(20, 5, 39, .69) 0%, rgba(42, 12, 68, .62) 52%, rgba(20, 5, 39, .69) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
 }
 
 main > .footer .footer-tagline {
@@ -3719,7 +3719,7 @@ main > .landing-contacts .landing-contact-panel a {
   border-top: 1px solid rgba(255,255,255,.42);
   background:
     linear-gradient(110deg, rgba(20,5,39,.76) 0%, rgba(42,12,68,.69) 52%, rgba(20,5,39,.76) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   font-family: Georgia, "Times New Roman", serif;
