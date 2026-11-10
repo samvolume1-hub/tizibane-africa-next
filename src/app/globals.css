@@ -6715,3 +6715,18 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 .groups-page .app-content > .groups-welcome ~ * textarea {
   font-weight: 400 !important;
 }
+
+
+/* GROUPS — CREATE GROUP SECTION ONLY.
+   Strengthen headings, labels, helper copy and action text.
+   Preserve every editable/select control's typography and presentation. */
+.groups-page .app-content > .create-group-section :where(h2, .eyebrow, label, .btn, button, p, small, span, legend) {
+  font-weight: 800 !important;
+  color: #ffffff !important;
+}
+.groups-page .app-content > .create-group-section .eyebrow {
+  color: #f0d69a !important;
+}
+.groups-page .app-content > .create-group-section :where(input, textarea, select, option) {
+  font-weight: inherit;
+}
