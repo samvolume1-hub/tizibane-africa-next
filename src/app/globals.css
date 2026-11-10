@@ -7139,3 +7139,58 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 @media (prefers-reduced-motion: reduce) {
   .app-layout .people-directory * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
+
+
+/* PEOPLE DIRECTORY — requested final layout and compact action hierarchy. */
+.app-layout .people-directory > .people-title-panel {
+  display: block !important;
+  margin: 0 auto clamp(24px, 3vw, 36px) !important;
+  padding: clamp(25px, 3vw, 38px) !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 26px !important;
+  background: linear-gradient(128deg, #ffc3df 0%, #f19bc4 56%, #dda8e2 100%) !important;
+  box-shadow: 0 18px 42px rgba(73, 27, 72, .20), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+.app-layout .people-title-panel .people-hero-copy h1 {
+  margin: 0 !important;
+  color: #40203d !important;
+  font-size: clamp(34px, 4vw, 48px) !important;
+  font-weight: 900 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em;
+}
+.app-layout .people-directory > .people-search-bottom {
+  display: block !important;
+  width: 100%;
+  max-width: 760px;
+  margin: clamp(30px, 4vw, 48px) auto 8px !important;
+  padding: clamp(20px, 2.5vw, 30px) !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(128deg, #ffc3df 0%, #f19bc4 56%, #dda8e2 100%) !important;
+  box-shadow: 0 18px 42px rgba(73, 27, 72, .20), inset 0 1px 0 rgba(255,255,255,.55) !important;
+}
+.app-layout .people-search-bottom .people-search { display:grid !important; grid-template-columns:minmax(0,1fr) !important; gap:12px !important; width:100% !important; margin:0 !important; }
+.app-layout .people-search-bottom .field { width:100% !important; min-width:0 !important; margin:0 !important; }
+.app-layout .people-search-bottom .field label { display:block; margin-bottom:8px; color:#48263f !important; font-size:14px !important; font-weight:800 !important; }
+.app-layout .people-search-bottom input { box-sizing:border-box !important; width:100% !important; min-height:52px !important; padding:13px 16px !important; border:1px solid rgba(91,44,80,.24) !important; border-radius:14px !important; background:rgba(255,255,255,.94) !important; color:#332033 !important; font-size:16px !important; }
+.app-layout .people-search-bottom .btn { width:100% !important; min-height:50px !important; border:1px solid rgba(255,255,255,.24) !important; border-radius:14px !important; background:#9168b7 !important; color:#fff !important; -webkit-text-fill-color:#fff !important; font-size:15px !important; font-weight:850 !important; }
+.app-layout .people-search-bottom .text-action { justify-self:start; min-height:40px; padding:10px 4px; color:#542b7c !important; font-size:14px !important; font-weight:800 !important; }
+.app-layout .people-directory .person-more-actions { position:relative; display:inline-block; }
+.app-layout .people-directory .person-more-actions > summary { display:inline-flex; align-items:center; justify-content:center; min-height:42px; padding:9px 16px; border:1px solid rgba(255,255,255,.24); border-radius:999px; background:#6f4b88; color:#fff; font-size:14px; font-weight:850; cursor:pointer; list-style:none; }
+.app-layout .people-directory .person-more-actions > summary::-webkit-details-marker { display:none; }
+.app-layout .people-directory .person-more-actions > summary::after { content:" ▾"; margin-left:5px; }
+.app-layout .people-directory .person-more-actions[open] > summary::after { content:" ▴"; }
+.app-layout .people-directory .person-more-actions > summary:hover,
+.app-layout .people-directory .person-more-actions > summary:focus-visible { background:#7542a5; outline:2px solid #7542a5; outline-offset:3px; }
+.app-layout .people-directory .person-more-menu { position:absolute; z-index:50; top:calc(100% + 8px); right:0; display:grid; gap:7px; width:min(230px,calc(100vw - 48px)); padding:12px; border:1px solid rgba(116,66,165,.28); border-radius:14px; background:#fff7fc; box-shadow:0 12px 30px rgba(35,12,36,.24); }
+.app-layout .people-directory .person-more-menu form,
+.app-layout .people-directory .person-more-menu > * { display:block; width:100%; min-width:0; }
+.app-layout .people-directory .person-more-menu :is(button,a) { width:100%; justify-content:flex-start; min-height:40px !important; border-radius:9px !important; background:transparent !important; color:#542b7c !important; -webkit-text-fill-color:#542b7c !important; box-shadow:none !important; transform:none !important; }
+.app-layout .people-directory .person-more-menu :is(button,a):hover,
+.app-layout .people-directory .person-more-menu :is(button,a):focus-visible { background:#f0dff0 !important; color:#542b7c !important; -webkit-text-fill-color:#542b7c !important; }
+@media (max-width:600px) {
+ .app-layout .people-directory > .people-title-panel { padding:22px 18px !important; }
+ .app-layout .people-directory > .people-search-bottom { padding:18px 15px !important; }
+ .app-layout .people-directory .person-more-actions > summary { min-height:44px; }
+}
