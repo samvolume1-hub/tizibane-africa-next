@@ -7226,3 +7226,20 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 .community-activity-page .feature-activity-row:last-child {
   border-bottom: 0;
 }
+
+/* Community Activity only: reduce the hero heading and enlarge feed copy. */
+.community-activity-page > .welcome h1 {
+  font-size: 21.6px !important;
+}
+.community-activity-page .feature-activity-row p {
+  font-size: 16.9px !important;
+}
+.community-activity-page .feature-activity-row time {
+  font-size: 13px !important;
+}
+.community-activity-page > .empty-state h3 {
+  font-size: 22.1px !important;
+}
+.community-activity-page > .empty-state p {
+  font-size: 15.6px !important;
+}
