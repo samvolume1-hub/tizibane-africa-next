@@ -7243,3 +7243,15 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 .community-activity-page > .empty-state p {
   font-size: 15.6px !important;
 }
+
+
+/* Mobile performance: keep the translucent navigation menu, but reduce the
+   blur radius so scrolling and opening the menu require less GPU work. */
+@media (max-width: 820px) {
+  .app-layout .mobile-bottom-nav .mobile-more-menu > summary,
+  .app-layout .mobile-bottom-nav .mobile-more-panel > a,
+  .app-layout .mobile-bottom-nav .mobile-more-signout button {
+    -webkit-backdrop-filter: blur(4px) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+}
