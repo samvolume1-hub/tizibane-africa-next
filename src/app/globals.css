@@ -7215,3 +7215,14 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     font-size: clamp(23px, 6.3vw, 29px) !important;
   }
 }
+
+/* Community Activity only: strengthen the feed outline and activity dividers. */
+.community-activity-page .feature-activity-feed {
+  border: 2px solid #98678d;
+}
+.community-activity-page .feature-activity-row {
+  border-bottom: 2px solid #d7b7cb;
+}
+.community-activity-page .feature-activity-row:last-child {
+  border-bottom: 0;
+}
