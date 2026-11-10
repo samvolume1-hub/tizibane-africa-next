@@ -42,3 +42,22 @@
 .detailCover{width:100%;max-height:230px;display:block;object-fit:cover;border-radius:16px;margin-bottom:18px;border:1px solid rgba(236,147,213,.25)}
 @media(max-width:600px){.shell{padding:19px 15px;border-radius:20px}.heading{gap:12px;margin-bottom:20px}.headingIcon{width:44px;height:44px;flex-basis:44px;border-radius:14px;font-size:21px}.choiceGrid{grid-template-columns:1fr}.choice{padding:14px}.form{gap:18px}.cardCover{height:92px}}
 @media(prefers-reduced-motion:reduce){.input,.textarea,.choice,.submit{transition:none}.choice:hover,.submit:hover{transform:none}}
+
+/* Keep explanatory copy conversational even under the legacy Groups bold-text rule. */
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .headingCopy p,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .hint,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .choiceCopy span,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .footerHint {
+  color: #c9bad4 !important;
+  font-weight: 500 !important;
+}
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .input,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .textarea,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .fileInput {
+  font-weight: 500 !important;
+}
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .choiceCopy strong,
+:global(.groups-page) .app-content > :global(.create-group-section) .shell .label {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
