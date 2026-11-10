@@ -6238,13 +6238,13 @@ main:has(> .landing-contacts) {
   background: #4b1d75 !important;
 }
 
-/* Enlarge only the two account buttons inside the existing pink top ribbon.
-   The ribbon dimensions, background, position and contents remain unchanged. */
+/* Enlarge only the two account buttons by 30%.
+   Keep the existing pink ribbon's size, background, position and contents unchanged. */
 main > .topbar .actions > .btn {
   box-sizing: border-box !important;
   min-height: 0 !important;
-  padding: 16.9px 24.7px !important;
-  font-size: 20.8px !important;
+  padding: 15.6px 23.4px !important;
+  font-size: 16.9px !important;
   line-height: 1.2 !important;
 }
 @media (max-width: 600px) {
@@ -6254,8 +6254,8 @@ main > .topbar .actions > .btn {
   }
 }
 
-/* WhatsApp and Email controls: royal purple, brighter than the previous black.
-   The expanded contact panels remain true black with white text. */
+/* WhatsApp and Email controls: royal purple.
+   Expanded panels remain true black with white text. */
 main > .landing-contacts .landing-contact > summary {
   background: linear-gradient(135deg, #7542a5 0%, #63358f 55%, #542b7c 100%) !important;
   border: 1px solid rgba(255,255,255,.82) !important;
@@ -6282,8 +6282,8 @@ main > .landing-contacts .landing-contact-panel a {
 }
 main > .landing-contacts .landing-contact-panel a:hover,
 main > .landing-contacts .landing-contact-panel a:focus-visible {
-  background: #7542a5 !important;
-  border-color: rgba(255,255,255,.58) !important;
+  background: #9168b7 !important;
+  border-color: rgba(255,255,255,.68) !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   text-decoration: none !important;
