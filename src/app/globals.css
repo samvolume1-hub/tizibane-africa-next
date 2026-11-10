@@ -6324,3 +6324,25 @@ a.btn:focus-visible,
     transition: none !important;
   }
 }
+
+
+/* WhatsApp and Email dropdown triggers: match the approved button hover state. */
+main > .landing-contacts .landing-contact > summary {
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease !important;
+}
+main > .landing-contacts .landing-contact > summary:hover,
+main > .landing-contacts .landing-contact > summary:focus-visible {
+  background: #9168b7 !important;
+  border-color: rgba(255,255,255,.68) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+main > .landing-contacts .landing-contact > summary:focus-visible {
+  outline: 2px solid rgba(255,255,255,.88) !important;
+  outline-offset: 2px !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  main > .landing-contacts .landing-contact > summary {
+    transition: none !important;
+  }
+}
