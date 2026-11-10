@@ -17,7 +17,7 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
   const [{ data: rows }, { data: adminFlag }] = await Promise.all([
-    supabase.from("community_announcements").select("id,title,body,is_pinned,published_at,created_by").eq("status", "published").or("expires_at.is.null,expires_at.gt." + new Date().toISOString()).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }),
+    supabase.from("community_announcements").select("id,title,body,is_pinned,published_at,created_by").eq("status", "published").or("expires_at.is.null,expires_at.gt." + new Date().toISOString()).order("is_pinned", { ascending: false }).order("published_at", { ascending: false }).limit(30),
     supabase.rpc("is_current_platform_admin"),
   ]);
   const announcements = (rows ?? []) as Announcement[];
@@ -26,10 +26,10 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
   let reactions: Reaction[] = [];
   if (ids.length) {
     const [commentResult, reactionResult] = await Promise.all([
-      supabase.from("announcement_comments").select("id,announcement_id,author_id,body,created_at").in("announcement_id", ids).order("created_at", { ascending: true }),
+      supabase.from("announcement_comments").select("id,announcement_id,author_id,body,created_at").in("announcement_id", ids).order("created_at", { ascending: false }).limit(300),
       supabase.from("announcement_reactions").select("announcement_id,user_id,reaction").in("announcement_id", ids),
     ]);
-    comments = (commentResult.data ?? []) as Comment[];
+    comments = ((commentResult.data ?? []) as Comment[]).reverse();
     reactions = (reactionResult.data ?? []) as Reaction[];
   }
   const profileIds = [...new Set([...announcements.map((a) => a.created_by), ...comments.map((c) => c.author_id)])];
@@ -40,9 +40,17 @@ export default async function AnnouncementsPage({ searchParams }: { searchParams
   }
   const profileNames = new Map(profiles.map((p) => [p.id, p.display_name]));
   const commentMap = new Map<string, Comment[]>();
-  for (const comment of comments) commentMap.set(comment.announcement_id, [...(commentMap.get(comment.announcement_id) ?? []), comment]);
+  for (const comment of comments) {
+    const items = commentMap.get(comment.announcement_id) ?? [];
+    items.push(comment);
+    commentMap.set(comment.announcement_id, items);
+  }
   const reactionMap = new Map<string, Reaction[]>();
-  for (const reaction of reactions) reactionMap.set(reaction.announcement_id, [...(reactionMap.get(reaction.announcement_id) ?? []), reaction]);
+  for (const reaction of reactions) {
+    const items = reactionMap.get(reaction.announcement_id) ?? [];
+    items.push(reaction);
+    reactionMap.set(reaction.announcement_id, items);
+  }
   return <main className="app-layout"><CommunityNavigation active="announcements" /><section className="app-main">
     <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">OFFICIAL TIZIBANE UPDATES</span></header>
     <div className="app-content community-feature-page">
