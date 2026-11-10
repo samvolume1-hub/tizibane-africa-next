@@ -1,6 +1,5 @@
 import type {Metadata, Viewport} from "next";
 import "./globals.css";
-import "./illustrated-navigation-fix.css";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
 const previewImage = "/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg?v=2";
