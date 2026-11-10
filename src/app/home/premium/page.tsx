@@ -42,15 +42,11 @@ export default async function PremiumPage() {
         <div className="app-content premium-content">
           <section className="premium-hero premium-hero-photo">
             <img className="photo-backdrop" src="/images/fzJ2RgsQKQ0IRabCRUcpgTclFLNN70M311nzsjgfGvOZSxuLII03Hr_XJG_CQ9kRG_HBr7XzN-yIf5v371lJ6Z9hcw_chMa-d019Ll-Xdfl2I0ZqbhatI6-mY9hFMql1hC_1mtI-yYh06S8TZGGN3BCaf7mcZqeXzOFAef7KEQnKFb5-uv43k1f9NIlI-E0M.jpg" alt="" aria-hidden="true" loading="eager"/>
-            <span className="eyebrow">TIZIBANE PREMIUM MARKETPLACE</span>
-            <p className="premium-kicker">YOUR PRODUCTS. YOUR BUSINESS. OUR COMMUNITY.</p>
-            <h1>Advertise with <em>TIZIBANE</em></h1>
-            <p className="premium-lead">Put your products in front of our community. Royalty helps you present what you sell in a polished product showcase, so interested people can discover it and contact you directly.</p>
+            <h1 style={{ fontWeight: 800 }}>Premium Advertising</h1>
             <div className="premium-hero-actions">
               <a className="btn btn-primary" href={whatsapp("260760930509", generalMessage)} target="_blank" rel="noopener noreferrer">Ask about advertising ↗</a>
               <a className="premium-secondary-action" href="mailto:samryt26@gmail.com?subject=TIZIBANE%20advertising%20enquiry">Email Royalty</a>
             </div>
-            <div className="premium-trust-row"><span>✦ Paid advertising service</span><span>◇ Reviewed by an administrator</span><span>↗ Direct seller enquiries</span></div>
           </section>
 
 

@@ -128,9 +128,7 @@ export default async function EventsPage({
         <div className="app-content">
           <section className="welcome groups-welcome">
             <img className="photo-backdrop" src="/images/TJGQqBIoB8TE7nFx0yNv5FKE0KywI8NCXQPo9sPxTRz7GL3wDoS9X3Yr_oCbox8P1v8wsw95DLhOhb2y-lW2WxJs1DA_L2cAAF-nZee_Hn-9J0828avLeqAN2f8qhb8KqFGS3GL2-OSa4d93-JHwulzMfWmcdsoVmNITjKM0vOxcmD1BfCRX_o5Z5CcNJ8TW.jpg" alt="" aria-hidden="true" loading="eager" />
-            <span className="eyebrow">Meet beyond the feed</span>
-            <h1>Make moments happen.</h1>
-            <p>Discover upcoming community events, share local gatherings and let people know if you are attending.</p>
+            <h1 style={{ fontWeight: 800 }}>Events</h1>
           </section>
 
           {params.error && <div className="notice" role="alert">{params.error}</div>}
