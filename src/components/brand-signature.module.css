@@ -1,0 +1,12 @@
+/* Landing ribbon artwork only. Preserve both original proportions and the existing ribbon dimensions. */
+.signatureIcon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+@media (max-width: 520px) {
+  .signatureIcon {
+    width: 30px;
+    height: 30px;
+  }
+}
