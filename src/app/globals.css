@@ -7146,8 +7146,19 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   display: block !important;
   margin: 0 auto clamp(24px, 3vw, 36px) !important;
   padding: clamp(25px, 3vw, 38px) !important;
+  border: 1px solid rgba(255,255,255,.5) !important;
+  border-radius: 26px !important;
+  background: linear-gradient(128deg, #ffc3df 0%, #f19bc4 56%, #dda8e2 100%) !important;
+  box-shadow: 0 18px 42px rgba(73, 27, 72, .20), inset 0 1px 0 rgba(255,255,255,.55) !important;
 }
-.app-layout .people-title-panel .people-hero-copy h1 { margin: 0 !important; }
+.app-layout .people-title-panel .people-hero-copy h1 {
+  margin: 0 !important;
+  color: #40203d !important;
+  font-size: clamp(34px, 4vw, 48px) !important;
+  font-weight: 900 !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.045em;
+}
 .app-layout .people-directory > .people-search-bottom {
   display: block !important;
   width: 100%;
