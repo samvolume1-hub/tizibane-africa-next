@@ -2355,7 +2355,7 @@ main > .footer {
   border-top: 1px solid rgba(255,255,255,.58);
   background:
     linear-gradient(110deg, rgba(5, 4, 12, .82) 0%, rgba(10, 5, 18, .70) 52%, rgba(5, 4, 12, .82) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
   color: #ffffff !important;
   font-size: 16.5px;
 }
@@ -2402,7 +2402,7 @@ main > .footer .royalty-copyright {
 main > .footer {
   background:
     linear-gradient(110deg, rgba(20, 5, 39, .69) 0%, rgba(42, 12, 68, .62) 52%, rgba(20, 5, 39, .69) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
 }
 
 main > .footer .footer-tagline {
@@ -3719,7 +3719,7 @@ main > .landing-contacts .landing-contact-panel a {
   border-top: 1px solid rgba(255,255,255,.42);
   background:
     linear-gradient(110deg, rgba(20,5,39,.76) 0%, rgba(42,12,68,.69) 52%, rgba(20,5,39,.76) 100%),
-    url("/images/stockvault-sharing-sharing-on-social-media-modern-communications269936.jpg") center center / cover no-repeat;
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   font-family: Georgia, "Times New Roman", serif;
@@ -4018,7 +4018,7 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-feature-page > .announcement-hero-card {
   background-image:
     linear-gradient(90deg, rgba(10, 10, 30, .88) 0%, rgba(13, 13, 39, .72) 58%, rgba(13, 13, 39, .56) 100%),
-    url("/images/EVENTS.jpg") !important;
+    url("/images/events-background.webp") !important;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -4114,7 +4114,7 @@ main > .landing-contacts .landing-contact-panel a {
   background-color:#17152b !important;
   background-image:
     linear-gradient(90deg,rgba(10,10,28,.88) 0%,rgba(13,13,39,.76) 58%,rgba(13,13,39,.66) 100%),
-    url("/images/EVENTS.jpg") !important;
+    url("/images/events-background.webp") !important;
   background-position:center;
   background-size:cover;
   background-repeat:no-repeat;
@@ -6024,7 +6024,7 @@ main > .landing-contacts .landing-contact-panel a {
 .app-layout .community-stories-page > .welcome {
   background:
     linear-gradient(105deg, rgba(20, 8, 28, .76) 0%, rgba(28, 10, 34, .58) 55%, rgba(18, 8, 27, .68) 100%),
-    url("/images/laugh.jpg") center 42% / cover no-repeat !important;
+    url("/images/community-background.webp") center 42% / cover no-repeat !important;
   border-color: rgba(255, 255, 255, .34) !important;
 }
 .app-layout .community-stories-page > .welcome,
