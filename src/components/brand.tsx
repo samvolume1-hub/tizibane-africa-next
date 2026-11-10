@@ -7,14 +7,12 @@ export function Brand({ className = "", showSignature = false }: { className?: s
       <span className="brand-mark" aria-hidden="true"><span className="brand-letter">T</span></span>
       {showSignature ? (
         <span className={styles.brandCopy}>
-          <span className={styles.brandNameRow}>
-            <span className={styles.brandName}>TIZIBANE</span>
-            <span className={styles.signatureGroup} aria-label="Zambia and Royalty">
-              <img className={styles.signatureIcon} src="/images/zambian-map-original.jpg" alt="" />
-              <img className={styles.signatureIcon} src="/images/royalty-emblem-original.jpg" alt="" />
-            </span>
-          </span>
+          <span className={styles.brandName}>TIZIBANE</span>
           <small className={styles.brandAfrica}>AFRICA</small>
+          <span className={styles.signatureGroup} aria-label="Zambia and Royalty">
+            <img className={styles.signatureMap} src="/images/zambian-map-original.jpg" alt="" />
+            <img className={styles.signatureRoyalty} src="/images/royalty-emblem-original.jpg" alt="" />
+          </span>
         </span>
       ) : (
         <span>TIZIBANE<small>AFRICA</small></span>
