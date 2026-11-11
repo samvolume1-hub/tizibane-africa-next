@@ -1,3 +1,4 @@
+import { isIP } from "node:net";
 import { NextResponse } from "next/server";
 
 export const revalidate = 900;
@@ -37,12 +38,16 @@ function safeHttps(value: string) {
     if (url.protocol !== "https:" || url.username || url.password) return null;
     if (url.port && url.port !== "443") return null;
     const host = url.hostname.toLowerCase();
-    if (!host || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
+    if (!host || isIP(host.replace(/^\[|\]$/g, "")) || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
     if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host) || host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return null;
     return url.toString();
   } catch {
     return null;
   }
+}
+
+function looksLikeBrandAsset(value: string) {
+  return /(?:favicon|site[-_]?logo|logo[._/-]|avatar|icon[._/-]|sprite|placeholder|default[-_]?image)/i.test(value);
 }
 
 function readImage(xml: string) {
@@ -53,8 +58,11 @@ function readImage(xml: string) {
     const url = attributes.match(/\burl=["']([^"']+)["']/i)?.[1];
     const type = attributes.match(/\btype=["']([^"']+)["']/i)?.[1] || "";
     const medium = attributes.match(/\bmedium=["']([^"']+)["']/i)?.[1] || "";
-    const isImage = tag === "media:thumbnail" || medium.toLowerCase() === "image" || type.toLowerCase().startsWith("image/");
-    if (url && isImage) {
+    const width = Number(attributes.match(/\bwidth=["'](\d+)["']/i)?.[1] || 0);
+    const height = Number(attributes.match(/\bheight=["'](\d+)["']/i)?.[1] || 0);
+    const isThumbnailLargeEnough = tag !== "media:thumbnail" || (width >= 300 && height >= 180);
+    const isImage = medium.toLowerCase() === "image" || type.toLowerCase().startsWith("image/") || tag === "media:thumbnail";
+    if (url && isImage && isThumbnailLargeEnough && !looksLikeBrandAsset(url)) {
       const safe = safeHttps(url);
       if (safe) return safe;
     }
@@ -83,7 +91,7 @@ function extractMetaImage(html: string, pageUrl: string) {
     try {
       const resolved = new URL(decodeXml(candidate), pageUrl).toString();
       const safe = safeHttps(resolved);
-      if (safe && !/\.svg(?:[?#]|$)/i.test(safe)) return safe;
+      if (safe && !/\.svg(?:[?#]|$)/i.test(safe) && !looksLikeBrandAsset(safe)) return safe;
     } catch {
       // Ignore malformed publisher metadata and continue to the next candidate.
     }
