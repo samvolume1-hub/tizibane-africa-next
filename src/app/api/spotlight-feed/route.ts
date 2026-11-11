@@ -13,7 +13,7 @@ const topics = [
 ] as const;
 
 const USER_AGENT = "Mozilla/5.0 (compatible; TIZIBANE-Spotlight/1.0; +https://tizibane-africa-next.onrender.com)";
-const PAGE_TIMEOUT_MS = 3500;
+const PAGE_TIMEOUT_MS = 2500;
 const MAX_HTML_BYTES = 900_000;
 
 function decodeXml(value: string) {
@@ -213,8 +213,8 @@ async function readTopic(topic: (typeof topics)[number]) {
 
 export async function GET() {
   const feeds = await Promise.all(topics.map(readTopic));
-  const candidates = feeds.flatMap((feed) => feed.items.slice(0, 4).filter((item) => !item.imageUrl));
-  await mapWithConcurrency(candidates, 4, async (item) => {
+  const candidates = feeds.flatMap((feed) => feed.items.slice(0, 2).filter((item) => !item.imageUrl));
+  await mapWithConcurrency(candidates, 6, async (item) => {
     item.imageUrl = await fetchPublicArticlePage(item.articleUrl);
     return item;
   });
