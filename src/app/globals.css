@@ -7820,3 +7820,63 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     max-width: none;
   }
 }
+
+
+/* APP-WIDE CONTENT SURFACE — preserve the existing lavender app canvas.
+   Only the central content column becomes white; navigation, hero artwork,
+   purple feature cards, buttons and text-entry controls retain their styling. */
+.app-layout > .app-main > .app-content {
+  background: #fff;
+  color: #17121a;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 14px 36px rgba(74, 42, 83, .055);
+}
+
+/* Strong black typography only on established white content panels.
+   Excludes form-entry controls, buttons, purple/dark cards and Spotlight. */
+.app-layout .app-content :is(
+  .module-section,
+  .module,
+  .group-card,
+  .event-card,
+  .person-card,
+  .conversation-card,
+  .conversation-heading,
+  .notification-card,
+  .empty-state,
+  .premium-admin-list,
+  .premium-process,
+  .premium-package,
+  .premium-audience-card,
+  .premium-bottom-cta,
+  .premium-admin-heading
+) :is(h1,h2,h3,h4,p,span,small,strong,time,li,a)
+:not(button):not(button *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
+:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
+:not(.event-date):not(.event-date *):not(.premium-status):not(.premium-status *)
+:not(.spotlight *):not(.premium-product-card *):not(.create-group-section .shell *) {
+  color: #17121a !important;
+  font-weight: 800 !important;
+}
+
+/* Supporting copy stays comfortably readable while retaining the requested
+   strong weight; interactive controls and their labels are not selected. */
+.app-layout .app-content :is(
+  .group-card,
+  .event-card,
+  .person-card,
+  .conversation-card,
+  .notification-card,
+  .empty-state,
+  .module-section,
+  .module,
+  .premium-admin-list,
+  .premium-process,
+  .premium-package,
+  .premium-audience-card,
+  .premium-bottom-cta,
+  .premium-admin-heading
+) :is(p,small,time,li):not(.spotlight *) {
+  color: #302632 !important;
+  font-weight: 750 !important;
+}
