@@ -143,7 +143,7 @@ export function SpotlightHub() {
           {topicOrder.map((topic, index) => {
             const item = feedById.get(topic.id)?.items?.[0];
             return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
-              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={item?.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}</span>
+              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={item?.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /></span>
               <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
               <span className={styles.railArrow} aria-hidden="true">↗</span>
             </button>;
@@ -234,7 +234,7 @@ export function SpotlightHub() {
                       <button type="button" className={styles.storyCard} onClick={() => setSelectedStory(item)} key={item.source + item.title + item.publishedAt}>
                         <div className={styles.storyMedia}>
                           <div className={styles.storyArtwork} aria-hidden="true" />
-                          <img className={styles.storyImage} src={item.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+                          <img className={styles.storyImage} src={item.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
                         </div>
                         <div className={styles.storyCopy}>
                           <span className={styles.storySource}>{item.source}</span>
@@ -290,7 +290,7 @@ export function SpotlightHub() {
               <button type="button" onClick={() => setSelectedStory(null)}>← Back to headlines</button>
               <button type="button" onClick={() => { setSelectedStory(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}>↑ Up to Spotlight</button>
             </div>
-            {selectedStory.imageUrl && <img className={styles.readerImage} src={selectedStory.imageUrl} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+            {selectedStory.imageUrl && <img className={styles.readerImage} src={selectedStory.imageUrl} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
             <span className={styles.readerSource}>{selectedStory.source} · {formatPublishedAt(selectedStory.publishedAt)}</span>
             <h2 id="spotlight-reader-title">{selectedStory.title}</h2>
             <p className={styles.readerSummary}>{selectedStory.summary || "The publisher has not supplied a readable excerpt for this story yet. Please check back when an in-app preview becomes available."}</p>
