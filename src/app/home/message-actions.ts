@@ -4,6 +4,7 @@ import {revalidatePath} from "next/cache";
 import {createClient} from "@/lib/supabase/server";
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 function messageError(text:string):never{redirect("/home/messages?error="+encodeURIComponent(text))}
+function conversationUrl(id:string,error?:string){return "/home/messages?conversation="+encodeURIComponent(id)+(error?"&error="+encodeURIComponent(error):"")}
 async function signedIn(){const supabase=await createClient();const {data:{user}}=await supabase.auth.getUser();if(!user)redirect("/login");return {supabase,user}}
 export async function startDirectMessage(form:FormData){
  const recipientId=String(form.get("recipient_id")??"");
@@ -21,7 +22,7 @@ export async function startDirectMessage(form:FormData){
   if(directIds.length){
    const {data:otherRows}=await supabase.from("conversation_members").select("conversation_id").eq("user_id",recipientId).in("conversation_id",directIds);
    const existingId=otherRows?.[0]?.conversation_id;
-   if(existingId){redirect("/home/messages/"+existingId)}
+   if(existingId){redirect(conversationUrl(existingId))}
   }
  }
  const conversationId=crypto.randomUUID();
@@ -32,15 +33,15 @@ export async function startDirectMessage(form:FormData){
  const {error:recipientError}=await supabase.from("conversation_members").insert({conversation_id:conversationId,user_id:recipientId});
  if(recipientError)messageError("The other member could not be added. Try opening the conversation again.");
  revalidatePath("/home/messages");
- redirect("/home/messages/"+conversationId);
+ redirect(conversationUrl(conversationId));
 }
 export async function sendDirectMessage(form:FormData){
  const conversationId=String(form.get("conversation_id")??""),body=String(form.get("body")??"").trim();
  if(!UUID.test(conversationId))messageError("That conversation could not be found.");
- if(!body||body.length>4000)redirect("/home/messages/"+conversationId+"?error="+encodeURIComponent("Messages must be between 1 and 4000 characters."));
+ if(!body||body.length>4000)redirect(conversationUrl(conversationId,"Messages must be between 1 and 4000 characters."));
  const {supabase,user}=await signedIn();
  const {error}=await supabase.from("messages").insert({conversation_id:conversationId,sender_id:user.id,body});
- if(error)redirect("/home/messages/"+conversationId+"?error="+encodeURIComponent("Your message could not be sent."));
- revalidatePath("/home/messages/"+conversationId);revalidatePath("/home/messages");
- redirect("/home/messages/"+conversationId);
+ if(error)redirect(conversationUrl(conversationId,"Your message could not be sent."));
+ revalidatePath("/home/messages");
+ redirect(conversationUrl(conversationId));
 }
