@@ -2947,8 +2947,9 @@ main > .landing-contacts .landing-contact-panel a {
   box-shadow: 0 7px 18px rgba(48, 33, 24, .045) !important;
 }
 
-/* Bold, near-black type applies only inside the neutral light content cards.
-   Links, controls, action clusters, status pills, media and Spotlight are exempt. */
+/* Bold, near-black type applies to the text elements themselves inside neutral
+   light cards. Links, controls, action clusters, status pills, media and Spotlight
+   are excluded as complete selector branches. */
 .app-layout .app-content :is(
   .profile-editor,
   .composer,
@@ -2963,13 +2964,19 @@ main > .landing-contacts .landing-contact-panel a {
   .premium-admin-form,
   .premium-admin-list,
   .message-composer
-) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label):not(button):not(button *):not(input):not(input *):not(select):not(select *)
-:not(textarea):not(textarea *):not(a):not(a *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
-:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
-:not(.person-actions *):not(.group-card-actions *):not(.event-actions *)
-:not(.post-interactions *):not(.comment-form *):not(.premium-admin-actions *)
-:not(.premium-admin-item *):not(.premium-status *):not(.event-date *):not(.group-category *):not(.group-privacy *):not(.event-kicker *):not(.member-state *):not(.pending-state *):not(.spotlight *):not(.premium-product-card *)
-:not(.message-bubble *):not(.message-chat-toolbar *):not(.message-call-button *) {
+) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label):not(
+  button, button *,
+  input, input *, select, select *, textarea, textarea *,
+  a, a *, .btn, .btn *, .text-action, .text-action *,
+  .photo-picker, .photo-picker *, .reaction-choice, .reaction-choice *,
+  .person-actions *, .group-card-actions *, .event-actions *,
+  .post-interactions *, .comment-form *, .premium-admin-actions *,
+  .premium-admin-item *, .premium-status *, .event-date *,
+  .group-category *, .group-privacy *, .event-kicker *,
+  .member-state *, .pending-state *, .spotlight *,
+  .premium-product-card *, .message-bubble *,
+  .message-chat-toolbar *, .message-call-button *
+) {
   color: var(--content-ink) !important;
   -webkit-text-fill-color: var(--content-ink) !important;
   font-weight: 800 !important;
@@ -2988,8 +2995,10 @@ main > .landing-contacts .landing-contact-panel a {
   .premium-admin-form,
   .premium-admin-list,
   .message-composer
-) :is(p,small,time,li):not(.spotlight *):not(.premium-product-card *):not(.premium-admin-item *)
-:not(.message-bubble *):not(.message-chat-toolbar *) {
+) :is(p,small,time,li):not(
+  .spotlight *, .premium-product-card *, .premium-admin-item *,
+  .message-bubble *, .message-chat-toolbar *
+) {
   color: var(--content-copy) !important;
   -webkit-text-fill-color: var(--content-copy) !important;
   font-weight: 700 !important;
