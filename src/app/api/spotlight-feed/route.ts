@@ -48,6 +48,11 @@ function readImage(xml: string) {
   return safeHttps(attribute?.[1] || inline?.[1] || "");
 }
 
+function publisherUrl(xml: string, fallbackLink: string) {
+  const source = xml.match(/<source\\b[^>]*\\burl=["']([^"']+)["']/i);
+  return safeHttps(source?.[1] || fallbackLink) || fallbackLink;
+}
+
 function publisherImage(link: string) {
   try {
     const host = new URL(link).hostname;
@@ -73,12 +78,13 @@ async function readTopic(topic: (typeof topics)[number]) {
       const link = safeHttps(readTag(item, "link"));
       const title = readTag(item, "title");
       if (!link || !title) return null;
+      const publisher = publisherUrl(item, link);
       return {
         title: title.slice(0, 240),
         url: link,
         source: readTag(item, "source").slice(0, 100) || "Online source",
         publishedAt: readTag(item, "pubDate"),
-        imageUrl: readImage(item) || publisherImage(link),
+        imageUrl: readImage(item) || publisherImage(publisher),
       };
     }).filter((item): item is NonNullable<typeof item> => Boolean(item));
     return { id: topic.id, label: topic.label, items };
