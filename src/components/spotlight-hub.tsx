@@ -82,6 +82,12 @@ export function SpotlightHub() {
   }, []);
 
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
+  const [activeTopicId, setActiveTopicId] = useState<string>(topicOrder[0].id);
+  const activeTopic = topicOrder.find((topic) => topic.id === activeTopicId) ?? topicOrder[0];
+  const activeTopicFeed = feedById.get(activeTopic.id);
+  const featuredItem = activeTopicFeed?.items?.[0] ?? null;
+  const activeTopicIndex = topicOrder.findIndex((topic) => topic.id === activeTopic.id);
+
 
   useEffect(() => {
     if (!selectedStory) return;
@@ -109,21 +115,42 @@ export function SpotlightHub() {
 
   return (
     <div className={styles.spotlight}>
-      <section className={styles.hero}>
+      <section className={styles.hero} aria-labelledby="spotlight-main-title">
         <div className={styles.heroCopy}>
-          <p>A stage for Zambian talent, fresh ideas, important stories and the conversations shaping our world.</p>
+          <span className={styles.heroEyebrow}>TIZIBANE ORIGINALS · EDITORIAL DESK</span>
+          <h1 id="spotlight-main-title">SPOTLIGHT<span className={styles.heroTitleDot}>.</span></h1>
+          <p className={styles.heroLead}>Stories worth seeing. Voices worth hearing. Ideas moving Zambia forward.</p>
+          <div className={styles.heroFeatureMeta}>
+            <span>{activeTopic.label}</span>
+            <span>{featuredItem ? featuredItem.source : activeTopic.sourceLabel}</span>
+          </div>
+          <h2 className={styles.heroFeatureTitle}>{featuredItem?.title ?? activeTopic.note}</h2>
+          <p className={styles.heroFeatureSummary}>{featuredItem?.summary || "Discover fresh perspectives, community stories and the latest updates from this Spotlight department."}</p>
           <div className={styles.heroActions}>
-            <a href="#submit-review" className={styles.primaryLink}>Submit for review <span aria-hidden="true">↗</span></a>
-            <a href="#latest" className={styles.secondaryLink}>Explore latest news</a>
+            {featuredItem ? <button type="button" className={styles.primaryLink} onClick={() => setSelectedStory(featuredItem)}>Read featured story <span aria-hidden="true">↗</span></button> : <a href="#latest" className={styles.primaryLink}>Explore this channel <span aria-hidden="true">↗</span></a>}
+            <a href="#submit-review" className={styles.secondaryLink}>Submit your work</a>
           </div>
         </div>
-        <div className={styles.heroArt} role="img" aria-label="Spotlight logo">
-          <div className={styles.orbit} />
-          <div className={styles.orbit + " " + styles.orbitTwo} />
-          <div className={styles.spotlightCore}><span>SPOTLIGHT</span></div>
-          <i className={styles.sparkOne}>✦</i><i className={styles.sparkTwo}>✧</i>
+        <div className={styles.heroArt} aria-label={featuredItem ? "Featured image for " + activeTopic.label : "Spotlight editorial artwork"}>
+          {featuredItem?.imageUrl ? <img className={styles.heroFeatureImage} src={featuredItem.imageUrl} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /> : <div className={styles.heroArtFallback}><span>{activeTopic.art}</span><small>{activeTopic.label}</small></div>}
+          <div className={styles.heroImageShade} />
+          <span className={styles.heroImageStamp}>01 / 06</span>
+          <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
         </div>
       </section>
+      <nav className={styles.editorialRail} aria-label="Spotlight departments">
+        <div className={styles.railIntro}><span className={styles.kicker}>EXPLORE THE DESKS</span><strong>Six perspectives. One home.</strong></div>
+        <div className={styles.railItems}>
+          {topicOrder.map((topic, index) => {
+            const item = feedById.get(topic.id)?.items?.[0];
+            return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
+              <span className={styles.railThumb}>{item?.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /> : <span>{topic.art}</span>}</span>
+              <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
+              <span className={styles.railArrow} aria-hidden="true">↗</span>
+            </button>;
+          })}
+        </div>
+      </nav>
 
       <section className={styles.reviewSection} id="submit-review">
         <div className={styles.sectionHeading}>
@@ -197,7 +224,7 @@ export function SpotlightHub() {
             const feed = feedById.get(topic.id);
             const items = feed?.items ?? [];
             return (
-              <section className={styles.topicSection} key={topic.id}>
+              <section className={styles.topicSection} id={"topic-" + topic.id} key={topic.id} onMouseEnter={() => setActiveTopicId(topic.id)}>
                 <div className={styles.topicHeading}>
                   <div className={styles.channelHeadingMain}><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.channelArt + " " + styles["channelTone" + topic.tone.charAt(0).toUpperCase() + topic.tone.slice(1)]} aria-hidden="true">{topic.art}</span><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
                   <span className={styles.sourceLabel}>{topic.sourceLabel} · In-app preview</span>
