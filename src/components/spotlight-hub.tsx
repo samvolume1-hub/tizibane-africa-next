@@ -172,6 +172,20 @@ export function SpotlightHub() {
         <div><span className={styles.kicker}>KEEP THE CONVERSATION GOING</span><h2>Have something worth sharing?</h2><p>Send a link, a short note or a question. We will take it from there.</p></div>
         <div className={styles.contactActions}><a href={`mailto:${EMAIL}`}>Email the review team ↗</a><a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer">Message on WhatsApp ↗</a></div>
       </section>
+
+      <section className={styles.companyLinks}>
+        <div><span className={styles.kicker}>OFFICIAL CONNECTIONS</span><h2>Stay connected with Royalty</h2></div>
+        <div className={styles.companyLinkGrid}>
+          <a href="https://www.facebook.com/share/19Rz2LxXCP/" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
+          <a href="https://www.instagram.com/55samroyalty2024/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+          <a href="https://www.tiktok.com/@samshane10" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+          <a href="https://www.youtube.com/@samshanemusicworld6626" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+          <a href="https://pin.it/2EP4JejFq" target="_blank" rel="noopener noreferrer">Pinterest ↗</a>
+          <a href="https://whatsapp.com/channel/0029VbDlyjA4Crfrf3vyuK0t" target="_blank" rel="noopener noreferrer">WhatsApp Channel ↗</a>
+          <a href="https://royalty-music-hub.samvolume1.workers.dev/" target="_blank" rel="noopener noreferrer">Royalty Music Hub ↗</a>
+          <a href="https://sites.google.com/view/royalty-music/home" target="_blank" rel="noopener noreferrer">Royalty Music ↗</a>
+        </div>
+      </section>
     </div>
   );
 }
