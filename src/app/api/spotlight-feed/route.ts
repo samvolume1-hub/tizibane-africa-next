@@ -42,10 +42,22 @@ function safeHttps(value: string) {
 }
 
 function readImage(xml: string) {
-  const attribute = xml.match(/<(?:media:content|media:thumbnail|enclosure)\b[^>]*\burl=["']([^"']+)["']/i);
-  const content = xml.match(/<(?:content:encoded|description)\b[^>]*>([\s\S]*?)<\/(?:content:encoded|description)>/i);
-  const inline = (content?.[1] || xml).match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
-  return safeHttps(attribute?.[1] || inline?.[1] || "");
+  const tags = [...xml.matchAll(/<(media:content|media:thumbnail|enclosure)\\b([^>]*)>/gi)];
+  for (const match of tags) {
+    const tag = match[1].toLowerCase();
+    const attributes = match[2];
+    const url = attributes.match(/\\burl=["']([^"']+)["']/i)?.[1];
+    const type = attributes.match(/\\btype=["']([^"']+)["']/i)?.[1] || "";
+    const medium = attributes.match(/\\bmedium=["']([^"']+)["']/i)?.[1] || "";
+    const isImage = tag === "media:thumbnail" || medium.toLowerCase() === "image" || type.toLowerCase().startsWith("image/");
+    if (url && isImage) {
+      const safe = safeHttps(url);
+      if (safe) return safe;
+    }
+  }
+  const content = xml.match(/<(?:content:encoded|description)\\b[^>]*>([\\s\\S]*?)<\\/(?:content:encoded|description)>/i);
+  const inline = (content?.[1] || xml).match(/<img\\b[^>]*\\bsrc=["']([^"']+)["']/i);
+  return safeHttps(inline?.[1] || "");
 }
 
 function publisherUrl(xml: string, fallbackLink: string) {
