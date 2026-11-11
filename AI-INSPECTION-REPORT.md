@@ -201,3 +201,22 @@ Copy and complete this section after each work session.
 
 
 - **Owner confirmation update:** On 11 November 2026, the owner confirmed `samryt26@gmail.com` is correct. No email-address blocker remains.
+
+
+### 11 November 2026 — Keep Spotlight news reading inside TIZIBANE
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/tizibane-spotlight-hub`
+- **Agreed scope:** Prevent Spotlight news cards and topic source labels from navigating members away to publisher websites; provide an in-app reading experience and retain clear Back/Up navigation.
+- **Commit/PR:** PR [#109](https://github.com/samvolume1-hub/tizibane-africa-next/pull/109), updated on this branch; latest implementation commit at time of report update: `ad10007709a23916fa88841820bb1406e4b171e0`.
+- **Files inspected:** `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, `src/app/api/spotlight-feed/route.ts`, `src/app/home/connect/page.tsx`, `src/components/app-page-controls.tsx`, and `package.json`.
+- **Files changed:** `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, `src/app/api/spotlight-feed/route.ts`, and `src/app/home/connect/page.tsx`.
+- **Findings and decisions:** News cards are buttons that open an in-app reader panel rather than anchors to external publisher destinations. The reader displays the headline, source, publication date, available RSS description excerpt and optional publisher image. It includes **Back to headlines** and **Up to Spotlight** controls and closes with Escape. The feed API now returns a short plain-text publisher-provided excerpt (capped at 900 characters) and no longer includes the story destination URL in its response. Topic source names are attribution labels, not outbound links. Empty feed states no longer offer external source links. Spotlight's page header now explicitly labels the parent navigation as **Up to Community home**. The shared app page controls already provide Back and Top controls elsewhere in the app. Company/social/contact destinations remain external by design because they are separate official connection and contact actions, not news-feed cards.
+- **Copyright/content boundary:** The reader presents only the headline and excerpt supplied by the RSS feed; it does not scrape or reproduce full publisher articles. Full in-app articles would require publisher permission or a suitable licensed content/API arrangement. External publisher images remain remote and are loaded lazily in the feed.
+- **Performance/security notes:** No polling loop, new package, media upload, Supabase schema/storage/auth change, or database write was introduced. Feed caching, source timeouts, image fallback, lazy loading and image error handling remain in place.
+- **Tests/checks run and actual results:** Reviewed the modified source and verified the intended card/link transformations against the current branch files. GitHub Actions results for the newest commits were not returned by the available commit-run lookup at the time of this entry. TypeScript, production build, browser/device interaction, and live Render verification are therefore **not yet confirmed** for this latest update.
+- **Deployment status (verified/unverified):** Not deployed. PR #109 remains separate from `main`; no production deployment was started or verified.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** RSS feeds do not always provide a useful description; in those cases the reader clearly reports that no readable excerpt is available. This is a preview reader, not a full licensed article reader. Verify mobile layout, keyboard behavior, feed payload and production build before merge.
+- **Next safe step:** Run CI and inspect the PR diff/checks; then test the in-app reader and navigation at desktop and mobile widths. Merge and deploy only after checks and separate approval.
