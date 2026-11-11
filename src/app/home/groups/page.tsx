@@ -7,6 +7,7 @@ import {createGroup,joinGroup,leaveGroup,moderateGroupRequest} from "../group-ac
 import {signOut} from "../../auth-actions";
 import {CreateGroupForm} from "./create-group-form";
 import styles from "./create-group-form.module.css";
+import editorial from "./groups-editorial.module.css";
 type Group={id:string;owner_id:string;name:string;description:string;category:string;visibility:"public"|"private";join_policy:"open"|"approval"|"invite";rules:string;cover_path:string|null;created_at:string};
 type Membership={group_id:string;role:string;status:string};
 type Pending={group_id:string;user_id:string};
@@ -36,16 +37,16 @@ export default async function GroupsPage({searchParams}:{searchParams:Promise<{e
  let pending:Pending[]=[];if(managedIds.length){const {data}=await supabase.from("group_members").select("group_id,user_id").in("group_id",managedIds).eq("status","pending");pending=(data??[]) as Pending[]}
  const pendingIds=[...new Set(pending.map(p=>p.user_id))];let pendingProfiles:Profile[]=[];if(pendingIds.length){const {data}=await supabase.from("profiles").select("id,display_name,handle").in("id",pendingIds);pendingProfiles=(data??[]) as Profile[]}
  const profileById=new Map(pendingProfiles.map(p=>[p.id,p])),groupById=new Map(groups.map(g=>[g.id,g]));
- return <main className={`app-layout groups-page ${styles.scope} ${styles.editorial}`}><CommunityNavigation active="groups" /><section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">GROUPS & CIRCLES</span></header><div className="app-content"><section className={styles.editorialHero} aria-labelledby="groups-title">
-  <div className={styles.editorialIntro}>
-   <span className={styles.editorialKicker}>A PLACE TO BELONG</span>
+ return <main className={`app-layout groups-page ${styles.scope} ${editorial.editorial}`}><CommunityNavigation active="groups" /><section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">GROUPS & CIRCLES</span></header><div className="app-content"><section className={editorial.editorialHero} aria-labelledby="groups-title">
+  <div className={editorial.editorialIntro}>
+   <span className={editorial.kicker}>A PLACE TO BELONG</span>
    <h1 id="groups-title">Find your people.<br/><em>Build your circle.</em></h1>
    <p>Discover communities shaped by shared interests, local stories and the people who make Zambia feel like home.</p>
-   <div className={styles.editorialFootnote}><span>01 — DISCOVER</span><span>02 — CONNECT</span><span>03 — GROW</span></div>
+   <div className={editorial.footnote}><span>01 — DISCOVER</span><span>02 — CONNECT</span><span>03 — GROW</span></div>
   </div>
-  <div className={styles.editorialMainImage}><img src="/images/connct%20with%20friends.jpg" alt="Friends connecting and sharing a moment together" fetchPriority="high"/><span>COMMUNITY, IN EVERY CONNECTION</span></div>
-  <div className={styles.editorialPortrait}><img src="/images/laugh.jpg" alt="People enjoying time together" loading="eager"/></div>
-  <div className={styles.editorialNote}><span className={styles.editorialKicker}>YOUR COMMUNITY STARTS HERE</span><h2>Good things grow<br/>when we come together.</h2><p>Create a group, find a circle or join a conversation that matters to you.</p><a href="#discover-groups">Explore communities ↓</a></div>
+  <div className={editorial.editorialMainImage}><img src="/images/connct%20with%20friends.jpg" alt="Friends connecting and sharing a moment together" fetchPriority="high"/><span className={editorial.imageCaption}>COMMUNITY, IN EVERY CONNECTION</span></div>
+  <div className={editorial.editorialPortrait}><img src="/images/laugh.jpg" alt="People enjoying time together" loading="eager"/></div>
+  <div className={editorial.editorialNote}><span className={styles.editorialKicker}>YOUR COMMUNITY STARTS HERE</span><h2>Good things grow<br/>when we come together.</h2><p>Create a group, find a circle or join a conversation that matters to you.</p><a href="#discover-groups">Explore communities ↓</a></div>
  </section>
  {params.error&&<div className="notice" role="alert">{params.error}</div>}{params.created&&<div className="notice" role="status">Your group has been created. You are its owner.</div>}{params.joined&&<div className="notice" role="status">You have joined the group.</div>}{params.requested&&<div className="notice" role="status">Your request has been sent to the group managers.</div>}{params.left&&<div className="notice" role="status">You have left the group.</div>}{params.managed&&<div className="notice" role="status">The membership request has been updated.</div>}
  <div className="create-group-section"><CreateGroupForm action={createGroup}/></div>
