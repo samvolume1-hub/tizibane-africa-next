@@ -69,7 +69,9 @@ function readImage(xml: string) {
   }
   const content = xml.match(/<(?:content:encoded|description)\b[^>]*>([\s\S]*?)<\/(?:content:encoded|description)>/i);
   const inline = (content?.[1] || xml).match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
-  return safeHttps(inline?.[1] || "");
+  const inlineUrl = inline?.[1] || "";
+  const safeInlineUrl = safeHttps(inlineUrl);
+  return safeInlineUrl && !looksLikeBrandAsset(safeInlineUrl) && !/\.svg(?:[?#]|$)/i.test(safeInlineUrl) ? safeInlineUrl : null;
 }
 
 function extractMetaImage(html: string, pageUrl: string) {
