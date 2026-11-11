@@ -145,3 +145,78 @@ Copy and complete this section after each work session.
 - **Tests/checks:** Source-level verification confirms 13 unique navigation keys and 13 matching CSS icon definitions; no navigation image URL, SVG, raster asset, icon font, or external icon package is used by the new navigation implementation. CI/typecheck/production build and rendered desktop/mobile checks are pending.
 - **Deployment:** Not performed or verified in this session. No Render, Supabase, environment, authentication, database, or member-data changes.
 - **Next safe step:** Run the repository CI checks, inspect their result, and only then merge the completed change into `main`.
+
+
+### 11 November 2026 — Spotlight hub requirements review and refinement
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/tizibane-spotlight-hub` (existing branch verified as 7 commits ahead of `main`, 0 behind at session start).
+- **Agreed scope:** Refine the last community section into TIZIBANE Spotlight; preserve existing Royalty/company destinations; put music talent, music video and photography link reviews first; add short enquiry messages that continue by email or WhatsApp; present automatically refreshed external headlines in the user's requested order.
+- **Commit/PR:** PR [#109](https://github.com/samvolume1-hub/tizibane-africa-next/pull/109) is open against `main`; no merge performed.
+- **Files inspected:** `AI-HANDOVER.md`, `AI-INSPECTION-REPORT.md`, `PRODUCT-AND-ARCHITECTURE.md`, `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/home/connect/page.tsx`, `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, `src/app/api/spotlight-feed/route.ts`, `src/app/home/notifications/page.tsx`, `src/app/home/messages/page.tsx`, and `src/app/home/page.tsx`.
+- **Findings and decisions:** The existing branch already contained an initial Spotlight page and Google News RSS endpoint, but the first version placed sports and gaming ahead of Zambian music and education, did not include a separate quick-enquiry form, and omitted some of the original Company Links destinations. The refinement sets the order to Zambian music, education, sports, gamers, stock market, schools, hot Zambian news, world music chats and music awards. It keeps reviews link-only (no media upload or hosting), creates short message hand-offs to WhatsApp/email, adds publisher/source image fallback, preserves existing social/company/email contacts, and updates the featured navigation label to Spotlight. Official reference destinations checked include the Zambia Ministry of Education, LuSE market data and Kwacha Music Awards. The owner confirmed `samryt26@gmail.com` is the correct review and enquiry address; Spotlight uses this confirmed address.
+- **Files changed:** `src/app/api/spotlight-feed/route.ts`, `src/app/home/connect/page.tsx`, `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, and this report. The Spotlight page replaces the former Company Links page at the same route and restores its social, website, email and WhatsApp destinations in the lower official-connections section.
+- **Tests/checks run and actual results:** GitHub Actions run [42956522859](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/42956522859) completed successfully: `npm ci`, TypeScript typecheck and production build all passed. No local build, browser/device test, or live Render deployment check has been run.
+- **Deployment status (verified/unverified):** Unverified; no deployment performed.
+- **Production, hosting, Supabase, or data changes:** None. No Supabase schema, member data, environment variables, Render settings, or production services changed.
+- **Blockers/risks:** Need verify live external feed availability, actual publisher image rendering, responsive behaviour and Render deployment. Email destination confirmed by owner: `samryt26@gmail.com`. Existing feature branch is separate from `main`.
+- **Next safe step:** Complete live-feed and responsive verification, obtain confirmation of the intended Gmail address, and obtain explicit approval before merge or deployment.
+
+
+### 11 November 2026 — Notifications and app-route architecture audit (read-only)
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch checked:** `main` at `f5f33f5339f3134d8c3621c752980025048a238b` for app/runtime architecture; Spotlight work remains isolated on `feat/tizibane-spotlight-hub`.
+- **Agreed scope:** Begin the requested whole-app review from notifications onward, including locked and unlocked pages, without changing production data or Supabase configuration during inspection.
+- **Files inspected:** All 16 current `src/app/home/**/page.tsx` routes; specifically `src/app/home/notifications/page.tsx`, `src/app/home/notification-actions.ts`, `src/app/home/messages/page.tsx`, `src/components/inbox-live-refresh.tsx`, `src/components/conversation-live.tsx`, `middleware.ts`, `src/app/home/layout.tsx`, `src/app/home/premium/admin/page.tsx`, `src/app/home/announcements/manage/page.tsx`, `src/app/home/events/page.tsx`, and relevant Supabase migrations.
+- **Findings and decisions:**
+  - The app currently has 16 Home-area route pages. All inspected pages use an authentication check. Explicit administrator-only routes include Premium administration and announcement management; admin-only operations are also present in Events, Premium and Announcements.
+  - Notifications are already generated by database triggers for messages, comments, event attendance, follows, friendship changes, group membership and post reactions. The notifications table has recipient-scoped SELECT and UPDATE RLS policies.
+  - The notifications page loads recent rows (up to 100, displays up to 60), calculates unread count when the page is rendered, supports marking one/all as read, and filters actors muted by the member. It has no live refresh subscription and the primary navigation does not show an unread badge.
+  - The existing private inbox Broadcast channel is scoped to `inbox:<recipient-user-id>`; it is used by messaging for new-message refreshes. The notifications table is not in the `supabase_realtime` publication, and no notification Broadcast event currently exists. The messages page uses the inbox channel; the notifications page does not.
+  - `member_preferences` currently includes mute/best-friend fields only; no email/WhatsApp delivery opt-ins or verified WhatsApp destination were found. No external notification delivery provider or delivery queue is configured. External alerts therefore remain a future opt-in integration, not something that can safely be switched on yet.
+  - Supabase security advisors currently report two INFO findings (RLS enabled without policies on `private.platform_admins` and `public.premium_entitlements`) and one WARN finding (leaked-password protection disabled). Performance advisors report 29 unused indexes; these must not be dropped blindly because low traffic and table statistics can make an index appear unused. Health advisor returned no lints.
+  - Current Realtime publication contains `messages` and `conversation_members`, but not `notifications`. No Supabase schema, RLS, publication, Auth, Storage or project settings were changed during this audit.
+- **Files changed:** None for this read-only architecture audit.
+- **Tests/checks run and actual results:** Read-only repository and database metadata inspection; no data rows were queried for message or notification contents. No schema or production changes.
+- **Deployment status (verified/unverified):** No deployment performed or verified.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** Before enabling external email/WhatsApp alerts, add explicit member opt-in, verified contact handling, delivery idempotency, retries, rate limits, quiet hours and provider cost controls. Before enabling notification Realtime, design one private recipient-scoped channel and avoid duplicate subscriptions or polling.
+- **Next safe step:** Complete a focused notification UX design and implementation proposal (unread badge + lightweight live refresh) and then audit Premium, Events, Groups, Stories, Profile, People, Home feed and all admin-only paths. Preserve existing media limits and access controls.
+
+
+### 11 November 2026 — Spotlight runtime resilience pass
+
+- **Contributor:** ChatGPT
+- **Branch:** `feat/tizibane-spotlight-hub`
+- **Files changed:** `src/app/api/spotlight-feed/route.ts`, `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, and this report.
+- **Review:** Examined external RSS parsing, image handling, link validation, caching, loading behaviour, and the submission/enquiry hand-off.
+- **Fixes:** RSS image extraction now ignores audio/video enclosure URLs and accepts explicit image media only; source-icon fallback remains available. Every news card now has a designed artwork fallback underneath its lazy-loaded publisher image, so a broken or blocked image does not leave a broken-image icon or empty image area. Submission links now require HTTPS. The news source indicator says “Auto-refreshed” rather than implying real-time streaming; feeds remain cached for approximately 15 minutes.
+- **Performance choices retained:** Nine topic feeds are fetched concurrently with a 7-second per-source timeout and 15-minute cache; only four headlines per topic are rendered; external images use lazy loading, async decoding and no-referrer; no media uploads, polling loops, background timers, database writes or extra packages were introduced.
+- **Email confirmation:** Review and enquiry Gmail destination is `samryt26@gmail.com`.
+- **Tests:** Awaiting GitHub Actions TypeScript and production build on the updated branch. No browser/device or live Render check yet.
+- **Production changes:** None. No Supabase or Render settings changed.
+
+
+- **Owner confirmation update:** On 11 November 2026, the owner confirmed `samryt26@gmail.com` is correct. No email-address blocker remains.
+
+
+### 11 November 2026 — Keep Spotlight news reading inside TIZIBANE
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feat/tizibane-spotlight-hub`
+- **Agreed scope:** Prevent Spotlight news cards and topic source labels from navigating members away to publisher websites; provide an in-app reading experience and retain clear Back/Up navigation.
+- **Commit/PR:** PR [#109](https://github.com/samvolume1-hub/tizibane-africa-next/pull/109), updated on this branch; latest implementation commit at time of report update: `ad10007709a23916fa88841820bb1406e4b171e0`.
+- **Files inspected:** `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, `src/app/api/spotlight-feed/route.ts`, `src/app/home/connect/page.tsx`, `src/components/app-page-controls.tsx`, and `package.json`.
+- **Files changed:** `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, `src/app/api/spotlight-feed/route.ts`, and `src/app/home/connect/page.tsx`.
+- **Findings and decisions:** News cards are buttons that open an in-app reader panel rather than anchors to external publisher destinations. The reader displays the headline, source, publication date, available RSS description excerpt and optional publisher image. It includes **Back to headlines** and **Up to Spotlight** controls and closes with Escape. The feed API now returns a short plain-text publisher-provided excerpt (capped at 900 characters) and no longer includes the story destination URL in its response. Topic source names are attribution labels, not outbound links. Empty feed states no longer offer external source links. Spotlight's page header now explicitly labels the parent navigation as **Up to Community home**. The shared app page controls already provide Back and Top controls elsewhere in the app. Company/social/contact destinations remain external by design because they are separate official connection and contact actions, not news-feed cards.
+- **Copyright/content boundary:** The reader presents only the headline and excerpt supplied by the RSS feed; it does not scrape or reproduce full publisher articles. Full in-app articles would require publisher permission or a suitable licensed content/API arrangement. External publisher images remain remote and are loaded lazily in the feed.
+- **Performance/security notes:** No polling loop, new package, media upload, Supabase schema/storage/auth change, or database write was introduced. Feed caching, source timeouts, image fallback, lazy loading and image error handling remain in place.
+- **Tests/checks run and actual results:** Reviewed the modified source and verified the intended card/link transformations against the current branch files. GitHub Actions results for the newest commits were not returned by the available commit-run lookup at the time of this entry. TypeScript, production build, browser/device interaction, and live Render verification are therefore **not yet confirmed** for this latest update.
+- **Deployment status (verified/unverified):** Not deployed. PR #109 remains separate from `main`; no production deployment was started or verified.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** RSS feeds do not always provide a useful description; in those cases the reader clearly reports that no readable excerpt is available. This is a preview reader, not a full licensed article reader. Verify mobile layout, keyboard behavior, feed payload and production build before merge.
+- **Next safe step:** Run CI and inspect the PR diff/checks; then test the in-app reader and navigation at desktop and mobile widths. Merge and deploy only after checks and separate approval.

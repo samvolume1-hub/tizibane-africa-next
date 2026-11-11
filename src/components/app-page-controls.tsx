@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
 
 const featuredLinks = [
-  { href: "/home/connect", label: "Company links", key: "connect" },
+  { href: "/home/connect", label: "Spotlight", key: "connect" },
   { href: "/home/premium", label: "Premium advertising", key: "premium" },
   { href: "/home/events", label: "Events", key: "events" },
   { href: "/home/activity", label: "Community activity", key: "activity" },
