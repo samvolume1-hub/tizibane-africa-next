@@ -147,6 +147,11 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
     void submitForm(form, pendingSubmitter.current);
   }
 
+  function isRedirectSignal(error: unknown) {
+    return typeof error === "object" && error !== null && "digest" in error &&
+      typeof error.digest === "string" && error.digest.startsWith("NEXT_REDIRECT");
+  }
+
   async function submitForm(form: HTMLFormElement, activeSubmitter: HTMLButtonElement | null) {
     if (busy) return;
     const submitButtons = Array.from(form.querySelectorAll<HTMLButtonElement>('button[type="submit"]'));
@@ -187,8 +192,16 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
       const formData = new FormData(form);
       if (activeSubmitter?.name) formData.set(activeSubmitter.name, activeSubmitter.value);
       await action(formData);
-      setMessage("Your upload was submitted. Refreshing your page…");
+      setMessage("Your upload was submitted successfully.");
+      setBusy(false);
+      submitButtons.forEach((button, index) => {
+        button.disabled = false;
+        button.textContent = originalLabels[index];
+      });
     } catch (error) {
+      // Server actions may signal a successful navigation with NEXT_REDIRECT.
+      // Re-throw it so Next.js can finish the redirect instead of showing an error.
+      if (isRedirectSignal(error)) throw error;
       setMessage(error instanceof Error ? error.message : "Your photos could not be saved. Please try again.");
       setBusy(false);
       submitButtons.forEach((button, index) => {
@@ -218,12 +231,13 @@ export function CompressedImageForm({ action, className, confirmMessage, childre
       {children}
       {confirmOpen && (
         <div className="tiz-confirm-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) cancelReplacement(); }}>
-          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-replace-title" >
+          <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-replace-title" aria-describedby="tiz-replace-description">
             <div className="tiz-confirm-icon" aria-hidden="true">✦</div>
-            <h2 id="tiz-replace-title">Replace profile photo?</h2>
+            <h2 id="tiz-replace-title">Confirm photo upload</h2>
+            <p id="tiz-replace-description">{confirmMessage}</p>
             <div className="tiz-confirm-actions">
-              <button type="button" className="tiz-confirm-no" onClick={cancelReplacement}>No</button>
-              <button type="button" className="tiz-confirm-yes" onClick={confirmReplacement}>Yes</button>
+              <button type="button" className="tiz-confirm-no" disabled={busy} onClick={cancelReplacement}>No</button>
+              <button type="button" className="tiz-confirm-yes" disabled={busy} onClick={confirmReplacement}>{busy ? "Working…" : "Yes, continue"}</button>
             </div>
           </section>
         </div>
