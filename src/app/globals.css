@@ -7822,12 +7822,12 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 }
 
 
-/* APP-WIDE CONTENT SURFACE — preserve the existing lavender app canvas.
-   Only the central content column becomes white; navigation, hero artwork,
-   purple feature cards, buttons and text-entry controls retain their styling. */
+/* APP-WIDE CONTENT SURFACE — warm white with a subtle 5% brown undertone.
+   The surrounding app canvas, navigation, hero artwork, purple feature cards,
+   buttons and text-entry controls retain their existing styling. */
 .app-layout > .app-main > .app-content {
-  background: #fff;
-  color: #17121a;
+  background: #faf8f6;
+  color: #100d10;
   border-radius: 0 0 24px 24px;
   box-shadow: 0 14px 36px rgba(74, 42, 83, .055);
 }
@@ -7855,8 +7855,8 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 :not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
 :not(.event-date):not(.event-date *):not(.premium-status):not(.premium-status *)
 :not(.spotlight *):not(.premium-product-card *):not(.create-group-section .shell *) {
-  color: #17121a !important;
-  font-weight: 800 !important;
+  color: #100d10 !important;
+  font-weight: 850 !important;
 }
 
 /* Supporting copy stays comfortably readable while retaining the requested
@@ -7879,6 +7879,6 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 ) :is(p,small,time,li)
 :not(.spotlight *):not(.premium-product-card *):not(.event-date *):not(.premium-status *)
 :not(.create-group-section .shell *) {
-  color: #302632 !important;
-  font-weight: 750 !important;
+  color: #241d23 !important;
+  font-weight: 800 !important;
 }
