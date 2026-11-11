@@ -17,7 +17,7 @@ const items = [
   { href: "/home/groups", label: "Groups", key: "groups" },
   { href: "/home/events", label: "Events", key: "events" },
   { href: "/home/premium", label: "Premium advertising", key: "premium" },
-  { href: "/home/connect", label: "Company links", key: "connect" },
+  { href: "/home/connect", label: "Spotlight", key: "connect" },
 ];
 
 export function CommunityNavigation({ active }: { active: string }) {
@@ -26,7 +26,7 @@ export function CommunityNavigation({ active }: { active: string }) {
     <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
         <nav className="side-nav illustrated-side-nav" aria-label="Main navigation">
-          {items.filter((item) => !["people", "blocked", "activity", "events", "premium", "connect"].includes(item.key)).map((item) => (
+          {items.filter((item) => !["people", "blocked", "activity", "events", "premium"].includes(item.key)).map((item) => (
             <Link
               key={item.key}
               href={item.href}
