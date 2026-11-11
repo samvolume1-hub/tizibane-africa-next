@@ -343,3 +343,36 @@
  .railItem,.railItemActive{transition:none}
  .railItem:hover,.railItemActive{transform:none}
 }
+
+
+/* Real-photo-first treatment: neutral editorial fallbacks, never publisher logos or initials. */
+.heroArtFallback{
+  background:
+    radial-gradient(ellipse at 70% 22%,rgba(255,91,190,.22),transparent 42%),
+    linear-gradient(145deg,#17152c,#20294b 58%,#35183d);
+}
+.heroArtFallback small{
+  max-width:80%;
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:999px;
+  background:rgba(7,7,20,.42);
+  text-align:center;
+}
+.heroArtFallback span{display:none}
+.storyArtwork{
+  background:
+    radial-gradient(ellipse at 75% 18%,rgba(255,91,190,.18),transparent 45%),
+    linear-gradient(145deg,#17152c,#20294b 58%,#35183d);
+}
+.storyArtwork:before,.storyArtwork:after{display:none}
+.storyArtwork span{display:none}
+.railThumb{background:linear-gradient(145deg,#17152c,#20294b 58%,#35183d)}
+.railThumbFallback{
+  padding:5px;
+  color:#e9e3f2;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-align:center;
+}
