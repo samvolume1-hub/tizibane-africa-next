@@ -7667,3 +7667,78 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   .app-layout .messages-start-hero > p { font-size: 14px; }
   .app-layout .messages-start-hero .messages-start-primary { width: 100%; max-width: 300px; }
 }
+
+
+/* MESSAGING READABILITY — crisp white typography on every dark chat surface. */
+.app-layout .message-bubble,
+.message-live-panel .message-bubble {
+  color: #FFFFFF;
+}
+.app-layout .message-bubble p,
+.message-live-panel .message-bubble p {
+  color: #FFFFFF !important;
+  font-weight: 600;
+  text-shadow: 0 1px 1px rgba(0,0,0,.18);
+}
+.app-layout .message-bubble span,
+.message-live-panel .message-bubble span {
+  color: #FFFFFF !important;
+  opacity: 1;
+  font-weight: 600;
+}
+.app-layout .message-chat-toolbar .message-presence-line,
+.app-layout .message-chat-toolbar .message-presence-line span,
+.message-live-panel .message-chat-toolbar .message-presence-line,
+.message-live-panel .message-chat-toolbar .message-presence-line span {
+  color: #FFFFFF !important;
+}
+.app-layout .message-call-button,
+.app-layout .message-call-button:disabled,
+.message-live-panel .message-call-button,
+.message-live-panel .message-call-button:disabled {
+  color: #FFFFFF !important;
+  opacity: 1;
+}
+.app-layout .message-call-button svg,
+.message-live-panel .message-call-button svg {
+  stroke: #FFFFFF;
+}
+.app-layout .message-load-older,
+.app-layout .message-seen-status,
+.message-live-panel .message-load-older,
+.message-live-panel .message-seen-status {
+  color: #FFFFFF !important;
+}
+.app-layout .message-load-older,
+.message-live-panel .message-load-older {
+  border-color: rgba(255,255,255,.34);
+  background: #17251c;
+}
+.app-layout .message-seen-status,
+.message-live-panel .message-seen-status {
+  display: inline-flex;
+  align-self: flex-end;
+  margin: 0 8px 8px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #17251c;
+}
+.app-layout .message-composer .field-help,
+.app-layout .message-composer > .field-help,
+.app-layout .message-composer-footer .field-help,
+.message-live-panel .message-composer .field-help,
+.message-live-panel .message-composer > .field-help,
+.message-live-panel .message-composer-footer .field-help {
+  color: #FFFFFF !important;
+  opacity: 1;
+}
+.app-layout .message-composer textarea,
+.message-live-panel .message-composer textarea {
+  color: #FFFFFF !important;
+  caret-color: #FFFFFF;
+}
+.app-layout .message-composer textarea::placeholder,
+.message-live-panel .message-composer textarea::placeholder {
+  color: #FFFFFF !important;
+  opacity: .92;
+}
