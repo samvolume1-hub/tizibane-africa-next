@@ -100,3 +100,137 @@
   .hero h1{font-size:38px}
   .heroActions{margin-top:14px}
 }
+
+
+/* Spotlight showcase pass: one unmistakable logo, vivid editorial feed and brighter panels. */
+.hero{
+  grid-template-columns:minmax(0,1fr) minmax(230px,.9fr);
+  min-height:0;
+  padding:clamp(18px,2.8vw,30px);
+  background:
+    radial-gradient(ellipse at 78% 35%,rgba(255,72,174,.42),transparent 44%),
+    radial-gradient(ellipse at 18% 85%,rgba(79,180,255,.28),transparent 42%),
+    linear-gradient(120deg,#21103d 0%,#32104d 48%,#101c39 100%);
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:0 16px 50px rgba(11,4,28,.28),inset 0 1px rgba(255,255,255,.18);
+}
+.heroCopy{max-width:680px}
+.heroCopy>p{font-size:clamp(13px,1.5vw,16px);line-height:1.75;color:#fff}
+.heroArt{min-height:205px}
+.spotlightCore{
+  width:clamp(174px,20vw,224px);
+  height:clamp(174px,20vw,224px);
+  border:2px solid rgba(255,255,255,.88);
+  background:
+    radial-gradient(circle at 35% 22%,#ffb7e7 0%,#e936a8 24%,#7b27c8 58%,#24114c 100%);
+  box-shadow:0 0 0 9px rgba(255,255,255,.08),0 0 48px rgba(255,69,190,.65),inset 0 0 34px rgba(255,255,255,.3);
+}
+.spotlightCore span{
+  display:block;
+  max-width:95%;
+  font:900 clamp(25px,3.1vw,36px)/1 'DM Sans',sans-serif;
+  letter-spacing:.045em;
+  color:#fff;
+  text-shadow:0 3px 0 rgba(61,12,83,.65),0 0 22px rgba(255,255,255,.85);
+}
+.orbit{width:clamp(220px,25vw,270px);height:clamp(220px,25vw,270px);border:2px solid rgba(255,255,255,.35)}
+.orbitTwo{width:clamp(255px,29vw,315px);height:clamp(255px,29vw,315px);border-color:rgba(255,112,204,.7)}
+.sparkOne,.sparkTwo{color:#fff;text-shadow:0 0 18px #ff62c7;font-size:30px}
+.heroActions{margin-top:19px}
+.primaryLink,.secondaryLink{
+  box-shadow:0 8px 24px rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.45);
+}
+.primaryLink{background:linear-gradient(110deg,#ffca5c,#ff7caa 55%,#d94aff);color:#24102e!important}
+.secondaryLink{background:linear-gradient(110deg,rgba(55,191,255,.3),rgba(195,83,255,.32));border-color:#fff;color:#fff!important}
+
+/* Bright, layered editorial panels: artwork stays on Spotlight cards, never the app canvas. */
+.reviewSection,.latestSection,.contactStrip,.companyLinks{
+  background-image:
+    linear-gradient(115deg,rgba(25,9,54,.72),rgba(20,15,62,.62)),
+    url("/images/always%20find%20something%20new.jpg");
+  border:1px solid rgba(255,255,255,.32);
+  box-shadow:0 12px 36px rgba(7,4,26,.22),inset 0 1px rgba(255,255,255,.14);
+  color:#fff;
+}
+.reviewSection{background-color:#45165f}
+.latestSection{background-color:#192b65}
+.contactStrip{background-color:#5a174e}
+.companyLinks{background-color:#183d63}
+.sectionHeading h2,.contactStrip h2,.companyLinks h2{color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.35)}
+.sectionIntro,.contactStrip p,.topicHeading p,.privacyNote,.updatedAt,.directContact>span{color:#fff!important}
+.kicker,.pill,.liveMark,.sourceLabel,.storySource,.storyOpen,.directContact a,.contactActions a{color:#fff!important}
+.pill,.liveMark{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.5)}
+.topicList{gap:22px}
+.topicSection{
+  padding:20px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:20px;
+  background:linear-gradient(125deg,rgba(255,255,255,.14),rgba(255,255,255,.055));
+  box-shadow:0 12px 30px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.12);
+}
+.topicHeading{margin-bottom:16px}
+.topicNumber{
+  width:46px;height:46px;border-radius:15px;
+  color:#fff;background:linear-gradient(145deg,#ff4da6,#8b4dff 65%,#318dff);
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:0 5px 20px rgba(220,62,183,.38);
+  font-size:14px;
+}
+.topicHeading h3{font-size:clamp(19px,2.2vw,24px);font-weight:900;color:#fff}
+.topicHeading p{font-size:12px;line-height:1.55}
+.storyGrid{grid-template-columns:minmax(0,1fr);gap:13px}
+.storyCard{
+  display:grid;
+  grid-template-columns:minmax(180px,31%) minmax(0,1fr);
+  min-height:158px;
+  border:1px solid rgba(255,255,255,.38);
+  border-radius:17px;
+  background:linear-gradient(110deg,rgba(22,13,54,.92),rgba(39,19,73,.86));
+  box-shadow:0 9px 26px rgba(0,0,0,.22);
+}
+.storyCard:hover{
+  border-color:#ff9cdb;
+  transform:translateY(-2px);
+  box-shadow:0 14px 34px rgba(255,70,181,.2);
+}
+.storyMedia{height:100%;min-height:158px;aspect-ratio:auto;background:linear-gradient(135deg,#ff4ba7,#753cff 55%,#21b8df)}
+.storyArtwork{background:linear-gradient(135deg,#ff4ba7,#753cff 55%,#21b8df)}
+.storyArtwork:before,.storyArtwork:after{border-color:rgba(255,255,255,.7)}
+.storyArtwork span{font:900 64px 'DM Sans',sans-serif;color:#fff;text-shadow:0 3px 16px #30104f}
+.storyCopy{align-content:center;gap:10px;padding:clamp(15px,2.4vw,24px)}
+.storySource{font-size:10px;letter-spacing:.13em}
+.storyCopy h4{font-size:clamp(15px,1.7vw,19px);line-height:1.45;color:#fff;font-weight:900;-webkit-line-clamp:4}
+.storyOpen{font-size:11px}
+.topicEmpty{
+  padding:20px;border-radius:15px;
+  color:#fff;background:linear-gradient(110deg,rgba(255,255,255,.15),rgba(255,255,255,.06));
+  border:1px dashed rgba(255,255,255,.5);font-size:12px
+}
+.feedStatus{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35)}
+.reviewForm label,.inquiryForm label{color:#fff}
+.reviewForm input,.reviewForm select,.reviewForm textarea,.inquiryForm textarea,.inquiryForm select{
+  background:rgba(16,10,39,.84);border-color:rgba(255,255,255,.42);color:#fff
+}
+.reviewForm input::placeholder,.reviewForm textarea::placeholder,.inquiryForm textarea::placeholder{color:#e7dff7}
+.submitButton{background:linear-gradient(110deg,#ffca5c,#ff78b5 55%,#bd64ff);color:#251033!important;box-shadow:0 8px 22px rgba(255,72,174,.28)}
+.companyLinkGrid a{color:#fff;border-color:rgba(255,255,255,.42);background:rgba(255,255,255,.1)}
+.companyLinkGrid a:hover{background:rgba(255,255,255,.2);border-color:#fff}
+@media(max-width:640px){
+  .hero{grid-template-columns:1fr;padding:16px}
+  .heroArt{grid-row:1;min-height:180px}
+  .heroCopy{grid-row:2}
+  .spotlightCore{width:170px;height:170px}
+  .spotlightCore span{font-size:28px}
+  .orbit{width:208px;height:208px}
+  .orbitTwo{width:236px;height:236px}
+  .storyCard{grid-template-columns:112px minmax(0,1fr);min-height:130px}
+  .storyMedia{min-height:130px}
+  .storyCopy{padding:12px;gap:8px}
+  .storyCopy h4{font-size:14px;-webkit-line-clamp:4}
+  .storyOpen{font-size:10px}
+  .topicSection{padding:14px}
+}
+@media(max-width:380px){
+  .storyCard{grid-template-columns:96px minmax(0,1fr)}
+  .storyMedia{min-height:124px}
+}
