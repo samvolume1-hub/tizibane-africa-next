@@ -79,52 +79,65 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
           <Link href="/home" className="back-link">← Community home</Link>
           <span className="muted">PRIVATE MESSAGES</span>
         </header>
-        <div className="app-content">
+        <div className="app-content messages-page">
           <InboxLiveRefresh userId={user.id} />
-          <section className="welcome">
-            <span className="eyebrow">One-to-one conversations</span>
-            <h1>Your conversations.</h1>
-            <p>Private messages with members you have connected with as friends.</p>
-          </section>
+          <header className="messages-titlebar">
+            <div>
+              <span className="eyebrow">YOUR PRIVATE SPACE</span>
+              <h1>Messaging</h1>
+              <p>Conversations with your TIZIBANE connections.</p>
+            </div>
+            <Link href="/home/people" className="messages-new-button"><span aria-hidden="true">＋</span> New message</Link>
+          </header>
           {params.error && <div className="notice" role="alert">{params.error}</div>}
-          {memberError ? (
-            <div className="module"><h3>Messages are temporarily unavailable</h3><p>Please refresh in a moment.</p></div>
-          ) : conversations.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-symbol">✉</div>
-              <h3>Your inbox is ready.</h3>
-              <p>Visit People, connect with a member and choose Message to start a private conversation.</p>
-              <Link href="/home/people" className="btn btn-primary">Find people</Link>
-            </div>
-          ) : (
-            <div className="conversation-list">
-              {conversations.map((conversation) => {
-                const otherId = otherByConversation.get(conversation.id);
-                const profile = otherId ? profileById.get(otherId) : undefined;
-                const last = lastByConversation.get(conversation.id);
-                const unread = unreadByConversation.get(conversation.id) ?? 0;
-                const preview = last ? (last.sender_id === user.id ? "You: " : "") + last.body : "No messages yet.";
-                return (
-                  <Link href={"/home/messages/" + conversation.id} className="conversation-card" key={conversation.id}>
-                    <div className="person-identity">
-                      {otherId && avatarUrls[otherId]
-                        ? <img src={avatarUrls[otherId]} alt="" className="person-avatar" loading="lazy" decoding="async" />
-                        : <div className="person-avatar person-avatar-fallback">{profile?.initials || "TZ"}</div>}
-                      <div className="conversation-card-copy">
-                        <strong>{profile?.display_name || "TIZIBANE member"}</strong>
-                        <span>{profile?.handle ? "@" + profile.handle : "Private conversation"}</span>
-                        <p>{preview}</p>
-                      </div>
-                    </div>
-                    <div className="conversation-card-meta">
-                      <span className="conversation-time">{last ? new Date(last.created_at).toLocaleDateString("en-ZM", { month: "short", day: "numeric" }) : new Date(conversation.created_at).toLocaleDateString("en-ZM", { month: "short", day: "numeric" })}</span>
-                      {unread > 0 && <span className="conversation-unread" aria-label={unread + " unread messages"}>{unread > 99 ? "99+" : unread}</span>}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <section className="messages-workspace" aria-label="Messaging workspace">
+            <aside className="messages-sidebar">
+              <div className="messages-sidebar-heading"><h2>Chats</h2><span>{conversations.length}</span></div>
+              {memberError ? (
+                <div className="messages-list-empty"><p>We couldn't load your chats just now.</p><span>Please refresh to try again.</span></div>
+              ) : conversations.length === 0 ? (
+                <div className="messages-list-empty">
+                  <div className="messages-empty-icon" aria-hidden="true">✉</div>
+                  <strong>No chats yet</strong>
+                  <p>Your conversations will appear here when you message a connection.</p>
+                  <Link href="/home/people">Find people to message <span aria-hidden="true">→</span></Link>
+                </div>
+              ) : (
+                <div className="conversation-list">
+                  {conversations.map((conversation) => {
+                    const otherId = otherByConversation.get(conversation.id);
+                    const profile = otherId ? profileById.get(otherId) : undefined;
+                    const last = lastByConversation.get(conversation.id);
+                    const unread = unreadByConversation.get(conversation.id) ?? 0;
+                    const preview = last ? (last.sender_id === user.id ? "You: " : "") + last.body : "Start the conversation";
+                    return (
+                      <Link href={"/home/messages/" + conversation.id} className="conversation-card" key={conversation.id}>
+                        <div className="person-identity">
+                          {otherId && avatarUrls[otherId] ? <img src={avatarUrls[otherId]} alt="" className="person-avatar" loading="lazy" decoding="async" /> : <div className="person-avatar person-avatar-fallback">{profile?.initials || "TZ"}</div>}
+                          <div className="conversation-card-copy">
+                            <strong>{profile?.display_name || "TIZIBANE member"}</strong>
+                            <span>{profile?.handle ? "@" + profile.handle : "Connection"}</span>
+                            <p>{preview}</p>
+                          </div>
+                        </div>
+                        <div className="conversation-card-meta">
+                          <span className="conversation-time">{last ? new Date(last.created_at).toLocaleDateString("en-ZM", { month: "short", day: "numeric" }) : new Date(conversation.created_at).toLocaleDateString("en-ZM", { month: "short", day: "numeric" })}</span>
+                          {unread > 0 && <span className="conversation-unread" aria-label={unread + " unread messages"}>{unread > 99 ? "99+" : unread}</span>}
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </aside>
+            <section className="messages-chat-placeholder" aria-label="Conversation preview">
+              <div className="messages-placeholder-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 11.5h32v23H8z" /><path d="m9 13 15 12 15-12" /></svg></div>
+              <h2>Your conversations, all in one place.</h2>
+              <p>Select a chat to pick up where you left off, or start a new message with one of your connections.</p>
+              <Link href="/home/people" className="messages-start-link">Start a conversation</Link>
+              <span className="messages-privacy-note"><span aria-hidden="true">🔒</span> Your messages are private</span>
+            </section>
+          </section>
         </div>
       </section>
     </main>
