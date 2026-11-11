@@ -119,6 +119,23 @@ export function ConversationLive({
   }, [appendMessage, conversationId, otherUserId, supabase, userId]);
 
   useEffect(() => {
+    const newestInitialMessage = initialMessages[initialMessages.length - 1];
+    if (!newestInitialMessage) return;
+    const readAt = newestInitialMessage.created_at;
+    void supabase.from("conversation_members")
+      .update({ last_read_at: readAt })
+      .eq("conversation_id", conversationId)
+      .eq("user_id", userId);
+    void supabase.from("notifications")
+      .update({ read_at: readAt })
+      .eq("recipient_id", userId)
+      .eq("kind", "message")
+      .eq("subject_id", conversationId)
+      .lte("created_at", readAt)
+      .is("read_at", null);
+  }, [conversationId, initialMessages, supabase, userId]);
+
+  useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
     if (keepScrollRef.current) {
