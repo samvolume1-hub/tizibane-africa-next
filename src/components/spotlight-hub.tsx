@@ -161,7 +161,7 @@ export function SpotlightHub() {
           <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Five channels. One Spotlight.</h2></div>
           <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
         </div>
-        <p className={styles.sectionIntro}>Explore five dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning and special offers. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
+        <p className={styles.sectionIntro}>Explore five dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
         {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. Please return shortly; the feed refreshes automatically in the background.</div>}
         <div className={styles.topicList} aria-label="Five Spotlight channels">
