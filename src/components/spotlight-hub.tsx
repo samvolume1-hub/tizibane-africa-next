@@ -86,7 +86,6 @@ export function SpotlightHub() {
   const activeTopic = topicOrder.find((topic) => topic.id === activeTopicId) ?? topicOrder[0];
   const activeTopicFeed = feedById.get(activeTopic.id);
   const featuredItem = activeTopicFeed?.items?.[0] ?? null;
-  const activeTopicIndex = topicOrder.findIndex((topic) => topic.id === activeTopic.id);
 
 
   useEffect(() => {
