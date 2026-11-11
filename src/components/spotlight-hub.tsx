@@ -136,7 +136,7 @@ export function SpotlightHub() {
             <input required maxLength={90} value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Artist, song, video or photography title" />
           </label>
           <label className={styles.fullField}>Public link
-            <input required type="url" maxLength={500} value={link} onChange={(event) => setLink(event.target.value)} placeholder="https://…" />
+            <input required type="url" pattern="https://.*" title="Use a public HTTPS link." maxLength={500} value={link} onChange={(event) => setLink(event.target.value)} placeholder="https://…" />
             <small>Use a public YouTube, TikTok, Instagram, Facebook, portfolio or website link.</small>
           </label>
           <label className={styles.fullField}>Brief note <span className={styles.optional}>Optional · 300 characters</span>
@@ -182,7 +182,7 @@ export function SpotlightHub() {
       <section className={styles.latestSection} id="latest">
         <div className={styles.sectionHeading}>
           <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Latest news & conversations</h2></div>
-          <span className={styles.liveMark}><i /> LIVE SOURCES</span>
+          <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
         </div>
         <p className={styles.sectionIntro}>Zambian music, education and sport lead the coverage, followed by gaming, markets and schools. Headlines and available publisher images refresh from online sources. Every story opens on its original publisher’s website.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
@@ -201,7 +201,10 @@ export function SpotlightHub() {
                   <div className={styles.storyGrid}>
                     {items.slice(0, 4).map((item) => (
                       <a className={styles.storyCard} href={item.url} target="_blank" rel="noopener noreferrer" key={item.url}>
-                        {item.imageUrl ? <img className={styles.storyImage} src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" /> : <div className={styles.storyArtwork} aria-hidden="true"><span>{topic.label.slice(0, 1)}</span></div>}
+                        <div className={styles.storyMedia}>
+                          <div className={styles.storyArtwork} aria-hidden="true"><span>{topic.label.slice(0, 1)}</span></div>
+                          {item.imageUrl && <img className={styles.storyImage} src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+                        </div>
                         <div className={styles.storyCopy}>
                           <span className={styles.storySource}>{item.source}</span>
                           <h4>{item.title}</h4>
