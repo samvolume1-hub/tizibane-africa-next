@@ -93,9 +93,9 @@ async function readTopic(topic: (typeof topics)[number]) {
       const publisher = publisherUrl(item, link);
       return {
         title: title.slice(0, 240),
-        url: link,
         source: readTag(item, "source").slice(0, 100) || "Online source",
         publishedAt: readTag(item, "pubDate"),
+        summary: readTag(item, "description").slice(0, 900),
         imageUrl: readImage(item) || publisherImage(publisher),
       };
     }).filter((item): item is NonNullable<typeof item> => Boolean(item));
