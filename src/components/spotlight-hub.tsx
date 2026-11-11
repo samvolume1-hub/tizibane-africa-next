@@ -144,7 +144,7 @@ export function SpotlightHub() {
             const item = feedById.get(topic.id)?.items?.[0];
             return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
               <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /></span>
-              <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
+              <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 05</small></span>
               <span className={styles.railArrow} aria-hidden="true">↗</span>
             </button>;
           })}
