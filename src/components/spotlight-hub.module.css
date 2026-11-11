@@ -518,3 +518,126 @@
   .storyCard:hover{transform:none}
   .storyCard:hover .storyImage{transform:none}
 }
+
+
+/* SPOTLIGHT — clean white editorial canvas on the app's pink surround. */
+.spotlight{
+  gap:clamp(18px,2.2vw,28px);
+  padding:clamp(14px,2vw,24px);
+  border-radius:26px;
+  background:#fff;
+  color:#17131d;
+  box-shadow:0 18px 55px rgba(50,15,50,.12);
+}
+.spotlight :is(h1,h2,h3,h4,p,span,small,label,a,strong,time){color:#17131d!important;text-shadow:none}
+.spotlight .hero{
+  background:#fff;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+}
+.spotlight .heroEyebrow,.spotlight .kicker{color:#5b3477!important}
+.spotlight .hero h1,.spotlight .heroFeatureTitle{color:#17131d!important;text-shadow:none}
+.spotlight .heroLead,.spotlight .heroFeatureSummary{color:#45404a!important}
+.spotlight .heroFeatureMeta span{background:#f7f1fb;border-color:#e8d9f1;color:#583477!important}
+.spotlight .heroActions .primaryLink,
+.spotlight .heroActions .secondaryLink,
+.spotlight .submitButton{
+  background:#54247d!important;
+  border:1px solid #54247d!important;
+  color:#fff!important;
+  text-shadow:none!important;
+  box-shadow:0 5px 14px rgba(84,36,125,.16)!important;
+}
+.spotlight .heroActions .secondaryLink{background:#54247d!important}
+.spotlight .editorialRail{
+  background:#fff;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+}
+.spotlight .railIntro strong,.spotlight .railLabel b{color:#17131d!important}
+.spotlight .railIntro .kicker{color:#6a4384!important}
+.spotlight .railItem,.spotlight .railItemActive{background:#faf8fb;border-color:#eee7f0;box-shadow:none}
+.spotlight .railItemActive{border-color:#9c6cbd;background:#f5edf9}
+.spotlight .railLabel small{color:#716879!important}
+.spotlight .reviewSection,.spotlight .latestSection,.spotlight .contactStrip,.spotlight .companyLinks{
+  background:#fff!important;
+  background-image:none!important;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+  color:#17131d;
+}
+.spotlight .sectionHeading h2,.spotlight .contactStrip h2,.spotlight .companyLinks h2,
+.spotlight .topicHeading h3{color:#17131d!important}
+.spotlight .sectionIntro,.spotlight .contactStrip p,.spotlight .topicHeading p,
+.spotlight .privacyNote,.spotlight .updatedAt,.spotlight .directContact>span,
+.spotlight .feedStatus,.spotlight .readerNotice{color:#514a56!important}
+.spotlight .pill,.spotlight .liveMark{background:#f7f1fb;border-color:#e8d9f1;color:#5b3477!important}
+.spotlight .topicList{gap:18px}
+.spotlight .topicSection,.spotlight .topicSection:nth-child(n){
+  padding:clamp(14px,2vw,22px);
+  border:1px solid #eee7f0;
+  border-radius:18px;
+  background:#fff!important;
+  box-shadow:0 5px 18px rgba(38,20,45,.045);
+}
+.spotlight .topicHeading{border-bottom:1px solid #eee7f0;padding-bottom:12px}
+.spotlight .topicHeading p{color:#5c5661!important}
+.spotlight .sourceLabel{color:#6a4384!important}
+.spotlight .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.spotlight .storyCard,.spotlight .storyCardFeatured{
+  display:flex;flex-direction:column;min-width:0;overflow:hidden;
+  border:1px solid #eee7f0;border-radius:15px;
+  background:#fff;box-shadow:0 4px 14px rgba(38,20,45,.05);
+  color:#17131d;transition:transform .18s ease,border-color .18s ease;
+}
+.spotlight .storyCard:hover,.spotlight .storyCardFeatured:hover{transform:translateY(-2px);border-color:#c6a6d8;box-shadow:0 9px 22px rgba(38,20,45,.09)}
+.spotlight .storyCardFeatured{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);min-height:220px}
+.spotlight .storyCardFeatured .storyMedia{height:100%;min-height:220px;aspect-ratio:auto}
+.spotlight .storyMedia{background:#f1edf3}
+.spotlight .storyCopy{padding:15px;gap:8px}
+.spotlight .storySource{color:#754c8d!important;font-size:9px;font-weight:900}
+.spotlight .storyCopy h4{color:#17131d!important;font-size:clamp(14px,1.5vw,18px);font-weight:900;line-height:1.35}
+.spotlight .storyOpen{color:#6d6572!important}
+.spotlight .topicEmpty{background:#faf8fb;border:1px dashed #d8c9df;color:#514a56}
+.spotlight .topicEmpty span{color:#514a56!important}
+.spotlight .feedStatus{background:#faf8fb;border-color:#eee7f0}
+.spotlight .reviewForm label,.spotlight .inquiryForm label{color:#25202a!important}
+.spotlight .reviewForm input,.spotlight .reviewForm select,.spotlight .reviewForm textarea,
+.spotlight .inquiryForm input,.spotlight .inquiryForm select,.spotlight .inquiryForm textarea{
+  background:#fff;border:1px solid #d9d1df;color:#17131d!important;
+}
+.spotlight .reviewForm input::placeholder,.spotlight .reviewForm textarea::placeholder,
+.spotlight .inquiryForm textarea::placeholder{color:#8a8290!important}
+.spotlight .reviewForm small,.spotlight .optional{color:#746b79!important}
+.spotlight .privacyNote{color:#716977!important}
+.spotlight .directContact a,.spotlight .contactActions a{color:#5b3477!important}
+.spotlight .companyLinkGrid a{background:#faf8fb;border-color:#e8dfea;color:#54247d!important}
+.spotlight .submitNudge{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 18px;border:1px solid #eadfed;border-radius:15px;background:#faf7fc;
+}
+.spotlight .submitNudge span{font-size:9px;letter-spacing:.14em;font-weight:900;color:#76528b!important}
+.spotlight .submitNudge a{display:inline-flex;align-items:center;gap:9px;color:#54247d!important;font-size:12px;font-weight:900;text-decoration:none}
+.spotlight .submitNudge a b{font-size:17px;color:#54247d!important}
+.spotlight .readerPanel{background:#fff;color:#17131d;border-color:#e5dce9}
+.spotlight .readerPanel :is(h2,p,span){color:#17131d!important}
+.spotlight .readerSource{color:#694080!important}
+.spotlight .readerSummary{color:#332d38!important}
+.spotlight .readerNotice{color:#655d69!important}
+@media(max-width:700px){
+  .spotlight .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .spotlight .storyCardFeatured{grid-template-columns:1fr;min-height:0}
+  .spotlight .storyCardFeatured .storyMedia{min-height:170px;aspect-ratio:16/9}
+  .spotlight .storyCopy{padding:11px}
+  .spotlight .storyCopy h4{font-size:13px}
+  .spotlight .submitNudge{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:420px){
+  .spotlight .storyGrid{grid-template-columns:1fr}
+  .spotlight .storyCardFeatured{display:flex}
+  .spotlight .storyCardFeatured .storyMedia{min-height:150px}
+}
+@media(prefers-reduced-motion:reduce){
+  .spotlight .storyCard,.spotlight .storyCardFeatured{transition:none}
+  .spotlight .storyCard:hover,.spotlight .storyCardFeatured:hover{transform:none}
+}
