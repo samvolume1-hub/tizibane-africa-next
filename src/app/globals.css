@@ -2881,96 +2881,126 @@ main > .landing-contacts .landing-contact-panel a {
 }
 
 
-/* TIZIBANE app colour refinement (2026-11-06).
-   Pale blush replaces the previous saturated rose canvases on app pages only.
-   Landing and login pages are deliberately excluded via the .app-layout scope. */
+/* AUTHENTICATED APP SURFACES — one shared, restrained content treatment.
+   The rose navigation, hero artwork, Spotlight, feature cards and controls remain
+   page-owned. Neutral content panels use one warm-white surface and ink palette. */
 .app-layout {
-  --app-blush: #fffafd;
-  --app-blush-soft: #fff7fb;
-  --app-blush-border: #f0dce7;
-  --app-blush-shadow: rgba(95, 48, 72, .07);
+  --app-blush: #fff7fb;
+  --app-blush-soft: #fff0f6;
+  --app-blush-border: #ebd2df;
+  --app-blush-shadow: rgba(112, 48, 79, .085);
+  --content-surface: #FAF8F6;
+  --content-ink: #100d10;
+  --content-copy: #241d23;
 }
 .app-layout > .sidebar {
-  background: linear-gradient(180deg, #fffafd 0%, #fff7fb 54%, #fbf7fc 100%) !important;
+  background: linear-gradient(180deg, #fff8fb 0%, #fff1f7 54%, #faf2fb 100%) !important;
   border-color: var(--app-blush-border) !important;
   box-shadow: 8px 0 26px var(--app-blush-shadow) !important;
 }
 .app-layout .topbar {
-  background: linear-gradient(110deg, rgba(255,252,253,.99), rgba(255,247,251,.98) 58%, rgba(250,247,252,.98)) !important;
+  background: linear-gradient(110deg, rgba(255,249,252,.99), rgba(255,241,247,.98) 58%, rgba(250,243,251,.98)) !important;
   border-color: var(--app-blush-border) !important;
   box-shadow: 0 4px 16px var(--app-blush-shadow) !important;
 }
 .app-layout .side-nav a.active,
 .app-layout .side-nav a:hover {
-  background: linear-gradient(110deg, #fff0f6 0%, #fdf1f8 58%, #f7f1fb 100%) !important;
-  border-color: #eed9e6 !important;
-  color: #59384d !important;
-  text-shadow: none !important;
-  box-shadow: inset 0 0 0 1px rgba(190,145,170,.08), 0 3px 10px rgba(95,48,72,.05) !important;
+  background: linear-gradient(110deg, #ffeaf3 0%, #fcebf4 58%, #f4eafa 100%) !important;
+  border-color: #e9cbdc !important;
+  box-shadow: inset 0 0 0 1px rgba(190,145,170,.11), 0 3px 10px rgba(95,48,72,.065) !important;
 }
-.app-layout .welcome,
-.app-layout .people-search-panel,
-.app-layout .profile-editor,
-.app-layout .module-section,
-.app-layout .composer,
-.app-layout .message-composer,
-.app-layout .premium-admin-form,
-.app-layout .premium-admin-list,
-.app-layout .premium-process,
-.app-layout .premium-package,
-.app-layout .premium-audience-card,
-.app-layout .premium-bottom-cta,
-.app-layout .premium-admin-heading {
-  background: linear-gradient(145deg, #fffafd 0%, #fff7fb 58%, #faf7fc 100%) !important;
-  border: 1px solid var(--app-blush-border) !important;
-  box-shadow: 0 9px 24px var(--app-blush-shadow), inset 0 1px 0 rgba(255,255,255,.95) !important;
+
+/* The central page canvas is the consistent warm-white surface on every route. */
+.app-layout > .app-main > .app-content {
+  background: var(--content-surface);
+  color: var(--content-ink);
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 14px 36px rgba(74, 42, 83, .055);
 }
-.app-layout .person-card,
-.app-layout .notification-card,
-.app-layout .conversation-card,
-.app-layout .conversation-heading,
-.app-layout .post-card,
-.app-layout .group-card,
-.app-layout .event-card {
-  background: linear-gradient(145deg, #fffefe 0%, #fff8fb 60%, #fbf8fc 100%) !important;
-  border-color: #f0dfe8 !important;
-  box-shadow: 0 7px 20px rgba(95,48,72,.055), inset 0 1px 0 rgba(255,255,255,.98) !important;
+
+/* Neutral content cards only. Hero/photo canvases, purple feature panels,
+   module sections, premium feature cards and Spotlight retain their own designs. */
+.app-layout .app-content :is(
+  .profile-editor,
+  .composer,
+  .post-card,
+  .person-card,
+  .notification-card,
+  .conversation-heading,
+  .group-card,
+  .event-card,
+  .empty-state,
+  .premium-admin-form,
+  .premium-admin-list,
+  .message-composer
+) {
+  background: var(--content-surface) !important;
+  border-color: #e8dfd8 !important;
+  box-shadow: 0 8px 22px rgba(48, 33, 24, .055), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  color: var(--content-ink);
 }
-.app-layout .composer,
-.app-layout .composer * {
-  color: #493444 !important;
-  -webkit-text-fill-color: #493444 !important;
-  text-shadow: none !important;
+
+/* Inbox rows retain their purpose-built transparent/selected states. */
+.app-layout .app-content .conversation-card:not(.messages-sidebar .conversation-card) {
+  background: var(--content-surface) !important;
+  border-color: #e8dfd8 !important;
+  box-shadow: 0 7px 18px rgba(48, 33, 24, .045) !important;
 }
+
+/* Bold, near-black type applies only inside the neutral light content cards.
+   Links, controls, action clusters, status pills, media and Spotlight are exempt. */
+.app-layout .app-content :is(
+  .profile-editor,
+  .composer,
+  .post-card,
+  .person-card,
+  .notification-card,
+  .conversation-card:not(.messages-sidebar .conversation-card),
+  .conversation-heading,
+  .group-card,
+  .event-card,
+  .empty-state,
+  .premium-admin-form,
+  .premium-admin-list,
+  .message-composer
+) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label)
+:not(button):not(button *):not(input):not(input *):not(select):not(select *)
+:not(textarea):not(textarea *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
+:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
+:not(.person-actions *):not(.group-card-actions *):not(.event-actions *)
+:not(.post-interactions *):not(.comment-form *):not(.premium-admin-actions *)
+:not(.premium-admin-item *):not(.premium-status *):not(.spotlight *):not(.premium-product-card *)
+:not(.message-bubble *):not(.message-chat-toolbar *):not(.message-call-button *) {
+  color: var(--content-ink) !important;
+  -webkit-text-fill-color: var(--content-ink) !important;
+  font-weight: 800 !important;
+}
+.app-layout .app-content :is(
+  .profile-editor,
+  .composer,
+  .post-card,
+  .person-card,
+  .notification-card,
+  .conversation-card:not(.messages-sidebar .conversation-card),
+  .conversation-heading,
+  .group-card,
+  .event-card,
+  .empty-state,
+  .premium-admin-form,
+  .premium-admin-list,
+  .message-composer
+) :is(p,small,time,li)
+:not(.spotlight *):not(.premium-product-card *):not(.premium-admin-item *)
+:not(.message-bubble *):not(.message-chat-toolbar *) {
+  color: var(--content-copy) !important;
+  -webkit-text-fill-color: var(--content-copy) !important;
+  font-weight: 700 !important;
+}
+
+/* Keep the established white entry-control treatment unchanged. */
 .app-layout .composer textarea,
 .app-layout .composer select,
-.app-layout .composer input:not([type="file"]) {
-  background: #ffffff !important;
-  border: 1px solid #ead8e2 !important;
-  color: #382b38 !important;
-  -webkit-text-fill-color: #382b38 !important;
-  box-shadow: inset 0 1px 3px rgba(70,35,55,.035), 0 2px 8px rgba(95,48,72,.035) !important;
-}
-.app-layout .composer textarea::placeholder,
-.app-layout .composer input::placeholder {
-  color: #8b7884 !important;
-  -webkit-text-fill-color: #8b7884 !important;
-  opacity: 1;
-}
-.app-layout .composer select option {
-  background: #ffffff !important;
-  color: #382b38 !important;
-}
-.app-layout .welcome {
-  border-color: #efdae6 !important;
-}
-.app-layout .welcome h1,
-.app-layout .welcome p,
-.app-layout .welcome .eyebrow {
-  color: #493444 !important;
-  -webkit-text-fill-color: #493444 !important;
-  text-shadow: none !important;
-}
+.app-layout .composer input:not([type="file"]),
 .app-layout .field input,
 .app-layout .field select,
 .app-layout .field textarea,
@@ -2982,6 +3012,8 @@ main > .landing-contacts .landing-contact-panel a {
   -webkit-text-fill-color: #382b38 !important;
   box-shadow: inset 0 1px 3px rgba(70,35,55,.035), 0 2px 8px rgba(95,48,72,.035) !important;
 }
+.app-layout .composer textarea::placeholder,
+.app-layout .composer input::placeholder,
 .app-layout .field input::placeholder,
 .app-layout .field textarea::placeholder,
 .app-layout .comment-form input::placeholder,
@@ -2990,66 +3022,10 @@ main > .landing-contacts .landing-contact-panel a {
   -webkit-text-fill-color: #8b7884 !important;
   opacity: 1;
 }
-
-
-/* Fine tune: restore a little rose vibrancy while keeping the app predominantly pale.
-   This remains strictly inside the authenticated app layout. */
-.app-layout {
-  --app-blush: #fff7fb;
-  --app-blush-soft: #fff0f6;
-  --app-blush-border: #ebd2df;
-  --app-blush-shadow: rgba(112, 48, 79, .085);
+.app-layout .composer select option {
+  background: #ffffff !important;
+  color: #382b38 !important;
 }
-.app-layout > .sidebar {
-  background: linear-gradient(180deg, #fff8fb 0%, #fff1f7 54%, #faf2fb 100%) !important;
-}
-.app-layout .topbar {
-  background: linear-gradient(110deg, rgba(255,249,252,.99), rgba(255,241,247,.98) 58%, rgba(250,243,251,.98)) !important;
-}
-.app-layout .side-nav a.active,
-.app-layout .side-nav a:hover {
-  background: linear-gradient(110deg, #ffeaf3 0%, #fcebf4 58%, #f4eafa 100%) !important;
-  border-color: #e9cbdc !important;
-  box-shadow: inset 0 0 0 1px rgba(190,145,170,.11), 0 3px 10px rgba(95,48,72,.065) !important;
-}
-.app-layout .welcome,
-.app-layout .people-search-panel,
-.app-layout .profile-editor,
-.app-layout .module-section,
-.app-layout .composer,
-.app-layout .message-composer,
-.app-layout .premium-admin-form,
-.app-layout .premium-admin-list,
-.app-layout .premium-process,
-.app-layout .premium-package,
-.app-layout .premium-audience-card,
-.app-layout .premium-bottom-cta,
-.app-layout .premium-admin-heading {
-  background: linear-gradient(145deg, #fff8fb 0%, #fff0f6 58%, #f9f0fb 100%) !important;
-  border-color: #ebd2df !important;
-}
-.app-layout .person-card,
-.app-layout .notification-card,
-.app-layout .conversation-card,
-.app-layout .conversation-heading,
-.app-layout .post-card,
-.app-layout .group-card,
-.app-layout .event-card {
-  background: linear-gradient(145deg, #fffdfd 0%, #fff3f8 60%, #faf2fb 100%) !important;
-  border-color: #edd5e1 !important;
-}
-.app-layout .composer textarea,
-.app-layout .composer select,
-.app-layout .composer input:not([type="file"]),
-.app-layout .field input,
-.app-layout .field select,
-.app-layout .field textarea,
-.app-layout .comment-form input,
-.app-layout .message-composer textarea {
-  border-color: #e8cbd9 !important;
-  box-shadow: inset 0 1px 3px rgba(70,35,55,.045), 0 2px 8px rgba(95,48,72,.045) !important;
-}
-
 
 /* Community Home refresh: compact, interaction-first and high-contrast.
    Every selector is scoped to this page so finished pages and other app routes stay untouched. */
@@ -7819,66 +7795,4 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     width: auto;
     max-width: none;
   }
-}
-
-
-/* APP-WIDE CONTENT SURFACE — warm white with a subtle 5% brown undertone.
-   The surrounding app canvas, navigation, hero artwork, purple feature cards,
-   buttons and text-entry controls retain their existing styling. */
-.app-layout > .app-main > .app-content {
-  background: #faf8f6;
-  color: #100d10;
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0 14px 36px rgba(74, 42, 83, .055);
-}
-
-/* Strong black typography only on established white content panels.
-   Excludes form-entry controls, buttons, purple/dark cards and Spotlight. */
-.app-layout .app-content :is(
-  .module-section,
-  .module,
-  .group-card,
-  .event-card,
-  .person-card,
-  .conversation-card,
-  .conversation-heading,
-  .notification-card,
-  .empty-state,
-  .premium-admin-list,
-  .premium-process,
-  .premium-package,
-  .premium-audience-card,
-  .premium-bottom-cta,
-  .premium-admin-heading
-) :is(h1,h2,h3,h4,p,span,small,strong,time,li,a)
-:not(button):not(button *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
-:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
-:not(.event-date):not(.event-date *):not(.premium-status):not(.premium-status *)
-:not(.spotlight *):not(.premium-product-card *):not(.create-group-section .shell *) {
-  color: #100d10 !important;
-  font-weight: 850 !important;
-}
-
-/* Supporting copy stays comfortably readable while retaining the requested
-   strong weight; interactive controls and their labels are not selected. */
-.app-layout .app-content :is(
-  .group-card,
-  .event-card,
-  .person-card,
-  .conversation-card,
-  .notification-card,
-  .empty-state,
-  .module-section,
-  .module,
-  .premium-admin-list,
-  .premium-process,
-  .premium-package,
-  .premium-audience-card,
-  .premium-bottom-cta,
-  .premium-admin-heading
-) :is(p,small,time,li)
-:not(.spotlight *):not(.premium-product-card *):not(.event-date *):not(.premium-status *)
-:not(.create-group-section .shell *) {
-  color: #241d23 !important;
-  font-weight: 800 !important;
 }
