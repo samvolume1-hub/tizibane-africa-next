@@ -2,16 +2,18 @@ import { NextResponse } from "next/server";
 
 export const revalidate = 900;
 
+// Keep this order aligned with the priorities requested for TIZIBANE Spotlight:
+// Zambian music, education and sport first; gaming next; markets and schools after.
 const topics = [
-  { id: "sports", label: "Sports", query: "Zambia sports football athletics" },
-  { id: "gamers", label: "Gamers", query: "Zambia gaming esports gamers" },
-  { id: "zambia", label: "Zambian news", query: "Zambia latest news" },
-  { id: "world-music", label: "World music", query: "world music industry latest" },
-  { id: "awards", label: "Music awards", query: "African music awards music awards" },
-  { id: "zambian-music", label: "Hot Zambian music", query: "Zambian music artists latest" },
-  { id: "education", label: "Education", query: "Zambia education news" },
-  { id: "stock-market", label: "Stock markets", query: "Zambia Lusaka Securities Exchange stock market" },
-  { id: "schools", label: "Schools", query: "Zambia schools education schools news" },
+  { id: "zambian-music", label: "Zambian music", query: "Zambian music artists new releases music videos Zambia" },
+  { id: "education", label: "Education", query: "Zambia education news learners universities scholarships" },
+  { id: "sports", label: "Sports", query: "Zambia sports football Copper Queens athletics" },
+  { id: "gamers", label: "Gamers", query: "gaming esports video games Africa gaming news" },
+  { id: "stock-market", label: "Stock market", query: "Zambia Lusaka Securities Exchange market news LASI listed companies" },
+  { id: "schools", label: "Schools", query: "Zambia schools learners school news opportunities" },
+  { id: "zambia", label: "Hot Zambian news", query: "Zambia latest breaking news headlines" },
+  { id: "world-music", label: "World music chats", query: "world music industry artists global music news conversations" },
+  { id: "awards", label: "Music awards", query: "Zambia African music awards nominations winners latest" },
 ] as const;
 
 function decodeXml(value: string) {
@@ -41,13 +43,23 @@ function safeHttps(value: string) {
 
 function readImage(xml: string) {
   const attribute = xml.match(/<(?:media:content|media:thumbnail|enclosure)\b[^>]*\burl=["']([^"']+)["']/i);
-  const inline = xml.match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
+  const content = xml.match(/<(?:content:encoded|description)\b[^>]*>([\s\S]*?)<\/(?:content:encoded|description)>/i);
+  const inline = (content?.[1] || xml).match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
   return safeHttps(attribute?.[1] || inline?.[1] || "");
+}
+
+function publisherImage(link: string) {
+  try {
+    const host = new URL(link).hostname;
+    return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(host) + "&sz=256";
+  } catch {
+    return null;
+  }
 }
 
 async function readTopic(topic: (typeof topics)[number]) {
   const query = encodeURIComponent(topic.query);
-  const url = `https://news.google.com/rss/search?q=${query}&hl=en-ZM&gl=ZM&ceid=ZM:en`;
+  const url = "https://news.google.com/rss/search?q=" + query + "&hl=en-ZM&gl=ZM&ceid=ZM:en";
   try {
     const response = await fetch(url, {
       headers: { "User-Agent": "TIZIBANE-Spotlight/1.0 (+https://tizibane-africa-next.onrender.com)" },
@@ -66,7 +78,7 @@ async function readTopic(topic: (typeof topics)[number]) {
         url: link,
         source: readTag(item, "source").slice(0, 100) || "Online source",
         publishedAt: readTag(item, "pubDate"),
-        imageUrl: readImage(item),
+        imageUrl: readImage(item) || publisherImage(link),
       };
     }).filter((item): item is NonNullable<typeof item> => Boolean(item));
     return { id: topic.id, label: topic.label, items };
