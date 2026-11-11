@@ -376,3 +376,145 @@
   letter-spacing:.12em;
   text-align:center;
 }
+
+
+/* Spotlight editorial consistency pass: hero-led lower channel cards. */
+.latestSection{
+  background:
+    linear-gradient(120deg,rgba(18,13,39,.66),rgba(20,20,52,.64),rgba(57,15,66,.62)),
+    url("/images/always%20find%20something%20new.jpg") center/cover fixed;
+}
+.topicSection{
+  padding:clamp(16px,2.2vw,24px);
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:24px;
+  background:linear-gradient(120deg,rgba(20,13,39,.78),rgba(24,25,67,.72) 55%,rgba(66,19,62,.72));
+  box-shadow:0 18px 42px rgba(5,3,20,.28),inset 0 1px rgba(255,255,255,.15);
+}
+.topicSection:nth-child(n){
+  background:
+    linear-gradient(120deg,rgba(20,13,39,.76),rgba(24,25,67,.70) 55%,rgba(66,19,62,.70)),
+    url("/images/always%20find%20something%20new.jpg") center/cover;
+}
+.topicHeading{
+  align-items:center;
+  margin-bottom:18px;
+  padding:0 2px 15px;
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+.channelHeadingMain{gap:14px}
+.channelArt{
+  flex-basis:58px;width:58px;height:58px;
+  border-radius:17px;
+  box-shadow:0 0 0 5px rgba(255,255,255,.07),0 0 28px rgba(255,76,190,.36);
+}
+.topicHeading h3{font-size:clamp(20px,2.5vw,29px);letter-spacing:-.035em}
+.topicHeading p{font-size:12px;max-width:720px}
+.storyGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.storyCard{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.34);
+  border-radius:19px;
+  background:linear-gradient(150deg,rgba(13,10,31,.94),rgba(30,17,57,.92));
+  box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.08);
+  text-align:left;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.storyCard:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,153,218,.9);
+  box-shadow:0 20px 42px rgba(0,0,0,.32),0 0 26px rgba(255,76,190,.14);
+}
+.storyMedia{
+  position:relative;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#17152c;
+}
+.storyArtwork{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#241442,#34255e 55%,#55234f);
+}
+.storyImage{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.storyCard:hover .storyImage{transform:scale(1.055)}
+.storyCopy{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  align-content:initial;
+  gap:10px;
+  padding:clamp(14px,1.8vw,21px);
+}
+.storySource{
+  color:#ffd5ef!important;
+  font-size:9px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.storyCopy h4{
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  min-height:3.9em;
+  color:#fff!important;
+  font-size:clamp(15px,1.55vw,19px);
+  font-weight:900;
+  line-height:1.35;
+}
+.storyOpen{
+  margin-top:auto;
+  padding-top:8px;
+  color:#f1dff4!important;
+  font-size:10px;
+}
+.topicEmpty{
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:9px;
+  border:1px solid rgba(255,255,255,.32);
+  background:linear-gradient(120deg,rgba(13,10,31,.8),rgba(34,20,64,.78));
+}
+@media(max-width:700px){
+  .latestSection{background-attachment:scroll}
+  .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .storyCard{border-radius:15px}
+  .storyCopy{padding:11px;gap:8px}
+  .storyCopy h4{font-size:13px;min-height:4em}
+  .storyOpen{font-size:9px}
+}
+@media(max-width:420px){
+  .storyGrid{grid-template-columns:minmax(0,1fr)}
+  .storyCard{display:grid;grid-template-columns:42% minmax(0,1fr);min-height:130px}
+  .storyMedia{height:100%;min-height:130px;aspect-ratio:auto}
+  .storyCopy{padding:12px;gap:7px}
+  .storyCopy h4{font-size:13px;min-height:0;-webkit-line-clamp:4}
+  .storyOpen{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .storyCard,.storyImage{transition:none}
+  .storyCard:hover{transform:none}
+  .storyCard:hover .storyImage{transform:none}
+}
