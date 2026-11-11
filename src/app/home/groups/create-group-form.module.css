@@ -64,13 +64,22 @@
 
 
 .scope{}
-/* GROUPS — Spotlight-inspired pink canvas and crisp white content surfaces. */
+/* Groups colour refinement: keep the app's pink canvas; make only the
+   content area below the Groups hero white. Existing controls and buttons
+   retain their own styling, and the original purple form cards stay purple. */
 .scope :global(.app-main) {
   min-width: 0;
   background: linear-gradient(135deg, #ed58ad 0%, #e846a0 48%, #d93691 100%);
 }
 .scope :global(.app-content) {
   max-width: 1180px;
+  background: #fff;
+  border-radius: 0 0 24px 24px;
+  color: #17121a;
+}
+.scope :global(.app-content > .groups-welcome) {
+  /* The Groups hero is intentionally unchanged. */
+  color: inherit;
 }
 .scope :global(.app-content .create-group-section),
 .scope :global(.app-content .module-section),
@@ -79,7 +88,6 @@
 .scope :global(.app-content .post-card),
 .scope :global(.app-content .empty-state),
 .scope :global(.app-content .module) {
-  color: #17121a;
   border-color: rgba(80, 39, 79, .13);
   background: #fff;
   box-shadow: 0 12px 30px rgba(91, 25, 72, .10);
@@ -87,53 +95,56 @@
 .scope :global(.app-content .create-group-section) {
   border-radius: 24px;
 }
+/* Keep the established purple Create Group panel and its purple choice cards. */
 .scope :global(.app-content .create-group-section .shell) {
-  border: 0;
-  border-radius: 24px;
-  background: #fff;
-  box-shadow: none;
+  border: 1px solid rgba(194,119,235,.32);
+  border-radius: 26px;
+  background: linear-gradient(145deg,rgba(30,15,47,.98),rgba(15,10,27,.98));
+  box-shadow: 0 24px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05);
 }
 .scope :global(.app-content .create-group-section .shell:before) {
-  height: 4px;
-  background: linear-gradient(90deg, #8e3c9e, #e64caa, #f28ac8);
+  height: 3px;
+  background: linear-gradient(90deg,#8b4fc0,#ed70c7,#8b4fc0);
 }
 .scope :global(.app-content .create-group-section .headingCopy h2),
-.scope :global(.app-content .create-group-section .headingCopy p),
 .scope :global(.app-content .create-group-section .label),
-.scope :global(.app-content .create-group-section .hint),
 .scope :global(.app-content .create-group-section .accessTitle),
 .scope :global(.app-content .create-group-section .choiceCopy strong),
-.scope :global(.app-content .create-group-section .choiceCopy span),
 .scope :global(.app-content .create-group-section .coverHeader),
-.scope :global(.app-content .create-group-section .footerHint),
 .scope :global(.app-content .create-group-section .details summary) {
-  color: #17121a !important;
+  color: #fff !important;
   font-weight: 800 !important;
 }
+.scope :global(.app-content .create-group-section .headingCopy p),
 .scope :global(.app-content .create-group-section .hint),
 .scope :global(.app-content .create-group-section .choiceCopy span),
-.scope :global(.app-content .create-group-section .footerHint),
-.scope :global(.app-content .create-group-section .headingCopy p) {
-  color: #403744 !important;
+.scope :global(.app-content .create-group-section .footerHint) {
+  color: #d5c8df !important;
   font-weight: 700 !important;
 }
-.scope :global(.app-content .create-group-section .choice),
-.scope :global(.app-content .create-group-section .coverBox) {
-  border-color: #eadce9;
-  background: #fffafd;
+.scope :global(.app-content .create-group-section .choice) {
+  border-color: rgba(219,181,240,.2);
+  background: rgba(8,7,17,.62);
 }
 .scope :global(.app-content .create-group-section .choiceSelected) {
-  border-color: #d95aa8;
-  background: #fff0f8;
-  box-shadow: inset 0 0 0 1px rgba(217, 90, 168, .16);
+  border-color: #e77acb;
+  background: linear-gradient(145deg,rgba(194,73,179,.2),rgba(106,62,155,.15));
+  box-shadow: inset 0 0 0 1px rgba(231,122,203,.2),0 8px 24px rgba(0,0,0,.14);
 }
-.scope :global(.app-content .create-group-section .choiceIcon),
+.scope :global(.app-content .create-group-section .choiceIcon) {
+  background: rgba(255,255,255,.08);
+}
+.scope :global(.app-content .create-group-section .coverBox) {
+  border-color: rgba(226,147,212,.42);
+  background: rgba(7,6,15,.38);
+}
 .scope :global(.app-content .create-group-section .coverIcon) {
-  background: #f7e7f2;
+  background: rgba(220,105,190,.17);
 }
 .scope :global(.app-content .create-group-section .details) {
-  border-top-color: #eadce9;
+  border-top-color: rgba(255,255,255,.09);
 }
+/* Strong black type on the white content surfaces only. */
 .scope :global(.app-content .feed-heading h2),
 .scope :global(.app-content .section-title-row h2),
 .scope :global(.app-content .group-card h3),
@@ -154,7 +165,9 @@
 .scope :global(.app-content .section-title-row .muted),
 .scope :global(.app-content .module-section p),
 .scope :global(.app-content .empty-state h3),
-.scope :global(.app-content .empty-state p) {
+.scope :global(.app-content .empty-state p),
+.scope :global(.app-content .module h3),
+.scope :global(.app-content .module p) {
   color: #17121a !important;
   font-weight: 800 !important;
 }
