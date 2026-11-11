@@ -174,9 +174,9 @@ export default async function Home({
               <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 8v6m-3-3h6"/></svg>
               <span>People</span>
             </Link>
-            <Link href="/home/groups" className="home-quick-action">
-              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>Groups</span>
+            <Link href="/home/connect" className="home-quick-action">
+              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 14.6 9.4 21.2 12l-6.6 2.6L12 21.2l-2.6-6.6L2.8 12l6.6-2.6L12 2.8Z"/><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z"/></svg>
+              <span>Spotlight</span>
             </Link>
             <Link href="/home/events" className="home-quick-action">
               <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>

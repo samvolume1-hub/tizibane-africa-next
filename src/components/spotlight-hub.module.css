@@ -48,3 +48,55 @@
 .readerSummary{white-space:pre-wrap;color:#e4e9e5;font-size:14px;line-height:1.9;margin:0}
 .readerNotice{border-top:1px solid #ffffff20;margin:22px 0 0;padding-top:14px;color:#aeb9b0;font-size:10px;line-height:1.7}
 @media(max-width:480px){.readerNavigation{flex-wrap:wrap}.readerNavigation button{flex:1}.readerOverlay{padding:8px}.readerPanel{max-height:96vh;border-radius:15px}}
+
+
+/* Spotlight visual refinement: compact hero, vivid readable copy and card-only artwork. */
+.hero{
+  min-height:0;
+  padding:clamp(18px,2.6vw,26px);
+  gap:14px;
+  grid-template-columns:minmax(0,1.2fr) minmax(170px,.8fr);
+  border-radius:20px;
+}
+.hero h1{font-size:clamp(36px,4.6vw,52px);margin:7px 0 9px}
+.hero p{font-size:12px;line-height:1.55}
+.heroActions{margin-top:15px;gap:10px}
+.primaryLink,.secondaryLink{color:#fff!important;font-weight:900;box-shadow:0 5px 20px #0008,0 0 0 1px #ffffff20}
+.primaryLink{border-color:#fff8;text-shadow:0 1px 2px #0008;box-shadow:0 6px 22px #d8b56b55,0 0 0 1px #fff8}
+.secondaryLink{border-color:#fff9;background:#ffffff16;text-shadow:0 1px 3px #000}
+.heroArt{min-height:150px}
+.spotlightCore{width:126px;height:126px;gap:0}
+.spotlightCore span{font:900 17px 'DM Sans',sans-serif;letter-spacing:.09em;color:#fff;text-shadow:0 0 15px #fff9;text-align:center}
+.orbit{width:160px;height:160px}
+.orbitTwo{width:192px;height:192px}
+.reviewSection,.latestSection,.contactStrip,.companyLinks{
+  background-image:linear-gradient(135deg,rgba(7,9,15,.91),rgba(8,13,12,.88)),url("/images/always%20find%20something%20new.jpg");
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+.spotlight,.spotlight *{font-weight:800}
+.spotlight{color:#fff}
+.spotlight :is(h1,h2,h3,h4,p,span,small,label,a,button,strong,time){color:#fff!important}
+.spotlight :is(input,select,textarea){color:#fff!important;font-weight:800}
+.spotlight :is(input,textarea)::placeholder{color:#e4e8e5!important;opacity:.88}
+.spotlight .kicker,.spotlight .optional,.spotlight .privacyNote,.spotlight .updatedAt,
+.spotlight .topicHeading p,.spotlight .contactStrip p,.spotlight .feedStatus,
+.spotlight .readerNotice{color:#fff!important}
+@media(max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr) 190px}
+  .heroArt{min-height:140px}
+  .spotlightCore{width:116px;height:116px}
+  .orbit{width:148px;height:148px}
+  .orbitTwo{width:174px;height:174px}
+}
+@media(max-width:640px){
+  .hero{grid-template-columns:1fr;padding:17px;gap:5px}
+  .heroArt{grid-row:1;min-height:116px}
+  .heroCopy{grid-row:2}
+  .spotlightCore{width:100px;height:100px}
+  .orbit{width:126px;height:126px}
+  .orbitTwo{width:148px;height:148px}
+  .hero h1{font-size:38px}
+  .heroActions{margin-top:14px}
+}
