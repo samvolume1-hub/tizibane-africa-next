@@ -70,7 +70,7 @@
 .orbit{width:160px;height:160px}
 .orbitTwo{width:192px;height:192px}
 .reviewSection,.latestSection,.contactStrip,.companyLinks{
-  background-image:linear-gradient(135deg,rgba(7,9,15,.91),rgba(8,13,12,.88)),url("/images/always%20find%20something%20new.jpg");
+  background-image:linear-gradient(135deg,rgba(7,9,15,.91),rgba(8,13,12,.88)),linear-gradient(#fff,#fff);
   background-position:center;
   background-size:cover;
   background-repeat:no-repeat;
@@ -147,7 +147,7 @@
 .reviewSection,.latestSection,.contactStrip,.companyLinks{
   background-image:
     linear-gradient(115deg,rgba(25,9,54,.72),rgba(20,15,62,.62)),
-    url("/images/always%20find%20something%20new.jpg");
+    linear-gradient(#fff,#fff);
   border:1px solid rgba(255,255,255,.32);
   box-shadow:0 12px 36px rgba(7,4,26,.22),inset 0 1px rgba(255,255,255,.14);
   color:#fff;
@@ -236,7 +236,7 @@
 }
 
 /* Six-channel editorial identity */
-.latestSection{background:linear-gradient(145deg,rgba(18,13,39,.94),rgba(20,20,52,.91),rgba(57,15,66,.88)),url("/images/always%20find%20something%20new.jpg") center/cover;border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 55px rgba(8,4,25,.24)}
+.latestSection{background:linear-gradient(145deg,rgba(18,13,39,.94),rgba(20,20,52,.91),rgba(57,15,66,.88)),linear-gradient(#fff,#fff) center/cover;border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 55px rgba(8,4,25,.24)}
 .topicList{display:grid;gap:24px}
 .topicSection{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:clamp(16px,2.5vw,26px);background:linear-gradient(115deg,rgba(111,36,154,.76),rgba(35,46,119,.78) 52%,rgba(151,35,105,.72));box-shadow:0 16px 38px rgba(8,4,24,.24)}
 .topicSection:nth-child(2){background:linear-gradient(115deg,rgba(8,92,112,.88),rgba(30,57,126,.82),rgba(91,32,143,.82))}
@@ -379,22 +379,13 @@
 
 
 /* Spotlight editorial consistency pass: hero-led lower channel cards. */
-.latestSection{
-  background:
-    linear-gradient(120deg,rgba(18,13,39,.66),rgba(20,20,52,.64),rgba(57,15,66,.62)),
-    url("/images/always%20find%20something%20new.jpg") center/cover fixed;
-}
+.latestSection{background:#fff;}
 .topicSection{
   padding:clamp(16px,2.2vw,24px);
   border:1px solid rgba(255,255,255,.32);
   border-radius:24px;
   background:linear-gradient(120deg,rgba(20,13,39,.78),rgba(24,25,67,.72) 55%,rgba(66,19,62,.72));
   box-shadow:0 18px 42px rgba(5,3,20,.28),inset 0 1px rgba(255,255,255,.15);
-}
-.topicSection:nth-child(n){
-  background:
-    linear-gradient(120deg,rgba(20,13,39,.76),rgba(24,25,67,.70) 55%,rgba(66,19,62,.70)),
-    url("/images/always%20find%20something%20new.jpg") center/cover;
 }
 .topicHeading{
   align-items:center;
@@ -640,4 +631,25 @@
 @media(prefers-reduced-motion:reduce){
   .spotlight .storyCard,.spotlight .storyCardFeatured{transition:none}
   .spotlight .storyCard:hover,.spotlight .storyCardFeatured:hover{transform:none}
+}
+
+
+/* Five named Spotlight canvases: one intentional image per department. */
+.spotlight .topicCover{
+  display:block;
+  flex:0 0 116px;
+  width:116px;
+  height:76px;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid #e8dfea;
+  background:#f4eff6;
+}
+.spotlight .channelHeadingMain{align-items:center}
+.spotlight .topicSection{background:#fff!important;background-image:none!important}
+@media(max-width:640px){
+  .spotlight .topicCover{flex-basis:88px;width:88px;height:62px}
+}
+@media(max-width:420px){
+  .spotlight .topicCover{flex-basis:72px;width:72px;height:56px}
 }
