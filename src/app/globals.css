@@ -2959,12 +2959,7 @@ main > .landing-contacts .landing-contact-panel a {
   color: #100d10 !important;
   font-weight: 800 !important;
 }
-.app-layout .composer,
-.app-layout .composer * {
-  color: #493444 !important;
-  -webkit-text-fill-color: #493444 !important;
-  text-shadow: none !important;
-}
+/* Composer controls and actions keep their own dedicated foreground colours. */
 .app-layout .composer textarea,
 .app-layout .composer select,
 .app-layout .composer input:not([type="file"]) {
