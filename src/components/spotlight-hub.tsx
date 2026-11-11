@@ -13,12 +13,12 @@ type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
 const topicOrder = [
-  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", sourceLabel: "Zambian & world music", art: "♫", tone: "music" },
-  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", sourceLabel: "Zambian & international sport", art: "★", tone: "sports" },
-  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata" },
-  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics" },
-  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", sourceLabel: "Financial education", art: "↗", tone: "trading" },
-  { id: "special-offers", label: "Special Offers", note: "Promotions, business offers, campaigns and opportunities worth discovering", sourceLabel: "Offers & promotions", art: "％", tone: "offers" },
+  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
+  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
+  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
+  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
+  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
+  { id: "special-offers", label: "Special Offers", note: "Promotions, business offers, campaigns and opportunities worth discovering", sourceLabel: "Offers & promotions", art: "％", tone: "offers", placeholderImage: "/images/TJGQqBIoB8TE7nFx0yNv5FKE0KywI8NCXQPo9sPxTRz7GL3wDoS9X3Yr_oCbox8P1v8wsw95DLhOhb2y-lW2WxJs1DA_L2cAAF-nZee_Hn-9J0828avLeqAN2f8qhb8KqFGS3GL2-OSa4d93-JHwulzMfWmcdsoVmNITjKM0vOxcmD1BfCRX_o5Z5CcNJ8TW.jpg" },
 ] as const;
 
 function messageBody(title: string, category: string, link: string, note: string) {
@@ -131,7 +131,7 @@ export function SpotlightHub() {
           </div>
         </div>
         <div className={styles.heroArt} aria-label={featuredItem ? "Featured image for " + activeTopic.label : "Spotlight editorial artwork"}>
-          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div>{featuredItem?.imageUrl && <img className={styles.heroFeatureImage} src={featuredItem.imageUrl} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div><img className={styles.heroFeatureImage} src={featuredItem?.imageUrl || activeTopic.placeholderImage} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
           <div className={styles.heroImageShade} />
           <span className={styles.heroImageStamp}>01 / 06</span>
           <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
@@ -143,7 +143,7 @@ export function SpotlightHub() {
           {topicOrder.map((topic, index) => {
             const item = feedById.get(topic.id)?.items?.[0];
             return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
-              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span>{item?.imageUrl && <img src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}</span>
+              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={item?.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}</span>
               <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
               <span className={styles.railArrow} aria-hidden="true">↗</span>
             </button>;
