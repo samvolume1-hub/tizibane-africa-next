@@ -49,7 +49,7 @@ function readImage(xml: string) {
 }
 
 function publisherUrl(xml: string, fallbackLink: string) {
-  const source = xml.match(/<source\\b[^>]*\\burl=["']([^"']+)["']/i);
+  const source = xml.match(/<source\b[^>]*\burl=["']([^"']+)["']/i);
   return safeHttps(source?.[1] || fallbackLink) || fallbackLink;
 }
 
