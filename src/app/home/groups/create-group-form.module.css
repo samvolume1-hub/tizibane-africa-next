@@ -61,3 +61,131 @@
   color: #ffffff !important;
   font-weight: 800 !important;
 }
+
+/* GROUPS — Spotlight-inspired pink canvas and crisp white content surfaces. */
+:global(.groups-page .app-main) {
+  min-width: 0;
+  background: linear-gradient(135deg, #ed58ad 0%, #e846a0 48%, #d93691 100%);
+}
+:global(.groups-page .app-content) {
+  max-width: 1180px;
+}
+:global(.groups-page .app-content .create-group-section),
+:global(.groups-page .app-content .module-section),
+:global(.groups-page .app-content .group-card),
+:global(.groups-page .app-content .composer),
+:global(.groups-page .app-content .post-card),
+:global(.groups-page .app-content .empty-state),
+:global(.groups-page .app-content .module) {
+  color: #17121a;
+  border-color: rgba(80, 39, 79, .13);
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(91, 25, 72, .10);
+}
+:global(.groups-page .app-content .create-group-section) {
+  border-radius: 24px;
+}
+:global(.groups-page .app-content .create-group-section .shell) {
+  border: 0;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: none;
+}
+:global(.groups-page .app-content .create-group-section .shell:before) {
+  height: 4px;
+  background: linear-gradient(90deg, #8e3c9e, #e64caa, #f28ac8);
+}
+:global(.groups-page .app-content .create-group-section .headingCopy h2),
+:global(.groups-page .app-content .create-group-section .headingCopy p),
+:global(.groups-page .app-content .create-group-section .label),
+:global(.groups-page .app-content .create-group-section .hint),
+:global(.groups-page .app-content .create-group-section .accessTitle),
+:global(.groups-page .app-content .create-group-section .choiceCopy strong),
+:global(.groups-page .app-content .create-group-section .choiceCopy span),
+:global(.groups-page .app-content .create-group-section .coverHeader),
+:global(.groups-page .app-content .create-group-section .footerHint),
+:global(.groups-page .app-content .create-group-section .details summary) {
+  color: #17121a !important;
+  font-weight: 800 !important;
+}
+:global(.groups-page .app-content .create-group-section .hint),
+:global(.groups-page .app-content .create-group-section .choiceCopy span),
+:global(.groups-page .app-content .create-group-section .footerHint),
+:global(.groups-page .app-content .create-group-section .headingCopy p) {
+  color: #403744 !important;
+  font-weight: 700 !important;
+}
+:global(.groups-page .app-content .create-group-section .choice),
+:global(.groups-page .app-content .create-group-section .coverBox) {
+  border-color: #eadce9;
+  background: #fffafd;
+}
+:global(.groups-page .app-content .create-group-section .choiceSelected) {
+  border-color: #d95aa8;
+  background: #fff0f8;
+  box-shadow: inset 0 0 0 1px rgba(217, 90, 168, .16);
+}
+:global(.groups-page .app-content .create-group-section .choiceIcon),
+:global(.groups-page .app-content .create-group-section .coverIcon) {
+  background: #f7e7f2;
+}
+:global(.groups-page .app-content .create-group-section .details) {
+  border-top-color: #eadce9;
+}
+:global(.groups-page .app-content .feed-heading h2),
+:global(.groups-page .app-content .section-title-row h2),
+:global(.groups-page .app-content .group-card h3),
+:global(.groups-page .app-content .group-card h3 a),
+:global(.groups-page .app-content .group-card p),
+:global(.groups-page .app-content .group-category),
+:global(.groups-page .app-content .group-privacy),
+:global(.groups-page .app-content .group-meta),
+:global(.groups-page .app-content .member-state),
+:global(.groups-page .app-content .request-row strong),
+:global(.groups-page .app-content .request-row span),
+:global(.groups-page .app-content .post-author strong),
+:global(.groups-page .app-content .post-author span),
+:global(.groups-page .app-content .post-body),
+:global(.groups-page .app-content .comment strong),
+:global(.groups-page .app-content .comment p),
+:global(.groups-page .app-content .comment-count),
+:global(.groups-page .app-content .section-title-row .muted),
+:global(.groups-page .app-content .module-section p),
+:global(.groups-page .app-content .empty-state h3),
+:global(.groups-page .app-content .empty-state p) {
+  color: #17121a !important;
+  font-weight: 800 !important;
+}
+:global(.groups-page .app-content .group-card),
+:global(.groups-page .app-content .post-card),
+:global(.groups-page .app-content .composer),
+:global(.groups-page .app-content .module-section),
+:global(.groups-page .app-content .empty-state) {
+  border-radius: 18px;
+}
+:global(.groups-page .app-content .group-card p),
+:global(.groups-page .app-content .post-author span),
+:global(.groups-page .app-content .group-meta),
+:global(.groups-page .app-content .empty-state p) {
+  color: #403744 !important;
+}
+:global(.groups-page .app-content .feed-heading .muted),
+:global(.groups-page .app-content .eyebrow),
+:global(.groups-page .app-content .muted) {
+  color: #38243b;
+  font-weight: 900;
+}
+:global(.groups-page .app-content .group-card-actions),
+:global(.groups-page .app-content .post-interactions),
+:global(.groups-page .app-content .comment) {
+  border-color: #eadce9;
+}
+:global(.groups-page .app-content .group-card .group-category),
+:global(.groups-page .app-content .group-card .group-privacy) {
+  color: #5b315d !important;
+}
+@media(max-width: 600px) {
+  :global(.groups-page .app-content) { padding-inline: 12px; }
+  :global(.groups-page .app-content .create-group-section),
+  :global(.groups-page .app-content .module-section) { border-radius: 18px; }
+}
