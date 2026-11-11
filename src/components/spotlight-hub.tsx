@@ -13,11 +13,11 @@ type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
 const topicOrder = [
-  { id: "music-reviews", label: "Music Reviews", note: "New sounds. Fresh perspectives.", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
-  { id: "sports-feed", label: "Sports Feed", note: "The moments that move us.", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
-  { id: "chipata-activities", label: "Chipata Activities", note: "Our town. Our people. Our progress.", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
-  { id: "zambian-politics", label: "Zambian Politics", note: "The issues shaping Zambia.", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
-  { id: "learn-trading", label: "Learn Online Trading", note: "Build knowledge. Understand risk.", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
+  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", tagline: "New sounds. Fresh perspectives.", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
+  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", tagline: "The moments that move us.", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
+  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", tagline: "Our town. Our people. Our progress.", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
+  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", tagline: "The issues shaping Zambia.", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
+  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", tagline: "Build knowledge. Understand risk.", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
 
 ] as const;
 
@@ -132,7 +132,7 @@ export function SpotlightHub() {
           <h2 className={styles.heroFeatureTitle}>{featuredItem?.title ?? activeTopic.note}</h2>
           <p className={styles.heroFeatureSummary}>{featuredItem?.summary || "Discover fresh perspectives, community stories and the latest updates from this Spotlight department."}</p>
           <div className={styles.heroActions}>
-            {featuredItem ? <button type="button" className={styles.primaryLink} onClick={() => setSelectedStory(featuredItem)}>Read featured story <span aria-hidden="true">↗</span></button> : <a href="#latest" className={styles.primaryLink}>Explore this channel <span aria-hidden="true">↗</span></a>}
+            {featuredItem ? <button type="button" className={styles.primaryLink} onClick={() => setSelectedStory(featuredItem)}>Read featured story <span aria-hidden="true">↗</span></button> : <a href="#spotlight-carousel" className={styles.primaryLink}>Explore this channel <span aria-hidden="true">↗</span></a>}
             <a href="#submit-review" className={styles.secondaryLink}>Submit your work</a>
           </div>
         </div>
@@ -145,6 +145,7 @@ export function SpotlightHub() {
       </section>
       <section
         className={styles.spotlightCarousel}
+        id="spotlight-carousel"
         aria-label="Explore the five Spotlight departments"
         onMouseEnter={() => setCarouselPaused(true)}
         onMouseLeave={() => setCarouselPaused(false)}
@@ -189,7 +190,7 @@ export function SpotlightHub() {
               <span className={styles.carouselEyebrow}>TIZIBANE SPOTLIGHT · {String(activeSlideIndex + 1).padStart(2, "0")} / 05</span>
               <span className={styles.carouselCopy}>
                 <strong>{topic.label}</strong>
-                <span>{topic.note}</span>
+                <span>{topic.tagline}</span>
                 <span className={styles.carouselExplore}>EXPLORE THIS DESK <b aria-hidden="true">↗</b></span>
               </span>
               <span className={styles.carouselClickHint} aria-hidden="true">OPEN SPOTLIGHT ↗</span>
