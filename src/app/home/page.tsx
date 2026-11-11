@@ -182,6 +182,10 @@ export default async function Home({
               <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
               <span>Events</span>
             </Link>
+            <Link href="/home/messages" className="home-quick-action" aria-label="Open Messages">
+              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.7 8.7 0 0 1-4-.98L3 21l1.98-5.5A8.7 8.7 0 0 1 4 11.5 8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 11.5h.01M12.5 11.5h.01M17 11.5h.01"/></svg>
+              <span>Messages</span>
+            </Link>
           </nav>
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
