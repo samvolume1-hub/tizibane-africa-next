@@ -7535,3 +7535,135 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   .app-layout .messages-selected-heading { min-height:66px;padding:10px 12px; }
   .app-layout .messages-open-full { padding:7px 9px;font-size:10px; }
 }
+
+
+/* MESSAGING EMPTY INBOX — make the first action the visual focus. */
+.app-layout .messages-workspace-live:has(.messages-start-hero) {
+  min-height: clamp(560px, 72vh, 820px);
+  grid-template-columns: minmax(250px, 290px) minmax(0, 1fr);
+}
+.app-layout .messages-start-hero {
+  position: relative;
+  isolation: isolate;
+  gap: 0;
+  min-height: 560px;
+  padding: clamp(28px, 4vw, 58px);
+  background:
+    radial-gradient(ellipse at 50% 36%, rgba(224,190,236,.72), transparent 58%),
+    linear-gradient(145deg, #fffaff 0%, #f7edf9 55%, #f1e8f5 100%);
+}
+.app-layout .messages-start-hero::before,
+.app-layout .messages-start-hero::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  width: 190px;
+  height: 190px;
+  border: 1px solid rgba(128,80,141,.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.app-layout .messages-start-hero::before { top: 8%; right: 7%; }
+.app-layout .messages-start-hero::after { bottom: 7%; left: 6%; width: 130px; height: 130px; }
+.app-layout .messages-start-hero .messages-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 29px;
+  margin-bottom: 18px;
+  padding: 6px 13px;
+  border: 1px solid rgba(111,65,132,.18);
+  border-radius: 999px;
+  background: rgba(255,255,255,.76);
+  color: #79518a;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.app-layout .messages-start-hero .messages-placeholder-mark {
+  width: 94px;
+  height: 94px;
+  margin-bottom: 21px;
+  border: 1px solid rgba(121,77,145,.22);
+  border-radius: 29px;
+  background: linear-gradient(145deg,#fff,#f0e2f4);
+  box-shadow: 0 15px 34px rgba(89,49,105,.14);
+}
+.app-layout .messages-start-hero .messages-placeholder-mark svg { width: 46px; height: 46px; stroke: #794c91; }
+.app-layout .messages-start-hero h2 {
+  max-width: 620px;
+  color: #392342;
+  font-size: clamp(30px, 3.2vw, 43px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+.app-layout .messages-start-hero > p {
+  max-width: 490px;
+  margin: 14px 0 24px;
+  color: #715c78;
+  font-size: clamp(14px, 1.25vw, 16px);
+  line-height: 1.7;
+}
+.app-layout .messages-start-hero .messages-start-primary {
+  min-height: 54px;
+  padding: 13px 27px;
+  border: 0;
+  border-radius: 15px;
+  background: linear-gradient(115deg,#70418b,#512c70);
+  box-shadow: 0 12px 25px rgba(83,43,111,.25);
+  font-size: 15px;
+  font-weight: 900;
+}
+.app-layout .messages-start-hero .messages-start-primary > span { font-size: 20px; line-height: 1; }
+.app-layout .messages-start-hero .messages-start-steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: min(100%, 710px);
+  margin-top: 31px;
+}
+.app-layout .messages-start-hero .messages-start-steps > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid rgba(121,77,145,.14);
+  border-radius: 12px;
+  background: rgba(255,255,255,.72);
+  color: #66506d;
+  font-size: 11px;
+  font-weight: 700;
+}
+.app-layout .messages-start-hero .messages-start-steps b {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  border-radius: 50%;
+  background: #eadcf0;
+  color: #603a76;
+  font-size: 11px;
+}
+.app-layout .messages-start-hero .messages-privacy-note { margin-top: 25px; }
+@media(max-width:760px) {
+  .app-layout .messages-workspace-live:has(.messages-start-hero) {
+    min-height: 0;
+    grid-template-columns: minmax(0,1fr);
+  }
+  .app-layout .messages-start-hero {
+    min-height: 440px;
+    padding: 34px 20px;
+  }
+  .app-layout .messages-start-hero .messages-start-steps { gap: 7px; margin-top: 24px; }
+  .app-layout .messages-start-hero .messages-start-steps > span { justify-content: flex-start; width: 100%; max-width: 330px; }
+}
+@media(max-width:420px) {
+  .app-layout .messages-start-hero { min-height: 410px; padding: 29px 15px; }
+  .app-layout .messages-start-hero h2 { font-size: 30px; }
+  .app-layout .messages-start-hero > p { font-size: 14px; }
+  .app-layout .messages-start-hero .messages-start-primary { width: 100%; max-width: 300px; }
+}
