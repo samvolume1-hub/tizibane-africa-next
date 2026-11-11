@@ -44,7 +44,7 @@ const destinations = [
     description: "Explore fresh ideas, community highlights and things worth discovering.",
     image: "/images/always%20find%20something%20new.jpg",
     alt: "A visual invitation to discover something new",
-    href: "/home/announcements",
+    href: "/home/connect",
     number: "05",
   },
 ];
