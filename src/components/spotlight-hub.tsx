@@ -18,7 +18,7 @@ const topicOrder = [
   { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
   { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
   { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
-  { id: "special-offers", label: "Special Offers", note: "Promotions, business offers, campaigns and opportunities worth discovering", sourceLabel: "Offers & promotions", art: "％", tone: "offers", placeholderImage: "/images/TJGQqBIoB8TE7nFx0yNv5FKE0KywI8NCXQPo9sPxTRz7GL3wDoS9X3Yr_oCbox8P1v8wsw95DLhOhb2y-lW2WxJs1DA_L2cAAF-nZee_Hn-9J0828avLeqAN2f8qhb8KqFGS3GL2-OSa4d93-JHwulzMfWmcdsoVmNITjKM0vOxcmD1BfCRX_o5Z5CcNJ8TW.jpg" },
+
 ] as const;
 
 function messageBody(title: string, category: string, link: string, note: string) {
@@ -131,19 +131,19 @@ export function SpotlightHub() {
           </div>
         </div>
         <div className={styles.heroArt} aria-label={featuredItem ? "Featured image for " + activeTopic.label : "Spotlight editorial artwork"}>
-          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div><img className={styles.heroFeatureImage} src={featuredItem?.imageUrl || activeTopic.placeholderImage} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
+          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div><img className={styles.heroFeatureImage} src={activeTopic.placeholderImage} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
           <div className={styles.heroImageShade} />
-          <span className={styles.heroImageStamp}>01 / 06</span>
+          <span className={styles.heroImageStamp}>01 / 05</span>
           <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
         </div>
       </section>
       <nav className={styles.editorialRail} aria-label="Spotlight departments">
-        <div className={styles.railIntro}><span className={styles.kicker}>EXPLORE THE DESKS</span><strong>Six perspectives. One home.</strong></div>
+        <div className={styles.railIntro}><span className={styles.kicker}>EXPLORE THE DESKS</span><strong>Five perspectives. One home.</strong></div>
         <div className={styles.railItems}>
           {topicOrder.map((topic, index) => {
             const item = feedById.get(topic.id)?.items?.[0];
             return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
-              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={item?.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /></span>
+              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /></span>
               <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
               <span className={styles.railArrow} aria-hidden="true">↗</span>
             </button>;
@@ -158,20 +158,20 @@ export function SpotlightHub() {
 
       <section className={styles.latestSection} id="latest">
         <div className={styles.sectionHeading}>
-          <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Six channels. One Spotlight.</h2></div>
+          <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Five channels. One Spotlight.</h2></div>
           <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
         </div>
-        <p className={styles.sectionIntro}>Explore six dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning and special offers. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
+        <p className={styles.sectionIntro}>Explore five dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning and special offers. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
         {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. Please return shortly; the feed refreshes automatically in the background.</div>}
-        <div className={styles.topicList} aria-label="Six Spotlight channels">
+        <div className={styles.topicList} aria-label="Five Spotlight channels">
           {topicOrder.map((topic, index) => {
             const feed = feedById.get(topic.id);
             const items = feed?.items ?? [];
             return (
               <section className={styles.topicSection} id={"topic-" + topic.id} key={topic.id} onMouseEnter={() => setActiveTopicId(topic.id)}>
                 <div className={styles.topicHeading}>
-                  <div className={styles.channelHeadingMain}><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.channelArt + " " + styles["channelTone" + topic.tone.charAt(0).toUpperCase() + topic.tone.slice(1)]} aria-hidden="true">{topic.art}</span><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
+                  <div className={styles.channelHeadingMain}><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.channelArt + " " + styles["channelTone" + topic.tone.charAt(0).toUpperCase() + topic.tone.slice(1)]} aria-hidden="true">{topic.art}</span><img className={styles.topicCover} src={topic.placeholderImage} alt="" loading="lazy" decoding="async" /><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
                   <span className={styles.sourceLabel}>{topic.sourceLabel} · In-app preview</span>
                 </div>
                 {items.length > 0 ? (
