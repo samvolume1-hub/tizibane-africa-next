@@ -83,7 +83,7 @@ export function SpotlightHub() {
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
   useEffect(() => {
-    if (carouselPaused) return;
+    if (carouselPaused || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => {
       setActiveSlideIndex((current) => (current + 1) % topicOrder.length);
     }, 8000);
