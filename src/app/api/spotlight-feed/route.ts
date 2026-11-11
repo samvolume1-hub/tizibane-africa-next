@@ -9,7 +9,7 @@ const topics = [
   { id: "chipata-activities", label: "Chipata Activities", query: "Chipata Eastern Province Zambia community events business development local news" },
   { id: "zambian-politics", label: "Zambian Politics", query: "Zambia politics parliament public policy government civic affairs analysis" },
   { id: "learn-trading", label: "Learn Online Trading", query: "beginner financial education forex stocks crypto trading platforms risk management" },
-  { id: "special-offers", label: "Special Offers", query: "Zambia special offers promotions business deals discounts campaigns" },
+
 ] as const;
 
 const USER_AGENT = "Mozilla/5.0 (compatible; TIZIBANE-Spotlight/1.0; +https://tizibane-africa-next.onrender.com)";
