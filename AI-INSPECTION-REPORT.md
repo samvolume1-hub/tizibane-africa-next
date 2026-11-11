@@ -220,3 +220,18 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** RSS feeds do not always provide a useful description; in those cases the reader clearly reports that no readable excerpt is available. This is a preview reader, not a full licensed article reader. Verify mobile layout, keyboard behavior, feed payload and production build before merge.
 - **Next safe step:** Run CI and inspect the PR diff/checks; then test the in-app reader and navigation at desktop and mobile widths. Merge and deploy only after checks and separate approval.
+
+
+### 11 November 2026 — Spotlight editorial magazine upgrade
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `spotlight-editorial-upgrade` (created from verified `main` at `f990e4c7f2a52ad46a30d55bf5c0d42389d0d9f4`)
+- **Agreed scope:** Elevate Spotlight toward the supplied magazine/editorial reference while preserving the six existing channels, current feed API, in-app reading model, submission and enquiry flows, contact destinations, and existing TIZIBANE styling direction.
+- **Files changed:** `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, and this report.
+- **Implementation:** Reworked the hero into a true editorial lead feature with a clear Spotlight title, selected channel, publisher/source attribution, available feed headline and excerpt, and a prominent featured image when the feed supplies one. Added a six-department image rail using the first available publisher image per channel, with lightweight typographic fallbacks. Selecting a department updates the hero and scrolls to its existing feed section. Existing in-app reader, review submission, enquiry, official links, and feed endpoint remain in place.
+- **Performance/accessibility:** Reuses already-fetched feed data; no new API calls, packages, timers, database writes, uploads, or Supabase changes. Rail images are lazy-loaded and asynchronously decoded; the lead image is prioritised. Buttons expose pressed state and department navigation has an accessible label. Reduced-motion preference is respected.
+- **Tests/checks run and actual results:** Source-level transformations and expected anchors were checked during editing. No TypeScript check, production build, browser/device walkthrough, or live Render verification was run in this session. These remain required before merge.
+- **Deployment status (verified/unverified):** Not deployed. No merge performed. PR to be opened for review; merge/deployment require separate owner approval under the project handover rules.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Risks/next step:** Publisher image availability and RSS excerpts vary by source; the hero falls back to the channel artwork treatment when no image is supplied. Review the branch diff, run CI, and test desktop/tablet/mobile layouts before merge.
