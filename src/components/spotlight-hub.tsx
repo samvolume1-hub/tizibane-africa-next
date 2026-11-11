@@ -86,6 +86,15 @@ export function SpotlightHub() {
 
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
+  useEffect(() => {
+    if (!selectedStory) return;
+    function handleReaderKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setSelectedStory(null);
+    }
+    window.addEventListener("keydown", handleReaderKey);
+    return () => window.removeEventListener("keydown", handleReaderKey);
+  }, [selectedStory]);
+
   function submitReview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     openContact(
@@ -187,7 +196,7 @@ export function SpotlightHub() {
         </div>
         <p className={styles.sectionIntro}>Zambian music, education and sport lead the coverage, followed by gaming, markets and schools. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
-        {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. The official source links below remain available.</div>}
+        {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. Please return shortly; the feed refreshes automatically in the background.</div>}
         <div className={styles.topicList}>
           {topicOrder.map((topic, index) => {
             const feed = feedById.get(topic.id);
