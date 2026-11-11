@@ -2628,19 +2628,24 @@ main > .hero .hero-art-reveal {
   transition-duration: 700ms;
 }
 
-/* Contact controls sit immediately beneath the Together We Belong image. */
+/* WELCOME CONTACT STRIP — full-width warm-white band below the hero.
+   Keep the existing WhatsApp and Email controls visually unchanged. */
 main > .landing-contacts {
-  width: min(calc(100% - 36px), 860px);
-  margin: 0 auto 22px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0 0 22px;
   padding: 18px 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 12px;
   background: #FAF8F6;
-  border: 1px solid #e8dfd8;
-  border-radius: 20px;
-  box-shadow: 0 10px 26px rgba(48, 33, 24, .07), inset 0 1px 0 rgba(255,255,255,.92);
+  border: 0;
+  border-top: 1px solid #e8dfd8;
+  border-bottom: 1px solid #e8dfd8;
+  border-radius: 0;
+  box-shadow: 0 8px 22px rgba(48, 33, 24, .06);
 }
 main > .landing-contacts .landing-contact {
   position: relative;
@@ -6130,13 +6135,14 @@ main > .landing-contacts .landing-contact-panel {
   max-width: min(403px, calc(100vw - 24px)) !important;
   padding: 19.5px !important;
   gap: 13px !important;
-  background: #000000 !important;
-  border: 1px solid rgba(255,255,255,.78) !important;
+  background: #FAF8F6 !important;
+  border: 1px solid #e8dfd8 !important;
 }
 main > .landing-contacts .landing-contact-panel a {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: #100d10 !important;
+  -webkit-text-fill-color: #100d10 !important;
   font-size: 16.9px !important;
+  font-weight: 900 !important;
   line-height: 1.45 !important;
 }
 @media (max-width: 600px) {
@@ -6181,16 +6187,16 @@ main > .landing-contacts .landing-contact-panel a {
 }
 main > .landing-contacts .landing-contact-panel a:hover,
 main > .landing-contacts .landing-contact-panel a:focus-visible {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  background: rgba(112, 65, 142, .62) !important;
-  border-color: rgba(255, 255, 255, .72) !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .10), 0 4px 14px rgba(112, 65, 142, .34) !important;
+  color: #100d10 !important;
+  -webkit-text-fill-color: #100d10 !important;
+  background: #f1ebe4 !important;
+  border-color: #d9cabc !important;
+  box-shadow: 0 3px 10px rgba(48, 33, 24, .07) !important;
   text-decoration: underline !important;
-  text-decoration-color: rgba(255, 255, 255, .9) !important;
+  text-decoration-color: #100d10 !important;
   text-underline-offset: 4px !important;
-  text-shadow: 0 0 10px rgba(255, 255, 255, .42) !important;
-  transform: translateX(3px) !important;
+  text-shadow: none !important;
+  transform: translateX(2px) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   main > .landing-contacts .landing-contact-panel a {
@@ -6234,8 +6240,8 @@ main > .landing-contacts .landing-contact > summary {
   -webkit-text-fill-color: #ffffff !important;
 }
 main > .landing-contacts .landing-contact-panel {
-  background: #000000 !important;
-  border: 1px solid rgba(255,255,255,.78) !important;
+  background: #FAF8F6 !important;
+  border: 1px solid #e8dfd8 !important;
 }
 main > .landing-contacts .landing-contact-panel a {
   display: block !important;
@@ -6244,8 +6250,8 @@ main > .landing-contacts .landing-contact-panel a {
   margin: -4px -5px !important;
   border: 1px solid transparent !important;
   border-radius: 9px !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: #100d10 !important;
+  -webkit-text-fill-color: #100d10 !important;
   text-decoration: none !important;
   text-shadow: none !important;
   transform: none !important;
@@ -6253,11 +6259,12 @@ main > .landing-contacts .landing-contact-panel a {
 }
 main > .landing-contacts .landing-contact-panel a:hover,
 main > .landing-contacts .landing-contact-panel a:focus-visible {
-  background: #9168b7 !important;
-  border-color: rgba(255,255,255,.68) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-  text-decoration: none !important;
+  background: #f1ebe4 !important;
+  border-color: #d9cabc !important;
+  color: #100d10 !important;
+  -webkit-text-fill-color: #100d10 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
   text-shadow: none !important;
   transform: none !important;
 }
