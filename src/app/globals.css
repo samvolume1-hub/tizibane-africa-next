@@ -2908,33 +2908,56 @@ main > .landing-contacts .landing-contact-panel a {
   text-shadow: none !important;
   box-shadow: inset 0 0 0 1px rgba(190,145,170,.08), 0 3px 10px rgba(95,48,72,.05) !important;
 }
-.app-layout .welcome,
-.app-layout .people-search-panel,
-.app-layout .profile-editor,
-.app-layout .module-section,
-.app-layout .composer,
-.app-layout .message-composer,
-.app-layout .premium-admin-form,
-.app-layout .premium-admin-list,
-.app-layout .premium-process,
-.app-layout .premium-package,
-.app-layout .premium-audience-card,
-.app-layout .premium-bottom-cta,
-.app-layout .premium-admin-heading {
-  background: linear-gradient(145deg, #fffafd 0%, #fff7fb 58%, #faf7fc 100%) !important;
-  border: 1px solid var(--app-blush-border) !important;
-  box-shadow: 0 9px 24px var(--app-blush-shadow), inset 0 1px 0 rgba(255,255,255,.95) !important;
+/* AUTHENTICATED CONTENT SURFACES — one warm-white treatment for shared light panels.
+   Hero photography, messaging workspace, Spotlight and branded feature cards stay page-specific. */
+.app-layout > .app-main > .app-content {
+  background: #faf8f6;
+  color: #100d10;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 14px 36px rgba(74,42,83,.055);
 }
-.app-layout .person-card,
-.app-layout .notification-card,
-.app-layout .conversation-card,
-.app-layout .conversation-heading,
-.app-layout .post-card,
-.app-layout .group-card,
-.app-layout .event-card {
-  background: linear-gradient(145deg, #fffefe 0%, #fff8fb 60%, #fbf8fc 100%) !important;
-  border-color: #f0dfe8 !important;
-  box-shadow: 0 7px 20px rgba(95,48,72,.055), inset 0 1px 0 rgba(255,255,255,.98) !important;
+.app-layout :is(
+  .people-search-panel,
+  .profile-editor,
+  .module-section,
+  .composer,
+  .post-card,
+  .person-card,
+  .notification-card,
+  .conversation-card,
+  .conversation-heading,
+  .group-card,
+  .event-card,
+  .empty-state
+) {
+  background: #faf8f6 !important;
+  border-color: #e9e1dc !important;
+  box-shadow: 0 7px 20px rgba(58,39,30,.045), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  color: #100d10;
+}
+.app-layout :is(
+  .people-search-panel,
+  .profile-editor,
+  .module-section,
+  .composer,
+  .post-card,
+  .person-card,
+  .notification-card,
+  .conversation-card,
+  .conversation-heading,
+  .group-card,
+  .event-card,
+  .empty-state
+) :is(h1,h2,h3,h4,p,span,small,strong,time,li,a)
+:not(button):not(button *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
+:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
+:not(.group-category):not(.group-privacy):not(.event-kicker):not(.event-date):not(.event-date *)
+:not(.member-state):not(.pending-state):not(.premium-status):not(.premium-status *)
+:not(.spotlight):not(.spotlight *):not(.premium-product-card):not(.premium-product-card *)
+:not(.groups-welcome):not(.groups-welcome *):not(.premium-hero-photo):not(.premium-hero-photo *)
+:not(.hero-art-photo):not(.hero-art-photo *) {
+  color: #100d10 !important;
+  font-weight: 800 !important;
 }
 .app-layout .composer,
 .app-layout .composer * {
@@ -3012,32 +3035,8 @@ main > .landing-contacts .landing-contact-panel a {
   border-color: #e9cbdc !important;
   box-shadow: inset 0 0 0 1px rgba(190,145,170,.11), 0 3px 10px rgba(95,48,72,.065) !important;
 }
-.app-layout .welcome,
-.app-layout .people-search-panel,
-.app-layout .profile-editor,
-.app-layout .module-section,
-.app-layout .composer,
-.app-layout .message-composer,
-.app-layout .premium-admin-form,
-.app-layout .premium-admin-list,
-.app-layout .premium-process,
-.app-layout .premium-package,
-.app-layout .premium-audience-card,
-.app-layout .premium-bottom-cta,
-.app-layout .premium-admin-heading {
-  background: linear-gradient(145deg, #fff8fb 0%, #fff0f6 58%, #f9f0fb 100%) !important;
-  border-color: #ebd2df !important;
-}
-.app-layout .person-card,
-.app-layout .notification-card,
-.app-layout .conversation-card,
-.app-layout .conversation-heading,
-.app-layout .post-card,
-.app-layout .group-card,
-.app-layout .event-card {
-  background: linear-gradient(145deg, #fffdfd 0%, #fff3f8 60%, #faf2fb 100%) !important;
-  border-color: #edd5e1 !important;
-}
+/* Surface colours are centralized in the authenticated content-surface rules above.
+   This section now only refines the existing rose navigation and form-control borders. */
 .app-layout .composer textarea,
 .app-layout .composer select,
 .app-layout .composer input:not([type="file"]),
@@ -7822,63 +7821,5 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 }
 
 
-/* APP-WIDE CONTENT SURFACE — warm white with a subtle 5% brown undertone.
-   The surrounding app canvas, navigation, hero artwork, purple feature cards,
-   buttons and text-entry controls retain their existing styling. */
-.app-layout > .app-main > .app-content {
-  background: #faf8f6;
-  color: #100d10;
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0 14px 36px rgba(74, 42, 83, .055);
-}
-
-/* Strong black typography only on established white content panels.
-   Excludes form-entry controls, buttons, purple/dark cards and Spotlight. */
-.app-layout .app-content :is(
-  .module-section,
-  .module,
-  .group-card,
-  .event-card,
-  .person-card,
-  .conversation-card,
-  .conversation-heading,
-  .notification-card,
-  .empty-state,
-  .premium-admin-list,
-  .premium-process,
-  .premium-package,
-  .premium-audience-card,
-  .premium-bottom-cta,
-  .premium-admin-heading
-) :is(h1,h2,h3,h4,p,span,small,strong,time,li,a)
-:not(button):not(button *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
-:not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
-:not(.event-date):not(.event-date *):not(.premium-status):not(.premium-status *)
-:not(.spotlight *):not(.premium-product-card *):not(.create-group-section .shell *) {
-  color: #100d10 !important;
-  font-weight: 850 !important;
-}
-
-/* Supporting copy stays comfortably readable while retaining the requested
-   strong weight; interactive controls and their labels are not selected. */
-.app-layout .app-content :is(
-  .group-card,
-  .event-card,
-  .person-card,
-  .conversation-card,
-  .notification-card,
-  .empty-state,
-  .module-section,
-  .module,
-  .premium-admin-list,
-  .premium-process,
-  .premium-package,
-  .premium-audience-card,
-  .premium-bottom-cta,
-  .premium-admin-heading
-) :is(p,small,time,li)
-:not(.spotlight *):not(.premium-product-card *):not(.event-date *):not(.premium-status *)
-:not(.create-group-section .shell *) {
-  color: #241d23 !important;
-  font-weight: 800 !important;
-}
+/* The shared authenticated surface and typography rules are consolidated above.
+   Keep this stylesheet tail free of competing app-wide colour overrides. */
