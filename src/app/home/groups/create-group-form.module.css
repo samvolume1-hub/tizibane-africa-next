@@ -67,7 +67,7 @@
 /* GROUPS: preserve the shared pink app canvas; only the page content becomes white. */
 .scope :global(.app-main) {
   min-width: 0;
-  background: linear-gradient(135deg, #ed58ad 0%, #e846a0 48%, #d93691 100%);
+  background: transparent;
 }
 .scope :global(.app-content) {
   max-width: 1180px;
