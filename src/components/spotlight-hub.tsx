@@ -176,7 +176,7 @@ export function SpotlightHub() {
           </label>
           <button type="submit" className={styles.submitButton}>Continue privately ↗</button>
         </form>
-        <p className={styles.privacyNote}>This opens WhatsApp or your email app with your message ready. Your message is not published on TIZIBANE.</p>
+        <p className={styles.privacyNote}>This opens WhatsApp or Gmail with your message ready. Your message is not published on TIZIBANE.</p>
       </section>
 
       <section className={styles.latestSection} id="latest">
@@ -224,7 +224,7 @@ export function SpotlightHub() {
       <section className={styles.contactStrip}>
         <div><span className={styles.kicker}>KEEP THE CONVERSATION GOING</span><h2>Have something worth sharing?</h2><p>Send a link, a short note or a question. We will take it from there.</p></div>
         <div className={styles.contactActions}>
-          <a href={"mailto:" + EMAIL}>Email the review team ↗</a>
+          <a href={gmailComposeUrl("TIZIBANE Spotlight enquiry")}>Email the review team ↗</a>
           <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">Message on WhatsApp ↗</a>
         </div>
       </section>
