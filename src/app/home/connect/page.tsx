@@ -14,7 +14,7 @@ export default async function SpotlightPage() {
       <CommunityNavigation active="connect" />
       <section className="app-main">
         <header className="topbar">
-          <Link href="/home" className="back-link">← Community home</Link>
+          <Link href="/home" className="back-link">↑ Up to Community home</Link>
           <span className="muted">TIZIBANE · SPOTLIGHT</span>
         </header>
         <div className="app-content">
