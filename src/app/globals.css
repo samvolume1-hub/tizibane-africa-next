@@ -2965,11 +2965,11 @@ main > .landing-contacts .landing-contact-panel a {
   .message-composer
 ) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label)
 :not(button):not(button *):not(input):not(input *):not(select):not(select *)
-:not(textarea):not(textarea *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
+:not(textarea):not(textarea *):not(a):not(a *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
 :not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
 :not(.person-actions *):not(.group-card-actions *):not(.event-actions *)
 :not(.post-interactions *):not(.comment-form *):not(.premium-admin-actions *)
-:not(.premium-admin-item *):not(.premium-status *):not(.spotlight *):not(.premium-product-card *)
+:not(.premium-admin-item *):not(.premium-status *):not(.event-date *):not(.group-category *):not(.group-privacy *):not(.event-kicker *):not(.member-state *):not(.pending-state *):not(.spotlight *):not(.premium-product-card *)
 :not(.message-bubble *):not(.message-chat-toolbar *):not(.message-call-button *) {
   color: var(--content-ink) !important;
   -webkit-text-fill-color: var(--content-ink) !important;
