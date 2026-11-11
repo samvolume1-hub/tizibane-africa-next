@@ -64,15 +64,19 @@
 
 
 .scope{}
-/* GROUPS — Spotlight-inspired pink canvas and crisp white content surfaces. */
+/* GROUPS: preserve the shared pink app canvas; only the page content becomes white. */
 .scope :global(.app-main) {
   min-width: 0;
   background: linear-gradient(135deg, #ed58ad 0%, #e846a0 48%, #d93691 100%);
 }
 .scope :global(.app-content) {
   max-width: 1180px;
+  background: #fff;
+  color: #17121a;
+  border-radius: 0 0 24px 24px;
 }
-.scope :global(.app-content .create-group-section),
+/* White content cards. The dark-purple Create Group shell and its controls
+   are intentionally excluded from these surface and typography rules. */
 .scope :global(.app-content .module-section),
 .scope :global(.app-content .group-card),
 .scope :global(.app-content .composer),
@@ -84,56 +88,15 @@
   background: #fff;
   box-shadow: 0 12px 30px rgba(91, 25, 72, .10);
 }
-.scope :global(.app-content .create-group-section) {
-  border-radius: 24px;
+.scope :global(.app-content .group-card),
+.scope :global(.app-content .post-card),
+.scope :global(.app-content .composer),
+.scope :global(.app-content .module-section),
+.scope :global(.app-content .empty-state) {
+  border-radius: 18px;
 }
-.scope :global(.app-content .create-group-section .shell) {
-  border: 0;
-  border-radius: 24px;
-  background: #fff;
-  box-shadow: none;
-}
-.scope :global(.app-content .create-group-section .shell:before) {
-  height: 4px;
-  background: linear-gradient(90deg, #8e3c9e, #e64caa, #f28ac8);
-}
-.scope :global(.app-content .create-group-section .headingCopy h2),
-.scope :global(.app-content .create-group-section .headingCopy p),
-.scope :global(.app-content .create-group-section .label),
-.scope :global(.app-content .create-group-section .hint),
-.scope :global(.app-content .create-group-section .accessTitle),
-.scope :global(.app-content .create-group-section .choiceCopy strong),
-.scope :global(.app-content .create-group-section .choiceCopy span),
-.scope :global(.app-content .create-group-section .coverHeader),
-.scope :global(.app-content .create-group-section .footerHint),
-.scope :global(.app-content .create-group-section .details summary) {
-  color: #17121a !important;
-  font-weight: 800 !important;
-}
-.scope :global(.app-content .create-group-section .hint),
-.scope :global(.app-content .create-group-section .choiceCopy span),
-.scope :global(.app-content .create-group-section .footerHint),
-.scope :global(.app-content .create-group-section .headingCopy p) {
-  color: #403744 !important;
-  font-weight: 700 !important;
-}
-.scope :global(.app-content .create-group-section .choice),
-.scope :global(.app-content .create-group-section .coverBox) {
-  border-color: #eadce9;
-  background: #fffafd;
-}
-.scope :global(.app-content .create-group-section .choiceSelected) {
-  border-color: #d95aa8;
-  background: #fff0f8;
-  box-shadow: inset 0 0 0 1px rgba(217, 90, 168, .16);
-}
-.scope :global(.app-content .create-group-section .choiceIcon),
-.scope :global(.app-content .create-group-section .coverIcon) {
-  background: #f7e7f2;
-}
-.scope :global(.app-content .create-group-section .details) {
-  border-top-color: #eadce9;
-}
+/* Bold, high-contrast copy on white cards; form controls and buttons are
+   deliberately not selected so their existing visual treatment is retained. */
 .scope :global(.app-content .feed-heading h2),
 .scope :global(.app-content .section-title-row h2),
 .scope :global(.app-content .group-card h3),
@@ -154,16 +117,13 @@
 .scope :global(.app-content .section-title-row .muted),
 .scope :global(.app-content .module-section p),
 .scope :global(.app-content .empty-state h3),
-.scope :global(.app-content .empty-state p) {
+.scope :global(.app-content .empty-state p),
+.scope :global(.app-content .module h3),
+.scope :global(.app-content .module p),
+.scope :global(.app-content .groups-search-label),
+.scope :global(.app-content .groups-category-chips a) {
   color: #17121a !important;
   font-weight: 800 !important;
-}
-.scope :global(.app-content .group-card),
-.scope :global(.app-content .post-card),
-.scope :global(.app-content .composer),
-.scope :global(.app-content .module-section),
-.scope :global(.app-content .empty-state) {
-  border-radius: 18px;
 }
 .scope :global(.app-content .group-card p),
 .scope :global(.app-content .post-author span),
@@ -186,8 +146,50 @@
 .scope :global(.app-content .group-card .group-privacy) {
   color: #5b315d !important;
 }
-@media(max-width: 600px) {
+/* Search/discovery layout is responsive and does not restyle the input/button. */
+.scope :global(.groups-discovery-toolbar) {
+  display: grid;
+  gap: 9px;
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 1px solid #eadce9;
+  border-radius: 16px;
+  background: #fff;
+}
+.scope :global(.groups-search-label) { font-size: 12px; }
+.scope :global(.groups-search-row) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 220px) auto;
+  gap: 10px;
+  align-items: center;
+}
+.scope :global(.groups-category-chips) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+.scope :global(.groups-category-chips a) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 13px;
+  border: 1px solid #eadce9;
+  border-radius: 999px;
+  background: #fff;
+  text-decoration: none;
+  font-size: 12px;
+}
+.scope :global(.groups-category-chips a[aria-current="page"]) {
+  border-color: #d95aa8;
+  background: #fff0f8;
+  color: #52234b !important;
+}
+.scope :global(.groups-my-section),
+.scope :global(.groups-discovery-section) { margin-top: 28px; }
+@media(max-width: 700px) {
   .scope :global(.app-content) { padding-inline: 12px; }
-  .scope :global(.app-content .create-group-section),
-  .scope :global(.app-content .module-section) { border-radius: 18px; }
+  .scope :global(.groups-search-row) { grid-template-columns: 1fr; }
+  .scope :global(.app-content .module-section),
+  .scope :global(.app-content .groups-discovery-toolbar) { border-radius: 16px; }
 }
