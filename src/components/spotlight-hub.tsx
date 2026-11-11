@@ -8,7 +8,7 @@ const WHATSAPP = "260760930509";
 const ALTERNATIVE_WHATSAPP = "260769614559";
 const reviewCategories = ["Music talent", "Music video", "Photography"] as const;
 
-type FeedItem = { title: string; url: string; source: string; publishedAt: string; imageUrl: string | null };
+type FeedItem = { title: string; source: string; publishedAt: string; summary: string; imageUrl: string | null };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
@@ -56,6 +56,7 @@ function formatPublishedAt(value: string) {
 
 export function SpotlightHub() {
   const [feeds, setFeeds] = useState<Feed[]>([]);
+  const [selectedStory, setSelectedStory] = useState<FeedItem | null>(null);
   const [updatedAt, setUpdatedAt] = useState("");
   const [feedState, setFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
   const [category, setCategory] = useState<string>(reviewCategories[0]);
@@ -184,7 +185,7 @@ export function SpotlightHub() {
           <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Latest news & conversations</h2></div>
           <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
         </div>
-        <p className={styles.sectionIntro}>Zambian music, education and sport lead the coverage, followed by gaming, markets and schools. Headlines and available publisher images refresh from online sources. Every story opens on its original publisher’s website.</p>
+        <p className={styles.sectionIntro}>Zambian music, education and sport lead the coverage, followed by gaming, markets and schools. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
         {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. The official source links below remain available.</div>}
         <div className={styles.topicList}>
@@ -195,12 +196,12 @@ export function SpotlightHub() {
               <section className={styles.topicSection} key={topic.id}>
                 <div className={styles.topicHeading}>
                   <div><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
-                  <a href={topic.sourceUrl} target="_blank" rel="noopener noreferrer">{topic.sourceLabel} ↗</a>
+                  <span className={styles.sourceLabel}>{topic.sourceLabel} · In-app preview</span>
                 </div>
                 {items.length > 0 ? (
                   <div className={styles.storyGrid}>
                     {items.slice(0, 4).map((item) => (
-                      <a className={styles.storyCard} href={item.url} target="_blank" rel="noopener noreferrer" key={item.url}>
+                      <button type="button" className={styles.storyCard} onClick={() => setSelectedStory(item)} key={item.source + item.title + item.publishedAt}>
                         <div className={styles.storyMedia}>
                           <div className={styles.storyArtwork} aria-hidden="true"><span>{topic.label.slice(0, 1)}</span></div>
                           {item.imageUrl && <img className={styles.storyImage} src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
@@ -208,20 +209,20 @@ export function SpotlightHub() {
                         <div className={styles.storyCopy}>
                           <span className={styles.storySource}>{item.source}</span>
                           <h4>{item.title}</h4>
-                          <span className={styles.storyOpen}>{formatPublishedAt(item.publishedAt)} · Read at source ↗</span>
+                          <span className={styles.storyOpen}>{formatPublishedAt(item.publishedAt)} · Read inside TIZIBANE</span>
                         </div>
-                      </a>
+                      </button>
                     ))}
                   </div>
                 ) : (
-                  <div className={styles.topicEmpty}><span>Latest updates from {topic.label}</span><a href={topic.sourceUrl} target="_blank" rel="noopener noreferrer">Open source ↗</a></div>
+                  <div className={styles.topicEmpty}><span>Latest updates from {topic.label}</span><span>In-app headlines will appear here when available</span></div>
                 )}
               </section>
             );
           })}
         </div>
         {updatedAt && <p className={styles.updatedAt}>Feed checked {new Date(updatedAt).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" })} · Headlines are cached for approximately 15 minutes. Images load only as they enter view.</p>}
-        <p className={styles.privacyNote}>External articles, images and videos remain the property of their publishers and creators. TIZIBANE provides links and previews only; it does not host or play submitted videos.</p>
+        <p className={styles.privacyNote}>Publisher headlines, excerpts and images remain the property of their respective publishers. TIZIBANE displays available previews inside the app and does not reproduce full articles or host submitted videos.</p>
       </section>
 
       <section className={styles.contactStrip}>
@@ -252,6 +253,21 @@ export function SpotlightHub() {
           <a href={"https://wa.me/" + ALTERNATIVE_WHATSAPP} target="_blank" rel="noopener noreferrer">Alternative WhatsApp ↗</a>
         </div>
       </section>
+      {selectedStory && (
+        <div className={styles.readerOverlay} role="dialog" aria-modal="true" aria-labelledby="spotlight-reader-title">
+          <article className={styles.readerPanel}>
+            <div className={styles.readerNavigation}>
+              <button type="button" onClick={() => setSelectedStory(null)}>← Back to headlines</button>
+              <button type="button" onClick={() => { setSelectedStory(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}>↑ Up to Spotlight</button>
+            </div>
+            {selectedStory.imageUrl && <img className={styles.readerImage} src={selectedStory.imageUrl} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+            <span className={styles.readerSource}>{selectedStory.source} · {formatPublishedAt(selectedStory.publishedAt)}</span>
+            <h2 id="spotlight-reader-title">{selectedStory.title}</h2>
+            <p className={styles.readerSummary}>{selectedStory.summary || "The publisher has not supplied a readable excerpt for this story yet. Please check back when an in-app preview becomes available."}</p>
+            <p className={styles.readerNotice}>You are reading the available publisher-provided preview within TIZIBANE. The original publisher retains ownership of the full story.</p>
+          </article>
+        </div>
+      )}
     </div>
   );
 }
