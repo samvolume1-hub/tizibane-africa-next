@@ -29,7 +29,7 @@ function decodeXml(value: string) {
 
 function readTag(xml: string, tag: string) {
   const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ")) : "";
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
 }
 
 function safeHttps(value: string) {
