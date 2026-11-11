@@ -13,11 +13,11 @@ type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
 const topicOrder = [
-  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
-  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
-  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
-  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
-  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
+  { id: "music-reviews", label: "Music Reviews", note: "New sounds. Fresh perspectives.", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
+  { id: "sports-feed", label: "Sports Feed", note: "The moments that move us.", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
+  { id: "chipata-activities", label: "Chipata Activities", note: "Our town. Our people. Our progress.", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
+  { id: "zambian-politics", label: "Zambian Politics", note: "The issues shaping Zambia.", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
+  { id: "learn-trading", label: "Learn Online Trading", note: "Build knowledge. Understand risk.", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
 
 ] as const;
 
@@ -82,7 +82,18 @@ export function SpotlightHub() {
   }, []);
 
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
+
+  useEffect(() => {
+    if (carouselPaused) return;
+    const timer = window.setInterval(() => {
+      setActiveSlideIndex((current) => (current + 1) % topicOrder.length);
+    }, 8000);
+    return () => window.clearInterval(timer);
+  }, [carouselPaused]);
   const [activeTopicId, setActiveTopicId] = useState<string>(topicOrder[0].id);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const activeTopic = topicOrder.find((topic) => topic.id === activeTopicId) ?? topicOrder[0];
   const activeTopicFeed = feedById.get(activeTopic.id);
   const featuredItem = activeTopicFeed?.items?.[0] ?? null;
@@ -137,98 +148,79 @@ export function SpotlightHub() {
           <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
         </div>
       </section>
-      <nav className={styles.editorialRail} aria-label="Spotlight departments">
-        <div className={styles.railIntro}><span className={styles.kicker}>EXPLORE THE DESKS</span><strong>Five perspectives. One home.</strong></div>
-        <div className={styles.railItems}>
-          {topicOrder.map((topic, index) => {
-            const item = feedById.get(topic.id)?.items?.[0];
-            return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
-              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span><img src={topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /></span>
-              <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 05</small></span>
-              <span className={styles.railArrow} aria-hidden="true">↗</span>
-            </button>;
-          })}
+      <section
+        className={styles.spotlightCarousel}
+        aria-label="Explore the five Spotlight departments"
+        onMouseEnter={() => setCarouselPaused(true)}
+        onMouseLeave={() => setCarouselPaused(false)}
+        onFocusCapture={() => setCarouselPaused(true)}
+        onBlurCapture={() => setCarouselPaused(false)}
+        onTouchStart={(event) => setTouchStartX(event.changedTouches[0]?.clientX ?? null)}
+        onTouchEnd={(event) => {
+          if (touchStartX === null) return;
+          const delta = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
+          if (Math.abs(delta) > 45) {
+            setActiveSlideIndex((current) => (current + (delta < 0 ? 1 : topicOrder.length - 1)) % topicOrder.length);
+            setCarouselPaused(true);
+          }
+          setTouchStartX(null);
+        }}
+      >
+        {(() => {
+          const topic = topicOrder[activeSlideIndex];
+          const story = feedById.get(topic.id)?.items?.[0];
+          return (
+            <button
+              type="button"
+              className={styles.carouselSlide}
+              onClick={() => setSelectedStory(story ?? {
+                title: topic.label,
+                source: topic.sourceLabel,
+                publishedAt: "",
+                summary: topic.note,
+                imageUrl: topic.placeholderImage,
+              })}
+              aria-label={"Explore " + topic.label}
+            >
+              <img
+                className={styles.carouselImage}
+                src={topic.placeholderImage}
+                alt=""
+                loading={activeSlideIndex === 0 ? "eager" : "lazy"}
+                fetchPriority={activeSlideIndex === 0 ? "high" : "auto"}
+                decoding="async"
+                onError={(event) => { event.currentTarget.hidden = true; }}
+              />
+              <span className={styles.carouselShade} />
+              <span className={styles.carouselEyebrow}>TIZIBANE SPOTLIGHT · {String(activeSlideIndex + 1).padStart(2, "0")} / 05</span>
+              <span className={styles.carouselCopy}>
+                <strong>{topic.label}</strong>
+                <span>{topic.note}</span>
+                <span className={styles.carouselExplore}>EXPLORE THIS DESK <b aria-hidden="true">↗</b></span>
+              </span>
+              <span className={styles.carouselClickHint} aria-hidden="true">OPEN SPOTLIGHT ↗</span>
+            </button>
+          );
+        })()}
+        <div className={styles.carouselControls} aria-label="Carousel controls">
+          <button type="button" aria-label="Previous department" onClick={() => { setActiveSlideIndex((current) => (current + topicOrder.length - 1) % topicOrder.length); setCarouselPaused(true); }}>‹</button>
+          <div className={styles.carouselIndicators}>
+            {topicOrder.map((topic, index) => (
+              <button
+                type="button"
+                key={topic.id}
+                className={index === activeSlideIndex ? styles.carouselIndicatorActive : styles.carouselIndicator}
+                aria-label={"Show " + topic.label}
+                aria-current={index === activeSlideIndex ? "true" : undefined}
+                onClick={() => { setActiveSlideIndex(index); setCarouselPaused(true); }}
+              />
+            ))}
+          </div>
+          <button type="button" aria-label="Next department" onClick={() => { setActiveSlideIndex((current) => (current + 1) % topicOrder.length); setCarouselPaused(true); }}>›</button>
         </div>
-      </nav>
-
-      <div className={styles.submitNudge}>
-        <span>HAVE A STORY, CREATION OR IDEA?</span>
-        <a href="#submit-review">Share it with the Spotlight team <b aria-hidden="true">↓</b></a>
-      </div>
-
-      <section className={styles.latestSection} id="latest">
-        <div className={styles.sectionHeading}>
-          <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Five channels. One Spotlight.</h2></div>
-          <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
-        </div>
-        <p className={styles.sectionIntro}>Explore five dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
-        {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
-        {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. Please return shortly; the feed refreshes automatically in the background.</div>}
-        <div className={styles.topicList} aria-label="Five Spotlight channels">
-          {topicOrder.map((topic, index) => {
-            const feed = feedById.get(topic.id);
-            const items = feed?.items ?? [];
-            return (
-              <section className={styles.topicSection} id={"topic-" + topic.id} key={topic.id} onMouseEnter={() => setActiveTopicId(topic.id)}>
-                <div className={styles.topicHeading}>
-                  <div className={styles.channelHeadingMain}><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.channelArt + " " + styles["channelTone" + topic.tone.charAt(0).toUpperCase() + topic.tone.slice(1)]} aria-hidden="true">{topic.art}</span><img className={styles.topicCover} src={topic.placeholderImage} alt="" loading="lazy" decoding="async" /><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
-                  <span className={styles.sourceLabel}>{topic.sourceLabel} · In-app preview</span>
-                </div>
-                {items.length > 0 ? (
-                  <div className={styles.storyGrid}>
-                    {items.slice(0, 4).map((item, storyIndex) => (
-                      <button type="button" className={storyIndex === 0 ? styles.storyCardFeatured : styles.storyCard} onClick={() => setSelectedStory(item)} key={item.source + item.title + item.publishedAt}>
-                        <div className={styles.storyMedia}>
-                          <div className={styles.storyArtwork} aria-hidden="true" />
-                          <img className={styles.storyImage} src={item.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
-                        </div>
-                        <div className={styles.storyCopy}>
-                          <span className={styles.storySource}>{item.source}</span>
-                          <h4>{item.title}</h4>
-                          <span className={styles.storyOpen}>{formatPublishedAt(item.publishedAt)} · Read inside TIZIBANE</span>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className={styles.topicEmpty}><span>Latest updates from {topic.label}</span><span>In-app headlines will appear here when available</span></div>
-                )}
-              </section>
-            );
-          })}
-        </div>
-        {updatedAt && <p className={styles.updatedAt}>Feed checked {new Date(updatedAt).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" })} · Headlines are cached for approximately 15 minutes. Images load only as they enter view.</p>}
-        <p className={styles.privacyNote}>Publisher headlines, excerpts and images remain the property of their respective publishers. TIZIBANE displays available previews inside the app and does not reproduce full articles or host submitted videos.</p>
+        <p className={styles.carouselFootnote}>Five departments. One place to discover what matters.</p>
       </section>
 
-      <section className={styles.contactStrip}>
-        <div><span className={styles.kicker}>KEEP THE CONVERSATION GOING</span><h2>Have something worth sharing?</h2><p>Send a link, a short note or a question. We will take it from there.</p></div>
-        <div className={styles.contactActions}>
-          <a href={gmailComposeUrl("TIZIBANE Spotlight enquiry")}>Email the review team ↗</a>
-          <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">Message on WhatsApp ↗</a>
-        </div>
-      </section>
-
-      <section className={styles.companyLinks}>
-        <div><span className={styles.kicker}>OFFICIAL CONNECTIONS</span><h2>Stay connected with Royalty</h2></div>
-        <div className={styles.companyLinkGrid}>
-          <a href="https://pin.it/2EP4JejFq" target="_blank" rel="noopener noreferrer">Pinterest ↗</a>
-          <a href="https://www.facebook.com/share/19Rz2LxXCP/" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
-          <a href="https://www.instagram.com/55samroyalty2024/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
-          <a href="https://www.tiktok.com/@samshane10" target="_blank" rel="noopener noreferrer">TikTok · Sam Shane ↗</a>
-          <a href="https://www.tiktok.com/@samshanemusicworld" target="_blank" rel="noopener noreferrer">TikTok · Music World ↗</a>
-          <a href="https://www.youtube.com/@samshanemusicworld6626" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
-          <a href="https://whatsapp.com/channel/0029VbDlyjA4Crfrf3vyuK0t" target="_blank" rel="noopener noreferrer">WhatsApp Channel ↗</a>
-          <a href="https://royalty-music-hub.samvolume1.workers.dev/" target="_blank" rel="noopener noreferrer">Royalty Music Hub ↗</a>
-          <a href="https://sites.google.com/view/royalty-music/home" target="_blank" rel="noopener noreferrer">Royalty Music ↗</a>
-          <a href="https://sites.google.com/view/sam-shane-music/home" target="_blank" rel="noopener noreferrer">Sam Shane Music ↗</a>
-          <a href={gmailComposeUrl("TIZIBANE general enquiry")}>General email ↗</a>
-          <a href="mailto:royaltymusicschool833@gmail.com">Royalty Music School ↗</a>
-          <a href="mailto:samvolume1@gmail.com">Company enquiries ↗</a>
-          <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp Royalty ↗</a>
-          <a href={"https://wa.me/" + ALTERNATIVE_WHATSAPP} target="_blank" rel="noopener noreferrer">Alternative WhatsApp ↗</a>
-        </div>
-      </section>
       <section className={styles.reviewSection} id="submit-review">
         <div className={styles.sectionHeading}>
           <div><span className={styles.kicker}>THE HEART OF SPOTLIGHT</span><h2>Submit your work for review</h2></div>
@@ -292,7 +284,7 @@ export function SpotlightHub() {
         <div className={styles.readerOverlay} role="dialog" aria-modal="true" aria-labelledby="spotlight-reader-title">
           <article className={styles.readerPanel}>
             <div className={styles.readerNavigation}>
-              <button type="button" onClick={() => setSelectedStory(null)}>← Back to headlines</button>
+              <button type="button" onClick={() => setSelectedStory(null)}>← Back to Spotlight</button>
               <button type="button" onClick={() => { setSelectedStory(null); window.scrollTo({ top: 0, behavior: "smooth" }); }}>↑ Up to Spotlight</button>
             </div>
             {selectedStory.imageUrl && <img className={styles.readerImage} src={selectedStory.imageUrl} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
