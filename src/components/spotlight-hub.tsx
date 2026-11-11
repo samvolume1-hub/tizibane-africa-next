@@ -131,7 +131,7 @@ export function SpotlightHub() {
           </div>
         </div>
         <div className={styles.heroArt} aria-label={featuredItem ? "Featured image for " + activeTopic.label : "Spotlight editorial artwork"}>
-          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div><img className={styles.heroFeatureImage} src={featuredItem?.imageUrl || activeTopic.placeholderImage} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div><img className={styles.heroFeatureImage} src={featuredItem?.imageUrl || activeTopic.placeholderImage} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />
           <div className={styles.heroImageShade} />
           <span className={styles.heroImageStamp}>01 / 06</span>
           <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
@@ -234,7 +234,7 @@ export function SpotlightHub() {
                       <button type="button" className={styles.storyCard} onClick={() => setSelectedStory(item)} key={item.source + item.title + item.publishedAt}>
                         <div className={styles.storyMedia}>
                           <div className={styles.storyArtwork} aria-hidden="true" />
-                          {item.imageUrl && <img className={styles.storyImage} src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
+                          <img className={styles.storyImage} src={item.imageUrl || topic.placeholderImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
                         </div>
                         <div className={styles.storyCopy}>
                           <span className={styles.storySource}>{item.source}</span>
