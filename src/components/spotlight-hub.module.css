@@ -32,3 +32,19 @@
 .companyLinkGrid a{display:inline-flex;align-items:center;min-height:36px;text-decoration:none}
 .companyLinkGrid a:focus-visible,.topicHeading>a:focus-visible,.storyCard:focus-visible,.directContact a:focus-visible{outline:2px solid #e6c47c;outline-offset:3px}
 @media(max-width:640px){.inquiryForm{grid-template-columns:1fr}.inquiryForm .submitButton{width:100%}}
+
+
+.storyCard{width:100%;padding:0;text-align:left;font:inherit;cursor:pointer;color:inherit}
+.storyCard:focus-visible{outline:2px solid #e6c47c;outline-offset:3px}
+.sourceLabel{font-size:10px;color:#c5b184;font-weight:700;white-space:nowrap}
+.readerOverlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:clamp(10px,3vw,28px);background:#050706ed;backdrop-filter:blur(12px);overflow-y:auto}
+.readerPanel{width:min(100%,820px);max-height:min(92vh,900px);overflow-y:auto;border:1px solid #d8b56b66;border-radius:20px;background:linear-gradient(145deg,#171b19,#0a0e0c);padding:clamp(16px,3vw,30px);box-shadow:0 24px 90px #000b;color:#f5f7f4}
+.readerNavigation{display:flex;justify-content:space-between;gap:12px;margin-bottom:20px}
+.readerNavigation button{border:1px solid #d8b56b66;border-radius:999px;background:#ffffff08;color:#fff;padding:10px 14px;font:700 11px 'DM Sans',sans-serif;cursor:pointer}
+.readerNavigation button:hover{background:#d8b56b18;border-color:#e6c47c}
+.readerImage{display:block;width:100%;max-height:360px;object-fit:cover;border-radius:14px;margin:0 0 20px;background:#111}
+.readerSource{display:block;color:#e6c47c;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.readerPanel h2{font-size:clamp(22px,4vw,34px);line-height:1.25;margin:12px 0 18px;color:#fff}
+.readerSummary{white-space:pre-wrap;color:#e4e9e5;font-size:14px;line-height:1.9;margin:0}
+.readerNotice{border-top:1px solid #ffffff20;margin:22px 0 0;padding-top:14px;color:#aeb9b0;font-size:10px;line-height:1.7}
+@media(max-width:480px){.readerNavigation{flex-wrap:wrap}.readerNavigation button{flex:1}.readerOverlay{padding:8px}.readerPanel{max-height:96vh;border-radius:15px}}
