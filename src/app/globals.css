@@ -2963,8 +2963,7 @@ main > .landing-contacts .landing-contact-panel a {
   .premium-admin-form,
   .premium-admin-list,
   .message-composer
-) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label)
-:not(button):not(button *):not(input):not(input *):not(select):not(select *)
+) :is(h1,h2,h3,h4,p,span,small,strong,time,li,label):not(button):not(button *):not(input):not(input *):not(select):not(select *)
 :not(textarea):not(textarea *):not(a):not(a *):not(.btn):not(.btn *):not(.text-action):not(.text-action *)
 :not(.photo-picker):not(.photo-picker *):not(.reaction-choice):not(.reaction-choice *)
 :not(.person-actions *):not(.group-card-actions *):not(.event-actions *)
@@ -2989,8 +2988,7 @@ main > .landing-contacts .landing-contact-panel a {
   .premium-admin-form,
   .premium-admin-list,
   .message-composer
-) :is(p,small,time,li)
-:not(.spotlight *):not(.premium-product-card *):not(.premium-admin-item *)
+) :is(p,small,time,li):not(.spotlight *):not(.premium-product-card *):not(.premium-admin-item *)
 :not(.message-bubble *):not(.message-chat-toolbar *) {
   color: var(--content-copy) !important;
   -webkit-text-fill-color: var(--content-copy) !important;
