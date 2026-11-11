@@ -5,15 +5,12 @@ export const revalidate = 900;
 // Keep this order aligned with the priorities requested for TIZIBANE Spotlight:
 // Zambian music, education and sport first; gaming next; markets and schools after.
 const topics = [
-  { id: "zambian-music", label: "Zambian music", query: "Zambian music artists new releases music videos Zambia" },
-  { id: "education", label: "Education", query: "Zambia education news learners universities scholarships" },
-  { id: "sports", label: "Sports", query: "Zambia sports football Copper Queens athletics" },
-  { id: "gamers", label: "Gamers", query: "gaming esports video games Africa gaming news" },
-  { id: "stock-market", label: "Stock market", query: "Zambia Lusaka Securities Exchange market news LASI listed companies" },
-  { id: "schools", label: "Schools", query: "Zambia schools learners school news opportunities" },
-  { id: "zambia", label: "Hot Zambian news", query: "Zambia latest breaking news headlines" },
-  { id: "world-music", label: "World music chats", query: "world music industry artists global music news conversations" },
-  { id: "awards", label: "Music awards", query: "Zambia African music awards nominations winners latest" },
+  { id: "music-reviews", label: "Music Reviews", query: "Zambian music new releases album reviews artist spotlight music videos Zambia" },
+  { id: "sports-feed", label: "Sports Feed", query: "Zambia sports football basketball tennis athletics international sport" },
+  { id: "chipata-activities", label: "Chipata Activities", query: "Chipata Eastern Province Zambia community events business development local news" },
+  { id: "zambian-politics", label: "Zambian Politics", query: "Zambia politics parliament public policy government civic affairs analysis" },
+  { id: "learn-trading", label: "Learn Online Trading", query: "beginner financial education forex stocks crypto trading platforms risk management" },
+  { id: "special-offers", label: "Special Offers", query: "Zambia special offers promotions business deals discounts campaigns" },
 ] as const;
 
 function decodeXml(value: string) {
