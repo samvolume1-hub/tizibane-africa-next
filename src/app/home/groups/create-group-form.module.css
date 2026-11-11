@@ -146,6 +146,12 @@
 .scope :global(.app-content .group-card .group-privacy) {
   color: #5b315d !important;
 }
+/* Consistent black, strong typography across white Groups cards and panels.
+   Interactive controls, button surfaces, and the purple Create Group shell are excluded. */
+.scope :global(.app-content :is(.group-card,.module-section,.composer,.post-card,.empty-state,.module,.groups-discovery-toolbar,.request-row) :is(h1,h2,h3,p,span,strong,small,label,summary,li,a):not(.text-action):not(.btn)) {
+  color: #17121a !important;
+  font-weight: 800 !important;
+}
 /* Search/discovery layout is responsive and does not restyle the input/button. */
 .scope :global(.groups-discovery-toolbar) {
   display: grid;
