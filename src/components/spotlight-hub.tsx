@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import styles from "./spotlight-hub.module.css";
 
 const EMAIL = "samryt26@gmail.com";
@@ -79,7 +79,7 @@ export function SpotlightHub() {
 
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
-  function submitReview(event: React.FormEvent<HTMLFormElement>) {
+  function submitReview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     openContact(
       channel,
@@ -88,7 +88,7 @@ export function SpotlightHub() {
     );
   }
 
-  function submitInquiry(event: React.FormEvent<HTMLFormElement>) {
+  function submitInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const body = "Hello TIZIBANE Spotlight,\n\nI have a quick enquiry:\n" + question.trim() + "\n\nPlease let me know how we can continue the conversation.";
     openContact(inquiryChannel, "TIZIBANE Spotlight enquiry", body);
@@ -107,7 +107,7 @@ export function SpotlightHub() {
           </div>
         </div>
         <div className={styles.heroArt} aria-hidden="true">
-          <div className={styles.orbit + " " + styles.orbitOne} />
+          <div className={styles.orbit} />
           <div className={styles.orbit + " " + styles.orbitTwo} />
           <div className={styles.spotlightCore}><span>TZ</span><small>THE COMMUNITY STAGE</small></div>
           <i className={styles.sparkOne}>✦</i><i className={styles.sparkTwo}>✧</i>
