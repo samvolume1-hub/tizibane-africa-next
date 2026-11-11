@@ -34,6 +34,8 @@ export async function createGroupComment(form:FormData){
  if(!UUID.test(groupId)||!UUID.test(postId))redirect("/home/groups?error=That%20post%20could%20not%20be%20found");
  if(!body||body.length>1000)fail(groupId,"Comments must be between 1 and 1000 characters.");
  const {supabase,user}=await signedIn();
+ const {data:membership}=await supabase.from("group_members").select("group_id").eq("group_id",groupId).eq("user_id",user.id).eq("status","active").maybeSingle();
+ if(!membership)fail(groupId,"Only active group members can comment here.");
  const {data:post}=await supabase.from("posts").select("id").eq("id",postId).eq("group_id",groupId).maybeSingle();
  if(!post)fail(groupId,"That post is not available in this group.");
  const {error}=await supabase.from("comments").insert({post_id:postId,author_id:user.id,body});
@@ -44,6 +46,8 @@ export async function toggleGroupReaction(form:FormData){
  const groupId=String(form.get("group_id")??""),postId=String(form.get("post_id")??""),reaction=String(form.get("reaction")??"like");
  if(!UUID.test(groupId)||!UUID.test(postId)||!REACTIONS.includes(reaction))redirect("/home/groups?error=That%20reaction%20is%20invalid");
  const {supabase,user}=await signedIn();
+ const {data:membership}=await supabase.from("group_members").select("group_id").eq("group_id",groupId).eq("user_id",user.id).eq("status","active").maybeSingle();
+ if(!membership)fail(groupId,"Only active group members can react here.");
  const {data:post}=await supabase.from("posts").select("id").eq("id",postId).eq("group_id",groupId).maybeSingle();
  if(!post)fail(groupId,"That post is not available in this group.");
  const {data:existing,error:lookup}=await supabase.from("post_reactions").select("reaction").eq("post_id",postId).eq("user_id",user.id).maybeSingle();
@@ -76,8 +80,10 @@ export async function deleteGroupComment(form:FormData){
  if(!UUID.test(groupId)||!UUID.test(postId)||!UUID.test(commentId))redirect("/home/groups?error=That%20comment%20could%20not%20be%20found");
  const {supabase,user}=await signedIn();
  const {data:group}=await supabase.from("groups").select("owner_id").eq("id",groupId).maybeSingle();
+ const {data:targetPost}=await supabase.from("posts").select("id").eq("id",postId).eq("group_id",groupId).maybeSingle();
+ if(!group||!targetPost)fail(groupId,"That comment does not belong to this group.");
  const {data:membership}=await supabase.from("group_members").select("role,status").eq("group_id",groupId).eq("user_id",user.id).maybeSingle();
- const manager=group?.owner_id===user.id||(membership?.status==="active"&&["owner","moderator"].includes(membership.role));
+ const manager=group.owner_id===user.id||(membership?.status==="active"&&["owner","moderator"].includes(membership.role));
  let query=supabase.from("comments").delete().eq("id",commentId).eq("post_id",postId);
  if(!manager)query=query.eq("author_id",user.id);
  const {data,error}=await query.select("id").maybeSingle();
