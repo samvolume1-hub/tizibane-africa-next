@@ -376,3 +376,268 @@
   letter-spacing:.12em;
   text-align:center;
 }
+
+
+/* Spotlight editorial consistency pass: hero-led lower channel cards. */
+.latestSection{
+  background:
+    linear-gradient(120deg,rgba(18,13,39,.66),rgba(20,20,52,.64),rgba(57,15,66,.62)),
+    url("/images/always%20find%20something%20new.jpg") center/cover fixed;
+}
+.topicSection{
+  padding:clamp(16px,2.2vw,24px);
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:24px;
+  background:linear-gradient(120deg,rgba(20,13,39,.78),rgba(24,25,67,.72) 55%,rgba(66,19,62,.72));
+  box-shadow:0 18px 42px rgba(5,3,20,.28),inset 0 1px rgba(255,255,255,.15);
+}
+.topicSection:nth-child(n){
+  background:
+    linear-gradient(120deg,rgba(20,13,39,.76),rgba(24,25,67,.70) 55%,rgba(66,19,62,.70)),
+    url("/images/always%20find%20something%20new.jpg") center/cover;
+}
+.topicHeading{
+  align-items:center;
+  margin-bottom:18px;
+  padding:0 2px 15px;
+  border-bottom:1px solid rgba(255,255,255,.22);
+}
+.channelHeadingMain{gap:14px}
+.channelArt{
+  flex-basis:58px;width:58px;height:58px;
+  border-radius:17px;
+  box-shadow:0 0 0 5px rgba(255,255,255,.07),0 0 28px rgba(255,76,190,.36);
+}
+.topicHeading h3{font-size:clamp(20px,2.5vw,29px);letter-spacing:-.035em}
+.topicHeading p{font-size:12px;max-width:720px}
+.storyGrid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+}
+.storyCard{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.34);
+  border-radius:19px;
+  background:linear-gradient(150deg,rgba(13,10,31,.94),rgba(30,17,57,.92));
+  box-shadow:0 12px 30px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.08);
+  text-align:left;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+.storyCard:hover{
+  transform:translateY(-4px);
+  border-color:rgba(255,153,218,.9);
+  box-shadow:0 20px 42px rgba(0,0,0,.32),0 0 26px rgba(255,76,190,.14);
+}
+.storyMedia{
+  position:relative;
+  width:100%;
+  height:auto;
+  min-height:0;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:#17152c;
+}
+.storyArtwork{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,#241442,#34255e 55%,#55234f);
+}
+.storyImage{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.storyCard:hover .storyImage{transform:scale(1.055)}
+.storyCopy{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  align-content:initial;
+  gap:10px;
+  padding:clamp(14px,1.8vw,21px);
+}
+.storySource{
+  color:#ffd5ef!important;
+  font-size:9px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+.storyCopy h4{
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+  min-height:3.9em;
+  color:#fff!important;
+  font-size:clamp(15px,1.55vw,19px);
+  font-weight:900;
+  line-height:1.35;
+}
+.storyOpen{
+  margin-top:auto;
+  padding-top:8px;
+  color:#f1dff4!important;
+  font-size:10px;
+}
+.topicEmpty{
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:9px;
+  border:1px solid rgba(255,255,255,.32);
+  background:linear-gradient(120deg,rgba(13,10,31,.8),rgba(34,20,64,.78));
+}
+@media(max-width:700px){
+  .latestSection{background-attachment:scroll}
+  .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .storyCard{border-radius:15px}
+  .storyCopy{padding:11px;gap:8px}
+  .storyCopy h4{font-size:13px;min-height:4em}
+  .storyOpen{font-size:9px}
+}
+@media(max-width:420px){
+  .storyGrid{grid-template-columns:minmax(0,1fr)}
+  .storyCard{display:grid;grid-template-columns:42% minmax(0,1fr);min-height:130px}
+  .storyMedia{height:100%;min-height:130px;aspect-ratio:auto}
+  .storyCopy{padding:12px;gap:7px}
+  .storyCopy h4{font-size:13px;min-height:0;-webkit-line-clamp:4}
+  .storyOpen{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .storyCard,.storyImage{transition:none}
+  .storyCard:hover{transform:none}
+  .storyCard:hover .storyImage{transform:none}
+}
+
+
+/* SPOTLIGHT — clean white editorial canvas on the app's pink surround. */
+.spotlight{
+  gap:clamp(18px,2.2vw,28px);
+  padding:clamp(14px,2vw,24px);
+  border-radius:26px;
+  background:#fff;
+  color:#17131d;
+  box-shadow:0 18px 55px rgba(50,15,50,.12);
+}
+.spotlight :is(h1,h2,h3,h4,p,span,small,label,a,strong,time){color:#17131d!important;text-shadow:none}
+.spotlight .hero{
+  background:#fff;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+}
+.spotlight .heroEyebrow,.spotlight .kicker{color:#5b3477!important}
+.spotlight .hero h1,.spotlight .heroFeatureTitle{color:#17131d!important;text-shadow:none}
+.spotlight .heroLead,.spotlight .heroFeatureSummary{color:#45404a!important}
+.spotlight .heroFeatureMeta span{background:#f7f1fb;border-color:#e8d9f1;color:#583477!important}
+.spotlight .heroActions .primaryLink,
+.spotlight .heroActions .secondaryLink,
+.spotlight .submitButton{
+  background:#54247d!important;
+  border:1px solid #54247d!important;
+  color:#fff!important;
+  text-shadow:none!important;
+  box-shadow:0 5px 14px rgba(84,36,125,.16)!important;
+}
+.spotlight .heroActions .secondaryLink{background:#54247d!important}
+.spotlight .editorialRail{
+  background:#fff;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+}
+.spotlight .railIntro strong,.spotlight .railLabel b{color:#17131d!important}
+.spotlight .railIntro .kicker{color:#6a4384!important}
+.spotlight .railItem,.spotlight .railItemActive{background:#faf8fb;border-color:#eee7f0;box-shadow:none}
+.spotlight .railItemActive{border-color:#9c6cbd;background:#f5edf9}
+.spotlight .railLabel small{color:#716879!important}
+.spotlight .reviewSection,.spotlight .latestSection,.spotlight .contactStrip,.spotlight .companyLinks{
+  background:#fff!important;
+  background-image:none!important;
+  border:1px solid #eee7f0;
+  box-shadow:none;
+  color:#17131d;
+}
+.spotlight .sectionHeading h2,.spotlight .contactStrip h2,.spotlight .companyLinks h2,
+.spotlight .topicHeading h3{color:#17131d!important}
+.spotlight .sectionIntro,.spotlight .contactStrip p,.spotlight .topicHeading p,
+.spotlight .privacyNote,.spotlight .updatedAt,.spotlight .directContact>span,
+.spotlight .feedStatus,.spotlight .readerNotice{color:#514a56!important}
+.spotlight .pill,.spotlight .liveMark{background:#f7f1fb;border-color:#e8d9f1;color:#5b3477!important}
+.spotlight .topicList{gap:18px}
+.spotlight .topicSection,.spotlight .topicSection:nth-child(n){
+  padding:clamp(14px,2vw,22px);
+  border:1px solid #eee7f0;
+  border-radius:18px;
+  background:#fff!important;
+  box-shadow:0 5px 18px rgba(38,20,45,.045);
+}
+.spotlight .topicHeading{border-bottom:1px solid #eee7f0;padding-bottom:12px}
+.spotlight .topicHeading p{color:#5c5661!important}
+.spotlight .sourceLabel{color:#6a4384!important}
+.spotlight .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.spotlight .storyCard,.spotlight .storyCardFeatured{
+  display:flex;flex-direction:column;min-width:0;overflow:hidden;
+  border:1px solid #eee7f0;border-radius:15px;
+  background:#fff;box-shadow:0 4px 14px rgba(38,20,45,.05);
+  color:#17131d;transition:transform .18s ease,border-color .18s ease;
+}
+.spotlight .storyCard:hover,.spotlight .storyCardFeatured:hover{transform:translateY(-2px);border-color:#c6a6d8;box-shadow:0 9px 22px rgba(38,20,45,.09)}
+.spotlight .storyCardFeatured{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);min-height:220px}
+.spotlight .storyCardFeatured .storyMedia{height:100%;min-height:220px;aspect-ratio:auto}
+.spotlight .storyMedia{background:#f1edf3}
+.spotlight .storyCopy{padding:15px;gap:8px}
+.spotlight .storySource{color:#754c8d!important;font-size:9px;font-weight:900}
+.spotlight .storyCopy h4{color:#17131d!important;font-size:clamp(14px,1.5vw,18px);font-weight:900;line-height:1.35}
+.spotlight .storyOpen{color:#6d6572!important}
+.spotlight .topicEmpty{background:#faf8fb;border:1px dashed #d8c9df;color:#514a56}
+.spotlight .topicEmpty span{color:#514a56!important}
+.spotlight .feedStatus{background:#faf8fb;border-color:#eee7f0}
+.spotlight .reviewForm label,.spotlight .inquiryForm label{color:#25202a!important}
+.spotlight .reviewForm input,.spotlight .reviewForm select,.spotlight .reviewForm textarea,
+.spotlight .inquiryForm input,.spotlight .inquiryForm select,.spotlight .inquiryForm textarea{
+  background:#fff;border:1px solid #d9d1df;color:#17131d!important;
+}
+.spotlight .reviewForm input::placeholder,.spotlight .reviewForm textarea::placeholder,
+.spotlight .inquiryForm textarea::placeholder{color:#8a8290!important}
+.spotlight .reviewForm small,.spotlight .optional{color:#746b79!important}
+.spotlight .privacyNote{color:#716977!important}
+.spotlight .directContact a,.spotlight .contactActions a{color:#5b3477!important}
+.spotlight .companyLinkGrid a{background:#faf8fb;border-color:#e8dfea;color:#54247d!important}
+.spotlight .submitNudge{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 18px;border:1px solid #eadfed;border-radius:15px;background:#faf7fc;
+}
+.spotlight .submitNudge span{font-size:9px;letter-spacing:.14em;font-weight:900;color:#76528b!important}
+.spotlight .submitNudge a{display:inline-flex;align-items:center;gap:9px;color:#54247d!important;font-size:12px;font-weight:900;text-decoration:none}
+.spotlight .submitNudge a b{font-size:17px;color:#54247d!important}
+.spotlight .readerPanel{background:#fff;color:#17131d;border-color:#e5dce9}
+.spotlight .readerPanel :is(h2,p,span){color:#17131d!important}
+.spotlight .readerSource{color:#694080!important}
+.spotlight .readerSummary{color:#332d38!important}
+.spotlight .readerNotice{color:#655d69!important}
+@media(max-width:700px){
+  .spotlight .storyGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .spotlight .storyCardFeatured{grid-template-columns:1fr;min-height:0}
+  .spotlight .storyCardFeatured .storyMedia{min-height:170px;aspect-ratio:16/9}
+  .spotlight .storyCopy{padding:11px}
+  .spotlight .storyCopy h4{font-size:13px}
+  .spotlight .submitNudge{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:420px){
+  .spotlight .storyGrid{grid-template-columns:1fr}
+  .spotlight .storyCardFeatured{display:flex}
+  .spotlight .storyCardFeatured .storyMedia{min-height:150px}
+}
+@media(prefers-reduced-motion:reduce){
+  .spotlight .storyCard,.spotlight .storyCardFeatured{transition:none}
+  .spotlight .storyCard:hover,.spotlight .storyCardFeatured:hover{transform:none}
+}
