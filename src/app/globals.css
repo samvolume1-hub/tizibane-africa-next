@@ -7876,7 +7876,9 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   .premium-audience-card,
   .premium-bottom-cta,
   .premium-admin-heading
-) :is(p,small,time,li):not(.spotlight *) {
+) :is(p,small,time,li)
+:not(.spotlight *):not(.premium-product-card *):not(.event-date *):not(.premium-status *)
+:not(.create-group-section .shell *) {
   color: #302632 !important;
   font-weight: 750 !important;
 }
