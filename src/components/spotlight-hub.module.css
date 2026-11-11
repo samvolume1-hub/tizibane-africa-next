@@ -234,3 +234,30 @@
   .storyCard{grid-template-columns:96px minmax(0,1fr)}
   .storyMedia{min-height:124px}
 }
+
+/* Six-channel editorial identity */
+.latestSection{background:linear-gradient(145deg,rgba(18,13,39,.94),rgba(20,20,52,.91),rgba(57,15,66,.88)),url("/images/always%20find%20something%20new.jpg") center/cover;border:1px solid rgba(255,255,255,.18);box-shadow:0 20px 55px rgba(8,4,25,.24)}
+.topicList{display:grid;gap:24px}
+.topicSection{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:clamp(16px,2.5vw,26px);background:linear-gradient(115deg,rgba(111,36,154,.76),rgba(35,46,119,.78) 52%,rgba(151,35,105,.72));box-shadow:0 16px 38px rgba(8,4,24,.24)}
+.topicSection:nth-child(2){background:linear-gradient(115deg,rgba(8,92,112,.88),rgba(30,57,126,.82),rgba(91,32,143,.82))}
+.topicSection:nth-child(3){background:linear-gradient(115deg,rgba(15,105,77,.88),rgba(34,77,121,.84),rgba(128,67,37,.8))}
+.topicSection:nth-child(4){background:linear-gradient(115deg,rgba(123,34,65,.9),rgba(72,34,112,.88),rgba(29,52,107,.84))}
+.topicSection:nth-child(5){background:linear-gradient(115deg,rgba(11,104,99,.9),rgba(33,59,127,.86),rgba(103,40,135,.84))}
+.topicSection:nth-child(6){background:linear-gradient(115deg,rgba(145,55,27,.9),rgba(129,34,98,.86),rgba(56,45,128,.84))}
+.topicHeading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.channelHeadingMain{display:flex;align-items:center;gap:15px;min-width:0}
+.channelArt{display:grid;place-items:center;flex:0 0 66px;width:66px;height:66px;border:1px solid rgba(255,255,255,.7);border-radius:19px;background:linear-gradient(145deg,#ff4bba,#8b4dff 55%,#36b9ff);box-shadow:0 0 28px rgba(255,76,190,.4);font-size:34px;font-weight:900;color:#fff;text-shadow:0 2px 8px #160d35}
+.channelToneSports{background:linear-gradient(145deg,#ff9a36,#ed315d,#762de5)}
+.channelToneChipata{background:linear-gradient(145deg,#25d6a1,#1983ad,#7654ed)}
+.channelTonePolitics{background:linear-gradient(145deg,#ff526d,#8e35b9,#334cbd)}
+.channelToneTrading{background:linear-gradient(145deg,#2be0a4,#178ca9,#3158ce)}
+.channelToneOffers{background:linear-gradient(145deg,#ffcf46,#ff6b48,#d42d96)}
+.topicHeading h3{font-size:clamp(19px,2.4vw,27px);font-weight:900;letter-spacing:-.025em;color:#fff;margin:0 0 5px}
+.topicHeading p{font-size:12px;line-height:1.6;color:#fff;margin:0;max-width:700px}
+.sourceLabel{color:#fff!important;font-size:10px;font-weight:800}
+.storyGrid{grid-template-columns:minmax(0,1fr);gap:12px}
+.storyCard{background:rgba(9,8,25,.72);border:1px solid rgba(255,255,255,.22);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.storyCard:hover{transform:translateY(-2px);border-color:#ff9de4;box-shadow:0 12px 28px rgba(0,0,0,.28)}
+.topicEmpty{background:rgba(9,8,25,.58);border:1px dashed rgba(255,255,255,.45);border-radius:14px;padding:18px;color:#fff}
+.topicEmpty span{color:#fff}
+@media(max-width:640px){.topicHeading{align-items:flex-start}.channelArt{flex-basis:54px;width:54px;height:54px;border-radius:15px;font-size:27px}.sourceLabel{display:none}.topicSection{padding:14px}.channelHeadingMain{gap:11px}}
