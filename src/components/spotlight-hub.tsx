@@ -54,8 +54,6 @@ function formatPublishedAt(value: string) {
 export function SpotlightHub() {
   const [feeds, setFeeds] = useState<Feed[]>([]);
   const [selectedStory, setSelectedStory] = useState<FeedItem | null>(null);
-  const [updatedAt, setUpdatedAt] = useState("");
-  const [feedState, setFeedState] = useState<"loading" | "ready" | "unavailable">("loading");
   const [category, setCategory] = useState<string>(reviewCategories[0]);
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
@@ -63,6 +61,9 @@ export function SpotlightHub() {
   const [channel, setChannel] = useState<"whatsapp" | "email">("whatsapp");
   const [question, setQuestion] = useState("");
   const [inquiryChannel, setInquiryChannel] = useState<"whatsapp" | "email">("whatsapp");
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [carouselPaused, setCarouselPaused] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -74,10 +75,8 @@ export function SpotlightHub() {
       .then((data) => {
         if (!active) return;
         setFeeds(data.feeds ?? []);
-        setUpdatedAt(data.updatedAt ?? "");
-        setFeedState("ready");
       })
-      .catch(() => { if (active) setFeedState("unavailable"); });
+      .catch(() => { if (active) setFeeds([]); });
     return () => { active = false; };
   }, []);
 
@@ -90,11 +89,7 @@ export function SpotlightHub() {
     }, 8000);
     return () => window.clearInterval(timer);
   }, [carouselPaused]);
-  const [activeTopicId, setActiveTopicId] = useState<string>(topicOrder[0].id);
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [carouselPaused, setCarouselPaused] = useState(false);
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const activeTopic = topicOrder.find((topic) => topic.id === activeTopicId) ?? topicOrder[0];
+  const activeTopic = topicOrder[0];
   const activeTopicFeed = feedById.get(activeTopic.id);
   const featuredItem = activeTopicFeed?.items?.[0] ?? null;
 
@@ -161,7 +156,6 @@ export function SpotlightHub() {
           const delta = (event.changedTouches[0]?.clientX ?? touchStartX) - touchStartX;
           if (Math.abs(delta) > 45) {
             setActiveSlideIndex((current) => (current + (delta < 0 ? 1 : topicOrder.length - 1)) % topicOrder.length);
-            setCarouselPaused(true);
           }
           setTouchStartX(null);
         }}
@@ -203,7 +197,7 @@ export function SpotlightHub() {
           );
         })()}
         <div className={styles.carouselControls} aria-label="Carousel controls">
-          <button type="button" aria-label="Previous department" onClick={() => { setActiveSlideIndex((current) => (current + topicOrder.length - 1) % topicOrder.length); setCarouselPaused(true); }}>‹</button>
+          <button type="button" aria-label="Previous department" onClick={() => { setActiveSlideIndex((current) => (current + topicOrder.length - 1) % topicOrder.length); }}>‹</button>
           <div className={styles.carouselIndicators}>
             {topicOrder.map((topic, index) => (
               <button
@@ -212,11 +206,11 @@ export function SpotlightHub() {
                 className={index === activeSlideIndex ? styles.carouselIndicatorActive : styles.carouselIndicator}
                 aria-label={"Show " + topic.label}
                 aria-current={index === activeSlideIndex ? "true" : undefined}
-                onClick={() => { setActiveSlideIndex(index); setCarouselPaused(true); }}
+                onClick={() => { setActiveSlideIndex(index); }}
               />
             ))}
           </div>
-          <button type="button" aria-label="Next department" onClick={() => { setActiveSlideIndex((current) => (current + 1) % topicOrder.length); setCarouselPaused(true); }}>›</button>
+          <button type="button" aria-label="Next department" onClick={() => { setActiveSlideIndex((current) => (current + 1) % topicOrder.length); }}>›</button>
         </div>
         <p className={styles.carouselFootnote}>Five departments. One place to discover what matters.</p>
       </section>
