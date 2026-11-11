@@ -1,5 +1,6 @@
 import { CommunityNavigation } from "@/components/community-navigation";
 import { InboxLiveRefresh } from "@/components/inbox-live-refresh";
+import { ConversationLive } from "@/components/conversation-live";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
