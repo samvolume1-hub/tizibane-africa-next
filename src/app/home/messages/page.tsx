@@ -155,7 +155,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
                       {activeAvatar ? <img src={activeAvatar} alt="" className="person-avatar" /> : <div className="person-avatar person-avatar-fallback" style={{ background: activeProfile?.avatar_color || undefined }}>{activeProfile?.initials || "TZ"}</div>}
                       <div><h2>{activeName}</h2><span>{activeProfile?.handle ? "@" + activeProfile.handle : "TIZIBANE connection"}</span></div>
                     </div>
-                    <Link href={"/home/messages/" + activeConversation.id} className="messages-open-full">Open chat</Link>
+                    <Link href={"/home/messages?conversation=" + activeConversation.id} className="messages-open-full">Open chat</Link>
                   </header>
                   {activeMessageError ? <div className="messages-list-empty"><strong>Messages couldn't load</strong><p>Please refresh to try again.</p></div> : (
                     <ConversationLive conversationId={activeConversation.id} userId={user.id} otherUserId={activeOtherId} otherName={activeName} initialMessages={activeMessages} initialOtherLastReadAt={activeOtherLastReadAt} />
