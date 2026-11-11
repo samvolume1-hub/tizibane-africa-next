@@ -131,7 +131,7 @@ export function SpotlightHub() {
           </div>
         </div>
         <div className={styles.heroArt} aria-label={featuredItem ? "Featured image for " + activeTopic.label : "Spotlight editorial artwork"}>
-          {featuredItem?.imageUrl ? <img className={styles.heroFeatureImage} src={featuredItem.imageUrl} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /> : <div className={styles.heroArtFallback}><span>{activeTopic.art}</span><small>{activeTopic.label}</small></div>}
+          <div className={styles.heroArtFallback}><small>{activeTopic.label} · EDITORIAL PREVIEW</small></div>{featuredItem?.imageUrl && <img className={styles.heroFeatureImage} src={featuredItem.imageUrl} alt="" fetchPriority="high" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
           <div className={styles.heroImageShade} />
           <span className={styles.heroImageStamp}>01 / 06</span>
           <span className={styles.heroImageCaption}>THE EDITOR'S PICK</span>
@@ -143,7 +143,7 @@ export function SpotlightHub() {
           {topicOrder.map((topic, index) => {
             const item = feedById.get(topic.id)?.items?.[0];
             return <button type="button" key={topic.id} className={activeTopicId === topic.id ? styles.railItemActive : styles.railItem} onClick={() => { setActiveTopicId(topic.id); document.getElementById("topic-" + topic.id)?.scrollIntoView({ behavior: "smooth", block: "start" }); }} aria-pressed={activeTopicId === topic.id}>
-              <span className={styles.railThumb}>{item?.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} /> : <span>{topic.art}</span>}</span>
+              <span className={styles.railThumb}><span className={styles.railThumbFallback}>PHOTO PREVIEW</span>{item?.imageUrl && <img src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}</span>
               <span className={styles.railLabel}><b>{topic.label}</b><small>{String(index + 1).padStart(2, "0")} / 06</small></span>
               <span className={styles.railArrow} aria-hidden="true">↗</span>
             </button>;
@@ -233,7 +233,7 @@ export function SpotlightHub() {
                     {items.slice(0, 4).map((item) => (
                       <button type="button" className={styles.storyCard} onClick={() => setSelectedStory(item)} key={item.source + item.title + item.publishedAt}>
                         <div className={styles.storyMedia}>
-                          <div className={styles.storyArtwork} aria-hidden="true"><span>{topic.label.slice(0, 1)}</span></div>
+                          <div className={styles.storyArtwork} aria-hidden="true" />
                           {item.imageUrl && <img className={styles.storyImage} src={item.imageUrl} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.hidden = true; }} />}
                         </div>
                         <div className={styles.storyCopy}>
