@@ -13,16 +13,13 @@ type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
 const topicOrder = [
-  { id: "zambian-music", label: "Zambian music", note: "Artists, new releases, music videos and the Zed music conversation", sourceUrl: "https://zambianmusicblog.co/category/latest/", sourceLabel: "Zambian Music Blog" },
-  { id: "education", label: "Education", note: "Learning, education policy, scholarships and opportunities", sourceUrl: "https://www.edu.gov.zm/?page_id=187", sourceLabel: "Ministry of Education" },
-  { id: "sports", label: "Sports", note: "Zambian football, national teams and international sport", sourceUrl: "https://www.zambianfootballdata.com/", sourceLabel: "Football DNA Zambia" },
-  { id: "gamers", label: "Gamers", note: "Gaming culture, esports, releases and the games industry", sourceUrl: "https://www.ign.com/news", sourceLabel: "IGN" },
-  { id: "stock-market", label: "Stock market", note: "Official LuSE market data, listed companies and announcements", sourceUrl: "https://www.luse.co.zm/trading/market-data/", sourceLabel: "Lusaka Securities Exchange" },
-  { id: "schools", label: "Schools", note: "School news, learner opportunities and official education notices", sourceUrl: "https://www.edu.gov.zm/?page_id=187", sourceLabel: "Ministry of Education" },
-  { id: "zambia", label: "Hot Zambian news", note: "Fresh headlines from Zambian online publishers", sourceUrl: "https://mwebantu.com/", sourceLabel: "Mwebantu" },
-  { id: "world-music", label: "World music chats", note: "Global artists, industry conversations and music culture", sourceUrl: "https://news.google.com/search?q=world+music+industry&hl=en&gl=US&ceid=US:en", sourceLabel: "World music coverage" },
-  { id: "awards", label: "Music awards", note: "Nominations, winners and recognition of musical excellence", sourceUrl: "https://www.kwachaawards.com/", sourceLabel: "Kwacha Music Awards" },
-];
+  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", sourceLabel: "Zambian & world music", art: "♫", tone: "music" },
+  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", sourceLabel: "Zambian & international sport", art: "★", tone: "sports" },
+  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata" },
+  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics" },
+  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", sourceLabel: "Financial education", art: "↗", tone: "trading" },
+  { id: "special-offers", label: "Special Offers", note: "Promotions, business offers, campaigns and opportunities worth discovering", sourceLabel: "Offers & promotions", art: "％", tone: "offers" },
+] as const;
 
 function messageBody(title: string, category: string, link: string, note: string) {
   return [
@@ -189,20 +186,20 @@ export function SpotlightHub() {
 
       <section className={styles.latestSection} id="latest">
         <div className={styles.sectionHeading}>
-          <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Latest news & conversations</h2></div>
+          <div><span className={styles.kicker}>FRESH FROM ONLINE SOURCES</span><h2>Six channels. One Spotlight.</h2></div>
           <span className={styles.liveMark}><i /> AUTO-REFRESHED</span>
         </div>
-        <p className={styles.sectionIntro}>Zambian music, education and sport lead the coverage, followed by gaming, markets and schools. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
+        <p className={styles.sectionIntro}>Explore six dedicated channels for music, sport, Chipata community life, Zambian public affairs, financial learning and special offers. Headlines and available publisher images refresh from online sources. Select any story to read its available publisher-provided preview inside TIZIBANE.</p>
         {feedState === "loading" && <div className={styles.feedStatus}>Gathering the latest headlines from online sources…</div>}
         {feedState === "unavailable" && <div className={styles.feedStatus}>Live headlines are temporarily unavailable. Please return shortly; the feed refreshes automatically in the background.</div>}
-        <div className={styles.topicList}>
+        <div className={styles.topicList} aria-label="Six Spotlight channels">
           {topicOrder.map((topic, index) => {
             const feed = feedById.get(topic.id);
             const items = feed?.items ?? [];
             return (
               <section className={styles.topicSection} key={topic.id}>
                 <div className={styles.topicHeading}>
-                  <div><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
+                  <div className={styles.channelHeadingMain}><span className={styles.topicNumber}>{String(index + 1).padStart(2, "0")}</span><span className={styles.channelArt + " " + styles["channelTone" + topic.tone.charAt(0).toUpperCase() + topic.tone.slice(1)]} aria-hidden="true">{topic.art}</span><div><h3>{topic.label}</h3><p>{topic.note}</p></div></div>
                   <span className={styles.sourceLabel}>{topic.sourceLabel} · In-app preview</span>
                 </div>
                 {items.length > 0 ? (
