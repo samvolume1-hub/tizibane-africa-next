@@ -114,7 +114,6 @@ export function SpotlightHub() {
     <div className={styles.spotlight}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <span className={styles.kicker}>TIZIBANE · CULTURE · DISCOVERY</span>
           <h1>Spotlight<span>.</span></h1>
           <p>A stage for Zambian talent, fresh ideas, important stories and the conversations shaping our world.</p>
           <div className={styles.heroActions}>
@@ -125,7 +124,7 @@ export function SpotlightHub() {
         <div className={styles.heroArt} aria-hidden="true">
           <div className={styles.orbit} />
           <div className={styles.orbit + " " + styles.orbitTwo} />
-          <div className={styles.spotlightCore}><span>TZ</span><small>THE COMMUNITY STAGE</small></div>
+          <div className={styles.spotlightCore}><span>SPOTLIGHT</span></div>
           <i className={styles.sparkOne}>✦</i><i className={styles.sparkTwo}>✧</i>
         </div>
       </section>
