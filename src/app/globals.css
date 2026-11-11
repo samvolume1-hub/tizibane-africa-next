@@ -7487,3 +7487,51 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   .app-layout .messages-titlebar p { max-width:190px; }
   .app-layout .messages-new-button { padding-inline:10px;font-size:11px; }
 }
+
+
+/* LIVE INBOX: keep the selected chat inside the workspace beside the chat list. */
+.app-layout .messages-workspace-live { grid-template-columns:minmax(270px,330px) minmax(0,1fr); }
+.app-layout .messages-workspace-live .messages-chat-pane {
+  display:flex;flex-direction:column;min-width:0;min-height:0;
+  background:linear-gradient(180deg,rgba(255,252,255,.98),rgba(250,245,251,.96));
+}
+.app-layout .messages-selected-heading {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:76px;padding:13px 19px;
+  border-bottom:1px solid rgba(112,67,126,.14);background:rgba(255,255,255,.78);
+}
+.app-layout .messages-selected-heading .person-identity { display:flex;align-items:center;gap:11px;min-width:0; }
+.app-layout .messages-selected-heading .person-avatar { width:44px;height:44px;min-width:44px; }
+.app-layout .messages-selected-heading h2 { margin:0;color:#3d2c42;font-size:14px;font-weight:850; }
+.app-layout .messages-selected-heading .person-identity span { color:#8a7489;font-size:11px; }
+.app-layout .messages-open-full {
+  flex-shrink:0;padding:8px 12px;border:1px solid #e6d8e8;border-radius:999px;
+  color:#704184;font-size:11px;font-weight:800;text-decoration:none;
+}
+.app-layout .messages-open-full:hover { background:#f6edf7; }
+.app-layout .messages-workspace-live .message-live-panel {
+  display:flex;flex:1;flex-direction:column;min-height:0;margin:0;padding:14px 17px 16px;
+}
+.app-layout .messages-workspace-live .message-chat-toolbar { flex-shrink:0; }
+.app-layout .messages-workspace-live .message-thread {
+  flex:1;min-height:180px;max-height:none;margin:10px 0;overscroll-behavior:contain;
+}
+.app-layout .messages-workspace-live .message-composer { flex-shrink:0;margin-top:8px; }
+.app-layout .messages-workspace-live .message-empty { min-height:150px; }
+.app-layout .messages-sidebar .conversation-card.is-active {
+  background:#f3e8f4;box-shadow:inset 3px 0 #80508d;
+}
+.app-layout .messages-sidebar .conversation-card.is-active .conversation-card-copy strong { color:#512e60; }
+@media(max-width:760px) {
+  .app-layout .messages-workspace-live { grid-template-columns:minmax(0,1fr); }
+  .app-layout .messages-workspace-live .messages-sidebar {
+    max-height:300px;overflow:auto;border-bottom:1px solid rgba(112,67,126,.16);
+  }
+  .app-layout .messages-workspace-live .messages-chat-pane { min-height:520px; }
+  .app-layout .messages-workspace-live .message-thread { min-height:180px; }
+}
+@media(max-width:420px) {
+  .app-layout .messages-workspace-live .message-live-panel { padding:10px; }
+  .app-layout .messages-selected-heading { min-height:66px;padding:10px 12px; }
+  .app-layout .messages-open-full { padding:7px 9px;font-size:10px; }
+}
