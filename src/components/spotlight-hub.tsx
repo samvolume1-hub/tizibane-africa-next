@@ -148,7 +148,7 @@ export function SpotlightHub() {
                 <option value="whatsapp">WhatsApp</option><option value="email">Gmail</option>
               </select>
             </label>
-            <button type="submit" className={styles.submitButton}>Continue to {channel === "whatsapp" ? "WhatsApp" : "Email"} <span aria-hidden="true">↗</span></button>
+            <button type="submit" className={styles.submitButton}>Continue to {channel === "whatsapp" ? "WhatsApp" : "Gmail"} <span aria-hidden="true">↗</span></button>
           </div>
           <p className={styles.privacyNote}>Your message opens in the service you choose. TIZIBANE does not store it as an in-app private conversation. Longer discussions continue directly by email or WhatsApp.</p>
         </form>
