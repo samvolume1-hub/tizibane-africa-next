@@ -114,14 +114,13 @@ export function SpotlightHub() {
     <div className={styles.spotlight}>
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
-          <h1>Spotlight<span>.</span></h1>
           <p>A stage for Zambian talent, fresh ideas, important stories and the conversations shaping our world.</p>
           <div className={styles.heroActions}>
             <a href="#submit-review" className={styles.primaryLink}>Submit for review <span aria-hidden="true">↗</span></a>
             <a href="#latest" className={styles.secondaryLink}>Explore latest news</a>
           </div>
         </div>
-        <div className={styles.heroArt} aria-hidden="true">
+        <div className={styles.heroArt} role="img" aria-label="Spotlight logo">
           <div className={styles.orbit} />
           <div className={styles.orbit + " " + styles.orbitTwo} />
           <div className={styles.spotlightCore}><span>SPOTLIGHT</span></div>
