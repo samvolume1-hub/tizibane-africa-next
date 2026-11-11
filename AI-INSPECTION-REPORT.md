@@ -185,3 +185,16 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** Before enabling external email/WhatsApp alerts, add explicit member opt-in, verified contact handling, delivery idempotency, retries, rate limits, quiet hours and provider cost controls. Before enabling notification Realtime, design one private recipient-scoped channel and avoid duplicate subscriptions or polling.
 - **Next safe step:** Complete a focused notification UX design and implementation proposal (unread badge + lightweight live refresh) and then audit Premium, Events, Groups, Stories, Profile, People, Home feed and all admin-only paths. Preserve existing media limits and access controls.
+
+
+### 11 November 2026 — Spotlight runtime resilience pass
+
+- **Contributor:** ChatGPT
+- **Branch:** `feat/tizibane-spotlight-hub`
+- **Files changed:** `src/app/api/spotlight-feed/route.ts`, `src/components/spotlight-hub.tsx`, `src/components/spotlight-hub.module.css`, and this report.
+- **Review:** Examined external RSS parsing, image handling, link validation, caching, loading behaviour, and the submission/enquiry hand-off.
+- **Fixes:** RSS image extraction now ignores audio/video enclosure URLs and accepts explicit image media only; source-icon fallback remains available. Every news card now has a designed artwork fallback underneath its lazy-loaded publisher image, so a broken or blocked image does not leave a broken-image icon or empty image area. Submission links now require HTTPS. The news source indicator says “Auto-refreshed” rather than implying real-time streaming; feeds remain cached for approximately 15 minutes.
+- **Performance choices retained:** Nine topic feeds are fetched concurrently with a 7-second per-source timeout and 15-minute cache; only four headlines per topic are rendered; external images use lazy loading, async decoding and no-referrer; no media uploads, polling loops, background timers, database writes or extra packages were introduced.
+- **Email confirmation:** Review and enquiry Gmail destination is `samryt26@gmail.com`.
+- **Tests:** Awaiting GitHub Actions TypeScript and production build on the updated branch. No browser/device or live Render check yet.
+- **Production changes:** None. No Supabase or Render settings changed.
