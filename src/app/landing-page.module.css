@@ -1,4 +1,4 @@
-.page {
+.page:global(.tizibane-landing) {
   min-height: 100vh;
   color: #211d20 !important;
   background: #faf8f4 !important;
@@ -285,14 +285,12 @@
 .page :global(> .footer .royalty-copyright) { color: #746a6e !important; }
 
 @media (max-width: 900px) {
+  .featureGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
+  .featureCard, .featureCard:nth-child(4), .featureCard:nth-child(5) { grid-column: auto; }
   .page :global(.hero) { grid-template-columns: minmax(0,1fr) !important; max-width: 760px !important; padding-top: 46px !important; }
   .heroArt { min-height: 390px !important; }
   .discoverHeading { align-items: flex-start; flex-direction: column; gap: 10px; }
   .discoverHeading p { max-width: 600px; }
-  .featureGrid { grid-template-columns: repeat(6,minmax(0,1fr)); gap: 13px; }
-  .featureCard { grid-column: span 3; }
-  .featureCard:nth-child(4) { grid-column: 2 / span 2; }
-  .featureCard:nth-child(5) { grid-column: 4 / span 2; }
 }
 @media (max-width: 600px) {
   .page :global(.topbar) { min-height: 68px !important; height: auto !important; padding: 10px 13px !important; flex-wrap: nowrap !important; gap: 8px !important; }
