@@ -35,10 +35,16 @@ function messageBody(title: string, category: string, link: string, note: string
   ].join("\n");
 }
 
+function gmailComposeUrl(subject: string, body = "") {
+  return "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(EMAIL)
+    + "&su=" + encodeURIComponent(subject)
+    + "&body=" + encodeURIComponent(body);
+}
+
 function openContact(channel: "whatsapp" | "email", subject: string, body: string) {
   const destination = channel === "whatsapp"
     ? "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(body)
-    : "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    : gmailComposeUrl(subject, body);
   window.open(destination, "_blank", "noopener,noreferrer");
 }
 
@@ -139,7 +145,7 @@ export function SpotlightHub() {
           <div className={styles.submitControls}>
             <label className={styles.channelChoice}>Continue using
               <select value={channel} onChange={(event) => setChannel(event.target.value as "whatsapp" | "email")}>
-                <option value="whatsapp">WhatsApp</option><option value="email">Gmail / Email</option>
+                <option value="whatsapp">WhatsApp</option><option value="email">Gmail</option>
               </select>
             </label>
             <button type="submit" className={styles.submitButton}>Continue to {channel === "whatsapp" ? "WhatsApp" : "Email"} <span aria-hidden="true">↗</span></button>
@@ -149,7 +155,7 @@ export function SpotlightHub() {
         <div className={styles.directContact}>
           <span>Prefer to contact the review team directly?</span>
           <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">Continue on WhatsApp ↗</a>
-          <a href={"mailto:" + EMAIL + "?subject=" + encodeURIComponent("TIZIBANE Spotlight enquiry")}>Continue by email ↗</a>
+          <a href={gmailComposeUrl("TIZIBANE Spotlight enquiry")}>Continue by Gmail ↗</a>
         </div>
       </section>
 
@@ -165,7 +171,7 @@ export function SpotlightHub() {
           </label>
           <label className={styles.channelChoice}>Continue using
             <select value={inquiryChannel} onChange={(event) => setInquiryChannel(event.target.value as "whatsapp" | "email")}>
-              <option value="whatsapp">WhatsApp</option><option value="email">Gmail / Email</option>
+              <option value="whatsapp">WhatsApp</option><option value="email">Gmail</option>
             </select>
           </label>
           <button type="submit" className={styles.submitButton}>Continue privately ↗</button>
@@ -236,7 +242,7 @@ export function SpotlightHub() {
           <a href="https://royalty-music-hub.samvolume1.workers.dev/" target="_blank" rel="noopener noreferrer">Royalty Music Hub ↗</a>
           <a href="https://sites.google.com/view/royalty-music/home" target="_blank" rel="noopener noreferrer">Royalty Music ↗</a>
           <a href="https://sites.google.com/view/sam-shane-music/home" target="_blank" rel="noopener noreferrer">Sam Shane Music ↗</a>
-          <a href={"mailto:" + EMAIL}>General email ↗</a>
+          <a href={gmailComposeUrl("TIZIBANE general enquiry")}>General email ↗</a>
           <a href="mailto:royaltymusicschool833@gmail.com">Royalty Music School ↗</a>
           <a href="mailto:samvolume1@gmail.com">Company enquiries ↗</a>
           <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp Royalty ↗</a>
