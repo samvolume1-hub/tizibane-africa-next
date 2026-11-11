@@ -26,7 +26,7 @@ export function CommunityNavigation({ active }: { active: string }) {
     <aside className="sidebar tizibane-illustrated-sidebar">
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
         <nav className="side-nav illustrated-side-nav" aria-label="Main navigation">
-          {items.filter((item) => !["people", "messages", "blocked", "activity", "events", "premium", "connect"].includes(item.key)).map((item) => (
+          {items.filter((item) => !["people", "blocked", "activity", "events", "premium", "connect"].includes(item.key)).map((item) => (
             <Link
               key={item.key}
               href={item.href}

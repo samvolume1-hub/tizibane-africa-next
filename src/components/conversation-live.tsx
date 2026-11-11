@@ -265,6 +265,10 @@ export function ConversationLive({
             value={draft}
             onChange={(event) => { setDraft(event.target.value.slice(0, 4000)); sendTyping(); }}
             maxLength={4000}
+            spellCheck={true}
+            autoCorrect="off"
+            autoCapitalize="sentences"
+            lang="en"
             rows={3}
             placeholder="Write a private message…"
             required
@@ -276,7 +280,7 @@ export function ConversationLive({
             </button>
           </div>
         </form>
-        <p className="field-help">Private text messages. Keep personal information safe and report anything concerning.</p>
+        <p className="field-help">Spelling suggestions are available from your browser’s spelling menu. Choose a suggestion when you want one — TIZIBANE never silently autocorrects your words. Keep personal information safe and report anything concerning.</p>
       </section>
     </section>
   );
