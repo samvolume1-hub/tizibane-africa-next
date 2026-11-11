@@ -602,15 +602,15 @@
 }
 
 
-/* Tooltip: clean solid-purple face with exactly one white underlay visible
-   only as a slim strip beneath it. Remove the earlier white outline and stacked shadows. */
+/* Keep the single component-rendered tooltip clean: one purple surface,
+   white text, and no decorative border, shadow, or underlay. */
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label,
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label.is-visible {
   background: #7D6295 !important;
   background-color: #7D6295 !important;
   color: #FFFFFF !important;
-  border: 1px solid #7D6295 !important;
-  box-shadow: 0 3px 0 #FFFFFF !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 /* Reduce only the illustrated symbols by 12%; button shells and spacing stay fixed. */
@@ -637,33 +637,14 @@
   filter: none !important;
 }
 
-/* Remove any pre-existing pseudo-element decoration, then add exactly one
-   flat white strip below the purple tooltip face. */
+/* Tooltip labels use no pseudo-elements; this prevents stacked text or
+   decorative strips from appearing over or beneath the label. */
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label::before,
 .app-layout .tizibane-illustrated-sidebar .nav-hover-label::after {
   content: none !important;
   display: none !important;
-  box-shadow: none !important;
   border: 0 !important;
-}
-.app-layout .tizibane-illustrated-sidebar .nav-hover-label::after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  z-index: -1 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: -3px !important;
-  width: auto !important;
-  height: 3px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border: 0 !important;
-  border-radius: 0 0 4px 4px !important;
-  background: #FFFFFF !important;
   box-shadow: none !important;
-  transform: none !important;
-  opacity: 1 !important;
 }
 
 

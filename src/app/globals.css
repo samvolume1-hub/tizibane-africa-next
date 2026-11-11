@@ -5473,30 +5473,8 @@ main > .landing-contacts .landing-contact-panel a {
   image-rendering: auto;
 }
 .tizibane-illustrated-sidebar nav.illustrated-side-nav a::after {
-  content: attr(aria-label);
-  position: absolute;
-  left: calc(100% + 9px);
-  top: 50%;
-  z-index: 60;
-  transform: translateY(-50%) translateX(-3px);
-  padding: 7px 10px;
-  border: 1px solid #ead8ad;
-  border-radius: 8px;
-  background: #fff;
-  color: #171717;
-  box-shadow: 0 5px 18px #00000012;
-  font-size: 11px;
-  font-weight: 650;
-  line-height: 1.2;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .14s ease, transform .14s ease;
-}
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover::after,
-.tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible::after {
-  opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  content: none !important;
+  display: none !important;
 }
 .tizibane-illustrated-sidebar .sidebar-note,
 .tizibane-illustrated-sidebar .sidebar-signout,
