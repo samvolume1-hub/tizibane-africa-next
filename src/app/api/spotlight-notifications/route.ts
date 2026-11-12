@@ -14,18 +14,18 @@ const topics = [
 
 function decodeXml(value: string) {
   return value
-    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, "$1")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&#(\\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([\\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .trim();
 }
 
 function readTag(xml: string, tag: string) {
-  const match = xml.match(new RegExp("<" + tag + "(?:\\\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim() : "";
+  const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
 }
 
 function trustedArticleUrl(value: string) {
@@ -49,7 +49,7 @@ async function readTopic(topic: (typeof topics)[number]) {
     });
     if (!response.ok) return [];
     const xml = await response.text();
-    return [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/gi)].slice(0, 5).flatMap((match) => {
+    return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).flatMap((match) => {
       const item = match[1];
       const articleUrl = trustedArticleUrl(readTag(item, "link"));
       const title = readTag(item, "title").slice(0, 240);
