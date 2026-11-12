@@ -94,7 +94,75 @@ Deno.serve(async (request: Request) => {
       console.error("[Spotlight notification sync] database processing failed", error);
       return Response.json({ error: "Notification processing failed" }, { status: 500 });
     }
-    return Response.json({ ok: true, items_checked: items.length, result: data });
+    // Email is a separate optional delivery channel. If its server-side
+    // configuration is absent, the private queue remains pending and in-app
+    // notifications continue normally.
+    const emailDispatchUrl = Deno.env.get("TIZIBANE_EMAIL_DISPATCH_URL");
+    const emailDispatchToken = Deno.env.get("TIZIBANE_EMAIL_DISPATCH_TOKEN");
+    const emailDispatch: Record<string, unknown> = {
+      configured: Boolean(emailDispatchUrl && emailDispatchToken),
+      claimed: 0,
+      sent: 0,
+      failed: 0,
+    };
+
+    if (emailDispatchUrl && emailDispatchToken) {
+      const { data: batch, error: claimError } = await supabase.rpc(
+        "claim_spotlight_email_batch", { p_limit: 30 },
+      );
+      if (claimError) {
+        console.error("[Spotlight email] queue claim failed", { code: claimError.code });
+        emailDispatch.error = "Queue claim failed";
+      } else if (Array.isArray(batch) && batch.length > 0) {
+        emailDispatch.claimed = batch.length;
+        try {
+          const delivery = await fetch(emailDispatchUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-tizibane-email-dispatch-token": emailDispatchToken,
+            },
+            body: JSON.stringify({ items: batch }),
+            signal: AbortSignal.timeout(60_000),
+          });
+          if (!delivery.ok) throw new Error("Email delivery endpoint returned " + delivery.status);
+          const result = await delivery.json() as {
+            sent_ids?: string[];
+            failed?: Array<{ id: string; error?: string }>;
+          };
+          const sentIds = new Set(result.sent_ids ?? []);
+          const failedById = new Map((result.failed ?? []).map((entry) => [entry.id, entry.error ?? "Delivery failed"]));
+          for (const entry of batch as Array<{ id: string }>) {
+            const sent = sentIds.has(entry.id);
+            const failure = failedById.get(entry.id);
+            const { error: completionError } = await supabase.rpc("complete_spotlight_email", {
+              p_id: entry.id,
+              p_sent: sent,
+              p_error: sent ? null : (failure ?? "Email delivery did not confirm success"),
+            });
+            if (completionError) {
+              console.error("[Spotlight email] queue completion failed", { code: completionError.code });
+            } else if (sent) {
+              emailDispatch.sent = Number(emailDispatch.sent) + 1;
+            } else {
+              emailDispatch.failed = Number(emailDispatch.failed) + 1;
+            }
+          }
+        } catch (dispatchError) {
+          console.error("[Spotlight email] dispatch failed", dispatchError);
+          for (const entry of batch as Array<{ id: string }>) {
+            await supabase.rpc("complete_spotlight_email", {
+              p_id: entry.id,
+              p_sent: false,
+              p_error: "Email service temporarily unavailable",
+            });
+          }
+          emailDispatch.failed = batch.length;
+        }
+      }
+    }
+
+    return Response.json({ ok: true, items_checked: items.length, result: data, email_dispatch: emailDispatch });
   } catch (error) {
     console.error("[Spotlight notification sync] sync failed", error);
     return Response.json({ error: "Spotlight sync failed" }, { status: 502 });
