@@ -46,6 +46,14 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     setIncoming(null);
   }, []);
 
+  // Toggle a plain body class while a call is active. This is more reliable
+  // than CSS :has() for older mobile browsers and embedded Android WebViews.
+  useEffect(() => {
+    if (!activeCall) return;
+    document.body.classList.add("tizibane-call-active");
+    return () => document.body.classList.remove("tizibane-call-active");
+  }, [activeCall?.callId]);
+
   const joinCall = useCallback(async (callId: string) => {
     setBusy("join");
     setError("");
