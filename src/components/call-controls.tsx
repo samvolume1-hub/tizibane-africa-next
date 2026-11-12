@@ -241,9 +241,13 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
           startWithVideoMuted: activeCall.callType === "audio",
           disableDeepLinking: true,
           enableWelcomePage: false,
-          // Hide the room subject/code banner in video calls only.
-          // Leave the conference timer enabled and preserve all call controls.
-          ...(activeCall.callType === "video" ? { hideConferenceSubject: true } : {}),
+          // Hide the room subject/code banner on desktop and mobile.
+          // A blank local subject also covers Jitsi mobile/pre-join header variants.
+          // Do not hide the conference timer or change the actual room name.
+          ...(activeCall.callType === "video" ? {
+            hideConferenceSubject: true,
+            localSubject: " ",
+          } : {}),
           toolbarButtons: ["microphone", "camera", "desktop", "hangup", "chat", "tileview", "fullscreen"],
         },
         interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false, SHOW_BRAND_WATERMARK: false },
