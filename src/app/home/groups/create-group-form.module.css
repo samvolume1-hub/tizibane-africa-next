@@ -180,35 +180,8 @@
   .scope :global(.app-content .groups-discovery-toolbar) { border-radius: 16px; }
 }
 
-/* Strong black typography for every Create Group instruction and description. */
-.shell .headingCopy h2,
-.shell .headingCopy p,
-.shell .label,
-.shell .hint,
-.shell .accessTitle,
-.shell .choiceCopy strong,
-.shell .choiceCopy span,
-.shell .coverHeader,
-.shell .details summary,
-.shell .footerHint,
-.shell .fileInput {
-  color: #000 !important;
-  font-weight: 800 !important;
-}
-.shell .input,
-.shell .textarea,
-.shell .categoryInput {
-  color: #000;
-  font-weight: 700;
-}
-.shell .input::placeholder,
-.shell .textarea::placeholder {
-  color: #292929;
-  font-weight: 700;
-}
-
-
-/* Create Group: force every instructional text element to true black and heavy weight. */
+/* CREATE GROUP — one authoritative high-contrast typography layer.
+   Includes the upload-status paragraph rendered by CompressedImageForm. */
 .shell .headingCopy h2,
 .shell .headingCopy p,
 .shell .label,
@@ -220,19 +193,32 @@
 .shell .details summary,
 .shell .footerHint,
 .shell .fileInput,
+.shell :global(.image-compression-status) {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+
 .shell .input,
 .shell .textarea,
 .shell .categoryInput {
   color: #000 !important;
   font-weight: 800 !important;
 }
+
 .shell .input::placeholder,
 .shell .textarea::placeholder {
   color: #000 !important;
   opacity: 1;
   font-weight: 800 !important;
 }
+
 .shell .fileInput::file-selector-button {
   color: #000 !important;
   font-weight: 900 !important;
+}
+
+/* Keep the primary action intentionally white on plum for clear contrast. */
+.shell .submit,
+.shell .submit :global(*) {
+  color: #fff !important;
 }
