@@ -88,7 +88,6 @@ export function NotificationSoundListener() {
     let inboxChannel: ReturnType<typeof supabase.channel> | null = null;
     let feedChannel: ReturnType<typeof supabase.channel> | null = null;
     let stopped = false;
-    let inboxReady = false;
 
     const playMessageOnce = (messageId: string | null | undefined, senderId?: string | null, mutedActorIds = new Set<string>()) => {
       if (!messageId || seenMessageIds.current.has(messageId)) return;
@@ -173,10 +172,7 @@ export function NotificationSoundListener() {
             playMessageOnce(event.payload?.message_id, event.payload?.sender_id, mutedActorIds);
             if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
           })
-          .subscribe((status, error) => {
-            inboxReady = status === "SUBSCRIBED";
-            reportRealtimeStatus("inbox:" + userId, status, error);
-          });
+          .subscribe((status, error) => reportRealtimeStatus("inbox:" + userId, status, error));
 
         // Independent public topic: Postgres RLS still limits every row to its recipient.
         // This delivers message sounds even when the private inbox broadcast is rejected.
@@ -190,7 +186,7 @@ export function NotificationSoundListener() {
             if (!notification || notification.recipient_id !== userId) return;
             if (notification.kind === "message") {
               // The message_id shared by the trigger and inbox broadcast deduplicates both routes.
-              if (!inboxReady) playMessageOnce(notification.message_id ?? notification.id, notification.actor_id, mutedActorIds);
+              playMessageOnce(notification.message_id ?? notification.id, notification.actor_id, mutedActorIds);
               if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
               return;
             }
