@@ -7929,7 +7929,7 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     flex: 0 1 auto;
     width: min(100%, 1120px);
     height: auto;
-    max-height: calc(100dvh - 150px);
+    max-height: calc(100dvh - 110px);
     aspect-ratio: 16 / 9;
     margin: auto;
     overflow: hidden;
