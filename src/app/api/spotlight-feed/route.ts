@@ -220,7 +220,7 @@ export async function GET() {
   });
   const publicFeeds = feeds.map((feed) => ({
     ...feed,
-    items: feed.items.map(({ articleUrl: _articleUrl, ...item }) => item),
+    items: feed.items, // Publisher URLs are used by the scheduled server-side notification sync; the Spotlight UI does not render this field.
   }));
   return NextResponse.json(
     { updatedAt: new Date().toISOString(), feeds: publicFeeds },

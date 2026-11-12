@@ -2,7 +2,7 @@
 
 export type TizibaneSoundKind =
   | "message" | "like" | "comment" | "friend_request"
-  | "group" | "event" | "voice_call" | "video_call";
+  | "group" | "event" | "spotlight" | "voice_call" | "video_call";
 
 export type NotificationPreferences = {
   soundEnabled: boolean;
@@ -104,6 +104,7 @@ const melodies: Record<TizibaneSoundKind, Array<[number, number, number]>> = {
   friend_request: [[523.25, 0, 0.34], [659.25, 0.13, 0.38], [783.99, 0.27, 0.48]],
   group: [[659.25, 0, 0.34], [783.99, 0.15, 0.34], [659.25, 0.3, 0.4]],
   event: [[587.33, 0, 0.38], [783.99, 0.18, 0.46]],
+  spotlight: [[659.25, 0, 0.32], [880, 0.14, 0.36], [1046.5, 0.29, 0.48]],
   voice_call: [[523.25, 0, 0.52], [659.25, 0.2, 0.56], [783.99, 0.4, 0.64]],
   video_call: [[587.33, 0, 0.48], [739.99, 0.18, 0.5], [880, 0.36, 0.62]],
 };
@@ -165,5 +166,6 @@ export function notificationSoundKind(kind: string): TizibaneSoundKind {
   if (kind === "friend_request" || kind === "friend_accepted" || kind === "friend_declined" || kind === "follow") return "friend_request";
   if (kind.startsWith("group_")) return "group";
   if (kind.startsWith("event_")) return "event";
+  if (kind.startsWith("spotlight_")) return "spotlight";
   return "message";
 }
