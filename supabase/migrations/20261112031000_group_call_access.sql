@@ -58,7 +58,10 @@ create policy call_participant_read
       from public.conversations c
       where c.id = call_participants.conversation_id
         and c.group_id is not null
-        and private.is_group_member(c.group_id)
+        and (
+          private.is_group_member(c.group_id)
+          or exists (select 1 from public.groups g where g.id = c.group_id and g.owner_id = (select auth.uid()))
+        )
     )
   );
 
@@ -106,7 +109,10 @@ create policy "Messaging members can send private realtime events"
             select 1 from public.conversations c
             where c.id = (regexp_match(realtime.topic(), '^conversation:([0-9a-fA-F-]{36})$'))[1]::uuid
               and c.group_id is not null
-              and private.is_group_member(c.group_id)
+              and (
+                private.is_group_member(c.group_id)
+                or exists (select 1 from public.groups g where g.id = c.group_id and g.owner_id = (select auth.uid()))
+              )
           )
         )
       when realtime.topic() ~ '^inbox:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
