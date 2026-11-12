@@ -135,7 +135,7 @@ Deno.serve(async (request: Request) => {
             const source = String(metadata.source ?? "");
             const articleUrl = String(metadata.article_url ?? "");
             if (!articleUrl.startsWith("https://")) throw new Error("Spotlight link is not a secure HTTPS URL");
-            if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(entry.recipient_email)) {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entry.recipient_email)) {
               throw new Error("Recipient email is invalid");
             }
             const isUpdate = entry.kind === "spotlight_updated";
@@ -143,14 +143,14 @@ Deno.serve(async (request: Request) => {
             const subject = isUpdate ? "Spotlight update: " + title : "New in TIZIBANE Spotlight: " + title;
             const safeTitle = escapeHtml(title);
             const safeCategory = escapeHtml(category);
-            const safeSummary = escapeHtml(summary).replace(/\\r?\\n/g, "<br>");
+            const safeSummary = escapeHtml(summary).replace(/\r?\n/g, "<br>");
             const safeSource = escapeHtml(source);
             const safeUrl = escapeHtml(articleUrl);
             const textContent = [
               "TIZIBANE ZAMBIA", heading, "", title, category, summary,
               source ? "Source: " + source : "", "", "Read the update: " + articleUrl,
               "", "Connect. Belong. Grow.", "© 2026 TIZIBANE Zambia",
-            ].filter(Boolean).join("\\n");
+            ].filter(Boolean).join("\n");
             const htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
               <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
