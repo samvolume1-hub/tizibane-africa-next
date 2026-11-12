@@ -189,7 +189,7 @@ async function readTopic(topic: (typeof topics)[number]) {
       next: { revalidate: 900 },
       signal: AbortSignal.timeout(7000),
     });
-    if (!response.ok) return { id: topic.id, label: topic.label, items: [] as FeedItem[] };
+    if (!response.ok) return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
     const xml = await response.text();
     const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).map((match) => {
       const item = match[1];
@@ -205,9 +205,9 @@ async function readTopic(topic: (typeof topics)[number]) {
         articleUrl: link,
       };
     }).filter((item): item is FeedItem => Boolean(item));
-    return { id: topic.id, label: topic.label, items };
+    return { id: topic.id, label: topic.label, available: true, items };
   } catch {
-    return { id: topic.id, label: topic.label, items: [] as FeedItem[] };
+    return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
   }
 }
 
@@ -220,7 +220,7 @@ export async function GET() {
   });
   const publicFeeds = feeds.map((feed) => ({
     ...feed,
-    items: feed.items.map(({ articleUrl: _articleUrl, ...item }) => item),
+    items: feed.items, // Publisher URLs are used by the scheduled server-side notification sync; the Spotlight UI does not render this field.
   }));
   return NextResponse.json(
     { updatedAt: new Date().toISOString(), feeds: publicFeeds },
