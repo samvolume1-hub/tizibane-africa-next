@@ -135,7 +135,7 @@ export function NotificationSoundListener() {
           schema: "public",
           table: "call_participants",
           filter: "user_id=eq." + userId,
-        }, (payload: { new: CallParticipantEvent & { user_id?: string } }) => {
+        }, (payload: { eventType?: string; new: CallParticipantEvent & { user_id?: string } }) => {
           if (payload.new.user_id === userId && payload.new.status !== "invited") {
             setIncomingCall((current) => current?.id === payload.new.call_id ? null : current);
             return;
