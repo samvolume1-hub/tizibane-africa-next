@@ -29,14 +29,15 @@ export async function POST(request: Request) {
 
   let memberIds: string[] = [];
   if (conversation.is_group && conversation.group_id) {
-    const [{ data: groupMembership }, { data: groupMembers }] = await Promise.all([
+    const [{ data: groupMembership }, { data: groupMembers }, { data: group }] = await Promise.all([
       supabase.from("group_members").select("status").eq("group_id", conversation.group_id).eq("user_id", user.id).maybeSingle(),
       supabase.from("group_members").select("user_id").eq("group_id", conversation.group_id).eq("status", "active"),
+      supabase.from("groups").select("owner_id").eq("id", conversation.group_id).maybeSingle(),
     ]);
-    if (groupMembership?.status !== "active") {
+    if (groupMembership?.status !== "active" && group?.owner_id !== user.id) {
       return NextResponse.json({ error: "Only active group members can start group calls." }, { status: 403 });
     }
-    memberIds = [...new Set((groupMembers ?? []).map((member) => member.user_id))];
+    memberIds = [...new Set([...(groupMembers ?? []).map((member) => member.user_id), ...(group?.owner_id ? [group.owner_id] : [])])];
   } else {
     const { data: members } = await supabase.from("conversation_members")
       .select("user_id")
