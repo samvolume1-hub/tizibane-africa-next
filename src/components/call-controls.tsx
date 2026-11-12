@@ -144,7 +144,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         return;
       }
       const { data: session } = await supabase.from("call_sessions")
-        .select("id,started_by,room_name,call_type,status")
+        .select("id,started_by,room_name,call_type,status,created_at")
         .eq("id", participant.call_id).maybeSingle();
       if (alive && session && session.started_by !== userId && (session.status === "ringing" || session.status === "active")) {
         setIncoming(session as CallSessionRow);
