@@ -19,7 +19,7 @@ const topics = [
 const USER_AGENT = "TIZIBANE-Spotlight/1.0 (+https://tizibane-africa-next.onrender.com)";
 
 type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl: string };
-type Feed = { id: string; label: string; available: boolean; items: FeedItem[] };
+type Feed = { id: string; label: string; available: boolean; status?: number; failure?: string; items: FeedItem[] };
 
 function decodeXml(value: string) {
   return value
@@ -55,7 +55,7 @@ async function readTopic(topic: (typeof topics)[number]): Promise<Feed> {
       headers: { "User-Agent": USER_AGENT, Accept: "application/rss+xml,application/xml,text/xml;q=0.9,*/*;q=0.1" },
       signal: AbortSignal.timeout(7000),
     });
-    if (!response.ok) return { id: topic.id, label: topic.label, available: false, items: [] };
+    if (!response.ok) return { id: topic.id, label: topic.label, available: false, status: response.status, items: [] };
     const xml = await response.text();
     const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).flatMap((match) => {
       const item = match[1];
@@ -71,8 +71,14 @@ async function readTopic(topic: (typeof topics)[number]): Promise<Feed> {
       }];
     });
     return { id: topic.id, label: topic.label, available: true, items };
-  } catch {
-    return { id: topic.id, label: topic.label, available: false, items: [] };
+  } catch (error) {
+    return {
+      id: topic.id,
+      label: topic.label,
+      available: false,
+      failure: error instanceof Error ? error.name + ": " + error.message : String(error),
+      items: [],
+    };
   }
 }
 
@@ -106,6 +112,9 @@ Deno.serve(async (request: Request) => {
   try {
     const feeds = await Promise.all(topics.map(readTopic));
     if (feeds.length !== topics.length || feeds.some((feed) => !feed.available)) {
+      console.error("[Spotlight notification sync] unavailable RSS departments", feeds
+        .filter((feed) => !feed.available)
+        .map((feed) => ({ id: feed.id, status: feed.status ?? null, failure: feed.failure ?? null })));
       return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
     }
 
