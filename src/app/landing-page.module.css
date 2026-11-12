@@ -289,9 +289,9 @@
   .page :global(.brand) { gap: 7px !important; letter-spacing: .08em !important; }
   .page :global(.brand-mark) { width: 33px !important; height: 33px !important; }
   .page :global(.brand-letter) { font-size: 23px !important; }
-  .page :global(.brand small) { font-size: 8px !important; }
+  .page :global(.brand small) { font-size: 8.8px !important; }
   .page :global(.welcome-top-actions) { gap: 6px !important; }
-  .page :global(.welcome-top-actions .btn) { min-height: 38px !important; padding: 8px 10px !important; font-size: 10px !important; white-space: nowrap !important; }
+  .page :global(.welcome-top-actions .btn) { min-height: 38px !important; padding: 8px 10px !important; font-size: 11px !important; white-space: nowrap !important; }
   .page :global(.hero) { padding: 25px 13px 30px !important; }
   .heroArt { min-height: 270px !important; border-width: 5px !important; border-radius: 22px !important; }
   .page :global(> .landing-contacts) { width: calc(100% - 28px) !important; margin-bottom: 38px !important; padding: 12px !important; gap: 8px !important; }
