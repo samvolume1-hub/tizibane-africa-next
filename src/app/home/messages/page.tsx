@@ -94,7 +94,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
     <main className="app-layout">
       <CommunityNavigation active="messages" />
       <section className="app-main">
-        <header className="topbar">
+        <header className="topbar messages-topbar">
           <Link href="/home" className="back-link">← Community home</Link>
           <span className="muted">PRIVATE MESSAGES</span>
         </header>
@@ -104,7 +104,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
             <Link href="/home/people" className="messages-new-button"><span aria-hidden="true">＋</span> Start messaging</Link>
           </header>
           {params.error && <div className="notice" role="alert">{params.error}</div>}
-          <section className="messages-workspace messages-workspace-live" aria-label="Messaging workspace">
+          <section className={"messages-workspace messages-workspace-live" + (activeConversation ? " messages-workspace-has-active" : "")} aria-label="Messaging workspace">
             <aside className="messages-sidebar">
               <div className="messages-sidebar-heading"><h2>Chats</h2><span>{conversations.length}</span></div>
               {memberError ? (
@@ -149,6 +149,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
               {activeConversation && activeOtherId ? (
                 <>
                   <header className="messages-selected-heading">
+                    <Link href="/home/messages" className="messages-back-to-chats" aria-label="Back to chats"><span aria-hidden="true">←</span> Chats</Link>
                     <div className="person-identity">
                       {activeAvatar ? <img src={activeAvatar} alt="" className="person-avatar" /> : <div className="person-avatar person-avatar-fallback" style={{ background: activeProfile?.avatar_color || undefined }}>{activeProfile?.initials || "TZ"}</div>}
                       <div><h2>{activeName}</h2><span>{activeProfile?.handle ? "@" + activeProfile.handle : "TIZIBANE connection"}</span></div>
