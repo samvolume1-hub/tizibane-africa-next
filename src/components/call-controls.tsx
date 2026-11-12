@@ -241,6 +241,9 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
           startWithVideoMuted: activeCall.callType === "audio",
           disableDeepLinking: true,
           enableWelcomePage: false,
+          // Hide the room subject/code banner in video calls only.
+          // Leave the conference timer enabled and preserve all call controls.
+          ...(activeCall.callType === "video" ? { hideConferenceSubject: true } : {}),
           toolbarButtons: ["microphone", "camera", "desktop", "hangup", "chat", "tileview", "fullscreen"],
         },
         interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false, SHOW_BRAND_WATERMARK: false },
@@ -306,7 +309,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         </div>
       )}
       {activeCall && (
-        <div role="dialog" aria-modal="true" aria-label={activeCall.callType === "audio" ? "Voice call" : "Video call"} style={{ position: "fixed", inset: 0, zIndex: 100, background: "#08060c", display: "flex", flexDirection: "column" }}>
+        <div className="tizibane-active-call" role="dialog" aria-modal="true" aria-label={activeCall.callType === "audio" ? "Voice call" : "Video call"} style={{ position: "fixed", inset: 0, zIndex: 100, background: "#08060c", display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "7px 12px", flex: "0 0 auto", color: "#fff", background: "#21142c" }}>
             <strong style={{ fontSize: 13, lineHeight: 1.2 }}>TIZIBANE · {activeCall.callType === "audio" ? "Voice call" : "Video call"}</strong>
             <button type="button" className="btn" style={{ minHeight: 34, padding: "6px 10px", fontSize: 12, lineHeight: 1.2 }} onClick={() => void closeCall("leave")}>Leave call</button>
