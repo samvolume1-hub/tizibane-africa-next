@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { playNotificationSound, vibrateForNotification } from "@/lib/notification-sounds";
+
 
 type CallInfo = {
   callId: string;
@@ -135,12 +135,6 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       void supabase.removeChannel(channel);
     };
   }, [conversationId, supabase, userId]);
-
-  useEffect(() => {
-    if (!incoming) return;
-    playNotificationSound(incoming.call_type === "audio" ? "voice_call" : "video_call");
-    vibrateForNotification([70, 90, 70]);
-  }, [incoming?.id, incoming?.call_type]);
 
   useEffect(() => {
     if (!activeCall || !mountRef.current) return;
