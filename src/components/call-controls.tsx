@@ -52,7 +52,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     if (!activeCall) return;
     document.body.classList.add("tizibane-call-active");
     return () => document.body.classList.remove("tizibane-call-active");
-  }, [activeCall?.callId]);
+  }, [activeCall]);
 
   const joinCall = useCallback(async (callId: string) => {
     setBusy("join");
