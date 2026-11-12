@@ -9,7 +9,6 @@ import { useEffect } from "react";
  */
 export function SpotlightNotificationSync() {
   useEffect(() => {
-    let active = true;
     const sync = () => {
       if (document.visibilityState !== "visible") return;
       void fetch("/api/spotlight-notifications", {
@@ -28,7 +27,6 @@ export function SpotlightNotificationSync() {
     document.addEventListener("visibilitychange", onVisible);
 
     return () => {
-      active = false;
       window.clearInterval(interval);
       document.removeEventListener("visibilitychange", onVisible);
     };
