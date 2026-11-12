@@ -84,12 +84,19 @@ export function NotificationSoundListener() {
         seenIncomingCallIds.current.delete(row.call_id);
         return false;
       }
-      setIncomingCall({
-        id: call.id,
-        conversationId: call.conversation_id,
-        callType: call.call_type === "video" ? "video" : "audio",
-        callerName: profile?.display_name || "A TIZIBANE member",
-      });
+      const currentConversationId = typeof window === "undefined"
+        ? null
+        : new URLSearchParams(window.location.search).get("conversation");
+      const alreadyInConversation = pathnameRef.current.startsWith("/home/messages")
+        && currentConversationId === call.conversation_id;
+      if (!alreadyInConversation) {
+        setIncomingCall({
+          id: call.id,
+          conversationId: call.conversation_id,
+          callType: call.call_type === "video" ? "video" : "audio",
+          callerName: profile?.display_name || "A TIZIBANE member",
+        });
+      }
       playNotificationSound(call.call_type === "video" ? "video_call" : "voice_call");
       vibrateForNotification([70, 90, 70]);
       return true;
