@@ -128,6 +128,8 @@ export function vibrateForNotification(pattern: number | number[] = 34) {
 
 export function notificationSoundKind(kind: string): TizibaneSoundKind {
   if (kind === "reaction" || kind === "like") return "like";
+  if (kind === "voice_call") return "voice_call";
+  if (kind === "video_call") return "video_call";
   if (kind === "comment") return "comment";
   if (kind === "friend_request" || kind === "friend_accepted" || kind === "friend_declined" || kind === "follow") return "friend_request";
   if (kind.startsWith("group_")) return "group";
