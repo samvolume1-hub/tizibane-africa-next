@@ -94,7 +94,8 @@ begin
     v_summary := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'summary', '')), 900);
     v_published_at := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'published_at', '')), 100);
 
-    if v_topic_id not in ('music-reviews', 'sports-feed', 'chipata-activities', 'zambian-politics', 'learn-trading')
+    if v_topic_id is null
+       or v_topic_id not in ('music-reviews', 'sports-feed', 'chipata-activities', 'zambian-politics', 'learn-trading')
        or v_article_url is null
        or pg_catalog.length(v_article_url) > 1000
        or v_article_url !~ '^https://news[.]google[.]com/rss/articles/'
@@ -106,7 +107,7 @@ begin
     v_fingerprint := pg_catalog.encode(
       extensions.digest(
         pg_catalog.convert_to(
-          pg_catalog.concat_ws(E'\\x1f', v_title, v_source, v_summary, v_published_at),
+          pg_catalog.jsonb_build_array(v_title, v_source, v_summary, v_published_at)::text,
           'UTF8'
         ),
         'sha256'
