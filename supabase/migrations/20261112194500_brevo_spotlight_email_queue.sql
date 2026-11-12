@@ -40,6 +40,7 @@ begin
   where u.id = new.recipient_id
     and u.deleted_at is null
     and u.email is not null
+    and u.email_confirmed_at is not null
     and length(u.email) <= 320
   on conflict (notification_id) do nothing;
 
@@ -64,6 +65,11 @@ begin
   if current_setting('request.jwt.claim.role', true) is distinct from 'service_role' then
     raise exception 'Service role required' using errcode = '42501';
   end if;
+
+  update private.spotlight_email_queue
+  set status = 'failed', last_error = 'Delivery worker stopped after the final retry', updated_at = now()
+  where status = 'processing' and attempts >= 8
+    and claimed_at < now() - interval '15 minutes';
 
   return query
   with candidates as (
