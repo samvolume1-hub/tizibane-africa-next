@@ -7825,3 +7825,43 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     max-width: none;
   }
 }
+
+
+/* PHOTO POST COMPOSERS — keep the caption field visually connected to upload. */
+.app-layout .post-caption-label {
+  display: block;
+  margin: 0 0 8px !important;
+  color: #76508f !important;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+.app-layout textarea.post-caption-input {
+  display: block;
+  width: 100%;
+  min-height: 82px;
+  margin: 0;
+  padding: 13px 15px;
+  border: 1px solid #cbb2df !important;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #f5edfc 0%, #eee2f8 100%) !important;
+  color: #382747 !important;
+  -webkit-text-fill-color: #382747 !important;
+  caret-color: #59336d;
+  box-shadow: inset 0 1px 2px rgba(75,43,99,.06), 0 3px 10px rgba(75,43,99,.06);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.app-layout textarea.post-caption-input::placeholder {
+  color: #806b91 !important;
+  -webkit-text-fill-color: #806b91 !important;
+  opacity: 1;
+}
+.app-layout textarea.post-caption-input:focus {
+  outline: 2px solid rgba(145,103,180,.28);
+  outline-offset: 1px;
+  border-color: #9d79ba !important;
+}
+.app-layout .home-composer .post-caption-input { min-height: 82px; }
+.app-layout .home-composer .composer-bottom,
+.app-layout .group-composer .composer-bottom { margin-top: 9px; }

@@ -227,8 +227,7 @@ export default async function Home({
             </div>
             <CompressedImageForm action={createPost}>
               <label className="eyebrow post-caption-label" htmlFor="post-body">Post description</label>
-              <textarea id="post-body" name="body" placeholder="Tell the community what this photo is about, share a story or write an update…" maxLength={3000} aria-describedby="post-caption-help" />
-              <p className="field-help" id="post-caption-help">Your description will appear above the photo. You can also share a text-only update.</p>
+              <textarea className="post-caption-input" id="post-body" name="body" placeholder="Write a description for your photo…" maxLength={3000} aria-describedby="post-caption-help" />
               <div className="composer-bottom">
                 <div className="composer-options">
                   <label className="photo-picker" htmlFor="post-photo" aria-label="Upload photo" title="Upload photo"><span aria-hidden="true">＋</span><span>Upload photo</span></label>
@@ -241,6 +240,7 @@ export default async function Home({
                 </div>
                 <button className="btn btn-primary" type="submit">Share update</button>
               </div>
+              <p className="field-help" id="post-caption-help">Your description appears above the photo. Add it here, then upload your photo directly below.</p>
               <p className="field-help">Photos are optimized toward 1 MB · Maximum 2 MB after optimization.</p>
             </CompressedImageForm>
           </section>
