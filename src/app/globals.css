@@ -8179,9 +8179,10 @@ body.tizibane-call-active .tizibane-notification-bell {
 
 /* Compact, keyboard-accessible actions for messages. */
 .message-bubble-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
-.message-bubble-meta>span{min-width:0;overflow-wrap:anywhere}
+.message-bubble-meta>span{min-width:0;margin-top:0;overflow-wrap:anywhere}
 .message-action-wrap{position:relative;flex:0 0 auto}
 .message-action-trigger{display:inline-flex;align-items:center;justify-content:center;width:28px;height:26px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(10,14,12,.28);color:inherit;font-size:20px;line-height:1;cursor:pointer}
+.message-action-trigger span{display:block;margin:0;font-size:20px;line-height:1;color:inherit}
 .message-action-trigger:hover,.message-action-trigger:focus-visible{background:rgba(255,255,255,.14);outline:2px solid rgba(215,175,255,.65);outline-offset:2px}
 .message-action-trigger:disabled{opacity:.5;cursor:wait}
 .message-action-menu{position:absolute;z-index:30;right:0;bottom:calc(100% + 6px);display:grid;min-width:132px;padding:5px;border:1px solid #d9c8d7;border-radius:11px;background:#fff;color:#302632;box-shadow:0 12px 28px rgba(20,10,25,.24)}
