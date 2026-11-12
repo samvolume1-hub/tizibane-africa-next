@@ -36,8 +36,10 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
   const [error, setError] = useState("");
   const mountRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<{ dispose: () => void } | null>(null);
+  const activeCallRef = useRef<CallInfo | null>(null);
 
   const openCall = useCallback(async (info: CallInfo) => {
+    activeCallRef.current = info;
     setActiveCall(info);
     setIncoming(null);
   }, []);
@@ -82,6 +84,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     const finalAction = action === "leave" && activeCall?.isInitiator ? "end" : action;
     apiRef.current?.dispose();
     apiRef.current = null;
+    activeCallRef.current = null;
     setActiveCall(null);
     if (callId) {
       await fetch("/api/calls/" + callId, {
@@ -99,6 +102,17 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       if (row.started_by !== userId && row.status === "ringing") setIncoming(row);
       if (row.status === "ended" || row.status === "declined" || row.status === "missed") {
         setIncoming((current) => current?.id === row.id ? null : current);
+      }
+      if (row.status === "ended" && activeCallRef.current?.callId === row.id) {
+        apiRef.current?.dispose();
+        apiRef.current = null;
+        activeCallRef.current = null;
+        setActiveCall(null);
+        void fetch("/api/calls/" + row.id, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "leave" }),
+        }).catch(() => undefined);
       }
     };
     channel.on("postgres_changes", {
