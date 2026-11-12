@@ -19,8 +19,8 @@
   backdrop-filter: blur(14px);
 }
 .page :global(.brand) { color: #30243a !important; }
-.topbarNav { display: flex; align-items: center; margin-left: auto; }
-.spotlightButton {
+.topbarNav { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.signInButton, .spotlightButton {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: 42px; padding: 9px 22px; border: 1px solid #bda7ca;
   border-radius: 999px; background: linear-gradient(135deg,#704d83,#50305f);
@@ -28,7 +28,8 @@
   font-size: 14px; font-weight: 850; text-decoration: none !important;
   box-shadow: 0 5px 14px rgba(57,38,72,.16); transition: transform .18s ease, box-shadow .18s ease;
 }
-.spotlightButton:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(57,38,72,.22); }
+.signInButton { background: #f4eff7; color: #493454 !important; -webkit-text-fill-color: #493454 !important; }
+.signInButton:hover, .spotlightButton:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(57,38,72,.22); }
 .page :global(.brand small) { color: #705d7b !important; font-size: 1.1em !important; }
 .page :global(.brand-mark) {
   border: 1px solid #bba6c9 !important;
@@ -125,32 +126,6 @@
   width: min(100% - 48px, 1210px);
   margin: 0 auto;
   padding: 10px 0 88px;
-}
-.discoverHeading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 24px;
-}
-.sectionKicker {
-  color: #795d89;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: .18em;
-}
-.discoverHeading h2 {
-  margin: 10px 0 0;
-  color: #2d272c;
-  font: 800 calc(clamp(26px, 3vw, 36px) * 1.1)/1.12 Manrope, sans-serif;
-  letter-spacing: -.04em;
-}
-.discoverHeading p {
-  max-width: 390px;
-  margin: 0 0 2px;
-  color: #66556f;
-  font-size: 14.3px;
-  line-height: 1.7;
 }
 .featureGrid {
   display: grid;
@@ -304,7 +279,7 @@
 @media (max-width: 600px) {
   .page :global(.topbar) { min-height: 68px !important; height: auto !important; padding: 10px 13px !important; flex-wrap: nowrap !important; gap: 8px !important; }
   .page :global(.brand) { gap: 7px !important; letter-spacing: .08em !important; }
-  .spotlightButton { min-height: 38px; padding: 8px 13px; font-size: 12px; }
+  .signInButton, .spotlightButton { min-height: 38px; padding: 8px 13px; font-size: 12px; }
   .page :global(.brand-mark) { width: 33px !important; height: 33px !important; }
   .page :global(.brand-letter) { font-size: 23px !important; }
   .page :global(.brand small) { font-size: 8.8px !important; }
@@ -335,7 +310,7 @@
 }
 @media (max-width: 370px) {
   .page :global(.topbar) { flex-wrap: nowrap !important; justify-content: space-between !important; }
-  .spotlightButton { padding-inline: 10px; font-size: 11px; }
+  .signInButton, .spotlightButton { padding-inline: 10px; font-size: 11px; }
   .page :global(.welcome-top-actions) { justify-content: center !important; }
   .featureGrid { grid-template-columns: minmax(0,1fr); }
   .featureCard:last-child { grid-column: auto; }
