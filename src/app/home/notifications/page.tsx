@@ -23,7 +23,7 @@ export default async function NotificationsPage({searchParams}:{searchParams:Pro
  const avatarUrlByPath=new Map((signedAvatars??[]).map(item=>[item.path,item.signedUrl]));
  for(const p of profiles){const url=p.avatar_path?avatarUrlByPath.get(p.avatar_path):null;if(url)avatarUrls[p.id]=url}
  return <main className="app-layout notifications-page"><CommunityNavigation active="notifications" />
- <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">YOUR INBOX</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Stay in the loop</span><h1>Notifications.</h1><p>Friend requests, messages, group activity and updates from your community.</p></section>
+ <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">YOUR INBOX</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Stay in the loop</span><h1>Notifications.</h1><p>Friend requests, messages, group activity and the latest Spotlight updates.</p></section>
  <NotificationSoundSettings />
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
  <div className="feed-heading"><div><span className="eyebrow">Activity</span><h2>{unread} unread notifications</h2></div>{unread>0&&<form action={markAllNotificationsRead}><PendingIconButton className="text-action notification-action-button" label="Mark all notifications as read" pendingLabel="Updating…">Mark all as read</PendingIconButton></form>}</div>
