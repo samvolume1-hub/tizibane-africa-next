@@ -17,6 +17,7 @@ type CallSessionRow = {
   room_name: string;
   call_type: "audio" | "video";
   status: string;
+  created_at: string;
 };
 
 declare global {
@@ -111,7 +112,8 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     // the authorization boundary, so it does not need a private broadcast topic.
     const channel = supabase.channel(topic, { config: { private: false } });
     const receive = async (row: CallSessionRow) => {
-      if (row.started_by !== userId && (row.status === "ringing" || row.status === "active")) {
+      const ageMs = row.created_at ? Date.now() - new Date(row.created_at).getTime() : Number.POSITIVE_INFINITY;
+      if (row.started_by !== userId && ageMs <= 90_000 && (row.status === "ringing" || row.status === "active")) {
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", row.id).eq("user_id", userId).maybeSingle();
         if (alive && participant?.status === "invited") setIncoming(row);
@@ -176,7 +178,8 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         if (!alive) return;
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", session.id).eq("user_id", userId).maybeSingle();
-        if (alive && participant?.status === "invited") {
+        const ageMs = session.created_at ? Date.now() - new Date(session.created_at).getTime() : Number.POSITIVE_INFINITY;
+        if (alive && ageMs <= 90_000 && participant?.status === "invited") {
           setIncoming(session as CallSessionRow);
           return;
         }
