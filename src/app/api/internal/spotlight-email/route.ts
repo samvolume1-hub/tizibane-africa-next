@@ -1,4 +1,4 @@
-import { timingSafeEqual } from "node:crypto";
+import { randomBytes, timingSafeEqual } from "node:crypto";
 import { connect as netConnect, type Socket } from "node:net";
 import { connect as tlsConnect, type TLSSocket } from "node:tls";
 
@@ -212,13 +212,7 @@ function buildEmail(item: QueueItem, senderEmail: string, senderName: string) {
 }
 
 function cryptoRandomBoundary() {
-  return Buffer.from(cryptoRandomBytes()).toString("hex");
-}
-function cryptoRandomBytes() {
-  return requireRandomBytes();
-}
-function requireRandomBytes() {
-  return Buffer.from(globalThis.crypto.getRandomValues(new Uint8Array(12)));
+  return randomBytes(12).toString("hex");
 }
 
 async function sendEmail(item: QueueItem) {
