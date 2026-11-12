@@ -1,7 +1,12 @@
 import { createClient } from "npm:@supabase/supabase-js@2.118.0";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+const secretKeysRaw = Deno.env.get("SUPABASE_SECRET_KEYS");
+const secretKeys = secretKeysRaw ? JSON.parse(secretKeysRaw) as Record<string, string> : {};
+// Prefer the current Supabase secret-key format, while retaining compatibility
+// with projects that still expose the legacy service_role JWT variable.
+const SERVICE_ROLE_KEY = secretKeys.default ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+if (!SERVICE_ROLE_KEY) throw new Error("Supabase server secret is not configured.");
 const SPOTLIGHT_FEED_URL = "https://tizibane-africa-next.onrender.com/api/spotlight-feed";
 
 type FeedItem = { title?: string; source?: string; publishedAt?: string; summary?: string; articleUrl?: string };
@@ -25,7 +30,14 @@ Deno.serve(async (request: Request) => {
   const { data: authorized, error: authError } = await supabase.rpc(
     "validate_spotlight_cron_token", { p_token: cronToken },
   );
-  if (authError || authorized !== true) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  if (authError || authorized !== true) {
+    console.error("[Spotlight notification sync] cron authorization failed", {
+      code: authError?.code ?? null,
+      message: authError?.message ?? null,
+      authorized: authorized === true,
+    });
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   try {
     const response = await fetch(SPOTLIGHT_FEED_URL + "?notification-sync=" + Date.now(), {
