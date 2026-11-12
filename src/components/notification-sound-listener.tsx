@@ -7,6 +7,7 @@ import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import {
   notificationSoundKind,
   playNotificationSound,
+  unlockNotificationAudio,
   vibrateForNotification,
 } from "@/lib/notification-sounds";
 
@@ -34,6 +35,19 @@ export function NotificationSoundListener() {
   const [incomingCall, setIncomingCall] = useState<IncomingCall | null>(null);
   const [callActionBusy, setCallActionBusy] = useState(false);
   const seenIncomingCallIds = useRef(new Set<string>());
+
+  useEffect(() => {
+    // Unlock Web Audio on the first genuine interaction anywhere in TIZIBANE.
+    // This is deliberately app-wide: members should not need to visit Settings
+    // or press a preview button before an incoming call can ring.
+    const unlock = () => { void unlockNotificationAudio(); };
+    document.addEventListener("pointerdown", unlock, true);
+    document.addEventListener("keydown", unlock, true);
+    return () => {
+      document.removeEventListener("pointerdown", unlock, true);
+      document.removeEventListener("keydown", unlock, true);
+    };
+  }, []);
 
   useEffect(() => {
     pathnameRef.current = pathname;
