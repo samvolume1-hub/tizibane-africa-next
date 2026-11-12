@@ -51,6 +51,7 @@ export function ConversationLive({
   }, []);
 
   useEffect(() => {
+    let alive = true;
     const channel = supabase.channel("conversation:" + conversationId, {
       config: { private: true, presence: { key: userId } },
     }) as RealtimeChannel;
@@ -104,14 +105,21 @@ export function ConversationLive({
       setIsOnline(online);
     });
 
-    channel.subscribe(async (status: string) => {
-      if (status === "SUBSCRIBED") {
-        await channel.track({ user_id: userId, online_at: new Date().toISOString() });
-      }
+    // Private conversation topics require the signed-in member's Auth JWT.
+    void supabase.realtime.setAuth().then(() => {
+      if (!alive) return;
+      channel.subscribe(async (status: string) => {
+        if (status === "SUBSCRIBED") {
+          await channel.track({ user_id: userId, online_at: new Date().toISOString() });
+        }
+      });
+    }).catch(() => {
+      if (alive) setError("Live message updates could not connect. Please refresh the conversation.");
     });
 
     channelRef.current = channel;
     return () => {
+      alive = false;
       if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
       if (typingClearRef.current) clearTimeout(typingClearRef.current);
       channelRef.current = null;
