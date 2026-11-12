@@ -77,7 +77,7 @@ export async function POST() {
   }
 
   const feeds = await Promise.all(topics.map(readTopic));
-  const items = feeds.flat();
+  const items = [...new Map(feeds.flat().map((item) => [item.article_url, item])).values()];
   if (!items.length) {
     return NextResponse.json({ checked: false, reason: "Spotlight feeds are temporarily unavailable." }, { status: 503 });
   }
