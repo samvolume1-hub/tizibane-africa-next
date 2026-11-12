@@ -1,8 +1,8 @@
 .page:global(.tizibane-landing) {
   min-height: 100vh;
   color: #302638 !important;
-  background: #e2d8e9 !important;
-  background-image: radial-gradient(ellipse at 82% 0%, rgba(193, 166, 207, .30), transparent 38%), linear-gradient(180deg, #e7deed 0%, #ddd2e5 100%) !important;
+  background: #000000 !important;
+  background-image: none !important;
   overflow: clip;
 }
 .page :global(.topbar) {
