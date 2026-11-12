@@ -1761,3 +1761,13 @@
     will-change: auto !important;
   }
 }
+
+
+/* Move only the right-side ribbon text labels 30% left, away from the
+   notification bell. Preserve font size, weight, controls, icons and layout. */
+.app-layout .app-featured-side-label {
+  transform: translate(-30%, -50%) !important;
+}
+.app-layout .app-featured-side-label.is-visible {
+  transform: translate(-30%, -50%) !important;
+}
