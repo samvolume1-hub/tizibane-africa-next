@@ -179,3 +179,25 @@
   .scope :global(.app-content .module-section),
   .scope :global(.app-content .groups-discovery-toolbar) { border-radius: 16px; }
 }
+
+/* Create Group copy: crisp black, bold and high-contrast throughout. */
+.headingCopy h2,
+.headingCopy p,
+.label,
+.hint,
+.accessTitle,
+.choiceCopy strong,
+.choiceCopy span,
+.coverHeader,
+.details summary,
+.footerHint,
+.fileInput {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+.headingCopy h2 { font-weight: 900 !important; }
+.headingCopy p,
+.hint,
+.choiceCopy span,
+.footerHint,
+.fileInput { font-weight: 700 !important; }
