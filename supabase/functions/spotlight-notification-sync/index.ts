@@ -94,7 +94,119 @@ Deno.serve(async (request: Request) => {
       console.error("[Spotlight notification sync] database processing failed", error);
       return Response.json({ error: "Notification processing failed" }, { status: 500 });
     }
-    return Response.json({ ok: true, items_checked: items.length, result: data });
+    // Email delivery uses Brevo's HTTPS API (port 443). Render's free
+    // web services block outbound SMTP ports, so SMTP credentials are not used.
+    const brevoApiKey = Deno.env.get("BREVO_API_KEY");
+    const senderEmail = Deno.env.get("BREVO_SENDER_EMAIL");
+    const senderName = Deno.env.get("BREVO_SENDER_NAME") ?? "TIZIBANE Zambia";
+    const emailDispatch: Record<string, unknown> = {
+      configured: Boolean(brevoApiKey && senderEmail),
+      claimed: 0,
+      sent: 0,
+      failed: 0,
+    };
+
+    const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    })[character]!);
+
+    if (brevoApiKey && senderEmail) {
+      const { data: batch, error: claimError } = await supabase.rpc(
+        "claim_spotlight_email_batch", { p_limit: 30 },
+      );
+      if (claimError) {
+        console.error("[Spotlight email] queue claim failed", { code: claimError.code });
+        emailDispatch.error = "Queue claim failed";
+      } else if (Array.isArray(batch) && batch.length > 0) {
+        emailDispatch.claimed = batch.length;
+        for (const entry of batch as Array<{
+          id: string;
+          recipient_email: string;
+          kind: string;
+          metadata: Record<string, unknown>;
+        }>) {
+          let sent = false;
+          let failure = "Brevo email delivery failed";
+          try {
+            const metadata = entry.metadata ?? {};
+            const title = String(metadata.title ?? "A new Spotlight update");
+            const category = String(metadata.category ?? "TIZIBANE Spotlight");
+            const summary = String(metadata.summary ?? "Discover the latest update from your community.");
+            const source = String(metadata.source ?? "");
+            const articleUrl = String(metadata.article_url ?? "");
+            if (!articleUrl.startsWith("https://")) throw new Error("Spotlight link is not a secure HTTPS URL");
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entry.recipient_email)) {
+              throw new Error("Recipient email is invalid");
+            }
+            const isUpdate = entry.kind === "spotlight_updated";
+            const heading = isUpdate ? "Spotlight story updated" : "New in Spotlight";
+            const subject = isUpdate ? "Spotlight update: " + title : "New in TIZIBANE Spotlight: " + title;
+            const safeTitle = escapeHtml(title);
+            const safeCategory = escapeHtml(category);
+            const safeSummary = escapeHtml(summary).replace(/\r?\n/g, "<br>");
+            const safeSource = escapeHtml(source);
+            const safeUrl = escapeHtml(articleUrl);
+            const textContent = [
+              "TIZIBANE ZAMBIA", heading, "", title, category, summary,
+              source ? "Source: " + source : "", "", "Read the update: " + articleUrl,
+              "", "Connect. Belong. Grow.", "© 2026 TIZIBANE Zambia",
+            ].filter(Boolean).join("\n");
+            const htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
+              <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
+              <tr><td style="padding:26px 30px;background:#211033;color:#fff"><div style="font-size:24px;font-weight:800;letter-spacing:2px">TIZIBANE</div><div style="margin-top:8px;font-size:11px;letter-spacing:2px;color:#f3c9e4">CONNECT. BELONG. GROW.</div></td></tr>
+              <tr><td style="padding:30px"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#a33a83">${escapeHtml(heading)}</div>
+              <h1 style="font-size:25px;line-height:1.25;margin:12px 0;color:#291638">${safeTitle}</h1>
+              <div style="font-size:13px;color:#755c80;margin-bottom:18px">${safeCategory}${safeSource ? " · " + safeSource : ""}</div>
+              <p style="font-size:15px;line-height:1.7;color:#51435a">${safeSummary}</p>
+              <p style="margin:28px 0"><a href="${safeUrl}" style="display:inline-block;padding:13px 22px;background:#54246f;color:#fff;text-decoration:none;border-radius:9px;font-weight:700">READ THE SPOTLIGHT UPDATE</a></p>
+              <p style="font-size:13px;color:#7b6d82">Stay connected with what's happening across your Zambian community.</p></td></tr>
+              <tr><td style="padding:18px 30px;background:#f8f4fa;color:#8b7d91;font-size:11px;line-height:1.6">© 2026 TIZIBANE Zambia<br>A Royalty Uncle Sam creation</td></tr>
+              </table></td></tr></table></body></html>`;
+            const delivery = await fetch("https://api.brevo.com/v3/smtp/email", {
+              method: "POST",
+              headers: {
+                "api-key": brevoApiKey,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+              body: JSON.stringify({
+                sender: { name: senderName, email: senderEmail },
+                to: [{ email: entry.recipient_email }],
+                subject,
+                textContent,
+                htmlContent,
+                headers: { "X-Tizibane-Notification-Id": entry.id },
+              }),
+              signal: AbortSignal.timeout(20_000),
+            });
+            if (!delivery.ok) {
+              const detail = (await delivery.text()).slice(0, 300);
+              throw new Error("Brevo API returned " + delivery.status + ": " + detail);
+            }
+            sent = true;
+          } catch (emailError) {
+            failure = emailError instanceof Error ? emailError.message.slice(0, 500) : failure;
+            console.error("[Spotlight email] delivery failed", { queue_id: entry.id, error: failure });
+          }
+
+          const { error: completionError } = await supabase.rpc("complete_spotlight_email", {
+            p_id: entry.id,
+            p_sent: sent,
+            p_error: sent ? null : failure,
+          });
+          if (completionError) {
+            console.error("[Spotlight email] queue completion failed", { code: completionError.code });
+          } else if (sent) {
+            emailDispatch.sent = Number(emailDispatch.sent) + 1;
+          } else {
+            emailDispatch.failed = Number(emailDispatch.failed) + 1;
+          }
+        }
+      }
+    }
+
+    return Response.json({ ok: true, items_checked: items.length, result: data, email_dispatch: emailDispatch });
   } catch (error) {
     console.error("[Spotlight notification sync] sync failed", error);
     return Response.json({ error: "Spotlight sync failed" }, { status: 502 });
