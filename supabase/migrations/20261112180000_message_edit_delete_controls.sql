@@ -4,6 +4,7 @@
 alter table public.messages
   add column if not exists edited_at timestamptz;
 
+revoke update on public.messages from authenticated;
 revoke update (id, conversation_id, sender_id, body, created_at) on public.messages from authenticated;
 grant update (body) on public.messages to authenticated;
 grant delete on public.messages to authenticated;
