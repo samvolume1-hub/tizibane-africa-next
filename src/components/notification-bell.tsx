@@ -35,7 +35,7 @@ export function NotificationBell({ userId }: { userId: string }) {
       schema: "public",
       table: "notifications",
       filter: "recipient_id=eq." + userId,
-    }, (payload) => {
+    }, () => {
       if (!alive) return;
       if (payload.eventType === "INSERT") setOpenedSinceNew(false);
       void refreshUnreadCount();
