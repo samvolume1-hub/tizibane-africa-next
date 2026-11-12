@@ -7941,10 +7941,12 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 }
 
 
-/* Keep the global notification control out of the active call chrome.
-   The bell returns automatically as soon as the call dialog is closed. */
-body:has(.tizibane-active-call) .tizibane-notification-bell {
+/* Keep the global notification control out of active call chrome.
+   The body class is toggled by CallControls, avoiding :has() support differences
+   in mobile browsers and embedded Android WebViews. */
+body.tizibane-call-active .tizibane-notification-bell {
   display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
   pointer-events: none !important;
 }
