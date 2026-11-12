@@ -19,6 +19,17 @@
   backdrop-filter: blur(14px);
 }
 .page :global(.brand) { color: #30243a !important; }
+.topbarNav { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.signInButton, .spotlightButton {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 42px; padding: 9px 22px; border: 1px solid #bda7ca;
+  border-radius: 999px; background: linear-gradient(135deg,#704d83,#50305f);
+  color: #fff !important; -webkit-text-fill-color: #fff !important;
+  font-size: 14px; font-weight: 850; text-decoration: none !important;
+  box-shadow: 0 5px 14px rgba(57,38,72,.16); transition: transform .18s ease, box-shadow .18s ease;
+}
+.signInButton { background: #f4eff7; color: #493454 !important; -webkit-text-fill-color: #493454 !important; }
+.signInButton:hover, .spotlightButton:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(57,38,72,.22); }
 .page :global(.brand small) { color: #705d7b !important; font-size: 1.1em !important; }
 .page :global(.brand-mark) {
   border: 1px solid #bba6c9 !important;
@@ -64,6 +75,8 @@
   margin-inline: auto !important;
 }
 .heroArt {
+  position: relative !important;
+  isolation: isolate;
   width: 100% !important;
   min-height: clamp(340px, 39vw, 540px) !important;
   border: 8px solid rgba(248, 243, 251, .92) !important;
@@ -113,32 +126,6 @@
   width: min(100% - 48px, 1210px);
   margin: 0 auto;
   padding: 10px 0 88px;
-}
-.discoverHeading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 30px;
-  margin-bottom: 24px;
-}
-.sectionKicker {
-  color: #795d89;
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: .18em;
-}
-.discoverHeading h2 {
-  margin: 10px 0 0;
-  color: #2d272c;
-  font: 800 calc(clamp(26px, 3vw, 36px) * 1.1)/1.12 Manrope, sans-serif;
-  letter-spacing: -.04em;
-}
-.discoverHeading p {
-  max-width: 390px;
-  margin: 0 0 2px;
-  color: #66556f;
-  font-size: 14.3px;
-  line-height: 1.7;
 }
 .featureGrid {
   display: grid;
@@ -249,49 +236,35 @@
   text-shadow: 0 2px 8px rgba(0,0,0,.85) !important;
 }
 
-/* Account actions sit immediately beneath the hero image, not in the header. */
-.heroActions {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: -24px auto 42px;
-  padding: 0 16px;
+/* Account actions are overlaid on the lower edge of the hero photograph. */
+.heroImageActions {
+  position: absolute;
+  z-index: 3;
+  left: 0; right: 0; bottom: clamp(18px, 3.2vw, 34px);
+  display: flex; justify-content: center; padding: 0 16px;
 }
-.heroActions :global(.welcome-top-actions) {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 12px !important;
-  width: 100% !important;
+.heroImageActions :global(.welcome-top-actions) {
+  display: flex !important; flex-wrap: wrap !important;
+  justify-content: center !important; align-items: center !important;
+  gap: 12px !important; width: 100% !important;
 }
-.heroActions :global(.welcome-top-actions .btn) {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-width: 150px !important;
-  min-height: 48px !important;
-  padding: 12px 24px !important;
-  border: 1px solid #bda7ca !important;
-  border-radius: 999px !important;
-  background: #f4eff7 !important;
-  color: #392b43 !important;
+.heroImageActions :global(.welcome-top-actions .btn) {
+  display: inline-flex !important; align-items: center !important;
+  justify-content: center !important; min-width: 150px !important;
+  min-height: 48px !important; padding: 12px 24px !important;
+  border: 1px solid rgba(255,255,255,.8) !important; border-radius: 999px !important;
+  background: rgba(248,243,251,.96) !important; color: #392b43 !important;
   -webkit-text-fill-color: #392b43 !important;
-  box-shadow: 0 7px 18px rgba(57, 38, 72, .15) !important;
-  font-size: 14px !important;
-  font-weight: 850 !important;
-  text-decoration: none !important;
-  white-space: nowrap !important;
+  box-shadow: 0 8px 22px rgba(20,8,30,.35) !important;
+  font-size: 14px !important; font-weight: 850 !important;
+  text-decoration: none !important; white-space: nowrap !important;
 }
-.heroActions :global(.welcome-top-actions .btn-primary) {
-  border-color: #704d83 !important;
-  background: linear-gradient(135deg, #704d83, #50305f) !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+.heroImageActions :global(.welcome-top-actions .btn-primary) {
+  border-color: #fff !important; background: linear-gradient(135deg,#704d83,#50305f) !important;
+  color: #fff !important; -webkit-text-fill-color: #fff !important;
 }
-.heroActions :global(.welcome-top-actions .btn:hover) {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(57, 38, 72, .2) !important;
+.heroImageActions :global(.welcome-top-actions .btn:hover) {
+  transform: translateY(-2px); box-shadow: 0 11px 25px rgba(20,8,30,.42) !important;
 }
 
 @media (max-width: 900px) {
@@ -306,6 +279,7 @@
 @media (max-width: 600px) {
   .page :global(.topbar) { min-height: 68px !important; height: auto !important; padding: 10px 13px !important; flex-wrap: nowrap !important; gap: 8px !important; }
   .page :global(.brand) { gap: 7px !important; letter-spacing: .08em !important; }
+  .signInButton, .spotlightButton { min-height: 38px; padding: 8px 13px; font-size: 12px; }
   .page :global(.brand-mark) { width: 33px !important; height: 33px !important; }
   .page :global(.brand-letter) { font-size: 23px !important; }
   .page :global(.brand small) { font-size: 8.8px !important; }
@@ -330,12 +304,13 @@
   .featureLink { font-size: 11px; }
   .page :global(> .footer) { flex-direction: row !important; flex-wrap: nowrap !important; gap: 5px 8px !important; padding: 8px 7px !important; font-size: clamp(8px, 2.4vw, 10px) !important; }
   .page :global(> .footer .footer-tagline), .page :global(> .footer .royalty-copyright) { letter-spacing: 0 !important; white-space: nowrap !important; }
-  .heroActions { margin: -16px auto 34px; padding-inline: 12px; }
-  .heroActions :global(.welcome-top-actions) { gap: 8px !important; }
-  .heroActions :global(.welcome-top-actions .btn) { min-width: 135px !important; min-height: 44px !important; padding: 10px 16px !important; font-size: 12.5px !important; }
+  .heroImageActions { bottom: 14px; padding-inline: 9px; }
+  .heroImageActions :global(.welcome-top-actions) { gap: 8px !important; }
+  .heroImageActions :global(.welcome-top-actions .btn) { min-width: 125px !important; min-height: 42px !important; padding: 9px 13px !important; font-size: 12px !important; }
 }
 @media (max-width: 370px) {
-  .page :global(.topbar) { flex-wrap: wrap !important; justify-content: center !important; }
+  .page :global(.topbar) { flex-wrap: nowrap !important; justify-content: space-between !important; }
+  .signInButton, .spotlightButton { padding-inline: 10px; font-size: 11px; }
   .page :global(.welcome-top-actions) { justify-content: center !important; }
   .featureGrid { grid-template-columns: minmax(0,1fr); }
   .featureCard:last-child { grid-column: auto; }
