@@ -50,8 +50,24 @@ function getAudioContext(): AudioContext | null {
   if (typeof window === "undefined") return null;
   const AudioContextConstructor = window.AudioContext;
   if (!AudioContextConstructor) return null;
-  audioContext ??= new AudioContextConstructor();
+  if (!audioContext || audioContext.state === "closed") {
+    audioContext = new AudioContextConstructor();
+  }
   return audioContext;
+}
+
+/**
+ * Must be called directly from a real user gesture (pointer or keyboard).
+ * Browsers commonly block Web Audio started by background Realtime callbacks
+ * until the member has interacted with the page.
+ */
+export function unlockNotificationAudio(): Promise<boolean> {
+  const context = getAudioContext();
+  if (!context) return Promise.resolve(false);
+  if (context.state === "running") return Promise.resolve(true);
+  return context.resume()
+    .then(() => context.state === "running")
+    .catch(() => false);
 }
 
 function note(
@@ -98,25 +114,35 @@ export function playNotificationSound(kind: TizibaneSoundKind, preview = false, 
 
   const context = getAudioContext();
   if (!context) return;
-  if (context.state === "suspended") void context.resume().catch(() => undefined);
 
-  const now = context.currentTime + 0.025;
-  const master = Math.max(0.02, preferences.volume) * 0.095;
-  const melody = melodies[kind] ?? melodies.message;
+  const schedule = () => {
+    // Never queue a notification that arrived while audio was locked. Otherwise
+    // it could play unexpectedly much later when the member next taps the page.
+    if (context.state !== "running") return;
 
-  // A soft, low-level harmonic bed gives each chime a little warmth without
-  // adding a sustained or noisy layer that could become distracting.
-  const repeats = preview ? 1 : Math.max(1, Math.min(6, Math.floor(repeatCount)));
-  const melodyDuration = Math.max(...melody.map(([, offset, duration]) => offset + duration));
-  for (let repeat = 0; repeat < repeats; repeat += 1) {
-    const repeatStart = now + repeat * (melodyDuration + 0.22);
-    melody.forEach(([frequency, offset, duration], index) => {
-    const start = repeatStart + offset;
-    const strength = index === 0 ? 1 : 0.82;
-    note(context, frequency, start, duration, master * strength);
-    note(context, frequency * 2, start + 0.012, duration * 0.72, master * 0.12, "sine");
-    note(context, frequency / 2, start, duration * 0.8, master * 0.075, "sine");
-    });
+    const now = context.currentTime + 0.025;
+    const master = Math.max(0.02, preferences.volume) * 0.095;
+    const melody = melodies[kind] ?? melodies.message;
+    const repeats = preview ? 1 : Math.max(1, Math.min(6, Math.floor(repeatCount)));
+    const melodyDuration = Math.max(...melody.map(([, offset, duration]) => offset + duration));
+
+    for (let repeat = 0; repeat < repeats; repeat += 1) {
+      const repeatStart = now + repeat * (melodyDuration + 0.22);
+      melody.forEach(([frequency, offset, duration], index) => {
+        const start = repeatStart + offset;
+        const strength = index === 0 ? 1 : 0.82;
+        note(context, frequency, start, duration, master * strength);
+        note(context, frequency * 2, start + 0.012, duration * 0.72, master * 0.12, "sine");
+        note(context, frequency / 2, start, duration * 0.8, master * 0.075, "sine");
+      });
+    }
+  };
+
+  if (context.state === "running") {
+    schedule();
+  } else if (preview) {
+    // Preview buttons are explicit user actions, so they may request activation.
+    void context.resume().then(schedule).catch(() => undefined);
   }
 }
 
