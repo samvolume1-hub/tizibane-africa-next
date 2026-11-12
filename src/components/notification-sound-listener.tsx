@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import {
   notificationSoundKind,
   playNotificationSound,
@@ -42,10 +43,10 @@ export function NotificationSoundListener() {
   useEffect(() => {
     const supabase = createClient();
     let alive = true;
-    void supabase.auth.getUser().then(({ data: { user } }) => {
-      if (alive) setUserId(user?.id ?? null);
+    void supabase.auth.getUser().then((result: { data: { user: User | null } }) => {
+      if (alive) setUserId(result.data.user?.id ?? null);
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event: AuthChangeEvent, session: Session | null) => {
       setUserId(session?.user?.id ?? null);
       setIncomingCall(null);
       seenIncomingCallIds.current.clear();
