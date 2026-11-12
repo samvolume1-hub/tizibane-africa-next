@@ -106,8 +106,12 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
   useEffect(() => {
     let alive = true;
     const channel = supabase.channel("conversation-calls:" + conversationId, { config: { private: true } });
-    const receive = (row: CallSessionRow) => {
-      if (row.started_by !== userId && row.status === "ringing") setIncoming(row);
+    const receive = async (row: CallSessionRow) => {
+      if (row.started_by !== userId && row.status === "ringing") {
+        const { data: participant } = await supabase.from("call_participants")
+          .select("status").eq("call_id", row.id).eq("user_id", userId).maybeSingle();
+        if (alive && participant?.status === "invited") setIncoming(row);
+      }
       if (row.status === "ended" || row.status === "declined" || row.status === "missed") {
         setIncoming((current) => current?.id === row.id ? null : current);
       }
@@ -126,6 +130,22 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     channel.on("postgres_changes", {
       event: "*", schema: "public", table: "call_sessions", filter: "conversation_id=eq." + conversationId,
     }, (payload: { new: CallSessionRow }) => receive(payload.new));
+    channel.on("postgres_changes", {
+      event: "*", schema: "public", table: "call_participants", filter: "conversation_id=eq." + conversationId,
+    }, async (payload: { new: { call_id: string; user_id: string; status: string } }) => {
+      const participant = payload.new;
+      if (participant.user_id !== userId) return;
+      if (participant.status !== "invited") {
+        setIncoming((current) => current?.id === participant.call_id ? null : current);
+        return;
+      }
+      const { data: session } = await supabase.from("call_sessions")
+        .select("id,started_by,room_name,call_type,status")
+        .eq("id", participant.call_id).maybeSingle();
+      if (alive && session && session.started_by !== userId && session.status === "ringing") {
+        setIncoming(session as CallSessionRow);
+      }
+    });
     channel.subscribe();
     void supabase.from("call_sessions")
       .select("id,started_by,room_name,call_type,status")
@@ -134,8 +154,12 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       .neq("started_by", userId)
       .order("created_at", { ascending: false })
       .limit(1)
-      .then((result: { data: CallSessionRow[] | null }) => {
-        if (alive && result.data?.[0]) setIncoming(result.data[0]);
+      .then(async (result: { data: CallSessionRow[] | null }) => {
+        const session = result.data?.[0];
+        if (!alive || !session) return;
+        const { data: participant } = await supabase.from("call_participants")
+          .select("status").eq("call_id", session.id).eq("user_id", userId).maybeSingle();
+        if (alive && participant?.status === "invited") setIncoming(session);
       });
     return () => {
       alive = false;
