@@ -7825,3 +7825,87 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     max-width: none;
   }
 }
+
+
+/* GLOBAL NOTIFICATION BELL — fixed, accessible, CSS-only reminder. */
+.tizibane-notification-bell {
+  position: fixed;
+  z-index: 80;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(20px, env(safe-area-inset-right));
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255,255,255,.72);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #68418a, #3d2057);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(24, 10, 36, .28);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.tizibane-notification-bell:hover,
+.tizibane-notification-bell:focus-visible {
+  background: linear-gradient(145deg, #8052a5, #4b2867);
+  color: #fff;
+}
+.tizibane-notification-bell:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.tizibane-notification-bell > svg {
+  width: 25px;
+  height: 25px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tizibane-notification-bell.is-reminding > svg {
+  transform-origin: 50% 12%;
+  animation: tizibane-bell-reminder 2.8s ease-in-out infinite;
+  will-change: transform;
+}
+.tizibane-notification-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: grid;
+  place-items: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #ed3f91;
+  color: #fff;
+  font: 900 10px/1 system-ui, sans-serif;
+  box-shadow: 0 3px 9px rgba(0,0,0,.25);
+}
+@keyframes tizibane-bell-reminder {
+  0%, 72%, 100% { transform: rotate(0); }
+  75% { transform: rotate(-13deg); }
+  78% { transform: rotate(12deg); }
+  81% { transform: rotate(-10deg); }
+  84% { transform: rotate(8deg); }
+  87% { transform: rotate(-4deg); }
+  90% { transform: rotate(0); }
+}
+@media (max-width: 540px) {
+  .tizibane-notification-bell {
+    top: max(12px, env(safe-area-inset-top));
+    right: max(13px, env(safe-area-inset-right));
+    width: 43px;
+    height: 43px;
+    border-radius: 14px;
+  }
+  .tizibane-notification-bell > svg { width: 22px; height: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tizibane-notification-bell.is-reminding > svg {
+    animation: none;
+    will-change: auto;
+  }
+}
