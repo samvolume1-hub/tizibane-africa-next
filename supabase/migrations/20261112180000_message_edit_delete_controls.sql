@@ -48,3 +48,29 @@ drop trigger if exists set_message_edited_at on public.messages;
 create trigger set_message_edited_at
   before update of body on public.messages
   for each row execute function private.set_message_edited_at();
+
+
+-- Notify the two members of the private conversation when an authored message is deleted.
+-- The private topic's existing Realtime RLS policy limits delivery to conversation members.
+create or replace function public.broadcast_deleted_message_to_conversation()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $function$
+begin
+  perform realtime.send(
+    jsonb_build_object('message_id', old.id),
+    'message_deleted',
+    'conversation:' || old.conversation_id::text,
+    true
+  );
+  return old;
+end;
+$function$;
+
+revoke all on function public.broadcast_deleted_message_to_conversation() from public, anon, authenticated;
+drop trigger if exists broadcast_deleted_message_to_conversation on public.messages;
+create trigger broadcast_deleted_message_to_conversation
+  after delete on public.messages
+  for each row execute function public.broadcast_deleted_message_to_conversation();
