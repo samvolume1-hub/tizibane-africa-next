@@ -101,7 +101,13 @@ begin
     select value from pg_catalog.jsonb_array_elements(p_items)
   loop
     v_topic_id := v_item ->> 'topic_id';
-    v_topic_label := case v_topic_id\n      when 'music-reviews' then 'Music Reviews'\n      when 'sports-feed' then 'Sports Feed'\n      when 'chipata-activities' then 'Chipata Activities'\n      when 'zambian-politics' then 'Zambian Politics'\n      when 'learn-trading' then 'Learn Online Trading'\n    end;
+    v_topic_label := case v_topic_id
+      when 'music-reviews' then 'Music Reviews'
+      when 'sports-feed' then 'Sports Feed'
+      when 'chipata-activities' then 'Chipata Activities'
+      when 'zambian-politics' then 'Zambian Politics'
+      when 'learn-trading' then 'Learn Online Trading'
+    end;
     v_article_url := v_item ->> 'article_url';
     v_title := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'title', '')), 240);
     v_source := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'source', 'Online source')), 100);
