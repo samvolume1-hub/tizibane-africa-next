@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
+import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 import {
   notificationSoundKind,
   playNotificationSound,
@@ -11,18 +12,27 @@ import {
   vibrateForNotification,
 } from "@/lib/notification-sounds";
 
-type IncomingNotification = { recipient_id?: string; actor_id?: string | null; kind?: string };
-type InboxMessageEvent = { payload?: { sender_id?: string } };
+type IncomingNotification = {
+  id?: string;
+  recipient_id?: string;
+  actor_id?: string | null;
+  kind?: string;
+  subject_id?: string | null;
+  message_id?: string | null;
+};
+type InboxMessageEvent = { payload?: { message_id?: string; sender_id?: string; conversation_id?: string } };
 type IncomingCall = {
   id: string;
   conversationId: string;
   callType: "audio" | "video";
   callerName: string;
   showOverlay: boolean;
+  expiresAt: number;
 };
 type CallParticipantEvent = {
   call_id?: string;
   conversation_id?: string;
+  user_id?: string;
   invited_by?: string;
   status?: string;
 };
@@ -35,11 +45,10 @@ export function NotificationSoundListener() {
   const [incomingCall, setIncomingCall] = useState<IncomingCall | null>(null);
   const [callActionBusy, setCallActionBusy] = useState(false);
   const seenIncomingCallIds = useRef(new Set<string>());
+  const seenMessageIds = useRef(new Set<string>());
 
   useEffect(() => {
-    // Unlock Web Audio on the first genuine interaction anywhere in TIZIBANE.
-    // This is deliberately app-wide: members should not need to visit Settings
-    // or press a preview button before an incoming call can ring.
+    // Browsers require a real user gesture before background audio can play.
     const unlock = () => { void unlockNotificationAudio(); };
     document.addEventListener("pointerdown", unlock, true);
     document.addEventListener("keydown", unlock, true);
@@ -53,8 +62,6 @@ export function NotificationSoundListener() {
     pathnameRef.current = pathname;
   }, [pathname]);
 
-  // The root layout survives login/logout navigation. Follow auth changes so
-  // the global listener starts and stops with the signed-in account.
   useEffect(() => {
     const supabase = createClient();
     let alive = true;
@@ -65,6 +72,7 @@ export function NotificationSoundListener() {
       setUserId(session?.user?.id ?? null);
       setIncomingCall(null);
       seenIncomingCallIds.current.clear();
+      seenMessageIds.current.clear();
     });
     return () => {
       alive = false;
@@ -78,18 +86,34 @@ export function NotificationSoundListener() {
       return;
     }
     const supabase = createClient();
-    let channel: ReturnType<typeof supabase.channel> | null = null;
+    let inboxChannel: ReturnType<typeof supabase.channel> | null = null;
+    let feedChannel: ReturnType<typeof supabase.channel> | null = null;
     let stopped = false;
+
+    const playMessageOnce = (messageId: string | null | undefined, senderId?: string | null, mutedActorIds: Set<string> = new Set<string>()) => {
+      if (!messageId || seenMessageIds.current.has(messageId)) return;
+      seenMessageIds.current.add(messageId);
+      if (seenMessageIds.current.size > 500) {
+        const oldest = seenMessageIds.current.values().next().value;
+        if (oldest) seenMessageIds.current.delete(oldest);
+      }
+      if (!senderId || !mutedActorIds.has(senderId)) {
+        playNotificationSound("message", false, 6);
+        vibrateForNotification(32);
+      }
+    };
 
     const receiveIncomingCall = async (row: CallParticipantEvent): Promise<boolean> => {
       if (stopped || row.status !== "invited" || !row.call_id || !row.conversation_id || !row.invited_by || row.invited_by === userId) return false;
       if (seenIncomingCallIds.current.has(row.call_id)) return true;
       seenIncomingCallIds.current.add(row.call_id);
       const { data: call } = await supabase.from("call_sessions")
-        .select("id,conversation_id,started_by,status,call_type")
+        .select("id,conversation_id,started_by,status,call_type,created_at")
         .eq("id", row.call_id)
         .maybeSingle();
-      if (stopped || !call || call.status !== "ringing" || call.started_by !== row.invited_by) {
+      const validStatus = call?.status === "ringing" || call?.status === "active";
+      const ageMs = call?.created_at ? Date.now() - new Date(call.created_at).getTime() : Number.POSITIVE_INFINITY;
+      if (stopped || !call || !validStatus || ageMs > 90_000 || call.started_by !== row.invited_by) {
         seenIncomingCallIds.current.delete(row.call_id);
         return false;
       }
@@ -99,9 +123,7 @@ export function NotificationSoundListener() {
         seenIncomingCallIds.current.delete(row.call_id);
         return false;
       }
-      const currentConversationId = typeof window === "undefined"
-        ? null
-        : new URLSearchParams(window.location.search).get("conversation");
+      const currentConversationId = new URLSearchParams(window.location.search).get("conversation");
       const alreadyInConversation = pathnameRef.current.startsWith("/home/messages")
         && currentConversationId === call.conversation_id;
       setIncomingCall({
@@ -110,89 +132,113 @@ export function NotificationSoundListener() {
         callType: call.call_type === "video" ? "video" : "audio",
         callerName: profile?.display_name || "A TIZIBANE member",
         showOverlay: !alreadyInConversation,
+        expiresAt: new Date(call.created_at).getTime() + 75_000,
       });
       return true;
     };
 
-    const connect = async () => {
-      // Private Realtime topics need the current Auth JWT set explicitly.
-      await supabase.realtime.setAuth();
+    const recoverPendingCalls = async () => {
       if (stopped) return;
-      const { data: mutedRows } = await supabase.from("member_preferences")
-        .select("member_id").eq("owner_id", userId).eq("muted", true);
-      const mutedActorIds = new Set((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
-      if (stopped) return;
-
-      channel = supabase.channel("inbox:" + userId, { config: { private: true } });
-      channel
-        .on("broadcast", { event: "message" }, (event: InboxMessageEvent) => {
-          const senderId = event.payload?.sender_id;
-          if (!senderId || !mutedActorIds.has(senderId)) {
-            playNotificationSound("message", false, 6);
-            vibrateForNotification(32);
-          }
-          if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
-        })
-        .on("postgres_changes", {
-          event: "INSERT",
-          schema: "public",
-          table: "notifications",
-          filter: "recipient_id=eq." + userId,
-        }, (payload: { new: IncomingNotification }) => {
-          const notification = payload.new;
-          if (!notification || notification.recipient_id !== userId) return;
-          if (notification.kind === "message") return;
-          if (notification.actor_id && mutedActorIds.has(notification.actor_id)) return;
-          playNotificationSound(notificationSoundKind(notification.kind ?? ""), false, 6);
-          vibrateForNotification([45, 65, 45, 65, 45, 65]);
-          if (pathnameRef.current === "/home/notifications") router.refresh();
-        })
-        .on("postgres_changes", {
-          event: "*",
-          schema: "public",
-          table: "call_participants",
-          filter: "user_id=eq." + userId,
-        }, (payload: { eventType?: string; new: CallParticipantEvent & { user_id?: string } }) => {
-          if (payload.new.user_id === userId && payload.new.status !== "invited") {
-            setIncomingCall((current) => current?.id === payload.new.call_id ? null : current);
-            return;
-          }
-          if (payload.eventType === "INSERT") void receiveIncomingCall(payload.new);
-        })
-        .on("postgres_changes", {
-          event: "UPDATE", schema: "public", table: "call_sessions",
-        }, (payload: { new: { id?: string; status?: string } }) => {
-          if (payload.new.status !== "ringing") {
-            setIncomingCall((current) => current?.id === payload.new.id ? null : current);
-          }
-        })
-        .subscribe();
-
-      // Recover a ringing invite after a refresh or a brief network reconnect.
-      const { data: pendingInvites } = await supabase.from("call_participants")
+      const { data: pendingInvites, error } = await supabase.from("call_participants")
         .select("call_id,conversation_id,invited_by,status,created_at")
         .eq("user_id", userId)
         .eq("status", "invited")
         .neq("invited_by", userId)
         .order("created_at", { ascending: false })
-        .limit(3);
-      if (!stopped && pendingInvites?.length) {
-        for (const invite of pendingInvites) {
-          const accepted = await receiveIncomingCall(invite);
-          if (stopped || accepted) return;
-        }
+        .limit(10);
+      if (error) {
+        console.warn("[TIZIBANE calls] pending-invite recovery failed", { code: error.code, message: error.message });
+        return;
+      }
+      for (const invite of pendingInvites ?? []) {
+        if (stopped) return;
+        await receiveIncomingCall(invite);
+      }
+    };
+
+    const connect = async () => {
+      try {
+        // Refresh/attach the current JWT before either channel subscribes.
+        await setRealtimeAuth(supabase, "inbox:" + userId);
+        if (stopped) return;
+
+        const { data: mutedRows } = await supabase.from("member_preferences")
+          .select("member_id").eq("owner_id", userId).eq("muted", true);
+        const mutedActorIds = new Set<string>((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
+        if (stopped) return;
+
+        // Keep server-originated inbox broadcasts private and recipient-scoped.
+        inboxChannel = supabase.channel("inbox:" + userId, { config: { private: true } });
+        inboxChannel
+          .on("broadcast", { event: "message" }, (event: InboxMessageEvent) => {
+            playMessageOnce(event.payload?.message_id, event.payload?.sender_id, mutedActorIds);
+            if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
+          })
+          .subscribe((status: string, error?: Error) => reportRealtimeStatus("inbox:" + userId, status, error));
+
+        // Independent public topic: Postgres RLS still limits every row to its recipient.
+        // This delivers message sounds even when the private inbox broadcast is rejected.
+        feedChannel = supabase.channel("notification-feed:" + userId, { config: { private: false } });
+        feedChannel
+          .on("postgres_changes", {
+            event: "INSERT", schema: "public", table: "notifications",
+            filter: "recipient_id=eq." + userId,
+          }, (payload: { new: IncomingNotification }) => {
+            const notification = payload.new;
+            if (!notification || notification.recipient_id !== userId) return;
+            if (notification.kind === "message") {
+              // The message_id shared by the trigger and inbox broadcast deduplicates both routes.
+              playMessageOnce(notification.message_id ?? notification.id, notification.actor_id, mutedActorIds);
+              if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
+              return;
+            }
+            if (notification.actor_id && mutedActorIds.has(notification.actor_id)) return;
+            playNotificationSound(notificationSoundKind(notification.kind ?? ""), false, 6);
+            vibrateForNotification([45, 65, 45, 65, 45, 65]);
+            if (pathnameRef.current === "/home/notifications") router.refresh();
+          })
+          .on("postgres_changes", {
+            event: "*", schema: "public", table: "call_participants",
+            filter: "user_id=eq." + userId,
+          }, (payload: { eventType?: string; new: CallParticipantEvent }) => {
+            const participant = payload.new;
+            if (participant.user_id !== userId) return;
+            if (participant.status !== "invited") {
+              setIncomingCall((current) => current?.id === participant.call_id ? null : current);
+              return;
+            }
+            if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
+              void receiveIncomingCall(participant);
+            }
+          })
+          .on("postgres_changes", {
+            event: "UPDATE", schema: "public", table: "call_sessions",
+          }, (payload: { new: { id?: string; status?: string } }) => {
+            if (payload.new.status !== "ringing" && payload.new.status !== "active") {
+              setIncomingCall((current) => current?.id === payload.new.id ? null : current);
+            }
+          })
+          .subscribe((status: string, error?: Error) => reportRealtimeStatus("notification-feed:" + userId, status, error));
+
+        void recoverPendingCalls();
+      } catch (error) {
+        console.error("[TIZIBANE Realtime] connection setup failed", {
+          topic: "inbox:" + userId,
+          detail: error instanceof Error ? error.message : String(error),
+        });
       }
     };
 
     void connect();
+    const recoveryTimer = window.setInterval(() => { void recoverPendingCalls(); }, 12_000);
     return () => {
       stopped = true;
-      if (channel) void supabase.removeChannel(channel);
+      window.clearInterval(recoveryTimer);
+      if (inboxChannel) void supabase.removeChannel(inboxChannel);
+      if (feedChannel) void supabase.removeChannel(feedChannel);
     };
   }, [router, userId]);
 
-  // Calls keep ringing while the invite remains pending, including when the
-  // recipient is already viewing the conversation. Any resolution stops this loop.
   useEffect(() => {
     if (!incomingCall) return;
     const kind = incomingCall.callType === "video" ? "video_call" : "voice_call";
@@ -202,7 +248,13 @@ export function NotificationSoundListener() {
       playNotificationSound(kind);
       vibrateForNotification([70, 90, 70]);
     }, 2400);
-    return () => window.clearInterval(interval);
+    const expiry = window.setTimeout(() => {
+      setIncomingCall((current) => current?.id === incomingCall.id ? null : current);
+    }, Math.max(0, incomingCall.expiresAt - Date.now()));
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(expiry);
+    };
   }, [incomingCall?.id, incomingCall?.callType]);
 
   const openIncomingCall = () => {
@@ -222,6 +274,7 @@ export function NotificationSoundListener() {
         body: JSON.stringify({ action: "decline" }),
       });
       if (response.ok) setIncomingCall(null);
+      else console.error("[TIZIBANE calls] decline failed", { callId: incomingCall.id, status: response.status });
     } finally {
       setCallActionBusy(false);
     }

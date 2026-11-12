@@ -5,6 +5,7 @@ import { CallControls } from "@/components/call-controls";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
+import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 
 type Message = { id: string; sender_id: string; body: string; created_at: string };
 type Presence = { user_id?: string };
@@ -105,16 +106,23 @@ export function ConversationLive({
       setIsOnline(online);
     });
 
-    // Private conversation topics require the signed-in member's Auth JWT.
-    void supabase.realtime.setAuth().then(() => {
+    // Private conversation topics require the current signed-in member JWT.
+    const topic = "conversation:" + conversationId;
+    void setRealtimeAuth(supabase, topic).then(() => {
       if (!alive) return;
-      channel.subscribe(async (status: string) => {
+      channel.subscribe(async (status: string, error?: Error) => {
+        reportRealtimeStatus(topic, status, error);
         if (status === "SUBSCRIBED") {
           await channel.track({ user_id: userId, online_at: new Date().toISOString() });
         }
       });
-    }).catch(() => {
-      if (alive) setError("Live message updates could not connect. Please refresh the conversation.");
+    }).catch((cause) => {
+      if (alive) {
+        console.error("[TIZIBANE Realtime] conversation subscription setup failed", {
+          topic, detail: cause instanceof Error ? cause.message : String(cause),
+        });
+        setError("Live message updates could not connect. Please refresh to retry.");
+      }
     });
 
     channelRef.current = channel;

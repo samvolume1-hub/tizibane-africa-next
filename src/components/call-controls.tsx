@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 type CallInfo = {
   callId: string;
   roomName: string;
@@ -16,6 +17,7 @@ type CallSessionRow = {
   room_name: string;
   call_type: "audio" | "video";
   status: string;
+  created_at: string;
 };
 
 declare global {
@@ -105,9 +107,13 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   useEffect(() => {
     let alive = true;
-    const channel = supabase.channel("conversation-calls:" + conversationId, { config: { private: true } });
+    const topic = "conversation-calls:" + conversationId;
+    // This channel carries Postgres changes only; row-level table policies remain
+    // the authorization boundary, so it does not need a private broadcast topic.
+    const channel = supabase.channel(topic, { config: { private: false } });
     const receive = async (row: CallSessionRow) => {
-      if (row.started_by !== userId && row.status === "ringing") {
+      const ageMs = row.created_at ? Date.now() - new Date(row.created_at).getTime() : Number.POSITIVE_INFINITY;
+      if (row.started_by !== userId && ageMs <= 90_000 && (row.status === "ringing" || row.status === "active")) {
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", row.id).eq("user_id", userId).maybeSingle();
         if (alive && participant?.status === "invited") setIncoming(row);
@@ -115,7 +121,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       if (row.status === "ended" || row.status === "declined" || row.status === "missed") {
         setIncoming((current) => current?.id === row.id ? null : current);
       }
-      if (row.status === "ended" && activeCallRef.current?.callId === row.id) {
+      if ((row.status === "ended" || row.status === "missed" || row.status === "declined") && activeCallRef.current?.callId === row.id) {
         apiRef.current?.dispose();
         apiRef.current = null;
         activeCallRef.current = null;
@@ -140,37 +146,80 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         return;
       }
       const { data: session } = await supabase.from("call_sessions")
-        .select("id,started_by,room_name,call_type,status")
+        .select("id,started_by,room_name,call_type,status,created_at")
         .eq("id", participant.call_id).maybeSingle();
-      if (alive && session && session.started_by !== userId && session.status === "ringing") {
+      if (alive && session && session.started_by !== userId && (session.status === "ringing" || session.status === "active")) {
         setIncoming(session as CallSessionRow);
       }
     });
-    // Private conversation-call topics require the active Auth JWT.
-    void supabase.realtime.setAuth().then(() => {
-      if (alive) channel.subscribe();
-    }).catch(() => {
-      if (alive) setError("Live call alerts could not connect. Please refresh and try again.");
+    void setRealtimeAuth(supabase, topic).then(() => {
+      if (alive) channel.subscribe((status: string, error?: Error) => reportRealtimeStatus(topic, status, error));
+    }).catch((cause) => {
+      if (alive) {
+        console.error("[TIZIBANE Realtime] call subscription setup failed", {
+          topic, detail: cause instanceof Error ? cause.message : String(cause),
+        });
+        setError("Live call alerts could not connect. Please refresh to retry.");
+      }
     });
-    void supabase.from("call_sessions")
-      .select("id,started_by,room_name,call_type,status")
-      .eq("conversation_id", conversationId)
-      .eq("status", "ringing")
-      .neq("started_by", userId)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .then(async (result: { data: CallSessionRow[] | null }) => {
-        const session = result.data?.[0];
-        if (!alive || !session) return;
+    const recoverPendingCalls = async () => {
+      const { data: sessions, error: queryError } = await supabase.from("call_sessions")
+        .select("id,started_by,room_name,call_type,status,created_at")
+        .eq("conversation_id", conversationId)
+        .in("status", ["ringing", "active"])
+        .neq("started_by", userId)
+        .order("created_at", { ascending: false })
+        .limit(5);
+      if (queryError) {
+        console.warn("[TIZIBANE calls] conversation invite recovery failed", { code: queryError.code, message: queryError.message });
+        return;
+      }
+      for (const session of sessions ?? []) {
+        if (!alive) return;
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", session.id).eq("user_id", userId).maybeSingle();
-        if (alive && participant?.status === "invited") setIncoming(session);
-      });
+        const ageMs = session.created_at ? Date.now() - new Date(session.created_at).getTime() : Number.POSITIVE_INFINITY;
+        if (alive && ageMs <= 90_000 && participant?.status === "invited") {
+          setIncoming(session as CallSessionRow);
+          return;
+        }
+      }
+      if (alive) setIncoming(null);
+    };
+    void recoverPendingCalls();
+    const recoveryTimer = window.setInterval(() => { void recoverPendingCalls(); }, 10_000);
     return () => {
       alive = false;
+      window.clearInterval(recoveryTimer);
       void supabase.removeChannel(channel);
     };
   }, [conversationId, supabase, userId]);
+
+  useEffect(() => {
+    const callId = activeCall?.callId;
+    if (!callId) return;
+    let alive = true;
+    const checkCallState = async () => {
+      const { data, error: queryError } = await supabase.from("call_sessions")
+        .select("status").eq("id", callId).maybeSingle();
+      if (queryError) {
+        console.warn("[TIZIBANE calls] active call status check failed", { code: queryError.code, message: queryError.message });
+        return;
+      }
+      if (alive && (!data || ["ended", "missed", "declined"].includes(data.status))) {
+        apiRef.current?.dispose();
+        apiRef.current = null;
+        activeCallRef.current = null;
+        setActiveCall(null);
+      }
+    };
+    void checkCallState();
+    const timer = window.setInterval(() => { void checkCallState(); }, 5_000);
+    return () => {
+      alive = false;
+      window.clearInterval(timer);
+    };
+  }, [activeCall?.callId, supabase]);
 
   useEffect(() => {
     if (!activeCall || !mountRef.current) return;
@@ -224,12 +273,13 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   const declineCall = async () => {
     if (!incoming) return;
-    await fetch("/api/calls/" + incoming.id, {
+    const response = await fetch("/api/calls/" + incoming.id, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "decline" }),
     });
-    setIncoming(null);
+    if (response.ok) setIncoming(null);
+    else setError("Your call response could not be sent. Please try again.");
   };
 
   return (
