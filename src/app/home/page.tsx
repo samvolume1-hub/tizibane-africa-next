@@ -226,8 +226,9 @@ export default async function Home({
               </div>
             </div>
             <CompressedImageForm action={createPost}>
-              <label className="sr-only" htmlFor="post-body">Write an update</label>
-              <textarea id="post-body" name="body" placeholder="What would you like to share with your community?" maxLength={3000} />
+              <label className="eyebrow post-caption-label" htmlFor="post-body">Post description</label>
+              <textarea id="post-body" name="body" placeholder="Tell the community what this photo is about, share a story or write an update…" maxLength={3000} aria-describedby="post-caption-help" />
+              <p className="field-help" id="post-caption-help">Your description will appear above the photo. You can also share a text-only update.</p>
               <div className="composer-bottom">
                 <div className="composer-options">
                   <label className="photo-picker" htmlFor="post-photo" aria-label="Upload photo" title="Upload photo"><span aria-hidden="true">＋</span><span>Upload photo</span></label>
