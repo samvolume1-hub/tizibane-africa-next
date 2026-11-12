@@ -7,80 +7,10 @@ const secretKeys = secretKeysRaw ? JSON.parse(secretKeysRaw) as Record<string, s
 // with projects that still expose the legacy service_role JWT variable.
 const SERVICE_ROLE_KEY = secretKeys.default ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 if (!SERVICE_ROLE_KEY) throw new Error("Supabase server secret is not configured.");
+const SPOTLIGHT_FEED_URL = "https://tizibane-africa-next.onrender.com/api/spotlight-feed";
 
-const topics = [
-  { id: "music-reviews", label: "Music Reviews", query: "Zambian music new releases album reviews artist spotlight music videos Zambia" },
-  { id: "sports-feed", label: "Sports Feed", query: "Zambia sports football basketball tennis athletics international sport" },
-  { id: "chipata-activities", label: "Chipata Activities", query: "Chipata Eastern Province Zambia community events business development local news" },
-  { id: "zambian-politics", label: "Zambian Politics", query: "Zambia politics parliament public policy government civic affairs analysis" },
-  { id: "learn-trading", label: "Learn Online Trading", query: "beginner financial education forex stocks crypto trading platforms risk management" },
-] as const;
-
-const USER_AGENT = "TIZIBANE-Spotlight/1.0 (+https://tizibane-africa-next.onrender.com)";
-
-type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl: string };
-type Feed = { id: string; label: string; available: boolean; status?: number; failure?: string; items: FeedItem[] };
-
-function decodeXml(value: string) {
-  return value
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
-    .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
-    .trim();
-}
-
-function readTag(xml: string, tag: string) {
-  const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
-}
-
-function trustedArticleUrl(value: string) {
-  try {
-    const url = new URL(decodeXml(value));
-    if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "news.google.com"
-      || !url.pathname.startsWith("/rss/articles/") || url.username || url.password) return null;
-    return url.toString();
-  } catch {
-    return null;
-  }
-}
-
-async function readTopic(topic: (typeof topics)[number]): Promise<Feed> {
-  const url = "https://news.google.com/rss/search?q=" + encodeURIComponent(topic.query) + "&hl=en-ZM&gl=ZM&ceid=ZM:en";
-  try {
-    const response = await fetch(url, {
-      headers: { "User-Agent": USER_AGENT, Accept: "application/rss+xml,application/xml,text/xml;q=0.9,*/*;q=0.1" },
-      signal: AbortSignal.timeout(7000),
-    });
-    if (!response.ok) return { id: topic.id, label: topic.label, available: false, status: response.status, items: [] };
-    const xml = await response.text();
-    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).flatMap((match) => {
-      const item = match[1];
-      const articleUrl = trustedArticleUrl(readTag(item, "link"));
-      const title = readTag(item, "title").slice(0, 240);
-      if (!articleUrl || !title) return [];
-      return [{
-        title,
-        source: readTag(item, "source").slice(0, 100) || "Online source",
-        publishedAt: readTag(item, "pubDate").slice(0, 100),
-        summary: readTag(item, "description").slice(0, 900),
-        articleUrl,
-      }];
-    });
-    return { id: topic.id, label: topic.label, available: true, items };
-  } catch (error) {
-    return {
-      id: topic.id,
-      label: topic.label,
-      available: false,
-      failure: error instanceof Error ? error.name + ": " + error.message : String(error),
-      items: [],
-    };
-  }
-}
+type FeedItem = { title?: string; source?: string; publishedAt?: string; summary?: string; articleUrl?: string };
+type Feed = { id?: string; label?: string; available?: boolean; items?: FeedItem[] };
 
 function hex(bytes: ArrayBuffer) {
   return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
@@ -110,34 +40,53 @@ Deno.serve(async (request: Request) => {
   }
 
   try {
-    const feeds = await Promise.all(topics.map(readTopic));
-    if (feeds.length !== topics.length || feeds.some((feed) => !feed.available)) {
-      console.error("[Spotlight notification sync] unavailable RSS departments", feeds
-        .filter((feed) => !feed.available)
-        .map((feed) => ({ id: feed.id, status: feed.status ?? null, failure: feed.failure ?? null })));
-      return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
+    const response = await fetch(SPOTLIGHT_FEED_URL + "?notification-sync=" + Date.now(), {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(90_000),
+    });
+    if (!response.ok) {
+      return Response.json({ error: "Spotlight feed unavailable", status: response.status }, { status: 502 });
     }
 
-    const seenCategories = new Set(feeds.map((feed) => feed.id));
-    if (seenCategories.size !== topics.length) {
-      return Response.json({ error: "Spotlight feed is incomplete" }, { status: 502 });
+    const payload = await response.json() as { feeds?: Feed[] };
+    const expectedCategories = new Set([
+      "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading",
+    ]);
+    if (!Array.isArray(payload.feeds) || payload.feeds.length !== expectedCategories.size) {
+      return Response.json({ error: "Spotlight feed did not return all five departments" }, { status: 502 });
     }
 
+    const seenCategories = new Set<string>();
     const items: Record<string, unknown>[] = [];
-    for (const feed of feeds) {
+    for (const feed of payload.feeds) {
+      if (!feed.id || !expectedCategories.has(feed.id) || seenCategories.has(feed.id)
+        || feed.available !== true || !Array.isArray(feed.items)) {
+        return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
+      }
+      seenCategories.add(feed.id);
       for (const item of feed.items) {
+        const articleUrl = item.articleUrl ?? "";
+        const title = (item.title ?? "").trim();
+        if (!articleUrl.startsWith("https://") || !title) continue;
+        const publishedAt = item.publishedAt ?? "";
+        const source = item.source ?? "";
+        const summary = item.summary ?? "";
         items.push({
-          item_key: await digest(item.articleUrl),
-          fingerprint: await digest(JSON.stringify([item.title, item.source, item.publishedAt, item.summary])),
+          item_key: await digest(articleUrl),
+          fingerprint: await digest(JSON.stringify([title, source, publishedAt, summary])),
           category_id: feed.id,
-          category: feed.label,
-          title: item.title,
-          source: item.source,
-          published_at: item.publishedAt,
-          summary: item.summary,
-          article_url: item.articleUrl,
+          category: feed.label ?? "Spotlight",
+          title,
+          source,
+          published_at: publishedAt,
+          summary,
+          article_url: articleUrl,
         });
       }
+    }
+
+    if (seenCategories.size !== expectedCategories.size) {
+      return Response.json({ error: "Spotlight feed is incomplete" }, { status: 502 });
     }
 
     const { data, error } = await supabase.rpc("process_spotlight_feed", { p_items: items });
