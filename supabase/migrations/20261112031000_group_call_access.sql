@@ -120,3 +120,47 @@ create policy "Messaging members can send private realtime events"
       else false
     end
   );
+
+-- A direct call must obey the same two-way block boundary as direct messages.
+drop policy if exists call_create on public.call_sessions;
+create policy call_create
+  on public.call_sessions
+  for insert to authenticated
+  with check (
+    started_by = (select auth.uid())
+    and status = 'ringing'
+    and private.is_conversation_member(conversation_id)
+    and not exists (
+      select 1
+      from public.conversations c
+      join public.conversation_members other_member
+        on other_member.conversation_id = c.id
+       and other_member.user_id <> (select auth.uid())
+      where c.id = call_sessions.conversation_id
+        and not c.is_group
+        and private.is_blocked_between((select auth.uid()), other_member.user_id)
+    )
+  );
+
+drop policy if exists call_participant_respond on public.call_participants;
+create policy call_participant_respond
+  on public.call_participants
+  for update to authenticated
+  using (user_id = (select auth.uid()))
+  with check (
+    user_id = (select auth.uid())
+    and status = any (array['joined'::text, 'declined'::text, 'left'::text])
+    and (
+      status <> 'joined'
+      or not exists (
+        select 1
+        from public.conversations c
+        join public.conversation_members other_member
+          on other_member.conversation_id = c.id
+         and other_member.user_id <> (select auth.uid())
+        where c.id = call_participants.conversation_id
+          and not c.is_group
+          and private.is_blocked_between((select auth.uid()), other_member.user_id)
+      )
+    )
+  );
