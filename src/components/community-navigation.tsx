@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AppPageControls } from "@/components/app-page-controls";
+import { NotificationSoundListener } from "@/components/notification-sound-listener";
 
 const items = [
   { href: "/home", label: "Home", key: "home" },
@@ -24,6 +25,7 @@ export function CommunityNavigation({ active }: { active: string }) {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   return (
     <aside className="sidebar tizibane-illustrated-sidebar">
+      <NotificationSoundListener />
       <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
         <nav className="side-nav illustrated-side-nav" aria-label="Main navigation">
           {items.filter((item) => !["people", "blocked", "activity", "events", "premium"].includes(item.key)).map((item) => (

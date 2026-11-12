@@ -1,5 +1,6 @@
 import { CommunityNavigation } from "@/components/community-navigation";
 import { PendingIconButton } from "@/components/pending-icon-button";
+import { NotificationSoundSettings } from "@/components/notification-sound-settings";
 import Link from "next/link";
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
@@ -23,6 +24,7 @@ export default async function NotificationsPage({searchParams}:{searchParams:Pro
  for(const p of profiles){const url=p.avatar_path?avatarUrlByPath.get(p.avatar_path):null;if(url)avatarUrls[p.id]=url}
  return <main className="app-layout notifications-page"><CommunityNavigation active="notifications" />
  <section className="app-main"><header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">YOUR INBOX</span></header><div className="app-content"><section className="welcome"><span className="eyebrow">Stay in the loop</span><h1>Notifications.</h1><p>Friend requests, messages, group activity and updates from your community.</p></section>
+ <NotificationSoundSettings />
  {params.error&&<div className="notice" role="alert">{params.error}</div>}
  <div className="feed-heading"><div><span className="eyebrow">Activity</span><h2>{unread} unread notifications</h2></div>{unread>0&&<form action={markAllNotificationsRead}><PendingIconButton className="text-action notification-action-button" label="Mark all notifications as read" pendingLabel="Updating…">Mark all as read</PendingIconButton></form>}</div>
  {error?<div className="module"><h3>Notifications are temporarily unavailable</h3><p>Please refresh in a moment.</p></div>:notifications.length===0?<div className="empty-state"><div className="empty-symbol">♢</div><h3>All quiet for now.</h3><p>When people connect and interact with you, updates will appear here.</p></div>:<div className="notification-list">{notifications.map(n=>{const actor=n.actor_id?profileById.get(n.actor_id):undefined,name=actor?.display_name||"A TIZIBANE member";return <article className={"notification-card "+(!n.read_at?"notification-unread":"")} key={n.id}><div className="person-identity">{n.actor_id&&avatarUrls[n.actor_id]?<img src={avatarUrls[n.actor_id]} alt="" className="person-avatar" loading="lazy" decoding="async"/>:<div className="person-avatar person-avatar-fallback">{actor?.initials||"TZ"}</div>}<div className="notification-copy"><p>{label(n.kind,name)}</p><span>{new Date(n.created_at).toLocaleString("en-ZM",{dateStyle:"medium",timeStyle:"short"})}</span><Link href={destination(n)} className="text-action">Open</Link></div></div>{!n.read_at&&<form action={markNotificationRead}><input type="hidden" name="notification_id" value={n.id}/><PendingIconButton className="text-action muted-action notification-action-button" label="Mark notification as read" pendingLabel="Updating…">Mark read</PendingIconButton></form>}</article>})}</div>}

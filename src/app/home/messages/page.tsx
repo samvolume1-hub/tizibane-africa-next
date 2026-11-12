@@ -1,5 +1,4 @@
 import { CommunityNavigation } from "@/components/community-navigation";
-import { InboxLiveRefresh } from "@/components/inbox-live-refresh";
 import { ConversationLive } from "@/components/conversation-live";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -100,7 +99,6 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
           <span className="muted">PRIVATE MESSAGES</span>
         </header>
         <div className="app-content messages-page">
-          <InboxLiveRefresh userId={user.id} />
           <header className="messages-titlebar">
             <div><h1>Messaging</h1><p>Your private conversations on TIZIBANE.</p></div>
             <Link href="/home/people" className="messages-new-button"><span aria-hidden="true">＋</span> Start messaging</Link>
