@@ -121,7 +121,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       if (row.status === "ended" || row.status === "declined" || row.status === "missed") {
         setIncoming((current) => current?.id === row.id ? null : current);
       }
-      if (row.status === "ended" && activeCallRef.current?.callId === row.id) {
+      if ((row.status === "ended" || row.status === "missed" || row.status === "declined") && activeCallRef.current?.callId === row.id) {
         apiRef.current?.dispose();
         apiRef.current = null;
         activeCallRef.current = null;
