@@ -79,6 +79,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   const closeCall = useCallback(async (action: "leave" | "end" = "leave") => {
     const callId = activeCall?.callId;
+    const finalAction = action === "leave" && activeCall?.isInitiator ? "end" : action;
     apiRef.current?.dispose();
     apiRef.current = null;
     setActiveCall(null);
@@ -111,8 +112,8 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       .neq("started_by", userId)
       .order("created_at", { ascending: false })
       .limit(1)
-      .then(({ data }) => {
-        if (alive && data?.[0]) setIncoming(data[0] as CallSessionRow);
+      .then((result: { data: CallSessionRow[] | null }) => {
+        if (alive && result.data?.[0]) setIncoming(result.data[0]);
       });
     return () => {
       alive = false;
