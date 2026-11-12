@@ -195,6 +195,32 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
   }, [conversationId, supabase, userId]);
 
   useEffect(() => {
+    const callId = activeCall?.callId;
+    if (!callId) return;
+    let alive = true;
+    const checkCallState = async () => {
+      const { data, error: queryError } = await supabase.from("call_sessions")
+        .select("status").eq("id", callId).maybeSingle();
+      if (queryError) {
+        console.warn("[TIZIBANE calls] active call status check failed", { code: queryError.code, message: queryError.message });
+        return;
+      }
+      if (alive && (!data || ["ended", "missed", "declined"].includes(data.status))) {
+        apiRef.current?.dispose();
+        apiRef.current = null;
+        activeCallRef.current = null;
+        setActiveCall(null);
+      }
+    };
+    void checkCallState();
+    const timer = window.setInterval(() => { void checkCallState(); }, 5_000);
+    return () => {
+      alive = false;
+      window.clearInterval(timer);
+    };
+  }, [activeCall?.callId, supabase]);
+
+  useEffect(() => {
     if (!activeCall || !mountRef.current) return;
     let cancelled = false;
     const appId = activeCall.appId;
