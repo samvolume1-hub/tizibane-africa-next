@@ -19,12 +19,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Choose a valid conversation and call type." }, { status: 400 });
   }
 
-  const [{ data: conversation }, { data: members }] = await Promise.all([
-    supabase.from("conversations").select("id,is_group").eq("id", conversationId).maybeSingle(),
-    supabase.from("conversation_members").select("user_id").eq("conversation_id", conversationId),
-  ]);
-  const memberIds = [...new Set((members ?? []).map((member) => member.user_id))];
-  if (!conversation || !memberIds.includes(user.id)) {
+  const { data: conversation } = await supabase.from("conversations")
+    .select("id,is_group,group_id")
+    .eq("id", conversationId)
+    .maybeSingle();
+  if (!conversation) {
+    return NextResponse.json({ error: "This conversation is not available to your account." }, { status: 403 });
+  }
+
+  let memberIds: string[] = [];
+  if (conversation.is_group && conversation.group_id) {
+    const [{ data: groupMembership }, { data: groupMembers }] = await Promise.all([
+      supabase.from("group_members").select("status").eq("group_id", conversation.group_id).eq("user_id", user.id).maybeSingle(),
+      supabase.from("group_members").select("user_id").eq("group_id", conversation.group_id).eq("status", "active"),
+    ]);
+    if (groupMembership?.status !== "active") {
+      return NextResponse.json({ error: "Only active group members can start group calls." }, { status: 403 });
+    }
+    memberIds = [...new Set((groupMembers ?? []).map((member) => member.user_id))];
+  } else {
+    const { data: members } = await supabase.from("conversation_members")
+      .select("user_id")
+      .eq("conversation_id", conversationId);
+    memberIds = [...new Set((members ?? []).map((member) => member.user_id))];
+  }
+
+  if (!memberIds.includes(user.id)) {
     return NextResponse.json({ error: "This conversation is not available to your account." }, { status: 403 });
   }
   if (memberIds.length < 2) {
