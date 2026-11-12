@@ -184,6 +184,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
           return;
         }
       }
+      if (alive) setIncoming(null);
     };
     void recoverPendingCalls();
     const recoveryTimer = window.setInterval(() => { void recoverPendingCalls(); }, 10_000);
