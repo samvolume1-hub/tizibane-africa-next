@@ -3,26 +3,38 @@
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 
+/**
+ * Inbox refresh fallback uses recipient-filtered Postgres Changes rather than
+ * opening a second private inbox broadcast channel.
+ */
 export function InboxLiveRefresh({ userId }: { userId: string }) {
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
 
   useEffect(() => {
     let alive = true;
-    let channel: ReturnType<typeof supabase.channel> | null = null;
-    void supabase.realtime.setAuth().then(() => {
-      if (!alive) return;
-      channel = supabase
-        .channel("inbox:" + userId, { config: { private: true } })
-        .on("broadcast", { event: "message" }, () => router.refresh())
-        .subscribe();
-    }).catch(() => {
-      // The primary app-wide listener reports its own connection state.
+    const topic = "inbox-refresh:" + userId;
+    const channel = supabase.channel(topic, { config: { private: false } });
+    channel.on("postgres_changes", {
+      event: "INSERT",
+      schema: "public",
+      table: "notifications",
+      filter: "recipient_id=eq." + userId,
+    }, () => router.refresh());
+
+    void setRealtimeAuth(supabase, topic).then(() => {
+      if (alive) channel.subscribe((status, error) => reportRealtimeStatus(topic, status, error));
+    }).catch((cause) => {
+      if (alive) console.error("[TIZIBANE Realtime] inbox refresh setup failed", {
+        topic, detail: cause instanceof Error ? cause.message : String(cause),
+      });
     });
+
     return () => {
       alive = false;
-      if (channel) void supabase.removeChannel(channel);
+      void supabase.removeChannel(channel);
     };
   }, [router, supabase, userId]);
 
