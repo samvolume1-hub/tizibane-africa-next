@@ -233,3 +233,52 @@
   background:#f3e9ee!important;
   color:#71345c!important;
 }
+
+
+/* CREATE GROUP: final cascade authority for readable form copy. */
+.editorial:global(.groups-page) :global(.app-content .create-group-section .headingCopy h2),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .headingCopy p),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .label),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .hint),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .accessTitle),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceCopy strong),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceCopy span),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .coverHeader > span:last-child),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .details summary),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .footerHint),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .fileInput),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .image-compression-status) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.editorial:global(.groups-page) :global(.app-content .create-group-section .input),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .textarea),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .categoryInput) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 800 !important;
+}
+
+.editorial:global(.groups-page) :global(.app-content .create-group-section .input::placeholder),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .textarea::placeholder) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  opacity: 1 !important;
+  font-weight: 800 !important;
+}
+
+.editorial:global(.groups-page) :global(.app-content .create-group-section .fileInput::file-selector-button) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 900 !important;
+}
+
+/* The Create Group action is the deliberate exception: white on plum. */
+.editorial:global(.groups-page) :global(.app-content .create-group-section .submit),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .submit *) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 900 !important;
+}
