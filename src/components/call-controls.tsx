@@ -164,7 +164,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
     });
     const recoverPendingCalls = async () => {
       const { data: sessions, error: queryError } = await supabase.from("call_sessions")
-        .select("id,started_by,room_name,call_type,status")
+        .select("id,started_by,room_name,call_type,status,created_at")
         .eq("conversation_id", conversationId)
         .in("status", ["ringing", "active"])
         .neq("started_by", userId)
