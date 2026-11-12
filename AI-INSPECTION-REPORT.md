@@ -288,3 +288,11 @@ Copy and complete this section after each work session.
 - **Scope and cost:** No new paid provider, package, database table, trigger, media asset, or storage upload.
 - **Deployment:** Render's production deployment was not independently accessible for verification during this session. Do not mark production deployment complete until the Render service reports a successful deploy for commit `df4dc988a6045ab7d405743825ad477b56cb06ef`.
 - **Runtime boundary:** Incoming call alerts and sounds are app-wide while the member is signed in and TIZIBANE is open. They are not closed-app/background push notifications. Browser audio may require a user gesture; vibration depends on device/browser support.
+
+
+## Repeating notification alert upgrade — 2026-11-12
+- In-app notification and message chimes now repeat six times per received event, subject to the member's sound preference and browser audio permission.
+- Incoming voice/video calls continue to ring every 2.4 seconds while the invitation remains pending, including when the recipient is already in the conversation.
+- The loop is cleared when the recipient invitation changes from `invited` or the call session leaves `ringing`.
+- Uses the existing Web Audio sound generator, local preferences, vibration support, and Supabase Realtime. No external audio files, new packages, database changes, or paid services.
+- CI must pass on the final branch head before merge; production deployment must be verified separately in Render.

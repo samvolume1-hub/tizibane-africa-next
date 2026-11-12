@@ -92,7 +92,7 @@ const melodies: Record<TizibaneSoundKind, Array<[number, number, number]>> = {
   video_call: [[587.33, 0, 0.48], [739.99, 0.18, 0.5], [880, 0.36, 0.62]],
 };
 
-export function playNotificationSound(kind: TizibaneSoundKind, preview = false) {
+export function playNotificationSound(kind: TizibaneSoundKind, preview = false, repeatCount = 1) {
   const preferences = readNotificationPreferences();
   if (!preview && !preferences.soundEnabled) return;
 
@@ -106,13 +106,18 @@ export function playNotificationSound(kind: TizibaneSoundKind, preview = false) 
 
   // A soft, low-level harmonic bed gives each chime a little warmth without
   // adding a sustained or noisy layer that could become distracting.
-  melody.forEach(([frequency, offset, duration], index) => {
-    const start = now + offset;
+  const repeats = preview ? 1 : Math.max(1, Math.min(6, Math.floor(repeatCount)));
+  const melodyDuration = Math.max(...melody.map(([, offset, duration]) => offset + duration));
+  for (let repeat = 0; repeat < repeats; repeat += 1) {
+    const repeatStart = now + repeat * (melodyDuration + 0.22);
+    melody.forEach(([frequency, offset, duration], index) => {
+    const start = repeatStart + offset;
     const strength = index === 0 ? 1 : 0.82;
     note(context, frequency, start, duration, master * strength);
     note(context, frequency * 2, start + 0.012, duration * 0.72, master * 0.12, "sine");
     note(context, frequency / 2, start, duration * 0.8, master * 0.075, "sine");
-  });
+    });
+  }
 }
 
 export function vibrateForNotification(pattern: number | number[] = 34) {
