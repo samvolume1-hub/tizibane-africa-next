@@ -41,6 +41,7 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
       callId: session.id,
       roomName: session.room_name,
       callType: session.call_type,
+      isInitiator: session.started_by === user.id,
       appId: getJaasAppId(),
       token,
     });
