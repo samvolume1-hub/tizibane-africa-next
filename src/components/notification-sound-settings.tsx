@@ -12,7 +12,7 @@ import {
 const initialPreferences: NotificationPreferences = {
   soundEnabled: true,
   vibrationEnabled: true,
-  volume: 0.42,
+  volume: 0.6,
 };
 
 export function NotificationSoundSettings() {
@@ -52,13 +52,13 @@ export function NotificationSoundSettings() {
           <h2 id="notification-sound-title" style={{ margin: "3px 0 0", fontSize: 20, color: "#fff" }}>Sound & vibration</h2>
         </div>
       </div>
-      <p style={{ color: "rgba(255,255,255,.72)", fontSize: 13, lineHeight: 1.6, margin: "8px 0 18px", maxWidth: 660 }}>
-        Soft, warm notification chimes with a little ambience. Choose sound and vibration independently. These preferences are saved on this device.
+      <p style={{ color: "rgba(255,255,255,.76)", fontSize: 13, lineHeight: 1.6, margin: "8px 0 18px", maxWidth: 660 }}>
+        Set how loudly TIZIBANE alerts you. New devices start at 60%; adjust the level any time. Sound and vibration work independently, and your choices are saved on this device.
       </p>
 
       <div style={{ display: "grid", gap: 12 }}>
         <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.055)" }}>
-          <span><strong style={{ display: "block", fontSize: 14 }}>Gentle sounds</strong><small style={{ color: "rgba(255,255,255,.62)" }}>Messages, reactions, groups and events</small></span>
+          <span><strong style={{ display: "block", fontSize: 14 }}>Notification sounds</strong><small style={{ color: "rgba(255,255,255,.68)" }}>Messages, reactions, groups, events and calls</small></span>
           <input aria-label="Enable notification sounds" type="checkbox" checked={preferences.soundEnabled} onChange={(event) => {
             const enabled = event.target.checked;
             update({ soundEnabled: enabled });
@@ -67,43 +67,46 @@ export function NotificationSoundSettings() {
         </label>
 
         <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.055)" }}>
-          <span><strong style={{ display: "block", fontSize: 14 }}>Vibration</strong><small style={{ color: "rgba(255,255,255,.62)" }}>A very short, subtle pulse where supported</small></span>
+          <span><strong style={{ display: "block", fontSize: 14 }}>Vibration</strong><small style={{ color: "rgba(255,255,255,.68)" }}>A separate alert where your device supports it</small></span>
           <input aria-label="Enable notification vibration" type="checkbox" checked={preferences.vibrationEnabled} onChange={(event) => {
             const enabled = event.target.checked;
             update({ vibrationEnabled: enabled });
-            if (enabled) vibrateForNotification(28);
+            if (enabled) vibrateForNotification([55, 70, 55]);
           }} style={{ width: 20, height: 20, accentColor: "#c58be8" }} />
         </label>
 
-        <div style={{ padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.055)" }}>
-          <label htmlFor="tizibane-sound-volume" style={{ display: "flex", justifyContent: "space-between", gap: 12, fontSize: 13, fontWeight: 650 }}>
-            <span>Sound level</span><span>{Math.round(preferences.volume * 100)}%</span>
+        <div style={{ padding: "14px", borderRadius: 13, background: "rgba(255,255,255,.065)" }}>
+          <label htmlFor="tizibane-sound-volume" style={{ display: "flex", justifyContent: "space-between", gap: 12, fontSize: 14, fontWeight: 750 }}>
+            <span>Alert volume</span><span style={{ color: "#f0d5ff", fontVariantNumeric: "tabular-nums" }}>{Math.round(preferences.volume * 100)}%</span>
           </label>
-          <input id="tizibane-sound-volume" type="range" min="0.1" max="0.75" step="0.05" value={preferences.volume} onChange={(event) => update({ volume: Number(event.target.value) })} disabled={!preferences.soundEnabled} style={{ width: "100%", marginTop: 10, accentColor: "#d2a5ec" }} />
-          <small style={{ color: "rgba(255,255,255,.58)" }}>Kept deliberately soft by default.</small>
+          <input id="tizibane-sound-volume" type="range" min="0" max="1" step="0.05" value={preferences.volume} onChange={(event) => update({ volume: Number(event.target.value) })} disabled={!preferences.soundEnabled} style={{ width: "100%", marginTop: 12, accentColor: "#e0b4fa", cursor: preferences.soundEnabled ? "pointer" : "not-allowed" }} />
+          <div style={{ display: "flex", justifyContent: "space-between", color: "rgba(255,255,255,.62)", fontSize: 11 }}>
+            <span>Muted · 0%</span><span>Maximum · 100%</span>
+          </div>
+          <small style={{ display: "block", color: "rgba(255,255,255,.7)", marginTop: 8 }}>Recommended starting level: 60%. Move the slider and preview a tone to find your comfortable level.</small>
         </div>
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 9, marginTop: 15 }}>
-        <button type="button" onClick={() => playNotificationSound("message", true)} style={buttonStyle}>Preview message chime</button>
-        <button type="button" onClick={() => playNotificationSound("voice_call", true)} style={buttonStyle}>Preview voice-call tone</button>
-        <button type="button" onClick={() => playNotificationSound("video_call", true)} style={buttonStyle}>Preview video-call tone</button>
-        <button type="button" onClick={() => vibrateForNotification([34, 65, 34])} style={buttonStyle}>Test vibration</button>
+        <button type="button" onClick={() => playNotificationSound("message", true)} style={buttonStyle}>Preview message</button>
+        <button type="button" onClick={() => playNotificationSound("voice_call", true)} style={buttonStyle}>Preview voice-call ring</button>
+        <button type="button" onClick={() => playNotificationSound("video_call", true)} style={buttonStyle}>Preview video-call ring</button>
+        <button type="button" onClick={() => vibrateForNotification([55, 70, 55])} style={buttonStyle}>Test vibration</button>
       </div>
-      <p role="status" style={{ margin: "13px 0 0", color: "rgba(255,255,255,.55)", fontSize: 11, lineHeight: 1.5 }}>
-        Your browser may require one tap on a preview before it allows sounds. Vibration depends on the phone, browser and device settings; iPhones and some desktop browsers do not expose web vibration.
+      <p role="status" style={{ margin: "13px 0 0", color: "rgba(255,255,255,.62)", fontSize: 11, lineHeight: 1.5 }}>
+        If a preview is silent, tap a preview button once to grant the browser audio permission. Also check your device's media volume and silent mode. Vibration support depends on the device and browser.
       </p>
     </section>
   );
 }
 
 const buttonStyle: React.CSSProperties = {
-  border: "1px solid rgba(221, 184, 244, .38)",
+  border: "1px solid rgba(221, 184, 244, .48)",
   borderRadius: 999,
-  background: "rgba(153, 98, 190, .16)",
+  background: "rgba(153, 98, 190, .22)",
   color: "#fff",
-  padding: "9px 13px",
+  padding: "10px 14px",
   fontSize: 12,
-  fontWeight: 650,
+  fontWeight: 700,
   cursor: "pointer",
 };

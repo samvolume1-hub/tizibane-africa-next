@@ -14,7 +14,7 @@ const STORAGE_KEY = "tizibane.notification-preferences.v1";
 const DEFAULTS: NotificationPreferences = {
   soundEnabled: true,
   vibrationEnabled: true,
-  volume: 0.42,
+  volume: 0.6,
 };
 
 let audioContext: AudioContext | null = null;
@@ -25,12 +25,15 @@ export function readNotificationPreferences(): NotificationPreferences {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (!saved) return DEFAULTS;
     const parsed = JSON.parse(saved) as Partial<NotificationPreferences>;
+    // 0.42 was the previous factory default. Move existing default installations
+    // to the new 60% level while preserving any volume the member chose.
+    const storedVolume = typeof parsed.volume === "number"
+      ? (Math.abs(parsed.volume - 0.42) < 0.001 ? 0.6 : parsed.volume)
+      : DEFAULTS.volume;
     return {
       soundEnabled: parsed.soundEnabled !== false,
       vibrationEnabled: parsed.vibrationEnabled !== false,
-      volume: typeof parsed.volume === "number"
-        ? Math.min(1, Math.max(0, parsed.volume))
-        : DEFAULTS.volume,
+      volume: Math.min(1, Math.max(0, storedVolume)),
     };
   } catch {
     return DEFAULTS;
@@ -40,7 +43,10 @@ export function readNotificationPreferences(): NotificationPreferences {
 export function saveNotificationPreferences(value: NotificationPreferences) {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      ...value,
+      volume: Math.min(1, Math.max(0, value.volume)),
+    }));
   } catch {
     // Private browsing or storage restrictions should never break notifications.
   }
@@ -85,7 +91,7 @@ function note(
   oscillator.type = wave;
   oscillator.frequency.setValueAtTime(frequency, start);
   filter.type = "lowpass";
-  filter.frequency.setValueAtTime(2600, start);
+  filter.frequency.setValueAtTime(3200, start);
   envelope.gain.setValueAtTime(0.0001, start);
   envelope.gain.exponentialRampToValueAtTime(Math.max(0.0002, amplitude), start + 0.035);
   envelope.gain.exponentialRampToValueAtTime(0.0001, start + duration);
@@ -104,13 +110,15 @@ const melodies: Record<TizibaneSoundKind, Array<[number, number, number]>> = {
   friend_request: [[523.25, 0, 0.34], [659.25, 0.13, 0.38], [783.99, 0.27, 0.48]],
   group: [[659.25, 0, 0.34], [783.99, 0.15, 0.34], [659.25, 0.3, 0.4]],
   event: [[587.33, 0, 0.38], [783.99, 0.18, 0.46]],
-  voice_call: [[523.25, 0, 0.52], [659.25, 0.2, 0.56], [783.99, 0.4, 0.64]],
-  video_call: [[587.33, 0, 0.48], [739.99, 0.18, 0.5], [880, 0.36, 0.62]],
+  // Lower, warmer two-part ring for voice; brighter three-note signature for video.
+  voice_call: [[440, 0, 0.58], [554.37, 0.2, 0.62], [440, 0.52, 0.58]],
+  video_call: [[587.33, 0, 0.5], [783.99, 0.18, 0.54], [987.77, 0.36, 0.62]],
 };
 
 export function playNotificationSound(kind: TizibaneSoundKind, preview = false, repeatCount = 1) {
   const preferences = readNotificationPreferences();
   if (!preview && !preferences.soundEnabled) return;
+  if (preferences.volume <= 0) return;
 
   const context = getAudioContext();
   if (!context) return;
@@ -121,7 +129,10 @@ export function playNotificationSound(kind: TizibaneSoundKind, preview = false, 
     if (context.state !== "running") return;
 
     const now = context.currentTime + 0.025;
-    const master = Math.max(0.02, preferences.volume) * 0.095;
+    // Previous output was capped at roughly 9.5% before the member volume was
+    // applied, making even a 100% setting very quiet. This gives 60% a clear,
+    // comfortable level while retaining a full 0–100% user control.
+    const master = preferences.volume * 0.32;
     const melody = melodies[kind] ?? melodies.message;
     const repeats = preview ? 1 : Math.max(1, Math.min(6, Math.floor(repeatCount)));
     const melodyDuration = Math.max(...melody.map(([, offset, duration]) => offset + duration));
