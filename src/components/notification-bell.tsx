@@ -24,8 +24,9 @@ export function NotificationBell({ userId }: { userId?: string }) {
       return;
     }
     let alive = true;
-    void supabase.auth.getUser().then(({ data: { user } }) => {
-      if (alive && user) setActiveUserId(user.id);
+    void supabase.auth.getUser().then((result: { data: { user: { id: string } | null } }) => {
+      const resolvedUser = result.data.user;
+      if (alive && resolvedUser) setActiveUserId(resolvedUser.id);
     });
     return () => { alive = false; };
   }, [supabase, userId]);
