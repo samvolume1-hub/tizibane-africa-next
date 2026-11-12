@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 
@@ -14,16 +14,27 @@ export function NotificationBell({ userId }: { userId: string }) {
   const supabase = useMemo(() => createClient(), []);
   const [unreadCount, setUnreadCount] = useState(0);
   const [openedSinceNew, setOpenedSinceNew] = useState(false);
+  const latestUnreadAt = useRef<string | null>(null);
+  const seenStorageKey = "tizibane-notification-bell-seen:" + userId;
 
   const refreshUnreadCount = useCallback(async () => {
-    const { count, error } = await supabase
+    const { data, count, error } = await supabase
       .from("notifications")
-      .select("id", { count: "exact", head: true })
+      .select("created_at", { count: "exact" })
       .eq("recipient_id", userId)
-      .is("read_at", null);
+      .is("read_at", null)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
 
-    if (!error && typeof count === "number") setUnreadCount(count);
-  }, [supabase, userId]);
+    if (error || typeof count !== "number") return;
+    setUnreadCount(count);
+    latestUnreadAt.current = data?.created_at ?? null;
+    const lastSeenAt = window.localStorage.getItem(seenStorageKey);
+    setOpenedSinceNew(Boolean(
+      count > 0 && latestUnreadAt.current && lastSeenAt && latestUnreadAt.current <= lastSeenAt
+    ));
+  }, [seenStorageKey, supabase, userId]);
 
   useEffect(() => {
     let alive = true;
@@ -37,7 +48,10 @@ export function NotificationBell({ userId }: { userId: string }) {
       filter: "recipient_id=eq." + userId,
     }, (payload: { eventType: string }) => {
       if (!alive) return;
-      if (payload.eventType === "INSERT") setOpenedSinceNew(false);
+      if (payload.eventType === "INSERT") {
+        window.localStorage.removeItem(seenStorageKey);
+        setOpenedSinceNew(false);
+      }
       void refreshUnreadCount();
     });
 
@@ -55,7 +69,7 @@ export function NotificationBell({ userId }: { userId: string }) {
       alive = false;
       void supabase.removeChannel(channel);
     };
-  }, [refreshUnreadCount, supabase, userId]);
+  }, [refreshUnreadCount, seenStorageKey, supabase, userId]);
 
   const isReminding = unreadCount > 0 && !openedSinceNew;
 
@@ -65,7 +79,10 @@ export function NotificationBell({ userId }: { userId: string }) {
       className={`tizibane-notification-bell${isReminding ? " is-reminding" : ""}`}
       aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
       title="Notifications"
-      onClick={() => setOpenedSinceNew(true)}
+      onClick={() => {
+        setOpenedSinceNew(true);
+        if (latestUnreadAt.current) window.localStorage.setItem(seenStorageKey, latestUnreadAt.current);
+      }}
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
