@@ -97,7 +97,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   useEffect(() => {
     let alive = true;
-    const channel = supabase.channel("conversation:" + conversationId, { config: { private: true } });
+    const channel = supabase.channel("conversation-calls:" + conversationId, { config: { private: true } });
     const receive = (row: CallSessionRow) => {
       if (row.started_by !== userId && row.status === "ringing") setIncoming(row);
       if (row.status === "ended" || row.status === "declined" || row.status === "missed") {
