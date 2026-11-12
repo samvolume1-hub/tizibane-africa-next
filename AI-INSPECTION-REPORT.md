@@ -278,3 +278,13 @@ Copy and complete this section after each work session.
 - **Cost/security:** Reuses existing Supabase Realtime tables and authenticated call endpoints; no new service or storage usage. Realtime payloads are filtered to the signed-in participant, and the related session is rechecked before displaying the caller. Existing call RLS remains the authority for reading and responding.
 - **Verification:** The existing call tables' publication membership and RLS policies were inspected directly. The code is on PR #143; CI for the latest commit is pending. No browser/device test or Render deployment is claimed.
 - **Known platform boundary:** This is app-wide while TIZIBANE is open (including navigation between app sections). It is not a background/closed-browser push notification system; browser autoplay and device vibration restrictions still apply.
+
+
+### Final verification — 12 November 2026
+
+- **Merged to main:** PR [#143](https://github.com/samvolume1-hub/tizibane-africa-next/pull/143), squash commit `df4dc988a6045ab7d405743825ad477b56cb06ef`.
+- **Production build verification:** GitHub Actions run [43174482726](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43174482726) on the exact main commit completed successfully. Dependency installation, TypeScript check, and production build all passed.
+- **Supabase:** No schema migration was needed for the app-wide incoming-call feature. The existing `call_participants` and `call_sessions` tables are already in `supabase_realtime`; the existing participant/session RLS policies were verified.
+- **Scope and cost:** No new paid provider, package, database table, trigger, media asset, or storage upload.
+- **Deployment:** Render's production deployment was not independently accessible for verification during this session. Do not mark production deployment complete until the Render service reports a successful deploy for commit `df4dc988a6045ab7d405743825ad477b56cb06ef`.
+- **Runtime boundary:** Incoming call alerts and sounds are app-wide while the member is signed in and TIZIBANE is open. They are not closed-app/background push notifications. Browser audio may require a user gesture; vibration depends on device/browser support.
