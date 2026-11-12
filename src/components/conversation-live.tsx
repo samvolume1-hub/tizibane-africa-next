@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { CallControls } from "@/components/call-controls";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
@@ -27,6 +28,7 @@ export function ConversationLive({
   initialOtherLastReadAt: string | null;
 }) {
   const supabase = useMemo(() => createClient(), []);
+  const router = useRouter();
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
@@ -288,6 +290,7 @@ export function ConversationLive({
       setEditingMessageId(null);
       setEditDraft("");
       setActionNotice("Message updated.");
+      router.refresh();
     }
     setSavingEdit(false);
   };
@@ -320,6 +323,7 @@ export function ConversationLive({
     } else {
       setMessages((current) => current.filter((item) => item.id !== message.id));
       setActionNotice("Message deleted.");
+      router.refresh();
     }
     setDeletingMessageId(null);
   };
