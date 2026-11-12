@@ -26,7 +26,7 @@ const destinations = [
   {
     title: "Groups",
     description: "Find your community, share interests and build something together.",
-    image: "/images/call-to-action-using-social-networks.jpg",
+    image: "/images/pmk15GT61_wYTbn3s_j9Ad-Bcmtk7NBKVFFpUNjADRlSPoAQoQDnbq6y6c7BmAVstSEKFNHDw0qt8WpTizMYFIfccjg_hstZcIj0kkl8oVL0K8BGe7DEfHB5ZGVizSgbwLFqory92nRuMIet_EL-ETSHnv4fM_5V69qL_O9qlramfoiXnItHGKSd0s-eiIQr.jpg",
     alt: "People connecting through social networks",
     href: "/home/groups",
     number: "03",
@@ -54,7 +54,6 @@ export default function LandingPage() {
     <main className={`tizibane-landing ${styles.page}`}>
       <header className={`topbar ${styles.topbar}`}>
         <Brand />
-        <WelcomeActions />
       </header>
 
       <section className={`hero ${styles.hero}`}>
@@ -64,6 +63,8 @@ export default function LandingPage() {
           </div>
         </ScrollReveal>
       </section>
+
+      <div className={styles.heroActions}><WelcomeActions /></div>
 
       <LandingContacts />
 

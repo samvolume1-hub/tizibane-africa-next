@@ -202,17 +202,16 @@
 .featureCopy p { margin: 9px 0 17px; color: #685a70; font-size: 13.2px; line-height: 1.65; }
 .featureLink { margin-top: auto; color: #76518b; font-size: 12.1px; font-weight: 900; letter-spacing: .04em; }
 .featureLink span { margin-left: 4px; }
-/* Match the in-app TIZIBANE footer: photographic purple overlay, clear white type,
-   and the same compact, centered responsive arrangement. */
+/* WELCOME FOOTER — deliberately slim, with both text elements on one line. */
 .page :global(> .footer) {
   min-height: 0 !important;
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 8px 18px !important;
-  padding: 18px clamp(20px, 5vw, 70px) !important;
+  gap: 6px clamp(8px, 1.6vw, 18px) !important;
+  padding: 8px 14px !important;
   border-top: 1px solid rgba(255,255,255,.42) !important;
   background:
     linear-gradient(110deg, rgba(20, 5, 39, .76) 0%, rgba(42, 12, 68, .69) 52%, rgba(20, 5, 39, .76) 100%),
@@ -220,30 +219,79 @@
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
   text-align: center !important;
-  font-size: 12px !important;
-  line-height: 1.5 !important;
+  white-space: nowrap !important;
+  font-size: clamp(9px, 1.05vw, 12px) !important;
+  line-height: 1.2 !important;
 }
 .page :global(> .footer .footer-tagline) {
   flex: 0 0 auto !important;
+  margin: 0 !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
   font-weight: 800 !important;
-  font-size: 13.2px !important;
-  letter-spacing: .06em !important;
+  font-size: inherit !important;
+  letter-spacing: .035em !important;
+  white-space: nowrap !important;
   text-shadow: 0 2px 8px rgba(0,0,0,.75) !important;
 }
 .page :global(> .footer .royalty-copyright) {
-  flex: 0 1 auto !important;
+  flex: 0 0 auto !important;
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
   border: 0 !important;
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-  font-size: 12.1px !important;
-  line-height: 1.5 !important;
-  letter-spacing: .12em !important;
+  font-size: inherit !important;
+  line-height: 1.2 !important;
+  letter-spacing: .045em !important;
+  white-space: nowrap !important;
   text-shadow: 0 2px 8px rgba(0,0,0,.85) !important;
+}
+
+/* Account actions sit immediately beneath the hero image, not in the header. */
+.heroActions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: -24px auto 42px;
+  padding: 0 16px;
+}
+.heroActions :global(.welcome-top-actions) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+.heroActions :global(.welcome-top-actions .btn) {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 150px !important;
+  min-height: 48px !important;
+  padding: 12px 24px !important;
+  border: 1px solid #bda7ca !important;
+  border-radius: 999px !important;
+  background: #f4eff7 !important;
+  color: #392b43 !important;
+  -webkit-text-fill-color: #392b43 !important;
+  box-shadow: 0 7px 18px rgba(57, 38, 72, .15) !important;
+  font-size: 14px !important;
+  font-weight: 850 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+.heroActions :global(.welcome-top-actions .btn-primary) {
+  border-color: #704d83 !important;
+  background: linear-gradient(135deg, #704d83, #50305f) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.heroActions :global(.welcome-top-actions .btn:hover) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(57, 38, 72, .2) !important;
 }
 
 @media (max-width: 900px) {
@@ -280,8 +328,11 @@
   .featureCopy h3 { font-size: 17.6px; }
   .featureCopy p { font-size: 12.1px; margin: 7px 0 12px; }
   .featureLink { font-size: 11px; }
-  .page :global(> .footer) { flex-direction: column !important; align-items: center !important; gap: 8px !important; padding: 20px 14px !important; text-align: center !important; }
-  .page :global(> .footer .royalty-copyright) { margin-top: 2px !important; }
+  .page :global(> .footer) { flex-direction: row !important; flex-wrap: nowrap !important; gap: 5px 8px !important; padding: 8px 7px !important; font-size: clamp(8px, 2.4vw, 10px) !important; }
+  .page :global(> .footer .footer-tagline), .page :global(> .footer .royalty-copyright) { letter-spacing: 0 !important; white-space: nowrap !important; }
+  .heroActions { margin: -16px auto 34px; padding-inline: 12px; }
+  .heroActions :global(.welcome-top-actions) { gap: 8px !important; }
+  .heroActions :global(.welcome-top-actions .btn) { min-width: 135px !important; min-height: 44px !important; padding: 10px 16px !important; font-size: 12.5px !important; }
 }
 @media (max-width: 370px) {
   .page :global(.topbar) { flex-wrap: wrap !important; justify-content: center !important; }

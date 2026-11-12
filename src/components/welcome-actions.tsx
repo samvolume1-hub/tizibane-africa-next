@@ -7,10 +7,10 @@ export function WelcomeActions() {
       aria-label="Account access"
     >
       <Link className="btn" href="/login">
-        Sign in
+        Log in
       </Link>
       <Link className="btn btn-primary" href="/signup">
-        Join the community
+        Create account
       </Link>
     </nav>
   );
