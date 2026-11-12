@@ -17,6 +17,7 @@ type IncomingCall = {
   conversationId: string;
   callType: "audio" | "video";
   callerName: string;
+  showOverlay: boolean;
 };
 type CallParticipantEvent = {
   call_id?: string;
@@ -89,16 +90,13 @@ export function NotificationSoundListener() {
         : new URLSearchParams(window.location.search).get("conversation");
       const alreadyInConversation = pathnameRef.current.startsWith("/home/messages")
         && currentConversationId === call.conversation_id;
-      if (!alreadyInConversation) {
-        setIncomingCall({
-          id: call.id,
-          conversationId: call.conversation_id,
-          callType: call.call_type === "video" ? "video" : "audio",
-          callerName: profile?.display_name || "A TIZIBANE member",
-        });
-      }
-      playNotificationSound(call.call_type === "video" ? "video_call" : "voice_call");
-      vibrateForNotification([70, 90, 70]);
+      setIncomingCall({
+        id: call.id,
+        conversationId: call.conversation_id,
+        callType: call.call_type === "video" ? "video" : "audio",
+        callerName: profile?.display_name || "A TIZIBANE member",
+        showOverlay: !alreadyInConversation,
+      });
       return true;
     };
 
@@ -113,7 +111,7 @@ export function NotificationSoundListener() {
         .on("broadcast", { event: "message" }, (event: InboxMessageEvent) => {
           const senderId = event.payload?.sender_id;
           if (!senderId || !mutedActorIds.has(senderId)) {
-            playNotificationSound("message");
+            playNotificationSound("message", false, 6);
             vibrateForNotification(32);
           }
           if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
@@ -128,17 +126,28 @@ export function NotificationSoundListener() {
           if (!notification || notification.recipient_id !== userId) return;
           if (notification.kind === "message") return;
           if (notification.actor_id && mutedActorIds.has(notification.actor_id)) return;
-          playNotificationSound(notificationSoundKind(notification.kind ?? ""));
-          vibrateForNotification(28);
+          playNotificationSound(notificationSoundKind(notification.kind ?? ""), false, 6);
+          vibrateForNotification([45, 65, 45, 65, 45, 65]);
           if (pathnameRef.current === "/home/notifications") router.refresh();
         })
         .on("postgres_changes", {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "call_participants",
           filter: "user_id=eq." + userId,
-        }, (payload: { new: CallParticipantEvent }) => {
-          void receiveIncomingCall(payload.new);
+        }, (payload: { new: CallParticipantEvent & { user_id?: string } }) => {
+          if (payload.new.user_id === userId && payload.new.status !== "invited") {
+            setIncomingCall((current) => current?.id === payload.new.call_id ? null : current);
+            return;
+          }
+          if (payload.eventType === "INSERT") void receiveIncomingCall(payload.new);
+        })
+        .on("postgres_changes", {
+          event: "UPDATE", schema: "public", table: "call_sessions",
+        }, (payload: { new: { id?: string; status?: string } }) => {
+          if (payload.new.status !== "ringing") {
+            setIncomingCall((current) => current?.id === payload.new.id ? null : current);
+          }
         })
         .subscribe();
 
@@ -165,6 +174,20 @@ export function NotificationSoundListener() {
     };
   }, [router, userId]);
 
+  // Calls keep ringing while the invite remains pending, including when the
+  // recipient is already viewing the conversation. Any resolution stops this loop.
+  useEffect(() => {
+    if (!incomingCall) return;
+    const kind = incomingCall.callType === "video" ? "video_call" : "voice_call";
+    playNotificationSound(kind);
+    vibrateForNotification([70, 90, 70]);
+    const interval = window.setInterval(() => {
+      playNotificationSound(kind);
+      vibrateForNotification([70, 90, 70]);
+    }, 2400);
+    return () => window.clearInterval(interval);
+  }, [incomingCall?.id, incomingCall?.callType]);
+
   const openIncomingCall = () => {
     if (!incomingCall) return;
     const destination = "/home/messages?conversation=" + encodeURIComponent(incomingCall.conversationId) + "&answerCall=" + encodeURIComponent(incomingCall.id);
@@ -189,7 +212,7 @@ export function NotificationSoundListener() {
 
   return (
     <>
-      {incomingCall && (
+      {incomingCall?.showOverlay && (
         <aside
           role="alertdialog"
           aria-label="Incoming call"
