@@ -8198,3 +8198,87 @@ body.tizibane-call-active .tizibane-notification-bell {
 .message-edit-actions button:disabled{opacity:.5;cursor:not-allowed}
 .message-action-status{margin:8px 2px;color:var(--muted);font-size:11px}
 @media(max-width:540px){.message-action-menu{min-width:124px}.message-edit-actions{gap:6px}.message-edit-actions button{min-height:34px}}
+
+
+/* MESSAGING — extend the approved phone/tablet visual language to laptop and desktop.
+   This is intentionally scoped to the Messaging page; the global top ribbon and
+   all live conversation/call behaviour remain unchanged. */
+@media (min-width: 901px) {
+  .app-layout .messages-page {
+    max-width: 1480px;
+    padding-inline: clamp(18px, 2.2vw, 34px);
+  }
+  .app-layout .messages-titlebar {
+    gap: 24px;
+    margin-bottom: 20px;
+    padding: 18px clamp(20px, 2vw, 30px);
+  }
+  .app-layout .messages-titlebar h1 {
+    font-size: clamp(27px, 2vw, 32px);
+  }
+  .app-layout .messages-titlebar p {
+    font-size: 14px;
+  }
+  .app-layout .messages-workspace-live {
+    grid-template-columns: clamp(280px, 25vw, 350px) minmax(0, 1fr);
+    min-height: clamp(600px, calc(100dvh - 250px), 860px);
+    border-radius: 22px;
+  }
+  .app-layout .messages-workspace-live .messages-sidebar {
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .app-layout .messages-sidebar-heading {
+    min-height: 64px;
+    padding-inline: 22px;
+  }
+  .app-layout .messages-sidebar .conversation-card {
+    gap: 12px;
+    padding: 15px 14px;
+  }
+  .app-layout .messages-sidebar .conversation-card-copy p {
+    max-width: min(220px, 17vw);
+  }
+  .app-layout .messages-workspace-live .messages-chat-pane {
+    min-height: 0;
+  }
+  .app-layout .messages-selected-heading {
+    min-height: 82px;
+    padding: 15px clamp(20px, 2vw, 30px);
+  }
+  .app-layout .messages-workspace-live .message-live-panel {
+    padding: clamp(16px, 1.8vw, 26px);
+  }
+  .app-layout .messages-workspace-live .message-thread {
+    min-height: 260px;
+  }
+  .app-layout .messages-workspace-live .message-composer {
+    margin-top: 12px;
+  }
+  .app-layout .messages-workspace-live:has(.messages-start-hero) {
+    min-height: clamp(600px, calc(100dvh - 250px), 860px);
+  }
+  .app-layout .messages-start-hero {
+    padding: clamp(28px, 3vw, 48px);
+  }
+}
+@media (min-width: 901px) and (max-width: 1180px) {
+  .app-layout .messages-workspace-live {
+    grid-template-columns: minmax(260px, 290px) minmax(0, 1fr);
+  }
+  .app-layout .messages-sidebar .conversation-card {
+    padding-inline: 10px;
+  }
+  .app-layout .messages-workspace-live .message-live-panel {
+    padding: 15px;
+  }
+}
+@media (min-width: 1600px) {
+  .app-layout .messages-page {
+    max-width: 1560px;
+  }
+  .app-layout .messages-workspace-live {
+    grid-template-columns: 360px minmax(0, 1fr);
+  }
+}
