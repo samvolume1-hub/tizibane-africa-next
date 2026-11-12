@@ -159,7 +159,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         console.error("[TIZIBANE Realtime] call subscription setup failed", {
           topic, detail: cause instanceof Error ? cause.message : String(cause),
         });
-        setError("Live call alerts could not connect. Reconnecting automatically…");
+        setError("Live call alerts could not connect. Please refresh to retry.");
       }
     });
     const recoverPendingCalls = async () => {
