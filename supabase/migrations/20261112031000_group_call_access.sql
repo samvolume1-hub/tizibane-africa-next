@@ -1,5 +1,33 @@
--- Permit active members of a private group to receive that group's call updates.
--- Direct conversations continue to use their existing conversation-membership checks.
+-- Permit active members and the group owner to use the group's private call channel.
+-- Group owners are not stored in group_members by the existing group-creation flow.
+create policy group_owner_create_call_conversation
+  on public.conversations
+  for insert to authenticated
+  with check (
+    is_group
+    and group_id is not null
+    and exists (
+      select 1 from public.groups g
+      where g.id = conversations.group_id
+        and g.owner_id = (select auth.uid())
+    )
+  );
+
+create policy group_owner_add_self_to_call_conversation
+  on public.conversation_members
+  for insert to authenticated
+  with check (
+    user_id = (select auth.uid())
+    and exists (
+      select 1
+      from public.conversations c
+      join public.groups g on g.id = c.group_id
+      where c.id = conversation_members.conversation_id
+        and c.is_group
+        and g.owner_id = (select auth.uid())
+    )
+  );
+
 drop policy if exists call_read on public.call_sessions;
 create policy call_read
   on public.call_sessions
@@ -11,7 +39,10 @@ create policy call_read
       from public.conversations c
       where c.id = call_sessions.conversation_id
         and c.group_id is not null
-        and private.is_group_member(c.group_id)
+        and (
+          private.is_group_member(c.group_id)
+          or exists (select 1 from public.groups g where g.id = c.group_id and g.owner_id = (select auth.uid()))
+        )
     )
   );
 
@@ -47,7 +78,10 @@ create policy "Messaging members can receive private realtime events"
             select 1 from public.conversations c
             where c.id = (regexp_match(realtime.topic(), '^conversation:([0-9a-fA-F-]{36})$'))[1]::uuid
               and c.group_id is not null
-              and private.is_group_member(c.group_id)
+              and (
+                private.is_group_member(c.group_id)
+                or exists (select 1 from public.groups g where g.id = c.group_id and g.owner_id = (select auth.uid()))
+              )
           )
         )
       when realtime.topic() ~ '^inbox:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
