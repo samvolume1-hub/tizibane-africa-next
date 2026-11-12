@@ -1,13 +1,14 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { CallControls } from "@/components/call-controls";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 
-type Message = { id: string; sender_id: string; body: string; created_at: string };
+type Message = { id: string; sender_id: string; body: string; created_at: string; edited_at: string | null };
 type Presence = { user_id?: string };
 type MemberUpdate = { user_id: string; last_read_at: string | null };
 
@@ -27,9 +28,16 @@ export function ConversationLive({
   initialOtherLastReadAt: string | null;
 }) {
   const supabase = useMemo(() => createClient(), []);
+  const router = useRouter();
   const [messages, setMessages] = useState(initialMessages);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  const [openMessageMenuId, setOpenMessageMenuId] = useState<string | null>(null);
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [editDraft, setEditDraft] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
+  const [deletingMessageId, setDeletingMessageId] = useState<string | null>(null);
+  const [actionNotice, setActionNotice] = useState("");
   const [loadingOlder, setLoadingOlder] = useState(false);
   const [hasOlder, setHasOlder] = useState(initialMessages.length === 100);
   const [error, setError] = useState("");
@@ -78,6 +86,20 @@ export function ConversationLive({
           .eq("subject_id", conversationId)
           .is("read_at", null);
       }
+    });
+
+    channel.on("postgres_changes", {
+      event: "UPDATE",
+      schema: "public",
+      table: "messages",
+      filter: "conversation_id=eq." + conversationId,
+    }, (payload: { new: Message }) => {
+      setMessages((current) => current.map((message) => message.id === payload.new.id ? payload.new : message));
+    });
+
+    channel.on("broadcast", { event: "message_deleted" }, (message: { payload?: { message_id?: string } }) => {
+      const deletedId = message.payload?.message_id;
+      if (deletedId) setMessages((current) => current.filter((item) => item.id !== deletedId));
     });
 
     channel.on("postgres_changes", {
@@ -193,7 +215,7 @@ export function ConversationLive({
     const oldest = messages[0];
     const { data, error: loadError } = await supabase
       .from("messages")
-      .select("id,sender_id,body,created_at")
+      .select("id,sender_id,body,created_at,edited_at")
       .eq("conversation_id", conversationId)
       .lt("created_at", oldest.created_at)
       .order("created_at", { ascending: false })
@@ -218,7 +240,7 @@ export function ConversationLive({
     const { data, error: sendError } = await supabase
       .from("messages")
       .insert({ conversation_id: conversationId, sender_id: userId, body })
-      .select("id,sender_id,body,created_at")
+      .select("id,sender_id,body,created_at,edited_at")
       .single();
     if (sendError || !data) {
       setError(sendError?.code === "42501"
@@ -234,6 +256,76 @@ export function ConversationLive({
       });
     }
     setSending(false);
+  };
+
+  const beginEdit = (message: Message) => {
+    setEditingMessageId(message.id);
+    setEditDraft(message.body);
+    setOpenMessageMenuId(null);
+    setActionNotice("");
+  };
+
+  const saveEdit = async (message: Message) => {
+    const body = editDraft.trim();
+    if (!body || body.length > 4000 || savingEdit) return;
+    if (body === message.body) {
+      setEditingMessageId(null);
+      setEditDraft("");
+      return;
+    }
+    setSavingEdit(true);
+    setError("");
+    setActionNotice("");
+    const { data, error: editError } = await supabase
+      .from("messages")
+      .update({ body })
+      .eq("id", message.id)
+      .eq("sender_id", userId)
+      .select("id,sender_id,body,created_at,edited_at")
+      .single();
+    if (editError || !data) {
+      setError("This message could not be edited. It may have been removed or you may no longer have access to this conversation.");
+    } else {
+      setMessages((current) => current.map((item) => item.id === message.id ? data as Message : item));
+      setEditingMessageId(null);
+      setEditDraft("");
+      setActionNotice("Message updated.");
+      router.refresh();
+    }
+    setSavingEdit(false);
+  };
+
+  const copyMessage = async (message: Message) => {
+    setOpenMessageMenuId(null);
+    try {
+      await navigator.clipboard.writeText(message.body);
+      setActionNotice("Message copied to clipboard.");
+    } catch {
+      setError("Could not copy this message. Your browser may not allow clipboard access.");
+    }
+  };
+
+  const deleteMessage = async (message: Message) => {
+    setOpenMessageMenuId(null);
+    if (!window.confirm("Delete this message for everyone in this conversation? This cannot be undone.")) return;
+    setDeletingMessageId(message.id);
+    setError("");
+    setActionNotice("");
+    const { data, error: deleteError } = await supabase
+      .from("messages")
+      .delete()
+      .eq("id", message.id)
+      .eq("sender_id", userId)
+      .select("id")
+      .single();
+    if (deleteError || !data) {
+      setError("This message could not be deleted. It may have already been removed or you may no longer have access.");
+    } else {
+      setMessages((current) => current.filter((item) => item.id !== message.id));
+      setActionNotice("Message deleted.");
+      router.refresh();
+    }
+    setDeletingMessageId(null);
   };
 
   const lastOwnMessage = [...messages].reverse().find((message) => message.sender_id === userId);
@@ -256,15 +348,54 @@ export function ConversationLive({
         )}
         {messages.length === 0 ? (
           <div className="empty-state message-empty"><div className="empty-symbol">✉</div><h3>Say hello.</h3><p>This is the beginning of your private conversation.</p></div>
-        ) : messages.map((message) => (
-          <article className={"message-bubble " + (message.sender_id === userId ? "message-own" : "message-theirs")} key={message.id}>
-            <p>{message.body}</p>
-            <span>{message.sender_id === userId ? "You" : otherName} · {new Date(message.created_at).toLocaleString("en-ZM", { dateStyle: "short", timeStyle: "short" })}</span>
-          </article>
-        ))}
+        ) : messages.map((message) => {
+          const isOwnMessage = message.sender_id === userId;
+          const isEditing = editingMessageId === message.id;
+          return (
+            <article className={"message-bubble " + (isOwnMessage ? "message-own" : "message-theirs")} key={message.id}>
+              {isEditing ? (
+                <div className="message-edit-form">
+                  <textarea
+                    aria-label="Edit message"
+                    value={editDraft}
+                    onChange={(event) => setEditDraft(event.target.value.slice(0, 4000))}
+                    maxLength={4000}
+                    rows={Math.min(6, Math.max(2, editDraft.split("\n").length))}
+                    autoFocus
+                  />
+                  <div className="message-edit-actions">
+                    <span>{editDraft.length}/4000</span>
+                    <button type="button" onClick={() => { setEditingMessageId(null); setEditDraft(""); }} disabled={savingEdit}>Cancel</button>
+                    <button type="button" onClick={() => void saveEdit(message)} disabled={!editDraft.trim() || savingEdit}>{savingEdit ? "Saving…" : "Save"}</button>
+                  </div>
+                </div>
+              ) : <p>{message.body}</p>}
+              <div className="message-bubble-meta">
+                <span>{isOwnMessage ? "You" : otherName} · {new Date(message.created_at).toLocaleString("en-ZM", { dateStyle: "short", timeStyle: "short" })}{message.edited_at ? " · Edited" : ""}</span>
+                {!isEditing && (
+                  <div className="message-action-wrap">
+                    <button type="button" className="message-action-trigger" aria-label="Message actions" aria-haspopup="menu" aria-expanded={openMessageMenuId === message.id}
+                      onClick={() => setOpenMessageMenuId((current) => current === message.id ? null : message.id)}
+                      disabled={deletingMessageId === message.id}>
+                      <span aria-hidden="true">⋯</span>
+                    </button>
+                    {openMessageMenuId === message.id && (
+                      <div className="message-action-menu" role="menu">
+                        {isOwnMessage && <button type="button" role="menuitem" onClick={() => beginEdit(message)}>Edit</button>}
+                        <button type="button" role="menuitem" onClick={() => void copyMessage(message)}>Copy</button>
+                        {isOwnMessage && <button type="button" role="menuitem" className="is-destructive" onClick={() => void deleteMessage(message)}>Delete</button>}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </article>
+          );
+        })}
       </div>
       {seen && <p className="message-seen-status" aria-live="polite">Seen</p>}
       {error && <div className="notice" role="alert">{error}</div>}
+      {actionNotice && <p className="message-action-status" role="status">{actionNotice}</p>}
       <section className="message-composer">
         <form onSubmit={sendMessage}>
           <label className="sr-only" htmlFor="message-body">Write a message</label>
