@@ -38,6 +38,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
   const mountRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<{ dispose: () => void } | null>(null);
   const activeCallRef = useRef<CallInfo | null>(null);
+  const autoAnsweredCallRef = useRef<string | null>(null);
 
   const openCall = useCallback(async (info: CallInfo) => {
     activeCallRef.current = info;
@@ -59,6 +60,14 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       setBusy(null);
     }
   }, [openCall]);
+
+  useEffect(() => {
+    if (!incoming || busy || activeCall || typeof window === "undefined") return;
+    const requestedCallId = new URLSearchParams(window.location.search).get("answerCall");
+    if (requestedCallId !== incoming.id || autoAnsweredCallRef.current === incoming.id) return;
+    autoAnsweredCallRef.current = incoming.id;
+    void joinCall(incoming.id);
+  }, [incoming?.id, busy, activeCall, joinCall]);
 
   const startCall = async (callType: "audio" | "video") => {
     if (busy) return;
