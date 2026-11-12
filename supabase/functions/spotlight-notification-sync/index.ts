@@ -5,7 +5,7 @@ const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const SPOTLIGHT_FEED_URL = "https://tizibane-africa-next.onrender.com/api/spotlight-feed";
 
 type FeedItem = { title?: string; source?: string; publishedAt?: string; summary?: string; articleUrl?: string };
-type Feed = { id?: string; label?: string; items?: FeedItem[] };
+type Feed = { id?: string; label?: string; available?: boolean; items?: FeedItem[] };
 
 function hex(bytes: ArrayBuffer) {
   return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
@@ -37,16 +37,21 @@ Deno.serve(async (request: Request) => {
     }
 
     const payload = await response.json() as { feeds?: Feed[] };
-    if (!Array.isArray(payload.feeds) || payload.feeds.length !== 5) {
+    const expectedCategories = new Set([
+      "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading",
+    ]);
+    if (!Array.isArray(payload.feeds) || payload.feeds.length !== expectedCategories.size) {
       return Response.json({ error: "Spotlight feed did not return all five departments" }, { status: 502 });
     }
 
-    const allowedCategories = new Set([
-      "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading",
-    ]);
+    const seenCategories = new Set<string>();
     const items: Record<string, unknown>[] = [];
     for (const feed of payload.feeds) {
-      if (!feed.id || !allowedCategories.has(feed.id) || !Array.isArray(feed.items)) continue;
+      if (!feed.id || !expectedCategories.has(feed.id) || seenCategories.has(feed.id)
+        || feed.available !== true || !Array.isArray(feed.items)) {
+        return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
+      }
+      seenCategories.add(feed.id);
       for (const item of feed.items) {
         const articleUrl = item.articleUrl ?? "";
         const title = (item.title ?? "").trim();
@@ -66,6 +71,10 @@ Deno.serve(async (request: Request) => {
           article_url: articleUrl,
         });
       }
+    }
+
+    if (seenCategories.size !== expectedCategories.size) {
+      return Response.json({ error: "Spotlight feed is incomplete" }, { status: 502 });
     }
 
     const { data, error } = await supabase.rpc("process_spotlight_feed", { p_items: items });
