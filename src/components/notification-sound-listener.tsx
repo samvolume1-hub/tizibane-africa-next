@@ -159,7 +159,7 @@ export function NotificationSoundListener() {
 
   const openIncomingCall = () => {
     if (!incomingCall) return;
-    const destination = "/home/messages?conversation=" + encodeURIComponent(incomingCall.conversationId);
+    const destination = "/home/messages?conversation=" + encodeURIComponent(incomingCall.conversationId) + "&answerCall=" + encodeURIComponent(incomingCall.id);
     setIncomingCall(null);
     router.push(destination);
   };
@@ -205,7 +205,7 @@ export function NotificationSoundListener() {
           </div>
           <div style={{ display: "flex", gap: 9, marginTop: 16 }}>
             <button type="button" onClick={openIncomingCall} style={{ flex: 1, border: 0, borderRadius: 999, padding: "11px 14px", color: "#24122e", background: "#f0d8ff", fontWeight: 750, cursor: "pointer" }}>
-              Open call
+              Answer call
             </button>
             <button type="button" onClick={() => void declineIncomingCall()} disabled={callActionBusy} style={{ border: "1px solid rgba(255,255,255,.3)", borderRadius: 999, padding: "11px 15px", color: "#fff", background: "rgba(255,255,255,.08)", fontWeight: 650, cursor: callActionBusy ? "wait" : "pointer" }}>
               {callActionBusy ? "Please wait…" : "Decline"}
