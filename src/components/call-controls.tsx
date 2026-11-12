@@ -246,12 +246,13 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   const declineCall = async () => {
     if (!incoming) return;
-    await fetch("/api/calls/" + incoming.id, {
+    const response = await fetch("/api/calls/" + incoming.id, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "decline" }),
     });
-    setIncoming(null);
+    if (response.ok) setIncoming(null);
+    else setError("Your call response could not be sent. Please try again.");
   };
 
   return (
