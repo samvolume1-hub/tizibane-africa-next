@@ -31,6 +31,7 @@ export function NotificationSoundListener() {
   const [userId, setUserId] = useState<string | null>(null);
   const [incomingCall, setIncomingCall] = useState<IncomingCall | null>(null);
   const [callActionBusy, setCallActionBusy] = useState(false);
+  const seenIncomingCallIds = useRef(new Set<string>());
 
   useEffect(() => {
     pathnameRef.current = pathname;
@@ -47,6 +48,7 @@ export function NotificationSoundListener() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUserId(session?.user?.id ?? null);
       setIncomingCall(null);
+      seenIncomingCallIds.current.clear();
     });
     return () => {
       alive = false;
@@ -63,16 +65,24 @@ export function NotificationSoundListener() {
     let channel: ReturnType<typeof supabase.channel> | null = null;
     let stopped = false;
 
-    const receiveIncomingCall = async (row: CallParticipantEvent) => {
-      if (stopped || row.status !== "invited" || !row.call_id || !row.conversation_id || !row.invited_by || row.invited_by === userId) return;
+    const receiveIncomingCall = async (row: CallParticipantEvent): Promise<boolean> => {
+      if (stopped || row.status !== "invited" || !row.call_id || !row.conversation_id || !row.invited_by || row.invited_by === userId) return false;
+      if (seenIncomingCallIds.current.has(row.call_id)) return true;
+      seenIncomingCallIds.current.add(row.call_id);
       const { data: call } = await supabase.from("call_sessions")
         .select("id,conversation_id,started_by,status,call_type")
         .eq("id", row.call_id)
         .maybeSingle();
-      if (stopped || !call || call.status !== "ringing" || call.started_by !== row.invited_by) return;
+      if (stopped || !call || call.status !== "ringing" || call.started_by !== row.invited_by) {
+        seenIncomingCallIds.current.delete(row.call_id);
+        return false;
+      }
       const { data: profile } = await supabase.from("profiles")
         .select("display_name").eq("id", row.invited_by).maybeSingle();
-      if (stopped) return;
+      if (stopped) {
+        seenIncomingCallIds.current.delete(row.call_id);
+        return false;
+      }
       setIncomingCall({
         id: call.id,
         conversationId: call.conversation_id,
@@ -81,6 +91,7 @@ export function NotificationSoundListener() {
       });
       playNotificationSound(call.call_type === "video" ? "video_call" : "voice_call");
       vibrateForNotification([70, 90, 70]);
+      return true;
     };
 
     const connect = async () => {
@@ -133,9 +144,8 @@ export function NotificationSoundListener() {
         .limit(3);
       if (!stopped && pendingInvites?.length) {
         for (const invite of pendingInvites) {
-          await receiveIncomingCall(invite);
-          if (stopped) return;
-          if (invite.call_id) break;
+          const accepted = await receiveIncomingCall(invite);
+          if (stopped || accepted) return;
         }
       }
     };
