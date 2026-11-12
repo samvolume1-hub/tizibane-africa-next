@@ -179,3 +179,30 @@
   .scope :global(.app-content .module-section),
   .scope :global(.app-content .groups-discovery-toolbar) { border-radius: 16px; }
 }
+
+/* Strong black typography for every Create Group instruction and description. */
+.shell .headingCopy h2,
+.shell .headingCopy p,
+.shell .label,
+.shell .hint,
+.shell .accessTitle,
+.shell .choiceCopy strong,
+.shell .choiceCopy span,
+.shell .coverHeader,
+.shell .details summary,
+.shell .footerHint,
+.shell .fileInput {
+  color: #000 !important;
+  font-weight: 800 !important;
+}
+.shell .input,
+.shell .textarea,
+.shell .categoryInput {
+  color: #000;
+  font-weight: 700;
+}
+.shell .input::placeholder,
+.shell .textarea::placeholder {
+  color: #292929;
+  font-weight: 700;
+}
