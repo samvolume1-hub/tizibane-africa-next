@@ -1,11 +1,27 @@
 -- Permit active members and the group owner to use the group's private call channel.
 -- Group owners are not stored in group_members by the existing group-creation flow.
+-- Owners need SELECT access to the reusable group conversation so RLS checks and
+-- the group-call bootstrap endpoint can resolve it without widening member access.
+create policy group_owner_read_call_conversation
+  on public.conversations
+  for select to authenticated
+  using (
+    is_group
+    and group_id is not null
+    and exists (
+      select 1 from public.groups g
+      where g.id = conversations.group_id
+        and g.owner_id = (select auth.uid())
+    )
+  );
+
 create policy group_owner_create_call_conversation
   on public.conversations
   for insert to authenticated
   with check (
     is_group
     and group_id is not null
+    and created_by = (select auth.uid())
     and exists (
       select 1 from public.groups g
       where g.id = conversations.group_id
