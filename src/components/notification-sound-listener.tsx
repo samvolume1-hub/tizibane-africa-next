@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
@@ -15,6 +15,13 @@ type InboxMessageEvent = { payload?: { sender_id?: string } };
 export function NotificationSoundListener() {
   const pathname = usePathname();
   const router = useRouter();
+  const pathnameRef = useRef(pathname);
+
+  // Keep the active route current without tearing down the private Realtime
+  // subscription on every in-app navigation.
+  useEffect(() => {
+    pathnameRef.current = pathname;
+  }, [pathname]);
 
   useEffect(() => {
     const supabase = createClient();
@@ -24,6 +31,7 @@ export function NotificationSoundListener() {
     const connect = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (stopped || !user) return;
+
       const { data: mutedRows } = await supabase.from("member_preferences")
         .select("member_id").eq("owner_id", user.id).eq("muted", true);
       const mutedActorIds = new Set((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
@@ -37,7 +45,7 @@ export function NotificationSoundListener() {
             playNotificationSound("message");
             vibrateForNotification(32);
           }
-          if (pathname.startsWith("/home/messages")) router.refresh();
+          if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
         })
         .on("postgres_changes", {
           event: "INSERT",
@@ -53,7 +61,7 @@ export function NotificationSoundListener() {
           if (notification.actor_id && mutedActorIds.has(notification.actor_id)) return;
           playNotificationSound(notificationSoundKind(notification.kind ?? ""));
           vibrateForNotification(28);
-          if (pathname === "/home/notifications") router.refresh();
+          if (pathnameRef.current === "/home/notifications") router.refresh();
         })
         .subscribe();
     };
@@ -63,7 +71,7 @@ export function NotificationSoundListener() {
       stopped = true;
       if (channel) void supabase.removeChannel(channel);
     };
-  }, [pathname, router]);
+  }, [router]);
 
   return null;
 }
