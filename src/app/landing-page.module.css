@@ -63,69 +63,6 @@
   max-width: 1240px !important;
   margin-inline: auto !important;
 }
-.heroCopy {
-  padding: clamp(26px, 3.2vw, 44px) !important;
-  border: 1px solid #eee5dd !important;
-  border-radius: 26px !important;
-  background: rgba(255, 254, 251, .88) !important;
-  box-shadow: 0 18px 55px rgba(65, 48, 39, .065), inset 0 1px 0 #fff !important;
-}
-.heroCopy :global(.eyebrow) {
-  color: #987b8a !important;
-  font-size: 10px !important;
-  font-weight: 850 !important;
-  letter-spacing: .18em !important;
-}
-.heroCopy :global(h1) {
-  margin: 21px 0 17px !important;
-  color: #282328 !important;
-  font-size: clamp(39px, 5.1vw, 66px) !important;
-  line-height: 1.045 !important;
-  letter-spacing: -.055em !important;
-}
-.heroAccent {
-  color: #9a7789;
-  background: linear-gradient(100deg, #9b788b, #b58d9d 58%, #b59a83);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.heroCopy :global(.lead) {
-  max-width: 560px !important;
-  color: #655b60 !important;
-  font-size: clamp(14px, 1.2vw, 16px) !important;
-  line-height: 1.8 !important;
-}
-.heroCopy :global(.hero-actions) { margin-top: 27px; gap: 11px !important; }
-.heroCopy :global(.hero-actions .btn) {
-  min-height: 47px !important;
-  padding: 12px 19px !important;
-  border: 1px solid #e3d9d2 !important;
-  background: #fff !important;
-  color: #3c343a !important;
-  -webkit-text-fill-color: #3c343a !important;
-  box-shadow: 0 4px 13px rgba(54, 39, 33, .045) !important;
-  font-size: 12px !important;
-  font-weight: 800 !important;
-}
-.heroCopy :global(.hero-actions .btn-primary) {
-  border-color: #e4cbd5 !important;
-  background: linear-gradient(135deg, #f0e0e7, #e7d5e0) !important;
-  color: #553d4b !important;
-  -webkit-text-fill-color: #553d4b !important;
-}
-.heroTrust {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 25px;
-  color: #8c7d82;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .025em;
-}
-.heroTrust i { width: 4px; height: 4px; border-radius: 50%; background: #c4a6b4; }
 .heroArt {
   width: 100% !important;
   min-height: clamp(340px, 39vw, 540px) !important;
