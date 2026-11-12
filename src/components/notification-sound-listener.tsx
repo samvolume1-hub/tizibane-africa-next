@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import {
   notificationSoundKind,
@@ -11,6 +12,9 @@ import {
 type IncomingNotification = { recipient_id?: string; kind?: string };
 
 export function NotificationSoundListener() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   useEffect(() => {
     const supabase = createClient();
     let channel: ReturnType<typeof supabase.channel> | null = null;
@@ -25,6 +29,7 @@ export function NotificationSoundListener() {
         .on("broadcast", { event: "message" }, () => {
           playNotificationSound("message");
           vibrateForNotification(32);
+          if (pathname.startsWith("/home/messages")) router.refresh();
         })
         .on("postgres_changes", {
           event: "INSERT",
@@ -39,6 +44,7 @@ export function NotificationSoundListener() {
           if (notification.kind === "message") return;
           playNotificationSound(notificationSoundKind(notification.kind ?? ""));
           vibrateForNotification(28);
+          if (pathname === "/home/notifications") router.refresh();
         })
         .subscribe();
     };
@@ -48,7 +54,7 @@ export function NotificationSoundListener() {
       stopped = true;
       if (channel) void supabase.removeChannel(channel);
     };
-  }, []);
+  }, [pathname, router]);
 
   return null;
 }
