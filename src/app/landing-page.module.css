@@ -202,15 +202,49 @@
 .featureCopy p { margin: 9px 0 17px; color: #685a70; font-size: 13.2px; line-height: 1.65; }
 .featureLink { margin-top: auto; color: #76518b; font-size: 12.1px; font-weight: 900; letter-spacing: .04em; }
 .featureLink span { margin-left: 4px; }
+/* Match the in-app TIZIBANE footer: photographic purple overlay, clear white type,
+   and the same compact, centered responsive arrangement. */
 .page :global(> .footer) {
-  min-height: 76px !important;
-  padding: 20px clamp(20px, 5vw, 70px) !important;
-  border-top: 1px solid #cbbbd5 !important;
-  background: #d9cde2 !important;
-  color: #554660 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px 18px !important;
+  padding: 18px clamp(20px, 5vw, 70px) !important;
+  border-top: 1px solid rgba(255,255,255,.42) !important;
+  background:
+    linear-gradient(110deg, rgba(20, 5, 39, .76) 0%, rgba(42, 12, 68, .69) 52%, rgba(20, 5, 39, .76) 100%),
+    url("/images/footer-social-sharing.webp") center center / cover no-repeat !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-align: center !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
 }
-.page :global(> .footer .footer-tagline) { color: #513b60 !important; font-weight: 850; font-size: 1.1em !important; }
-.page :global(> .footer .royalty-copyright) { color: #62536b !important; font-size: 1.1em !important; }
+.page :global(> .footer .footer-tagline) {
+  flex: 0 0 auto !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+  font-size: 13.2px !important;
+  letter-spacing: .06em !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,.75) !important;
+}
+.page :global(> .footer .royalty-copyright) {
+  flex: 0 1 auto !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-size: 12.1px !important;
+  line-height: 1.5 !important;
+  letter-spacing: .12em !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,.85) !important;
+}
 
 @media (max-width: 900px) {
   .featureGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
@@ -246,7 +280,8 @@
   .featureCopy h3 { font-size: 17.6px; }
   .featureCopy p { font-size: 12.1px; margin: 7px 0 12px; }
   .featureLink { font-size: 11px; }
-  .page :global(> .footer) { display: flex !important; flex-direction: column !important; gap: 6px !important; padding: 16px 12px !important; }
+  .page :global(> .footer) { flex-direction: column !important; align-items: center !important; gap: 8px !important; padding: 20px 14px !important; text-align: center !important; }
+  .page :global(> .footer .royalty-copyright) { margin-top: 2px !important; }
 }
 @media (max-width: 370px) {
   .page :global(.topbar) { flex-wrap: wrap !important; justify-content: center !important; }
