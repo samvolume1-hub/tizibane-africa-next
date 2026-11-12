@@ -60,8 +60,22 @@ begin
   end if;
 
   if p_items is null or pg_catalog.jsonb_typeof(p_items) <> 'array'
+     or pg_catalog.jsonb_array_length(p_items) = 0
      or pg_catalog.jsonb_array_length(p_items) > 25 then
     raise exception 'Invalid Spotlight feed payload';
+  end if;
+
+  if exists (
+    select 1
+    from pg_catalog.jsonb_array_elements(p_items) as entry(value)
+    where coalesce(entry.value ->> 'topic_id', '') not in (
+        'music-reviews', 'sports-feed', 'chipata-activities', 'zambian-politics', 'learn-trading'
+      )
+      or coalesce(entry.value ->> 'article_url', '') !~ '^https://news[.]google[.]com/rss/articles/'
+      or pg_catalog.length(coalesce(entry.value ->> 'article_url', '')) > 1000
+      or pg_catalog.btrim(coalesce(entry.value ->> 'title', '')) = ''
+  ) then
+    raise exception 'Invalid Spotlight feed item';
   end if;
 
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext('tizibane:spotlight-feed-sync'));
@@ -87,7 +101,7 @@ begin
     select value from pg_catalog.jsonb_array_elements(p_items)
   loop
     v_topic_id := v_item ->> 'topic_id';
-    v_topic_label := v_item ->> 'topic';
+    v_topic_label := case v_topic_id\n      when 'music-reviews' then 'Music Reviews'\n      when 'sports-feed' then 'Sports Feed'\n      when 'chipata-activities' then 'Chipata Activities'\n      when 'zambian-politics' then 'Zambian Politics'\n      when 'learn-trading' then 'Learn Online Trading'\n    end;
     v_article_url := v_item ->> 'article_url';
     v_title := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'title', '')), 240);
     v_source := pg_catalog.left(pg_catalog.btrim(coalesce(v_item ->> 'source', 'Online source')), 100);
