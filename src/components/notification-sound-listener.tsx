@@ -90,7 +90,7 @@ export function NotificationSoundListener() {
     let feedChannel: ReturnType<typeof supabase.channel> | null = null;
     let stopped = false;
 
-    const playMessageOnce = (messageId: string | null | undefined, senderId?: string | null, mutedActorIds = new Set<string>()) => {
+    const playMessageOnce = (messageId: string | null | undefined, senderId?: string | null, mutedActorIds: Set<string> = new Set<string>()) => {
       if (!messageId || seenMessageIds.current.has(messageId)) return;
       seenMessageIds.current.add(messageId);
       if (seenMessageIds.current.size > 500) {
@@ -164,7 +164,7 @@ export function NotificationSoundListener() {
 
         const { data: mutedRows } = await supabase.from("member_preferences")
           .select("member_id").eq("owner_id", userId).eq("muted", true);
-        const mutedActorIds = new Set((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
+        const mutedActorIds = new Set<string>((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
         if (stopped) return;
 
         // Keep server-originated inbox broadcasts private and recipient-scoped.
@@ -174,7 +174,7 @@ export function NotificationSoundListener() {
             playMessageOnce(event.payload?.message_id, event.payload?.sender_id, mutedActorIds);
             if (pathnameRef.current.startsWith("/home/messages")) router.refresh();
           })
-          .subscribe((status, error) => reportRealtimeStatus("inbox:" + userId, status, error));
+          .subscribe((status: string, error?: Error) => reportRealtimeStatus("inbox:" + userId, status, error));
 
         // Independent public topic: Postgres RLS still limits every row to its recipient.
         // This delivers message sounds even when the private inbox broadcast is rejected.
@@ -218,7 +218,7 @@ export function NotificationSoundListener() {
               setIncomingCall((current) => current?.id === payload.new.id ? null : current);
             }
           })
-          .subscribe((status, error) => reportRealtimeStatus("notification-feed:" + userId, status, error));
+          .subscribe((status: string, error?: Error) => reportRealtimeStatus("notification-feed:" + userId, status, error));
 
         void recoverPendingCalls();
       } catch (error) {
