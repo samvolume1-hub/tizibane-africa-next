@@ -311,6 +311,31 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
             <strong>TIZIBANE · {activeCall.callType === "audio" ? "Voice call" : "Video call"}</strong>
             <button type="button" className="btn" onClick={() => void closeCall("leave")}>Leave call</button>
           </div>
+          <div
+            role="note"
+            aria-label="How to join the meeting"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "7px 12px",
+              padding: "11px 14px",
+              color: "#fff",
+              background: "linear-gradient(100deg, #321548, #51205f)",
+              borderBottom: "1px solid #a855f7",
+              textAlign: "center",
+              fontSize: 13,
+              fontWeight: 750,
+              letterSpacing: ".01em",
+            }}
+          >
+            <span style={{ color: "#f5b7ff" }}>1.</span>
+            <span>TAP <strong>ADD TO MEETING</strong></span>
+            <span aria-hidden="true" style={{ color: "#f0abfc", fontSize: 20, lineHeight: 1 }}>→</span>
+            <span style={{ color: "#f5b7ff" }}>2.</span>
+            <span>THEN TAP <strong>JOIN MEETING</strong></span>
+          </div>
           <div ref={mountRef} style={{ flex: 1, minHeight: 0 }} />
         </div>
       )}
