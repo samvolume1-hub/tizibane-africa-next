@@ -124,3 +124,112 @@
 @media(max-width:1200px){.editorial :global(.group-grid){grid-template-columns:repeat(3,minmax(0,1fr))!important}}
 @media(max-width:900px){.editorialHero{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(270px,320px)}.editorialMainImage{grid-column:2;grid-row:1}.editorial :global(.group-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:620px){.editorialHero{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 235px;gap:14px}.editorialIntro{padding:14px 4px 10px}.editorialIntro h1{font-size:48px}.editorialMainImage{grid-column:1;grid-row:2;min-height:235px}.heroActions{margin-top:18px}.editorial :global(.group-grid){grid-template-columns:minmax(0,1fr)!important}.editorial :global(.groups-search-row){grid-template-columns:minmax(0,1fr)!important}.editorial :global(.groups-search-row select){width:100%}}
+
+
+/* Create Group panel — enforce the approved Groups-page visual language.
+   Keep the panel warm and light; reserve plum/rose for small accents and actions. */
+.editorial:global(.groups-page) :global(.app-content .create-group-section .shell){
+  border:1px solid #eadfe4!important;
+  border-radius:17px!important;
+  background:linear-gradient(145deg,#fbfaf7 0%,#f4f0ed 100%)!important;
+  box-shadow:0 8px 26px rgba(68,42,57,.055)!important;
+  color:#292522!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .shell:before){
+  display:block!important;
+  height:3px!important;
+  background:linear-gradient(90deg,#8b176c 0%,#d77aa9 52%,#c7a5b8 100%)!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .headingIcon){
+  border:1px solid #e7d4df!important;
+  border-radius:13px!important;
+  background:linear-gradient(145deg,#f4e8ef,#eee7e3)!important;
+  color:#8b176c!important;
+  box-shadow:none!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .headingCopy h2),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .label),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .accessTitle),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .coverHeader),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceCopy strong){
+  color:#302a26!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .headingCopy p),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .hint),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceCopy span),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .footerHint){
+  color:#766d68!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .input),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .textarea),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .categoryInput){
+  border:1px solid #e5dce0!important;
+  border-radius:10px!important;
+  background:#fffdfa!important;
+  color:#292522!important;
+  box-shadow:none!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .input:focus),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .textarea:focus),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .categoryInput:focus){
+  border-color:#bd7da2!important;
+  box-shadow:0 0 0 3px rgba(139,23,108,.09)!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .input::placeholder),
+.editorial:global(.groups-page) :global(.app-content .create-group-section .textarea::placeholder){
+  color:#a49a91!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choice){
+  border:1px solid #e7dfe1!important;
+  border-radius:12px!important;
+  background:#fffdfa!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceSelected){
+  border-color:#c58aa9!important;
+  background:#f8edf3!important;
+  box-shadow:inset 0 0 0 1px rgba(139,23,108,.09)!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceIcon){
+  border-radius:10px!important;
+  background:#f2e8ed!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .choiceCheck){
+  color:#8b176c!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .coverBox){
+  border:1px dashed #d7c4ce!important;
+  border-radius:12px!important;
+  background:#faf6f7!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .coverIcon){
+  border-radius:9px!important;
+  background:#f1e4eb!important;
+  color:#8b176c!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .details){
+  border-color:#e7dfe1!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .details summary){
+  color:#8b176c!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .submit){
+  min-height:48px!important;
+  border:1px solid #851666!important;
+  border-radius:999px!important;
+  background:linear-gradient(100deg,#851666,#a52b79)!important;
+  color:#fff!important;
+  box-shadow:0 7px 18px rgba(133,22,102,.16)!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .submit:hover){
+  filter:brightness(1.06)!important;
+  box-shadow:0 9px 22px rgba(133,22,102,.2)!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .fileInput){
+  color:#6f655e!important;
+}
+.editorial:global(.groups-page) :global(.app-content .create-group-section .fileInput::file-selector-button){
+  border:1px solid #ddcbd5!important;
+  border-radius:999px!important;
+  background:#f3e9ee!important;
+  color:#71345c!important;
+}
