@@ -7901,8 +7901,8 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
   .tizibane-notification-bell {
     top: max(12px, env(safe-area-inset-top));
     right: max(13px, env(safe-area-inset-right));
-    width: 43px;
-    height: 43px;
+    width: 48px;
+    height: 48px;
     border-radius: 14px;
   }
   .tizibane-notification-bell > svg { width: 22px; height: 22px; }
@@ -7949,4 +7949,229 @@ body.tizibane-call-active .tizibane-notification-bell {
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+
+/* WHATSAPP-STYLE MESSAGE NAVIGATION — presentation only; call components untouched. */
+.app-layout .messages-topbar {
+  gap: 16px;
+  padding-right: clamp(88px, 7vw, 132px);
+}
+.app-layout .messages-topbar > * {
+  min-width: 0;
+}
+.app-layout .messages-topbar .muted {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.app-layout .messages-back-to-chats {
+  display: none;
+}
+
+/* Fixed message composer palette: prevent device/browser color-scheme overrides. */
+.app-layout .message-composer textarea,
+.app-layout .messages-workspace-live .message-composer textarea {
+  color-scheme: light !important;
+  background: #ffffff !important;
+  color: #302438 !important;
+  -webkit-text-fill-color: #302438 !important;
+  caret-color: #704184 !important;
+  border: 1px solid #d9c9df !important;
+  box-shadow: none !important;
+}
+.app-layout .message-composer textarea::placeholder,
+.app-layout .messages-workspace-live .message-composer textarea::placeholder {
+  color: #887b8d !important;
+  -webkit-text-fill-color: #887b8d !important;
+  opacity: 1 !important;
+}
+.app-layout .message-composer textarea:focus,
+.app-layout .messages-workspace-live .message-composer textarea:focus {
+  border-color: #80508d !important;
+  outline: 2px solid rgba(128,80,141,.16) !important;
+  outline-offset: 1px;
+}
+.app-layout .message-bubble p,
+.app-layout .message-bubble span,
+.app-layout .messages-workspace-live .message-bubble p,
+.app-layout .messages-workspace-live .message-bubble span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .message-composer .field-help,
+.app-layout .message-composer > .field-help,
+.app-layout .message-composer-footer .field-help {
+  color: #746879 !important;
+}
+
+/* Narrow screens behave like WhatsApp: inbox first, one full-screen chat after selection. */
+@media (max-width: 900px) {
+  .app-layout .messages-workspace-live {
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0;
+  }
+  .app-layout .messages-workspace-live:not(.messages-workspace-has-active) .messages-chat-pane {
+    display: none !important;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-sidebar {
+    display: none !important;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-chat-pane {
+    display: flex !important;
+    min-height: min(690px, calc(100dvh - 190px));
+  }
+  .app-layout .messages-back-to-chats {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 7px 11px;
+    border: 1px solid #e5d8e8;
+    border-radius: 11px;
+    background: #fbf6fc;
+    color: #633b75 !important;
+    font-size: 12px;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+  .app-layout .messages-back-to-chats span {
+    font-size: 19px;
+    line-height: 1;
+  }
+  .app-layout .messages-selected-heading {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+  }
+  .app-layout .messages-selected-heading .person-identity {
+    flex: 1 1 auto;
+  }
+  .app-layout .messages-open-full {
+    display: none;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout .messages-topbar {
+    min-height: 64px;
+    height: auto;
+    padding: 10px 68px 10px 14px;
+    gap: 8px;
+  }
+  .app-layout .messages-topbar .back-link {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .app-layout .messages-topbar .muted {
+    font-size: 10px;
+    letter-spacing: .08em;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-chat-pane {
+    min-height: calc(100dvh - 150px);
+  }
+  .app-layout .messages-workspace-live .message-live-panel {
+    padding: 9px 10px 12px;
+  }
+  .app-layout .messages-workspace-live .message-thread {
+    min-height: 160px;
+  }
+}
+
+
+/* APP-WIDE TOP RIBBON SPACING — every authenticated section with the global bell.
+   The bell itself is intentionally untouched: 48x48px, fixed position and styling.
+   Reserve its footprint in every app header so titles/actions never sit underneath it. */
+.app-layout .topbar {
+  box-sizing: border-box !important;
+  width: 100%;
+  height: auto !important;
+  min-height: 72px;
+  padding-inline-start: clamp(14px, 2.2vw, 28px) !important;
+  padding-inline-end: max(90px, calc(env(safe-area-inset-right) + 84px)) !important;
+  gap: clamp(9px, 1.2vw, 16px) !important;
+  flex-wrap: wrap !important;
+  align-content: center;
+  align-items: center !important;
+  overflow: visible !important;
+}
+.app-layout .topbar > :first-child {
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.app-layout .topbar > .actions,
+.app-layout .topbar > [class*="actions"] {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-layout .topbar > .actions > *,
+.app-layout .topbar > [class*="actions"] > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-layout .topbar :is(h1, h2, h3, .topbar-title, .page-title) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+.app-layout .topbar .muted {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Tablet and phone: keep the bell's reserved column while allowing the ribbon
+   to grow vertically when headings or action controls need another line. */
+@media (max-width: 820px) {
+  .app-layout .topbar {
+    min-height: 64px;
+    padding-inline-start: 12px !important;
+    padding-inline-end: max(86px, calc(env(safe-area-inset-right) + 80px)) !important;
+    gap: 8px 10px !important;
+  }
+  .app-layout .topbar > :first-child {
+    flex: 1 1 180px;
+  }
+  .app-layout .topbar > .actions,
+  .app-layout .topbar > [class*="actions"] {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout .topbar {
+    min-height: 62px;
+    padding-block: 9px !important;
+    padding-inline-start: 10px !important;
+    padding-inline-end: max(84px, calc(env(safe-area-inset-right) + 78px)) !important;
+    gap: 7px 8px !important;
+  }
+  .app-layout .topbar > :first-child {
+    flex-basis: 100%;
+  }
+  .app-layout .topbar > .actions,
+  .app-layout .topbar > [class*="actions"] {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+  .app-layout .topbar > .actions > *,
+  .app-layout .topbar > [class*="actions"] > * {
+    max-width: 100%;
+  }
+}
+
+/* Safe-area handling for notched phones and landscape devices. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app-layout .topbar {
+    min-height: 58px;
+    padding-block: 7px !important;
+  }
 }
