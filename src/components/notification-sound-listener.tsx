@@ -26,7 +26,7 @@ export function NotificationSoundListener() {
       if (stopped || !user) return;
       const { data: mutedRows } = await supabase.from("member_preferences")
         .select("member_id").eq("owner_id", user.id).eq("muted", true);
-      const mutedActorIds = new Set((mutedRows ?? []).map((row) => row.member_id as string));
+      const mutedActorIds = new Set((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
       if (stopped) return;
 
       channel = supabase.channel("inbox:" + user.id, { config: { private: true } });
