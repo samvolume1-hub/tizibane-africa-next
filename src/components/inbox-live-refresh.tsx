@@ -25,7 +25,7 @@ export function InboxLiveRefresh({ userId }: { userId: string }) {
     }, () => router.refresh());
 
     void setRealtimeAuth(supabase, topic).then(() => {
-      if (alive) channel.subscribe((status, error) => reportRealtimeStatus(topic, status, error));
+      if (alive) channel.subscribe((status: string, error?: Error) => reportRealtimeStatus(topic, status, error));
     }).catch((cause) => {
       if (alive) console.error("[TIZIBANE Realtime] inbox refresh setup failed", {
         topic, detail: cause instanceof Error ? cause.message : String(cause),
