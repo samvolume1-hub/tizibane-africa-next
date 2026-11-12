@@ -9,6 +9,7 @@ type CallInfo = {
   callType: "audio" | "video";
   appId: string;
   token: string;
+  isInitiator: boolean;
 };
 type CallSessionRow = {
   id: string;
@@ -85,7 +86,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       await fetch("/api/calls/" + callId, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action }),
+        body: JSON.stringify({ action: finalAction }),
       }).catch(() => undefined);
     }
   }, [activeCall]);
