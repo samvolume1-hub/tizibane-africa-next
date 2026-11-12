@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
 type CallInfo = {
   callId: string;
   roomName: string;
@@ -105,9 +106,12 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
 
   useEffect(() => {
     let alive = true;
-    const channel = supabase.channel("conversation-calls:" + conversationId, { config: { private: true } });
+    const topic = "conversation-calls:" + conversationId;
+    // This channel carries Postgres changes only; row-level table policies remain
+    // the authorization boundary, so it does not need a private broadcast topic.
+    const channel = supabase.channel(topic, { config: { private: false } });
     const receive = async (row: CallSessionRow) => {
-      if (row.started_by !== userId && row.status === "ringing") {
+      if (row.started_by !== userId && (row.status === "ringing" || row.status === "active")) {
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", row.id).eq("user_id", userId).maybeSingle();
         if (alive && participant?.status === "invited") setIncoming(row);
@@ -142,7 +146,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       const { data: session } = await supabase.from("call_sessions")
         .select("id,started_by,room_name,call_type,status")
         .eq("id", participant.call_id).maybeSingle();
-      if (alive && session && session.started_by !== userId && session.status === "ringing") {
+      if (alive && session && session.started_by !== userId && (session.status === "ringing" || session.status === "active")) {
         setIncoming(session as CallSessionRow);
       }
     });
