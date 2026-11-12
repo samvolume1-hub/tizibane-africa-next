@@ -146,7 +146,12 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         setIncoming(session as CallSessionRow);
       }
     });
-    channel.subscribe();
+    // Private conversation-call topics require the active Auth JWT.
+    void supabase.realtime.setAuth().then(() => {
+      if (alive) channel.subscribe();
+    }).catch(() => {
+      if (alive) setError("Live call alerts could not connect. Please refresh and try again.");
+    });
     void supabase.from("call_sessions")
       .select("id,started_by,room_name,call_type,status")
       .eq("conversation_id", conversationId)
