@@ -115,6 +115,9 @@ export function NotificationSoundListener() {
     };
 
     const connect = async () => {
+      // Private Realtime topics need the current Auth JWT set explicitly.
+      await supabase.realtime.setAuth();
+      if (stopped) return;
       const { data: mutedRows } = await supabase.from("member_preferences")
         .select("member_id").eq("owner_id", userId).eq("muted", true);
       const mutedActorIds = new Set((mutedRows ?? []).map((row: { member_id: string }) => row.member_id));
