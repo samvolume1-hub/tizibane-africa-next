@@ -70,6 +70,7 @@ export async function POST(request: Request) {
       callId: session.id,
       roomName: session.room_name,
       callType,
+      isInitiator: true,
       appId: getJaasAppId(),
       token,
     });
