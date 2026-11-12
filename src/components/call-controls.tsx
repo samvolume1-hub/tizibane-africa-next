@@ -307,9 +307,9 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       )}
       {activeCall && (
         <div role="dialog" aria-modal="true" aria-label={activeCall.callType === "audio" ? "Voice call" : "Video call"} style={{ position: "fixed", inset: 0, zIndex: 100, background: "#08060c", display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", color: "#fff", background: "#21142c" }}>
-            <strong>TIZIBANE · {activeCall.callType === "audio" ? "Voice call" : "Video call"}</strong>
-            <button type="button" className="btn" onClick={() => void closeCall("leave")}>Leave call</button>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "7px 12px", flex: "0 0 auto", color: "#fff", background: "#21142c" }}>
+            <strong style={{ fontSize: 13, lineHeight: 1.2 }}>TIZIBANE · {activeCall.callType === "audio" ? "Voice call" : "Video call"}</strong>
+            <button type="button" className="btn" style={{ minHeight: 34, padding: "6px 10px", fontSize: 12, lineHeight: 1.2 }} onClick={() => void closeCall("leave")}>Leave call</button>
           </div>
           <div ref={mountRef} className="tizibane-call-stage" />
           {activeCall.callType === "video" && (
@@ -321,21 +321,22 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "5px 9px",
+                gap: "4px 7px",
                 flex: "0 0 auto",
-                padding: "8px 12px",
+                padding: "5px 10px",
                 color: "#fff",
                 background: "linear-gradient(100deg, #21142c, #321548)",
                 borderTop: "1px solid rgba(168, 85, 247, .55)",
                 textAlign: "center",
-                fontSize: 12,
+                fontSize: 11,
+                lineHeight: 1.25,
                 fontWeight: 700,
                 letterSpacing: ".01em",
               }}
             >
               <span style={{ color: "#f5b7ff" }}>1.</span>
               <span>TAP <strong>ADD TO MEETING</strong></span>
-              <span aria-hidden="true" style={{ color: "#f0abfc", fontSize: 17, lineHeight: 1 }}>→</span>
+              <span aria-hidden="true" style={{ color: "#f0abfc", fontSize: 15, lineHeight: 1 }}>→</span>
               <span style={{ color: "#f5b7ff" }}>2.</span>
               <span>THEN TAP <strong>JOIN MEETING</strong></span>
             </div>
