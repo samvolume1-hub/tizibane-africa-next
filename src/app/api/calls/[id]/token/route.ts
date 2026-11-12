@@ -20,6 +20,20 @@ export async function POST(_request: Request, context: { params: Promise<{ id: s
     return NextResponse.json({ error: "You are not invited to this call, or it has ended." }, { status: 403 });
   }
 
+  const { data: conversation } = await supabase.from("conversations")
+    .select("id,is_group,group_id")
+    .eq("id", session.conversation_id)
+    .maybeSingle();
+  if (conversation?.is_group && conversation.group_id) {
+    const [{ data: membership }, { data: group }] = await Promise.all([
+      supabase.from("group_members").select("status").eq("group_id", conversation.group_id).eq("user_id", user.id).maybeSingle(),
+      supabase.from("groups").select("owner_id").eq("id", conversation.group_id).maybeSingle(),
+    ]);
+    if (membership?.status !== "active" && group?.owner_id !== user.id) {
+      return NextResponse.json({ error: "Only current group members can join this group call." }, { status: 403 });
+    }
+  }
+
   const { data: profile } = await supabase.from("profiles").select("display_name,avatar_path").eq("id", user.id).maybeSingle();
   const { error: updateError } = await supabase.from("call_participants")
     .update({ status: "joined", joined_at: new Date().toISOString(), left_at: null })
