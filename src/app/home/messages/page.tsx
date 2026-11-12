@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 
 type Conversation = { id: string; created_at: string };
 type Member = { conversation_id: string; user_id: string };
-type Message = { id: string; conversation_id: string; sender_id: string; body: string; created_at: string };
+type Message = { id: string; conversation_id: string; sender_id: string; body: string; created_at: string; edited_at: string | null };
 type Profile = { id: string; display_name: string; handle: string | null; initials: string; avatar_color: string; avatar_path: string | null };
 type UnreadCount = { conversation_id: string; unread_count: number };
 
@@ -31,7 +31,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
     const [conversationResult, memberResult, messageResult, unreadResult] = await Promise.all([
       supabase.from("conversations").select("id,created_at").eq("is_group", false).in("id", ids),
       supabase.from("conversation_members").select("conversation_id,user_id").in("conversation_id", ids).neq("user_id", user.id),
-      supabase.from("messages").select("id,conversation_id,sender_id,body,created_at").in("conversation_id", ids).order("created_at", { ascending: false }).limit(500),
+      supabase.from("messages").select("id,conversation_id,sender_id,body,created_at,edited_at").in("conversation_id", ids).order("created_at", { ascending: false }).limit(500),
       supabase.from("conversation_unread_counts").select("conversation_id,unread_count").in("conversation_id", ids),
     ]);
     conversations = (conversationResult.data ?? []) as Conversation[];
@@ -81,7 +81,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
   if (activeConversation && activeOtherId) {
     const [memberResult, messageResult] = await Promise.all([
       supabase.from("conversation_members").select("user_id,last_read_at").eq("conversation_id", activeConversation.id),
-      supabase.from("messages").select("id,sender_id,body,created_at").eq("conversation_id", activeConversation.id).order("created_at", { ascending: false }).limit(100),
+      supabase.from("messages").select("id,sender_id,body,created_at,edited_at").eq("conversation_id", activeConversation.id).order("created_at", { ascending: false }).limit(100),
     ]);
     activeOtherLastReadAt = (memberResult.data ?? []).find((member) => member.user_id === activeOtherId)?.last_read_at ?? null;
     activeMessages = ((messageResult.data ?? []) as Message[]).reverse();
