@@ -95,13 +95,9 @@ export function ConversationLive({
       setMessages((current) => current.map((message) => message.id === payload.new.id ? payload.new : message));
     });
 
-    channel.on("postgres_changes", {
-      event: "DELETE",
-      schema: "public",
-      table: "messages",
-      filter: "conversation_id=eq." + conversationId,
-    }, (payload: { old: { id?: string } }) => {
-      if (payload.old?.id) setMessages((current) => current.filter((message) => message.id !== payload.old.id));
+    channel.on("broadcast", { event: "message_deleted" }, (message: { payload?: { message_id?: string } }) => {
+      const deletedId = message.payload?.message_id;
+      if (deletedId) setMessages((current) => current.filter((item) => item.id !== deletedId));
     });
 
     channel.on("postgres_changes", {
@@ -372,7 +368,7 @@ export function ConversationLive({
               ) : <p>{message.body}</p>}
               <div className="message-bubble-meta">
                 <span>{isOwnMessage ? "You" : otherName} · {new Date(message.created_at).toLocaleString("en-ZM", { dateStyle: "short", timeStyle: "short" })}{message.edited_at ? " · Edited" : ""}</span>
-                {isOwnMessage && !isEditing && (
+                {!isEditing && (
                   <div className="message-action-wrap">
                     <button type="button" className="message-action-trigger" aria-label="Message actions" aria-haspopup="menu" aria-expanded={openMessageMenuId === message.id}
                       onClick={() => setOpenMessageMenuId((current) => current === message.id ? null : message.id)}
@@ -381,9 +377,9 @@ export function ConversationLive({
                     </button>
                     {openMessageMenuId === message.id && (
                       <div className="message-action-menu" role="menu">
-                        <button type="button" role="menuitem" onClick={() => beginEdit(message)}>Edit</button>
+                        {isOwnMessage && <button type="button" role="menuitem" onClick={() => beginEdit(message)}>Edit</button>}
                         <button type="button" role="menuitem" onClick={() => void copyMessage(message)}>Copy</button>
-                        <button type="button" role="menuitem" className="is-destructive" onClick={() => void deleteMessage(message)}>Delete</button>
+                        {isOwnMessage && <button type="button" role="menuitem" className="is-destructive" onClick={() => void deleteMessage(message)}>Delete</button>}
                       </div>
                     )}
                   </div>
