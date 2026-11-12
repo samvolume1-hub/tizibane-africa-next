@@ -35,8 +35,19 @@ export async function POST(request: Request) {
       .insert({ title: group.name, is_group: true, group_id: groupId, created_by: user.id })
       .select("id")
       .single();
-    if (error || !data) return NextResponse.json({ error: "The group's secure call space could not be prepared." }, { status: 500 });
-    conversation = data;
+    if (error?.code === "23505") {
+      const { data: existing } = await supabase.from("conversations")
+        .select("id")
+        .eq("group_id", groupId)
+        .eq("is_group", true)
+        .limit(1)
+        .maybeSingle();
+      if (!existing) return NextResponse.json({ error: "The group's secure call space could not be prepared." }, { status: 500 });
+      conversation = existing;
+    } else {
+      if (error || !data) return NextResponse.json({ error: "The group's secure call space could not be prepared." }, { status: 500 });
+      conversation = data;
+    }
   }
 
   const { data: existingMember } = await supabase.from("conversation_members")
