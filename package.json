@@ -7,7 +7,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/optimize-static-images.mjs",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --hostname 0.0.0.0 --port ${PORT:-10000}",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
