@@ -153,7 +153,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
       }
     });
     void setRealtimeAuth(supabase, topic).then(() => {
-      if (alive) channel.subscribe((status, error) => reportRealtimeStatus(topic, status, error));
+      if (alive) channel.subscribe((status: string, error?: Error) => reportRealtimeStatus(topic, status, error));
     }).catch((cause) => {
       if (alive) {
         console.error("[TIZIBANE Realtime] call subscription setup failed", {
