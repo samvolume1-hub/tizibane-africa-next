@@ -336,7 +336,7 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
             <span style={{ color: "#f5b7ff" }}>2.</span>
             <span>THEN TAP <strong>JOIN MEETING</strong></span>
           </div>
-          <div ref={mountRef} style={{ flex: 1, minHeight: 0 }} />
+          <div ref={mountRef} className="tizibane-call-stage" />
         </div>
       )}
     </>

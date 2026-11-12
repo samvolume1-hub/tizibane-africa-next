@@ -8,7 +8,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
 
   return (
     <>
-      {user && <NotificationBell userId={user.id} />}
+      <NotificationBell userId={user?.id ?? ""} />
       {children}
     </>
   );

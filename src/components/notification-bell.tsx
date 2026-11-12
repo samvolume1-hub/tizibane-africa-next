@@ -10,18 +10,33 @@ import { setRealtimeAuth, reportRealtimeStatus } from "@/lib/realtime-auth";
  * Realtime events refresh the authoritative unread count; CSS handles the
  * reminder animation without timers, polling, images, or extra dependencies.
  */
-export function NotificationBell({ userId }: { userId: string }) {
+export function NotificationBell({ userId }: { userId?: string }) {
   const supabase = useMemo(() => createClient(), []);
+  const [activeUserId, setActiveUserId] = useState(userId ?? "");
   const [unreadCount, setUnreadCount] = useState(0);
   const [openedSinceNew, setOpenedSinceNew] = useState(false);
   const latestUnreadAt = useRef<string | null>(null);
-  const seenStorageKey = "tizibane-notification-bell-seen:" + userId;
+  const seenStorageKey = "tizibane-notification-bell-seen:" + activeUserId;
+
+  useEffect(() => {
+    if (userId) {
+      setActiveUserId(userId);
+      return;
+    }
+    let alive = true;
+    void supabase.auth.getUser().then((result: { data: { user: { id: string } | null } }) => {
+      const resolvedUser = result.data.user;
+      if (alive && resolvedUser) setActiveUserId(resolvedUser.id);
+    });
+    return () => { alive = false; };
+  }, [supabase, userId]);
 
   const refreshUnreadCount = useCallback(async () => {
+    if (!activeUserId) return;
     const { data, count, error } = await supabase
       .from("notifications")
       .select("created_at", { count: "exact" })
-      .eq("recipient_id", userId)
+      .eq("recipient_id", activeUserId)
       .is("read_at", null)
       .order("created_at", { ascending: false })
       .limit(1)
@@ -34,18 +49,19 @@ export function NotificationBell({ userId }: { userId: string }) {
     setOpenedSinceNew(Boolean(
       count > 0 && latestUnreadAt.current && lastSeenAt && latestUnreadAt.current <= lastSeenAt
     ));
-  }, [seenStorageKey, supabase, userId]);
+  }, [activeUserId, seenStorageKey, supabase]);
 
   useEffect(() => {
+    if (!activeUserId) return;
     let alive = true;
-    const topic = "notification-bell:" + userId;
+    const topic = "notification-bell:" + activeUserId;
     const channel = supabase.channel(topic, { config: { private: false } });
 
     channel.on("postgres_changes", {
       event: "*",
       schema: "public",
       table: "notifications",
-      filter: "recipient_id=eq." + userId,
+      filter: "recipient_id=eq." + activeUserId,
     }, (payload: { eventType: string }) => {
       if (!alive) return;
       if (payload.eventType === "INSERT") {
@@ -69,7 +85,7 @@ export function NotificationBell({ userId }: { userId: string }) {
       alive = false;
       void supabase.removeChannel(channel);
     };
-  }, [refreshUnreadCount, seenStorageKey, supabase, userId]);
+  }, [activeUserId, refreshUnreadCount, seenStorageKey, supabase]);
 
   const isReminding = unreadCount > 0 && !openedSinceNew;
 
