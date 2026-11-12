@@ -55,6 +55,7 @@ export default function LandingPage() {
       <header className={`topbar ${styles.topbar}`}>
         <Brand />
         <nav className={styles.topbarNav} aria-label="Main navigation">
+          <Link className={styles.signInButton} href="/login">Sign in</Link>
           <Link className={styles.spotlightButton} href="/home/connect">Spotlight</Link>
         </nav>
       </header>
