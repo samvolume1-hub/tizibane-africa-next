@@ -121,7 +121,7 @@ export function ConversationLive({
         console.error("[TIZIBANE Realtime] conversation subscription setup failed", {
           topic, detail: cause instanceof Error ? cause.message : String(cause),
         });
-        setError("Live message updates could not connect. Reconnecting automatically…");
+        setError("Live message updates could not connect. Please refresh to retry.");
       }
     });
 
