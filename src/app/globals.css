@@ -7939,3 +7939,12 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
     box-shadow: 0 18px 60px rgba(0, 0, 0, .42), 0 0 28px rgba(151, 77, 190, .10);
   }
 }
+
+
+/* Keep the global notification control out of the active call chrome.
+   The bell returns automatically as soon as the call dialog is closed. */
+body:has(.tizibane-active-call) .tizibane-notification-bell {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
