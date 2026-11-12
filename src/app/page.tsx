@@ -58,20 +58,9 @@ export default function LandingPage() {
       </header>
 
       <section className={`hero ${styles.hero}`}>
-        <div className={`hero-copy-card ${styles.heroCopy}`}>
-          <span className="eyebrow">MADE FOR ZAMBIA · BUILT FOR CONNECTION</span>
-          <h1>Your people.<br /><span className={styles.heroAccent}>Your place. Your community.</span></h1>
-          <p className="lead">TIZIBANE is a home for Zambian communities, friendships and meaningful conversations. Discover people, share your moments and stay connected—wherever you are in Zambia.</p>
-          <div className="hero-actions">
-            <Link className="btn btn-primary" href="/signup">Join the community <span aria-hidden="true">↗</span></Link>
-            <Link className="btn" href="/login">I already have an account</Link>
-          </div>
-          <div className={styles.heroTrust}><span>Made for Zambian communities</span><i aria-hidden="true" /> <span>A place to connect and belong</span></div>
-        </div>
         <ScrollReveal className="hero-art-reveal">
           <div className={`hero-art hero-art-photo ${styles.heroArt}`} role="img" aria-label="Happy African friends smiling together">
             <img className="photo-backdrop" src="/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg" alt="" aria-hidden="true" fetchPriority="high" />
-            <div className="art-caption">Together, we belong</div>
           </div>
         </ScrollReveal>
       </section>
