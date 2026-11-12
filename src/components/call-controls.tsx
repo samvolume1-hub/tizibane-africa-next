@@ -150,28 +150,43 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
         setIncoming(session as CallSessionRow);
       }
     });
-    // Private conversation-call topics require the active Auth JWT.
-    void supabase.realtime.setAuth().then(() => {
-      if (alive) channel.subscribe();
-    }).catch(() => {
-      if (alive) setError("Live call alerts could not connect. Please refresh and try again.");
+    void setRealtimeAuth(supabase, topic).then(() => {
+      if (alive) channel.subscribe((status, error) => reportRealtimeStatus(topic, status, error));
+    }).catch((cause) => {
+      if (alive) {
+        console.error("[TIZIBANE Realtime] call subscription setup failed", {
+          topic, detail: cause instanceof Error ? cause.message : String(cause),
+        });
+        setError("Live call alerts could not connect. Reconnecting automatically…");
+      }
     });
-    void supabase.from("call_sessions")
-      .select("id,started_by,room_name,call_type,status")
-      .eq("conversation_id", conversationId)
-      .eq("status", "ringing")
-      .neq("started_by", userId)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .then(async (result: { data: CallSessionRow[] | null }) => {
-        const session = result.data?.[0];
-        if (!alive || !session) return;
+    const recoverPendingCalls = async () => {
+      const { data: sessions, error: queryError } = await supabase.from("call_sessions")
+        .select("id,started_by,room_name,call_type,status")
+        .eq("conversation_id", conversationId)
+        .in("status", ["ringing", "active"])
+        .neq("started_by", userId)
+        .order("created_at", { ascending: false })
+        .limit(5);
+      if (queryError) {
+        console.warn("[TIZIBANE calls] conversation invite recovery failed", { code: queryError.code, message: queryError.message });
+        return;
+      }
+      for (const session of sessions ?? []) {
+        if (!alive) return;
         const { data: participant } = await supabase.from("call_participants")
           .select("status").eq("call_id", session.id).eq("user_id", userId).maybeSingle();
-        if (alive && participant?.status === "invited") setIncoming(session);
-      });
+        if (alive && participant?.status === "invited") {
+          setIncoming(session as CallSessionRow);
+          return;
+        }
+      }
+    };
+    void recoverPendingCalls();
+    const recoveryTimer = window.setInterval(() => { void recoverPendingCalls(); }, 10_000);
     return () => {
       alive = false;
+      window.clearInterval(recoveryTimer);
       void supabase.removeChannel(channel);
     };
   }, [conversationId, supabase, userId]);
