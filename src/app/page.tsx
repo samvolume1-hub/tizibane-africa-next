@@ -54,28 +54,24 @@ export default function LandingPage() {
     <main className={`tizibane-landing ${styles.page}`}>
       <header className={`topbar ${styles.topbar}`}>
         <Brand />
+        <nav className={styles.topbarNav} aria-label="Main navigation">
+          <Link className={styles.spotlightButton} href="/home/connect">Spotlight</Link>
+        </nav>
       </header>
 
       <section className={`hero ${styles.hero}`}>
         <ScrollReveal className="hero-art-reveal">
-          <div className={`hero-art hero-art-photo ${styles.heroArt}`} role="img" aria-label="Happy African friends smiling together">
+          <div className={`hero-art hero-art-photo ${styles.heroArt}`} role="group" aria-label="Happy African friends smiling together">
+            <div className={styles.heroImageActions}><WelcomeActions /></div>
             <img className="photo-backdrop" src="/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg" alt="" aria-hidden="true" fetchPriority="high" />
           </div>
         </ScrollReveal>
       </section>
 
-      <div className={styles.heroActions}><WelcomeActions /></div>
 
       <LandingContacts />
 
-      <section className={styles.discover} aria-labelledby="discover-title">
-        <div className={styles.discoverHeading}>
-          <div>
-            <span className={styles.sectionKicker}>A COMMUNITY THAT FEELS LIKE HOME</span>
-            <h2 id="discover-title">There is a place for you here.</h2>
-          </div>
-          <p>Meet people, find your conversations and take part in the things bringing our communities together.</p>
-        </div>
+      <section className={styles.discover} aria-label="Explore TIZIBANE">
         <div className={styles.featureGrid}>
           {destinations.map((item) => (
             <Link className={styles.featureCard} href={item.href} key={item.title}>
