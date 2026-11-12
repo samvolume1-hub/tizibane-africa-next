@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/client";
+import { CallControls } from "@/components/call-controls";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import type { RealtimeChannel } from "@supabase/supabase-js";
@@ -229,16 +230,7 @@ export function ConversationLive({
           <span className={"message-presence-dot" + (isOnline ? " is-online" : "")} />
           <span>{isTyping ? otherName + " is typing…" : isOnline ? "Online" : "Offline"}</span>
         </div>
-        <div className="message-call-actions" aria-label="Calling options">
-          <button type="button" className="message-call-button" disabled title="Secure voice calling is being set up" aria-label="Voice call coming soon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9.1 3.3l2 4.7-2 1.5a15 15 0 0 0 5.4 5.4l1.5-2 4.7 2-.5 2.5a2 2 0 0 1-2 1.6A15.5 15.5 0 0 1 4.9 5.8a2 2 0 0 1 1.7-2Z" /></svg>
-            <span>Call</span>
-          </button>
-          <button type="button" className="message-call-button" disabled title="Secure video calling is being set up" aria-label="Video call coming soon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="12" height="12" rx="2" /><path d="m15 10 6-3v10l-6-3" /></svg>
-            <span>Video</span>
-          </button>
-        </div>
+        <CallControls conversationId={conversationId} userId={userId} />
       </header>
       <div className="message-thread" ref={scrollRef} aria-live="polite" aria-relevant="additions">
         {hasOlder && (
