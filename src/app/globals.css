@@ -6696,17 +6696,21 @@ main > .hero .hero-actions > a.btn:not(.btn-primary) {
 
 
 /* GROUPS — CREATE GROUP SECTION ONLY.
-   Strengthen headings, labels, helper copy and action text.
-   Preserve every editable/select control's typography and presentation. */
-.groups-page .app-content > .create-group-section :where(h2, .eyebrow, label, .btn, button, p, small, span, legend) {
+   The form sits on a light surface: keep its instructional copy black.
+   Do not apply this rule to buttons; the primary action stays white on plum. */
+.groups-page .app-content > .create-group-section :where(h2, .eyebrow, label, p, small, span, legend) {
   font-weight: 800 !important;
-  color: #ffffff !important;
-}
-.groups-page .app-content > .create-group-section .eyebrow {
-  color: #f0d69a !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
 .groups-page .app-content > .create-group-section :where(input, textarea, select, option) {
-  font-weight: inherit;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+.groups-page .app-content > .create-group-section :where(.btn, button) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 
