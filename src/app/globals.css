@@ -8077,3 +8077,101 @@ body.tizibane-call-active .tizibane-notification-bell {
     min-height: 160px;
   }
 }
+
+
+/* APP-WIDE TOP RIBBON SPACING — every authenticated section with the global bell.
+   The bell itself is intentionally untouched: 48x48px, fixed position and styling.
+   Reserve its footprint in every app header so titles/actions never sit underneath it. */
+.app-layout .topbar {
+  box-sizing: border-box !important;
+  width: 100%;
+  height: auto !important;
+  min-height: 72px;
+  padding-inline-start: clamp(14px, 2.2vw, 28px) !important;
+  padding-inline-end: max(90px, calc(env(safe-area-inset-right) + 84px)) !important;
+  gap: clamp(9px, 1.2vw, 16px) !important;
+  flex-wrap: wrap !important;
+  align-content: center;
+  align-items: center !important;
+  overflow: visible !important;
+}
+.app-layout .topbar > :first-child {
+  flex: 1 1 220px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.app-layout .topbar > .actions,
+.app-layout .topbar > [class*="actions"] {
+  display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-layout .topbar > .actions > *,
+.app-layout .topbar > [class*="actions"] > * {
+  min-width: 0;
+  max-width: 100%;
+}
+.app-layout .topbar :is(h1, h2, h3, .topbar-title, .page-title) {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+.app-layout .topbar .muted {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Tablet and phone: keep the bell's reserved column while allowing the ribbon
+   to grow vertically when headings or action controls need another line. */
+@media (max-width: 820px) {
+  .app-layout .topbar {
+    min-height: 64px;
+    padding-inline-start: 12px !important;
+    padding-inline-end: max(86px, calc(env(safe-area-inset-right) + 80px)) !important;
+    gap: 8px 10px !important;
+  }
+  .app-layout .topbar > :first-child {
+    flex: 1 1 180px;
+  }
+  .app-layout .topbar > .actions,
+  .app-layout .topbar > [class*="actions"] {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout .topbar {
+    min-height: 62px;
+    padding-block: 9px !important;
+    padding-inline-start: 10px !important;
+    padding-inline-end: max(84px, calc(env(safe-area-inset-right) + 78px)) !important;
+    gap: 7px 8px !important;
+  }
+  .app-layout .topbar > :first-child {
+    flex-basis: 100%;
+  }
+  .app-layout .topbar > .actions,
+  .app-layout .topbar > [class*="actions"] {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+  .app-layout .topbar > .actions > *,
+  .app-layout .topbar > [class*="actions"] > * {
+    max-width: 100%;
+  }
+}
+
+/* Safe-area handling for notched phones and landscape devices. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .app-layout .topbar {
+    min-height: 58px;
+    padding-block: 7px !important;
+  }
+}
