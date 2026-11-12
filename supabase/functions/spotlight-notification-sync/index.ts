@@ -7,6 +7,7 @@ const secretKeys = secretKeysRaw ? JSON.parse(secretKeysRaw) as Record<string, s
 // with projects that still expose the legacy service_role JWT variable.
 const SERVICE_ROLE_KEY = secretKeys.default ?? Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 if (!SERVICE_ROLE_KEY) throw new Error("Supabase server secret is not configured.");
+
 const topics = [
   { id: "music-reviews", label: "Music Reviews", query: "Zambian music new releases album reviews artist spotlight music videos Zambia" },
   { id: "sports-feed", label: "Sports Feed", query: "Zambia sports football basketball tennis athletics international sport" },
@@ -17,20 +18,23 @@ const topics = [
 
 const USER_AGENT = "TIZIBANE-Spotlight/1.0 (+https://tizibane-africa-next.onrender.com)";
 
+type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl: string };
+type Feed = { id: string; label: string; available: boolean; items: FeedItem[] };
+
 function decodeXml(value: string) {
   return value
-    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, "$1")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&#(\\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([\\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .trim();
 }
 
 function readTag(xml: string, tag: string) {
-  const match = xml.match(new RegExp("<" + tag + "(?:\\\\s[^>]*)?>([\\\\s\\\\S]*?)<\\\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim() : "";
+  const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
 }
 
 function trustedArticleUrl(value: string) {
@@ -44,16 +48,16 @@ function trustedArticleUrl(value: string) {
   }
 }
 
-async function readTopic(topic: (typeof topics)[number]) {
+async function readTopic(topic: (typeof topics)[number]): Promise<Feed> {
   const url = "https://news.google.com/rss/search?q=" + encodeURIComponent(topic.query) + "&hl=en-ZM&gl=ZM&ceid=ZM:en";
   try {
     const response = await fetch(url, {
       headers: { "User-Agent": USER_AGENT, Accept: "application/rss+xml,application/xml,text/xml;q=0.9,*/*;q=0.1" },
       signal: AbortSignal.timeout(7000),
     });
-    if (!response.ok) return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
+    if (!response.ok) return { id: topic.id, label: topic.label, available: false, items: [] };
     const xml = await response.text();
-    const items = [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/gi)].slice(0, 5).flatMap((match) => {
+    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).flatMap((match) => {
       const item = match[1];
       const articleUrl = trustedArticleUrl(readTag(item, "link"));
       const title = readTag(item, "title").slice(0, 240);
@@ -68,12 +72,9 @@ async function readTopic(topic: (typeof topics)[number]) {
     });
     return { id: topic.id, label: topic.label, available: true, items };
   } catch {
-    return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
+    return { id: topic.id, label: topic.label, available: false, items: [] };
   }
 }
-
-type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl: string };
-type Feed = { id: string; label: string; available: boolean; items: FeedItem[] };
 
 function hex(bytes: ArrayBuffer) {
   return Array.from(new Uint8Array(bytes), (byte) => byte.toString(16).padStart(2, "0")).join("");
