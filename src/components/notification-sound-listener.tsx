@@ -27,6 +27,7 @@ type IncomingCall = {
   callType: "audio" | "video";
   callerName: string;
   showOverlay: boolean;
+  expiresAt: number;
 };
 type CallParticipantEvent = {
   call_id?: string;
@@ -131,6 +132,7 @@ export function NotificationSoundListener() {
         callType: call.call_type === "video" ? "video" : "audio",
         callerName: profile?.display_name || "A TIZIBANE member",
         showOverlay: !alreadyInConversation,
+        expiresAt: new Date(call.created_at).getTime() + 75_000,
       });
       return true;
     };
@@ -246,7 +248,13 @@ export function NotificationSoundListener() {
       playNotificationSound(kind);
       vibrateForNotification([70, 90, 70]);
     }, 2400);
-    return () => window.clearInterval(interval);
+    const expiry = window.setTimeout(() => {
+      setIncomingCall((current) => current?.id === incomingCall.id ? null : current);
+    }, Math.max(0, incomingCall.expiresAt - Date.now()));
+    return () => {
+      window.clearInterval(interval);
+      window.clearTimeout(expiry);
+    };
   }, [incomingCall?.id, incomingCall?.callType]);
 
   const openIncomingCall = () => {
