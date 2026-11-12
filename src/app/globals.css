@@ -7950,3 +7950,130 @@ body.tizibane-call-active .tizibane-notification-bell {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+
+/* WHATSAPP-STYLE MESSAGE NAVIGATION — presentation only; call components untouched. */
+.app-layout .messages-topbar {
+  gap: 16px;
+  padding-right: clamp(88px, 7vw, 132px);
+}
+.app-layout .messages-topbar > * {
+  min-width: 0;
+}
+.app-layout .messages-topbar .muted {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.app-layout .messages-back-to-chats {
+  display: none;
+}
+
+/* Fixed message composer palette: prevent device/browser color-scheme overrides. */
+.app-layout .message-composer textarea,
+.app-layout .messages-workspace-live .message-composer textarea {
+  color-scheme: light !important;
+  background: #ffffff !important;
+  color: #302438 !important;
+  -webkit-text-fill-color: #302438 !important;
+  caret-color: #704184 !important;
+  border: 1px solid #d9c9df !important;
+  box-shadow: none !important;
+}
+.app-layout .message-composer textarea::placeholder,
+.app-layout .messages-workspace-live .message-composer textarea::placeholder {
+  color: #887b8d !important;
+  -webkit-text-fill-color: #887b8d !important;
+  opacity: 1 !important;
+}
+.app-layout .message-composer textarea:focus,
+.app-layout .messages-workspace-live .message-composer textarea:focus {
+  border-color: #80508d !important;
+  outline: 2px solid rgba(128,80,141,.16) !important;
+  outline-offset: 1px;
+}
+.app-layout .message-bubble p,
+.app-layout .message-bubble span,
+.app-layout .messages-workspace-live .message-bubble p,
+.app-layout .messages-workspace-live .message-bubble span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.app-layout .message-composer .field-help,
+.app-layout .message-composer > .field-help,
+.app-layout .message-composer-footer .field-help {
+  color: #746879 !important;
+}
+
+/* Narrow screens behave like WhatsApp: inbox first, one full-screen chat after selection. */
+@media (max-width: 900px) {
+  .app-layout .messages-workspace-live {
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0;
+  }
+  .app-layout .messages-workspace-live:not(.messages-workspace-has-active) .messages-chat-pane {
+    display: none !important;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-sidebar {
+    display: none !important;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-chat-pane {
+    display: flex !important;
+    min-height: min(690px, calc(100dvh - 190px));
+  }
+  .app-layout .messages-back-to-chats {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 7px 11px;
+    border: 1px solid #e5d8e8;
+    border-radius: 11px;
+    background: #fbf6fc;
+    color: #633b75 !important;
+    font-size: 12px;
+    font-weight: 850;
+    white-space: nowrap;
+  }
+  .app-layout .messages-back-to-chats span {
+    font-size: 19px;
+    line-height: 1;
+  }
+  .app-layout .messages-selected-heading {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+  }
+  .app-layout .messages-selected-heading .person-identity {
+    flex: 1 1 auto;
+  }
+  .app-layout .messages-open-full {
+    display: none;
+  }
+}
+@media (max-width: 540px) {
+  .app-layout .messages-topbar {
+    min-height: 64px;
+    height: auto;
+    padding: 10px 68px 10px 14px;
+    gap: 8px;
+  }
+  .app-layout .messages-topbar .back-link {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .app-layout .messages-topbar .muted {
+    font-size: 10px;
+    letter-spacing: .08em;
+  }
+  .app-layout .messages-workspace-live.messages-workspace-has-active .messages-chat-pane {
+    min-height: calc(100dvh - 150px);
+  }
+  .app-layout .messages-workspace-live .message-live-panel {
+    padding: 9px 10px 12px;
+  }
+  .app-layout .messages-workspace-live .message-thread {
+    min-height: 160px;
+  }
+}
