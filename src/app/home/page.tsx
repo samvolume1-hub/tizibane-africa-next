@@ -9,6 +9,7 @@ import { ContentMoreMenu } from "@/components/content-more-menu";
 import { ReportControl } from "./report-control";
 import { PendingIconButton } from "@/components/pending-icon-button";
 import { CompressedImageForm } from "@/components/compressed-image-form";
+import styles from "./post-more-menu.module.css";
 
 type Post = {
   id: string;
@@ -263,7 +264,7 @@ export default async function Home({
                 const postComments = (commentsByPost[post.id] ?? []).slice(0, 3).reverse();
                 const myReaction = myReactions[post.id];
                 return (
-                  <article className="post-card" key={post.id}>
+                  <article className={`post-card ${styles.homePostCard}`} key={post.id}>
                     <div className="post-author">
                       {avatarUrls[post.author_id]
                         ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" loading="lazy" decoding="async" />
