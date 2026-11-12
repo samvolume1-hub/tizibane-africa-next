@@ -2,7 +2,7 @@
 -- No Spotlight page or layout changes are made by this migration.
 create extension if not exists pg_net;
 
-create table if not exists private.spotlight_feed_items (
+create table if not exists private.spotlight_scheduled_feed_items (
   item_key text primary key check (item_key ~ '^[0-9a-f]{64}$'),
   category_id text not null check (category_id = any (array['music-reviews','sports-feed','chipata-activities','zambian-politics','learn-trading'])),
   category text not null, title text not null, source text not null default '',
@@ -11,8 +11,8 @@ create table if not exists private.spotlight_feed_items (
   fingerprint text not null check (fingerprint ~ '^[0-9a-f]{64}$'),
   first_seen_at timestamptz not null default now(), last_seen_at timestamptz not null default now()
 );
-alter table private.spotlight_feed_items enable row level security;
-revoke all on table private.spotlight_feed_items from public, anon, authenticated;
+alter table private.spotlight_scheduled_feed_items enable row level security;
+revoke all on table private.spotlight_scheduled_feed_items from public, anon, authenticated;
 
 create unique index if not exists notifications_spotlight_delivery_unique_idx
   on public.notifications (recipient_id,(metadata->>'spotlight_item_id'),(metadata->>'fingerprint'))
@@ -38,7 +38,7 @@ begin
   end if;
 
   perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext('tizibane-spotlight-feed-sync'));
-  select not exists(select 1 from private.spotlight_feed_items) into v_seed;
+  select not exists(select 1 from private.spotlight_scheduled_feed_items) into v_seed;
   select count(*)::integer into v_recipients
   from public.profiles p join auth.users u on u.id=p.id where u.deleted_at is null;
 
@@ -53,9 +53,9 @@ begin
       raise exception 'Invalid Spotlight feed item' using errcode='22023';
     end if;
 
-    select fingerprint into v_previous from private.spotlight_feed_items where item_key=v_key for update;
+    select fingerprint into v_previous from private.spotlight_scheduled_feed_items where item_key=v_key for update;
     if not found then
-      insert into private.spotlight_feed_items
+      insert into private.spotlight_scheduled_feed_items
         (item_key,category_id,category,title,source,published_at,summary,article_url,fingerprint)
       values (v_key,v_item->>'category_id',left(coalesce(v_item->>'category','Spotlight'),100),
         left(v_item->>'title',240),left(coalesce(v_item->>'source',''),100),
@@ -63,14 +63,14 @@ begin
         v_item->>'article_url',v_fingerprint);
       if not v_seed then v_kind:='spotlight_new'; end if;
     elsif v_previous is distinct from v_fingerprint then
-      update private.spotlight_feed_items set category_id=v_item->>'category_id',
+      update private.spotlight_scheduled_feed_items set category_id=v_item->>'category_id',
         category=left(coalesce(v_item->>'category','Spotlight'),100),title=left(v_item->>'title',240),
         source=left(coalesce(v_item->>'source',''),100),published_at=left(coalesce(v_item->>'published_at',''),100),
         summary=left(coalesce(v_item->>'summary',''),900),article_url=v_item->>'article_url',
         fingerprint=v_fingerprint,last_seen_at=now() where item_key=v_key;
       v_kind:='spotlight_updated';
     else
-      update private.spotlight_feed_items set last_seen_at=now() where item_key=v_key;
+      update private.spotlight_scheduled_feed_items set last_seen_at=now() where item_key=v_key;
     end if;
 
     if v_kind is not null then
