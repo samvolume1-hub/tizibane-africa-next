@@ -218,6 +218,7 @@ function cryptoRandomBoundary() {
 async function sendEmail(item: QueueItem) {
   const host = process.env.BREVO_SMTP_HOST || "smtp-relay.brevo.com";
   const port = Number(process.env.BREVO_SMTP_PORT || "587");
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("Brevo SMTP port is invalid");
   const login = process.env.BREVO_SMTP_LOGIN || "";
   const key = process.env.BREVO_SMTP_KEY || "";
   const senderEmail = process.env.BREVO_SENDER_EMAIL || "";
@@ -247,7 +248,8 @@ async function sendEmail(item: QueueItem) {
     const mime = buildEmail(item, senderEmail, senderName);
     smtp.write(mime.replace(/\r?\n\./g, "\r\n..") + "\r\n.\r\n");
     await smtp.expect(250);
-    await smtp.command("QUIT", 221);
+    // Delivery is accepted at this point; a QUIT failure must not cause a duplicate retry.
+    try { await smtp.command("QUIT", 221); } catch { /* best-effort session close */ }
   } finally {
     smtp.close();
   }
