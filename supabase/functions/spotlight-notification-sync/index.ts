@@ -50,20 +50,29 @@ Deno.serve(async (request: Request) => {
 
     const payload = await response.json() as { feeds?: Feed[] };
     const expectedCategories = new Set([
+      "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading", "business-hub",
+    ]);
+    const requiredCategories = new Set([
       "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading",
     ]);
-    if (!Array.isArray(payload.feeds) || payload.feeds.length !== expectedCategories.size) {
-      return Response.json({ error: "Spotlight feed did not return all five departments" }, { status: 502 });
+    if (!Array.isArray(payload.feeds) || payload.feeds.length < requiredCategories.size
+      || payload.feeds.length > expectedCategories.size) {
+      return Response.json({ error: "Spotlight feed response has an invalid department count" }, { status: 502 });
     }
 
     const seenCategories = new Set<string>();
+    const unavailableCategories: string[] = [];
     const items: Record<string, unknown>[] = [];
     for (const feed of payload.feeds) {
       if (!feed.id || !expectedCategories.has(feed.id) || seenCategories.has(feed.id)
-        || feed.available !== true || !Array.isArray(feed.items)) {
-        return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
+        || !Array.isArray(feed.items)) {
+        return Response.json({ error: "Spotlight feed response is invalid" }, { status: 502 });
       }
       seenCategories.add(feed.id);
+      if (feed.available !== true) {
+        unavailableCategories.push(feed.id);
+        continue;
+      }
       for (const item of feed.items) {
         const articleUrl = item.articleUrl ?? "";
         const title = (item.title ?? "").trim();
@@ -85,8 +94,8 @@ Deno.serve(async (request: Request) => {
       }
     }
 
-    if (seenCategories.size !== expectedCategories.size) {
-      return Response.json({ error: "Spotlight feed is incomplete" }, { status: 502 });
+    if ([...requiredCategories].some((category) => !seenCategories.has(category))) {
+      return Response.json({ error: "A core Spotlight department is missing" }, { status: 502 });
     }
 
     const { data, error } = await supabase.rpc("process_spotlight_feed", { p_items: items });
@@ -129,40 +138,102 @@ Deno.serve(async (request: Request) => {
           let failure = "Brevo email delivery failed";
           try {
             const metadata = entry.metadata ?? {};
-            const title = String(metadata.title ?? "A new Spotlight update");
-            const category = String(metadata.category ?? "TIZIBANE Spotlight");
-            const summary = String(metadata.summary ?? "Discover the latest update from your community.");
-            const source = String(metadata.source ?? "");
-            const articleUrl = String(metadata.article_url ?? "");
-            if (!articleUrl.startsWith("https://")) throw new Error("Spotlight link is not a secure HTTPS URL");
+            const isDigest = entry.kind === "spotlight_digest";
+            const digestItems = Array.isArray(metadata.digest_items)
+              ? metadata.digest_items as Array<Record<string, unknown>>
+              : [];
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entry.recipient_email)) {
               throw new Error("Recipient email is invalid");
             }
-            const isUpdate = entry.kind === "spotlight_updated";
-            const heading = isUpdate ? "Spotlight story updated" : "New in Spotlight";
-            const subject = isUpdate ? "Spotlight update: " + title : "New in TIZIBANE Spotlight: " + title;
-            const safeTitle = escapeHtml(title);
-            const safeCategory = escapeHtml(category);
-            const safeSummary = escapeHtml(summary).replace(/\r?\n/g, "<br>");
-            const safeSource = escapeHtml(source);
-            const safeUrl = escapeHtml(articleUrl);
-            const textContent = [
-              "TIZIBANE ZAMBIA", heading, "", title, category, summary,
-              source ? "Source: " + source : "", "", "Read the update: " + articleUrl,
-              "", "Connect. Belong. Grow.", "© 2026 TIZIBANE Zambia",
-            ].filter(Boolean).join("\n");
-            const htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
-              <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
-              <tr><td style="padding:26px 30px;background:#211033;color:#fff"><div style="font-size:24px;font-weight:800;letter-spacing:2px">TIZIBANE</div><div style="margin-top:8px;font-size:11px;letter-spacing:2px;color:#f3c9e4">CONNECT. BELONG. GROW.</div></td></tr>
-              <tr><td style="padding:30px"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#a33a83">${escapeHtml(heading)}</div>
-              <h1 style="font-size:25px;line-height:1.25;margin:12px 0;color:#291638">${safeTitle}</h1>
-              <div style="font-size:13px;color:#755c80;margin-bottom:18px">${safeCategory}${safeSource ? " · " + safeSource : ""}</div>
-              <p style="font-size:15px;line-height:1.7;color:#51435a">${safeSummary}</p>
-              <p style="margin:28px 0"><a href="${safeUrl}" style="display:inline-block;padding:13px 22px;background:#54246f;color:#fff;text-decoration:none;border-radius:9px;font-weight:700">READ THE SPOTLIGHT UPDATE</a></p>
-              <p style="font-size:13px;color:#7b6d82">Stay connected with what's happening across your Zambian community.</p></td></tr>
-              <tr><td style="padding:18px 30px;background:#f8f4fa;color:#8b7d91;font-size:11px;line-height:1.6">© 2026 TIZIBANE Zambia<br>A Royalty Uncle Sam creation</td></tr>
-              </table></td></tr></table></body></html>`;
+
+            let subject = "";
+            let textContent = "";
+            let htmlContent = "";
+
+            if (isDigest) {
+              if (digestItems.length < 1 || digestItems.length > 30) {
+                throw new Error("Spotlight digest item count is invalid");
+              }
+              const safeItems = digestItems.map((item) => {
+                const title = String(item.title ?? "").trim();
+                const category = String(item.category ?? "Spotlight");
+                const summary = String(item.summary ?? "");
+                const source = String(item.source ?? "");
+                const articleUrl = String(item.article_url ?? "");
+                if (!title || !articleUrl.startsWith("https://")) {
+                  throw new Error("Spotlight digest contains an invalid story");
+                }
+                const spotlightUrl = "https://tizibane-africa-next.onrender.com/home/connect?story=" + encodeURIComponent(articleUrl);
+                return { title, category, summary, source, articleUrl, spotlightUrl };
+              });
+              subject = "Your TIZIBANE Spotlight catch-up: " + safeItems.length + " stories";
+              textContent = [
+                "TIZIBANE ZAMBIA",
+                "Your 12-hour Spotlight catch-up",
+                "",
+                "Here are the latest stories gathered since your last digest:",
+                "",
+                ...safeItems.flatMap((item, index) => [
+                  (index + 1) + ". " + item.title,
+                  item.category + (item.source ? " · " + item.source : ""),
+                  item.summary,
+                  "Open in Spotlight: " + item.spotlightUrl,
+                  "",
+                ]),
+                "Connect. Belong. Grow.",
+                "© 2026 TIZIBANE Zambia",
+              ].join("\n");
+              const listHtml = safeItems.map((item, index) => `
+                <tr><td style="padding:17px 0;border-bottom:1px solid #eee7f1">
+                  <div style="font-size:11px;font-weight:800;color:#a33a83;text-transform:uppercase;letter-spacing:1px">${escapeHtml(item.category)}${item.source ? " · " + escapeHtml(item.source) : ""}</div>
+                  <h2 style="font-size:17px;line-height:1.35;margin:7px 0;color:#291638">${index + 1}. ${escapeHtml(item.title)}</h2>
+                  <p style="font-size:13px;line-height:1.65;color:#51435a;margin:0 0 10px">${escapeHtml(item.summary).replace(/\r?\n/g, "<br>")}</p>
+                  <a href="${escapeHtml(item.spotlightUrl)}" style="color:#54246f;font-size:12px;font-weight:700">Open this story in Spotlight ↗</a>
+                </td></tr>`).join("");
+              htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
+                <tr><td style="padding:26px 30px;background:#211033;color:#fff"><div style="font-size:24px;font-weight:800;letter-spacing:2px">TIZIBANE</div><div style="margin-top:8px;font-size:11px;letter-spacing:2px;color:#f3c9e4">CONNECT. BELONG. GROW.</div></td></tr>
+                <tr><td style="padding:28px 30px"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#a33a83">YOUR 12-HOUR CATCH-UP</div>
+                <h1 style="font-size:25px;line-height:1.25;margin:12px 0;color:#291638">Stories you may have missed</h1>
+                <p style="font-size:14px;line-height:1.7;color:#51435a">Here are ${safeItems.length} fresh Spotlight updates gathered since your last digest.</p>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">${listHtml}</table>
+                <p style="font-size:13px;color:#7b6d82;margin-top:24px">Open any story to explore it in TIZIBANE Spotlight.</p></td></tr>
+                <tr><td style="padding:18px 30px;background:#f8f4fa;color:#8b7d91;font-size:11px;line-height:1.6">© 2026 TIZIBANE Zambia<br>A Royalty Uncle Sam creation</td></tr>
+                </table></td></tr></table></body></html>`;
+            } else {
+              const title = String(metadata.title ?? "A new Spotlight update");
+              const category = String(metadata.category ?? "TIZIBANE Spotlight");
+              const summary = String(metadata.summary ?? "Discover the latest update from your community.");
+              const source = String(metadata.source ?? "");
+              const articleUrl = String(metadata.article_url ?? "");
+              if (!articleUrl.startsWith("https://")) throw new Error("Spotlight link is not a secure HTTPS URL");
+              const isUpdate = entry.kind === "spotlight_updated";
+              const heading = isUpdate ? "Spotlight story updated" : "New in Spotlight";
+              subject = isUpdate ? "Spotlight update: " + title : "New in TIZIBANE Spotlight: " + title;
+              const safeTitle = escapeHtml(title);
+              const safeCategory = escapeHtml(category);
+              const safeSummary = escapeHtml(summary).replace(/\r?\n/g, "<br>");
+              const safeSource = escapeHtml(source);
+              const safeUrl = escapeHtml(articleUrl);
+              textContent = [
+                "TIZIBANE ZAMBIA", heading, "", title, category, summary,
+                source ? "Source: " + source : "", "", "Read the update: " + articleUrl,
+                "", "Connect. Belong. Grow.", "© 2026 TIZIBANE Zambia",
+              ].filter(Boolean).join("\n");
+              htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
+                <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
+                <tr><td style="padding:26px 30px;background:#211033;color:#fff"><div style="font-size:24px;font-weight:800;letter-spacing:2px">TIZIBANE</div><div style="margin-top:8px;font-size:11px;letter-spacing:2px;color:#f3c9e4">CONNECT. BELONG. GROW.</div></td></tr>
+                <tr><td style="padding:30px"><div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#a33a83">${escapeHtml(heading)}</div>
+                <h1 style="font-size:25px;line-height:1.25;margin:12px 0;color:#291638">${safeTitle}</h1>
+                <div style="font-size:13px;color:#755c80;margin-bottom:18px">${safeCategory}${safeSource ? " · " + safeSource : ""}</div>
+                <p style="font-size:15px;line-height:1.7;color:#51435a">${safeSummary}</p>
+                <p style="margin:28px 0"><a href="${safeUrl}" style="display:inline-block;padding:13px 22px;background:#54246f;color:#fff;text-decoration:none;border-radius:9px;font-weight:700">READ THE SPOTLIGHT UPDATE</a></p>
+                <p style="font-size:13px;color:#7b6d82">Stay connected with what's happening across your Zambian community.</p></td></tr>
+                <tr><td style="padding:18px 30px;background:#f8f4fa;color:#8b7d91;font-size:11px;line-height:1.6">© 2026 TIZIBANE Zambia<br>A Royalty Uncle Sam creation</td></tr>
+                </table></td></tr></table></body></html>`;
+            }
             const delivery = await fetch("https://api.brevo.com/v3/smtp/email", {
               method: "POST",
               headers: {
@@ -207,7 +278,7 @@ Deno.serve(async (request: Request) => {
       }
     }
 
-    return Response.json({ ok: true, items_checked: items.length, result: data, email_dispatch: emailDispatch });
+    return Response.json({ ok: true, items_checked: items.length, unavailable_categories: unavailableCategories, result: data, email_dispatch: emailDispatch });
   } catch (error) {
     console.error("[Spotlight notification sync] sync failed", error);
     return Response.json({ error: "Spotlight sync failed" }, { status: 502 });
