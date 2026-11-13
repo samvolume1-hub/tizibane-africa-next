@@ -29,8 +29,8 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
   const deepLinkHandled = useRef(false);
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
-  function moveTopic(direction: -1 | 1) {
-    const currentIndex = topics.findIndex((topic) => topic.id === expanded);
+  function moveTopic(direction: -1 | 1, fromTopicId?: string) {
+    const currentIndex = topics.findIndex((topic) => topic.id === (fromTopicId || expanded));
     const startIndex = currentIndex < 0 ? 0 : currentIndex;
     const nextIndex = (startIndex + direction + topics.length) % topics.length;
     const nextTopic = topics[nextIndex];
@@ -98,8 +98,8 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
               <nav className={styles.topicActions} aria-label={topic.label + " navigation"}>
                 <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>Previous page</button>
                 <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
-                <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>Previous topic</button>
-                <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic</button>
+                <button type="button" className={styles.navButton} onClick={() => moveTopic(-1, topic.id)}>Previous topic</button>
+                <button type="button" className={styles.navButton} onClick={() => moveTopic(1, topic.id)}>Next topic</button>
                 <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
                 <Link href="/home/notifications" className={styles.notificationsLink}>Notifications ↗</Link>
               </nav>
