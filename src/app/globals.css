@@ -8282,3 +8282,72 @@ body.tizibane-call-active .tizibane-notification-bell {
     grid-template-columns: 360px minmax(0, 1fr);
   }
 }
+
+
+/* PWA install action — shown only after the browser offers native installation. */
+.tizibane-pwa-install {
+  position: fixed;
+  z-index: 85;
+  left: max(58px, calc(env(safe-area-inset-left) + 58px));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  max-width: calc(100vw - 76px);
+  pointer-events: none;
+}
+.tizibane-pwa-install button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 9px 16px 9px 11px;
+  border: 1px solid rgba(239, 190, 246, .7);
+  border-radius: 999px;
+  background: linear-gradient(115deg, #563477 0%, #382047 100%);
+  box-shadow: 0 8px 22px rgba(24, 10, 34, .28);
+  color: #fff;
+  font: 800 12px/1.2 inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.tizibane-pwa-install button:hover,
+.tizibane-pwa-install button:focus-visible {
+  border-color: #fff;
+  background: linear-gradient(115deg, #704791 0%, #49305b 100%);
+}
+.tizibane-pwa-install button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.tizibane-pwa-install button:disabled {
+  cursor: wait;
+  opacity: .8;
+}
+.tizibane-pwa-install-icon {
+  display: grid;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+@media (max-width: 540px) {
+  .tizibane-pwa-install {
+    left: 58px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+  .tizibane-pwa-install button {
+    min-height: 42px;
+    padding-right: 13px;
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tizibane-pwa-install button { transition: none !important; }
+}
