@@ -95,24 +95,6 @@ export function SpotlightHub() {
 
   return (
     <div className={styles.spotlight}>
-      <section className={styles.hero} aria-labelledby="spotlight-main-title">
-        <div className={styles.heroCopy}>
-          <span className={styles.heroEyebrow}>TIZIBANE ORIGINALS · EDITORIAL DESK</span>
-          <h1 id="spotlight-main-title">SPOTLIGHT<span className={styles.heroTitleDot}>.</span></h1>
-          <p className={styles.heroLead}>Stories worth seeing. Voices worth hearing. Ideas moving Zambia forward.</p>
-          <div className={styles.heroActions}>
-            <a href="#spotlight-vertical-feed" className={styles.primaryLink}>Explore all stories <span aria-hidden="true">↓</span></a>
-            <a href="#submit-review" className={styles.secondaryLink}>Submit your work</a>
-          </div>
-        </div>
-        <div className={styles.heroArt} aria-label="Spotlight editorial artwork">
-          <div className={styles.heroArtFallback}><small>THE STORIES THAT MOVE US</small></div>
-          <img className={styles.heroFeatureImage} src="/images/AFRICA%20001.jpg" alt="" fetchPriority="high" decoding="async" />
-          <div className={styles.heroImageShade} />
-          <span className={styles.heroImageStamp}>TIZIBANE · ZAMBIA</span>
-          <span className={styles.heroImageCaption}>CONNECT · DISCOVER · GROW</span>
-        </div>
-      </section>
       <SpotlightVerticalFeed feeds={feeds} />
 
       <section className={styles.reviewSection} id="submit-review">
