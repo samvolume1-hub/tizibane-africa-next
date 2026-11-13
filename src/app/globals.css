@@ -8306,7 +8306,10 @@ body.tizibane-call-active .tizibane-notification-bell {
   background: linear-gradient(115deg, #563477 0%, #382047 100%);
   box-shadow: 0 8px 22px rgba(24, 10, 34, .28);
   color: #fff;
-  font-family: inherit;\n  font-size: 12px;\n  font-weight: 800;\n  line-height: 1.2;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
   cursor: pointer;
   pointer-events: auto;
   touch-action: manipulation;
