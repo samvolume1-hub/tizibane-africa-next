@@ -1815,22 +1815,22 @@
   left: 0 !important;
   top: 0 !important;
   width: 25px !important;
-  height: 29px !important;
+  height: 23px !important;
   background:
-    radial-gradient(circle at 43% 25%, #fff 0 4px, transparent 4.6px),
-    radial-gradient(ellipse at 43% 100%, #fff 0 9px, transparent 9.6px) !important;
+    radial-gradient(circle at 43% 25%, #fff 0 3.5px, transparent 4px),
+    radial-gradient(ellipse at 43% 100%, #fff 0 7.5px, transparent 8px) !important;
 }
 .app-layout .app-people-hub-icon::after {
   content: "" !important;
   position: absolute !important;
   right: 0 !important;
-  top: 14px !important;
-  width: 11px !important;
-  height: 11px !important;
+  top: 11px !important;
+  width: 10px !important;
+  height: 10px !important;
   border-radius: 50% !important;
   background:
-    linear-gradient(#563477, #563477) center / 2px 7px no-repeat,
-    linear-gradient(#563477, #563477) center / 7px 2px no-repeat,
+    linear-gradient(#563477, #563477) center / 2px 6px no-repeat,
+    linear-gradient(#563477, #563477) center / 6px 2px no-repeat,
     #fff !important;
 }
 
