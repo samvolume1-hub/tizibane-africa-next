@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import styles from "./spotlight-vertical-feed.module.css";
 
@@ -23,7 +23,7 @@ function published(value: string) {
   return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-ZM", { day: "numeric", month: "short", year: "numeric" });
 }
 
-export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
+export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; afterSports?: ReactNode }) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [unavailableStory, setUnavailableStory] = useState<{ title: string; url: string } | null>(null);
   const deepLinkHandled = useRef(false);
@@ -126,6 +126,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
                 <Link href={"/home/notifications?topic=" + encodeURIComponent(topic.id)} className={styles.notificationsLink}>Related notifications ↗</Link>
               </nav>
             </article>
+            {index === 1 && afterSports}
           );
         })}
       </div>
