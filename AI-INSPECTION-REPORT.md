@@ -350,3 +350,20 @@ Copy and complete this section after each work session.
 - **Current behavior boundary:** The app's existing notification producers cover friend changes, group membership changes, comments, reactions, follows and private-message alerts. New post creation itself does not currently create an in-app notification event; this implementation does not invent one. Premium publishing is handled separately as push-only.
 - **Production state remains unchanged:** PR is open and unmerged. No Supabase migration was applied, no Edge Function was deployed, no VAPID key was generated or stored, no Render environment variable was changed, and no user/device was subscribed. Brevo and Spotlight remain untouched.
 - **Next step:** Review and approve the PR before any production activation. Then generate and store one VAPID key pair, apply the migration, deploy the worker and configure the public Render key. Test with the two owner-controlled devices before enabling members.
+
+
+### 13 November 2026 — Simplify duplicated community navigation
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `fix/navigation-simplification-2026-11-13`, created from `main` at `09a7b1b05fd971c394e6974fe7204aafb91262ae`.
+- **Agreed scope:** Resolve the duplicated/ambiguous controls marked in the user's `corrections.jpg` screenshot, while preserving all destinations and the sign-out confirmation flow.
+- **Commit/PR:** Draft PR [#187 — Simplify authenticated navigation and remove duplicate controls](https://github.com/samvolume1-hub/tizibane-africa-next/pull/187); current reviewed head at this entry: `789799087a93758be2b4de4930df9be4094e1fae`.
+- **Files inspected:** `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/home/page.tsx`, `src/app/illustrated-navigation-fix.css`, `src/app/globals.css`, `src/app/home/layout.tsx`, and the screenshot `corrections.jpg`.
+- **Files changed:** `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/home/page.tsx`, and `src/app/illustrated-navigation-fix.css`.
+- **Findings and decisions:** The 13 destinations had been split between a filtered left rail, a right-side People/featured-link stack, and four home-page shortcuts. The left rail now owns all section navigation: nine main destinations plus a labelled More menu for Community activity, Blocked, Events and Premium advertising. The More menu opens for an active less-used destination, closes on outside pointer interaction or Escape, and retains accessible labels/current-page state. The right panel now contains only Back and Back to Top; its duplicate People/featured section links, pin/auto-hide toggle and edge reveal control were removed. The four duplicated home shortcuts below the welcome banner were removed. Sign-out remains a separate confirmation control. All 13 destination hrefs remain represented once.
+- **Tests/checks run and actual results:** Source assertions confirmed 13 unique destination keys/routes, a More menu, Escape/outside-close handlers, absence of right-side section links/People hub/edge toggle, and removal of the home shortcut row. GitHub Actions run [43439008711](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43439008711) completed successfully for the PR head: dependency install, TypeScript check, Web Push Deno check, and production build. Real browser checks at desktop/tablet/phone sizes and keyboard/touch testing remain outstanding.
+- **Deployment status (verified/unverified):** Not deployed. PR remains draft/open and unmerged.
+- **Production, hosting, Supabase, or data changes:** None. No Render changes, Supabase/DB changes, authentication changes, notifications/Web Push changes, or member-data changes.
+- **Blockers/risks:** Visual/browser verification is still required, particularly More menu placement near the narrow rail in portrait and landscape on small devices. Automated build success does not prove the visual interaction.
+- **Next safe step:** Perform real browser/viewport smoke tests, then review PR #187 before any merge or deployment approval.
