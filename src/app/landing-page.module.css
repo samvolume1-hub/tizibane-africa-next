@@ -268,6 +268,27 @@
 }
 
 @media (max-width: 900px) {
+  .page :global(.topbar) {
+    height: auto !important;
+    min-height: 78px !important;
+    padding: 12px 18px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    row-gap: 10px !important;
+  }
+  .page :global(.topbar > .brand) {
+    flex: 1 1 100%;
+    justify-content: center;
+    min-width: 0;
+  }
+  .topbarNav {
+    flex: 1 1 100%;
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
   .featureGrid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; }
   .featureCard, .featureCard:nth-child(4), .featureCard:nth-child(5) { grid-column: auto; }
   .page :global(.hero) { max-width: 100% !important; padding: 34px 22px 38px !important; }
@@ -275,7 +296,10 @@
   .heroArt { min-height: 390px !important; }
 }
 @media (max-width: 600px) {
-  .page :global(.topbar) { min-height: 68px !important; height: auto !important; padding: 10px 13px !important; flex-wrap: nowrap !important; gap: 8px !important; }
+  .page :global(.topbar) { min-height: 68px !important; height: auto !important; padding: 10px 13px !important; flex-wrap: wrap !important; justify-content: center !important; gap: 8px !important; }
+  .page :global(.topbar > .brand) { flex: 1 1 100%; justify-content: center; min-width: 0; }
+  .topbarNav { flex: 1 1 100%; width: 100%; margin-left: 0; justify-content: center; flex-wrap: wrap; gap: 7px; }
+  .topbarNav > * { flex: 0 0 auto; max-width: 100%; }
   .page :global(.brand) { gap: 7px !important; letter-spacing: .08em !important; }
   .signInButton, .spotlightButton { min-height: 38px; padding: 8px 13px; font-size: 12px; }
   .page :global(.tizibane-install-app-button) { min-height: 38px !important; padding: 8px 9px !important; font-size: 10.5px !important; }
@@ -306,7 +330,10 @@
   .heroImageActions :global(.welcome-top-actions .btn) { min-width: 125px !important; min-height: 42px !important; padding: 9px 13px !important; font-size: 12px !important; }
 }
 @media (max-width: 370px) {
-  .page :global(.topbar) { flex-wrap: nowrap !important; justify-content: space-between !important; }
+  .page :global(.topbar) { flex-wrap: wrap !important; justify-content: center !important; }
+  .page :global(.topbar > .brand) { flex-basis: 100%; justify-content: center; }
+  .topbarNav { flex-basis: 100%; justify-content: center; gap: 6px; }
+  .topbarNav > * { max-width: 100%; }
   .signInButton, .spotlightButton { padding-inline: 10px; font-size: 11px; }
   .page :global(.tizibane-install-app-button) { padding-inline: 7px !important; font-size: 10px !important; }
   .page :global(.welcome-top-actions) { justify-content: center !important; }
