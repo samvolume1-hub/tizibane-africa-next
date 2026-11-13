@@ -10,10 +10,10 @@
   "theme_color": "#24112f",
   "icons": [
     {
-      "src": "/images/tizibane-map-icon.svg",
+      "src": "/images/tizibane-app-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
