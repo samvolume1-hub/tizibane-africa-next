@@ -49,7 +49,7 @@ function notificationText(kind: string, actor: string, metadata: Record<string, 
     case "premium_update": return "A new Premium business update is available in TIZIBANE.";
     case "premium_ad": {
       const productName = typeof metadata?.product_name === "string"
-        ? metadata.product_name.replace(/[\\u0000-\\u001f\\u007f]/g, "").trim().slice(0, 90)
+        ? metadata.product_name.replace(/[\x00-\x1f\x7f]/g, "").trim().slice(0, 90)
         : "";
       return productName ? "New Premium listing: " + productName + "." : "A new Premium listing is available in TIZIBANE.";
     }
@@ -143,7 +143,7 @@ Deno.serve(async (request: Request) => {
       }
       try {
         const pushEventId = entry.notification_id ?? entry.id;
-      await send(stored.subscription, JSON.stringify({
+        await send(stored.subscription, JSON.stringify({
           title: "TIZIBANE",
           body: notificationText(entry.kind, actorName, entry.metadata),
           url: entry.kind === "premium_ad" ? "/home/premium" : "/home/notifications",
