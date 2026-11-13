@@ -8282,3 +8282,39 @@ body.tizibane-call-active .tizibane-notification-bell {
     grid-template-columns: 360px minmax(0, 1fr);
   }
 }
+ 
+/* TIZIBANE SPOTLIGHT — isolated, high-specificity light palette.
+   This page-level ID deliberately outranks legacy app-wide and module selectors.
+   Do not replace these explicit colours with currentColor: inherited white text
+   was the reason earlier colour overrides did not take effect. */
+#tizibane-spotlight-page {
+  color-scheme: light !important;
+  background: #ffffff !important;
+  color: #21152c !important;
+}
+#tizibane-spotlight-page :where(*) {
+  color: #21152c !important;
+  -webkit-text-fill-color: #21152c !important;
+  text-shadow: none !important;
+}
+#tizibane-spotlight-page .submitLink,
+#tizibane-spotlight-page .leadImageLabel {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+#tizibane-spotlight-page :is(input, select, textarea) {
+  color-scheme: light !important;
+  background-color: #ffffff !important;
+  color: #17111f !important;
+  -webkit-text-fill-color: #17111f !important;
+  caret-color: #17111f !important;
+}
+#tizibane-spotlight-page :is(input, textarea)::placeholder {
+  color: #756b7c !important;
+  -webkit-text-fill-color: #756b7c !important;
+  opacity: 1 !important;
+}
+#tizibane-spotlight-page :is(button, a):focus-visible {
+  outline: 3px solid #8a59b0 !important;
+  outline-offset: 3px !important;
+}
