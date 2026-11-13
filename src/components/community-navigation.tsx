@@ -97,7 +97,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               className={"community-nav-more-button" + (moreOpen || moreIsActive ? " active" : "")}
               aria-label="More sections"
               aria-expanded={moreOpen}
-              aria-controls="community-nav-more-menu"
+              aria-controls={moreOpen ? "community-nav-more-menu" : undefined}
               title="More sections"
               onClick={() => setMoreOpen((open) => !open)}
               onMouseEnter={() => setHoveredItem("more")}
