@@ -367,3 +367,18 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None. Web Push, service worker, Brevo, Supabase, Render, authentication and all data remain untouched.
 - **Blockers/risks:** Confirm the new custom CSS glyphs are visually legible at the actual small rail icon size in desktop, tablet and phone views.
 - **Next safe step:** Run CI and verify icon appearance/labels at real responsive sizes; review the icon-only diff before any merge.
+
+
+### 13 November 2026 — Follow-up: make every navigation icon unambiguous
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `fix/clear-distinct-navigation-icons-2026-11-13`
+- **Agreed scope:** User clarified that only icon definitions and visual distinction are required. Do not rearrange navigation, remove controls, change routes, alter layout or continue the wider PWA audit as part of this task.
+- **Commit:** Current icon-only changes follow the earlier icon audit commits; latest implementation commit: `f14846dbd38b5fb258b87733f2a1bd59dbbd0c13`.
+- **Files changed:** `src/components/featured-illustrations.module.css`, `src/app/illustrated-navigation-fix.css`, and `src/components/app-page-controls.tsx`. The left navigation already carried its visible hover/focus label and native title.
+- **Findings and decisions:** Final icon meanings are now distinct: Home = house; My profile = portrait; Stories = story ring; People = one person with a plus; Messages = chat bubbles; Spotlight = sparkle/star; Notifications = bell; Announcements = megaphone; Community activity = pulse/graph; Blocked = person with an X; Groups = three people; Events = calendar; Premium advertising = shopfront. Corrected the prior ambiguity where Spotlight and Community activity each resembled people, and Premium advertising resembled the Announcements megaphone. Kept the four featured controls' existing footprint and all existing rail and page layouts. Added native `title` labels to featured links while retaining existing visible hover/focus labels and accessible names.
+- **Tests/checks run and actual results:** Source review confirms the revised module artwork is unique for Spotlight, Activity, Events and Premium. CSS overrides make People, Blocked and Premium semantics clearer while retaining the existing button shells. TypeScript and production build CI plus compiled browser rendering still need to pass before merge.
+- **Deployment status:** Not deployed; no merge performed.
+- **Production, hosting, Supabase, notification, or member-data changes:** None.
+- **Next safe step:** Validate the icon-only change in CI and visually check the icons and their hover/focus labels at desktop, tablet and phone sizes.
