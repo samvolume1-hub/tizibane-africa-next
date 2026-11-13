@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { LandingContacts } from "@/components/landing-contacts";
 import { WelcomeActions } from "@/components/welcome-actions";
 import { SpotlightCompanyReviews } from "@/components/spotlight-publishing";
+import { InstallAppButton } from "@/components/install-app-button";
 import styles from "./landing-page.module.css";
 
 const destinations = [
@@ -56,6 +57,7 @@ export default function LandingPage() {
       <header className={`topbar ${styles.topbar}`}>
         <Brand />
         <nav className={styles.topbarNav} aria-label="Main navigation">
+          <InstallAppButton />
           <Link className={styles.signInButton} href="/login">Sign in</Link>
           <Link className={styles.spotlightButton} href="/home/connect">Spotlight</Link>
         </nav>
