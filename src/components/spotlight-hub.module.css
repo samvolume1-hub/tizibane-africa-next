@@ -12,8 +12,9 @@
 .reviewForm input:focus,.reviewForm select:focus,.reviewForm textarea:focus,.inquiryForm textarea:focus,.inquiryForm select:focus{outline:2px solid #b98bd3;outline-offset:1px}
 .reviewForm input::placeholder,.reviewForm textarea::placeholder,.inquiryForm textarea::placeholder{color:#8a8290}
 .fullField{grid-column:1/-1}.submitControls{grid-column:1/-1;display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.channelChoice{min-width:150px;max-width:220px}.submitButton{min-height:46px;padding:12px 22px;border:1px solid #a85acb;border-radius:999px;background:linear-gradient(110deg,#ffca5c,#ff78b5 55%,#bd64ff);color:#251033!important;font-size:13px;font-weight:900;line-height:1.2;box-shadow:0 6px 16px rgba(124,62,151,.2);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}
-.submitButton:hover{transform:translateY(-1px);box-shadow:0 9px 20px rgba(124,62,151,.26)}
+.channelChoice{min-width:150px;max-width:220px}.submitButton{min-height:46px;padding:12px 22px;border:1px solid #59316f;border-radius:999px;background:#59316f;color:#fff!important;-webkit-text-fill-color:#fff!important;font-size:13px;font-weight:900;line-height:1.2;box-shadow:0 6px 16px rgba(65,31,91,.2);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.submitButton:hover{transform:translateY(-1px);background:#422252;box-shadow:0 9px 20px rgba(65,31,91,.26)}
+.submitButton:disabled{opacity:.7;cursor:wait;transform:none}
 .submitButton:focus-visible{outline:3px solid #70418e;outline-offset:3px}
 .privacyNote{grid-column:1/-1;margin:0;color:#39313f;font-size:12px;line-height:1.75;font-weight:650}
 .directContact{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px;padding-top:15px;border-top:1px solid #eee7f0}
