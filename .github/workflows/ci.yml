@@ -35,6 +35,9 @@ jobs:
       - name: Check TypeScript
         run: npm run typecheck
 
+      - name: Validate PWA manifest, icons, and offline safeguards
+        run: npm run check:pwa
+
       - name: Set up Deno for the Supabase Edge Function
         uses: denoland/setup-deno@v2
         with:
