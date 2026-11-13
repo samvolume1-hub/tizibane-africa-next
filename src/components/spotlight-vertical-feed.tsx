@@ -29,6 +29,14 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
   const deepLinkHandled = useRef(false);
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
+  function moveTopic(direction: -1 | 1) {
+    const currentIndex = Math.max(0, topics.findIndex((topic) => topic.id === expanded));
+    const nextIndex = (currentIndex + direction + topics.length) % topics.length;
+    const nextTopic = topics[nextIndex];
+    setExpanded(nextTopic.id);
+    window.setTimeout(() => document.getElementById("spotlight-card-" + nextTopic.id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+  }
+
   useEffect(() => {
     if (!feeds.length || deepLinkHandled.current || !topics.every((topic) => feedById.has(topic.id))) return;
     const params = new URLSearchParams(window.location.search);
@@ -56,6 +64,19 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
         <div><span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span><h2>Explore Spotlight</h2><p>Choose one of the six topics to open its latest story.</p></div>
         <Link href="/home/notifications" className={styles.notificationsLink}>← Notifications</Link>
       </div>
+      <nav className={styles.actionNav} aria-label="Spotlight navigation">
+        <div className={styles.primaryActions}>
+          <a href="#spotlight-vertical-feed" className={styles.actionButton}>Explore all stories ↓</a>
+          <a href="#submit-review" className={styles.actionButton}>Submit your work</a>
+        </div>
+        <div className={styles.pageActions}>
+          <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>← Previous page</button>
+          <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
+          <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>← Previous topic</button>
+          <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic →</button>
+          <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
+        </div>
+      </nav>
       <div className={styles.cards}>
         {topics.map((topic, index) => {
           const item = feedById.get(topic.id)?.items[0];
