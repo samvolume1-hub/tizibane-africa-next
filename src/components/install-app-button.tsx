@@ -36,6 +36,14 @@ export function InstallAppButton() {
       setShowInstructions(false);
     };
 
+    // Register the site's existing root-scoped service worker on public visits too.
+    // This gives supported browsers the service-worker registration used in PWA installability checks.
+    if ("serviceWorker" in navigator) {
+      void navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
+        console.warn("[TIZIBANE install] service worker registration unavailable", error);
+      });
+    }
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstall);
     window.addEventListener("appinstalled", handleInstalled);
     return () => {
@@ -143,14 +151,14 @@ export function InstallAppButton() {
                 </>
               ) : (
                 <>
-                  <li>Open your browser menu (usually <strong>⋮</strong> or <strong>⋯</strong>).</li>
-                  <li>Choose <strong>Install app</strong> or <strong>Add to Home screen</strong>, if offered.</li>
-                  <li>Confirm <strong>Install</strong> or <strong>Add</strong>.</li>
+                  <li>In Chrome or Edge, look for the <strong>Install</strong> icon at the right side of the address bar. If it is not there, open the browser menu (<strong>⋮</strong> or <strong>⋯</strong>).</li>
+                  <li>Choose <strong>Install TIZIBANE</strong>, <strong>Install app</strong> or <strong>Add to Home screen</strong>, if your browser offers it.</li>
+                  <li>Confirm the installation. If no install option is offered, that browser does not currently support installing this site from its menu.</li>
                 </>
               )}
             </ol>
             <p style={{ margin: "15px 0 0", color: "rgba(255,255,255,.68)", fontSize: 12, lineHeight: 1.6 }}>
-              Open TIZIBANE from the new home-screen icon for an app-like experience.
+              TIZIBANE is a Progressive Web App, not a separate .exe or APK download. Supported browsers install it from their own installation prompt or browser menu.
             </p>
             <button
               type="button"
