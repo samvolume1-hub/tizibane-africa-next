@@ -177,7 +177,7 @@ begin
         summary=excluded.summary,
         article_url=excluded.article_url,
         change_kind=case
-          when private.spotlight_digest_pending.change_kind='new' then 'new'
+          when spotlight_digest_pending.change_kind='new' then 'new'
           else excluded.change_kind
         end;
       if v_kind='new' then v_new:=v_new+1; else v_changed:=v_changed+1; end if;
