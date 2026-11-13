@@ -109,3 +109,61 @@
     radial-gradient(ellipse at 0% 100%, #fff 0 6px, transparent 6.5px),
     radial-gradient(ellipse at 100% 100%, #fff 0 6px, transparent 6.5px);
 }
+
+
+/* ICON CLARITY PASS — use the same meaning as the left rail.
+   Spotlight is a spotlight/star; Activity is a pulse chart; Premium is an AD placard.
+   Events remains a calendar. People/Groups remain different-sized people symbols. */
+.connect::before {
+  inset: 4px !important;
+  background: linear-gradient(145deg, #fff4d7, #e4c47f) !important;
+  clip-path: polygon(50% 0, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0 50%, 39% 36%) !important;
+}
+.connect::after {
+  inset: 0 !important;
+  background:
+    linear-gradient(#fff, #fff) 50% 0 / 2px 5px no-repeat,
+    linear-gradient(#fff, #fff) 50% 100% / 2px 5px no-repeat,
+    linear-gradient(90deg, #fff, #fff) 0 50% / 5px 2px no-repeat,
+    linear-gradient(90deg, #fff, #fff) 100% 50% / 5px 2px no-repeat !important;
+}
+.premium::before {
+  left: 4px !important;
+  top: 5px !important;
+  width: 24px !important;
+  height: 19px !important;
+  border: 2px solid #fff !important;
+  border-radius: 4px !important;
+  background:
+    linear-gradient(90deg, transparent 0 46%, #563477 47% 53%, transparent 54%),
+    linear-gradient(180deg, #fff 0 100%) !important;
+  clip-path: none !important;
+}
+.premium::after {
+  left: 8px !important;
+  top: 10px !important;
+  width: 16px !important;
+  height: 9px !important;
+  background: transparent !important;
+  color: #563477 !important;
+  content: "AD" !important;
+  font: 900 9px/9px system-ui, sans-serif !important;
+  letter-spacing: .4px !important;
+  text-align: center !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.activity::before {
+  inset: 4px 3px 2px !important;
+  border-left: 2px solid #fff !important;
+  border-bottom: 2px solid #fff !important;
+  background: transparent !important;
+}
+.activity::after {
+  left: 5px !important;
+  bottom: 7px !important;
+  width: 23px !important;
+  height: 14px !important;
+  background: #fff !important;
+  clip-path: polygon(0 55%, 17% 55%, 29% 15%, 43% 88%, 57% 38%, 71% 57%, 100% 57%, 100% 70%, 74% 70%, 56% 55%, 42% 100%, 28% 35%, 21% 69%, 0 69%) !important;
+}
