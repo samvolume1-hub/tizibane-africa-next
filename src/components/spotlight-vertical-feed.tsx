@@ -14,7 +14,7 @@ const topics: Topic[] = [
   { id: "chipata-activities", label: "Chipata Activities", image: "/images/3.%20Chipata%20Activities.jpg", fallbackHeadline: "What's happening in Chipata and across Eastern Province." },
   { id: "zambian-politics", label: "Zambian Politics", image: "/images/4.%20Zambian%20Politics.jpg", fallbackHeadline: "The latest developments shaping Zambia." },
   { id: "learn-trading", label: "Learn Online Trading", image: "/images/5.%20Learn%20Online%20Trading.jpg", fallbackHeadline: "Build your understanding of markets and responsible trading." },
-  { id: "business-hub", label: "Business Hub", image: "/images/3.%20Chipata%20Activities.jpg", fallbackHeadline: "Zambian enterprise, local businesses and new opportunities." },
+  { id: "business-hub", label: "Business Hub", image: "/images/5.%20Learn%20Online%20Trading.jpg", fallbackHeadline: "Zambian enterprise, local businesses and new opportunities." },
 ];
 
 function published(value: string) {
