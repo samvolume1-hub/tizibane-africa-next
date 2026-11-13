@@ -8,7 +8,8 @@
     "prebuild": "node scripts/optimize-static-images.mjs",
     "build": "next build",
     "start": "next start --hostname 0.0.0.0 --port ${PORT:-10000}",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:pwa": "node scripts/check-pwa-assets.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
