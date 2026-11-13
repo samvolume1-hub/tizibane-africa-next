@@ -30,8 +30,9 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
   function moveTopic(direction: -1 | 1) {
-    const currentIndex = Math.max(0, topics.findIndex((topic) => topic.id === expanded));
-    const nextIndex = (currentIndex + direction + topics.length) % topics.length;
+    const currentIndex = topics.findIndex((topic) => topic.id === expanded);
+    const startIndex = currentIndex < 0 ? 0 : currentIndex;
+    const nextIndex = (startIndex + direction + topics.length) % topics.length;
     const nextTopic = topics[nextIndex];
     setExpanded(nextTopic.id);
     window.setTimeout(() => document.getElementById("spotlight-card-" + nextTopic.id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
@@ -66,7 +67,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
       </div>
       <nav className={styles.actionNav} aria-label="Spotlight navigation">
         <div className={styles.primaryActions}>
-          <a href="#spotlight-vertical-feed" className={styles.actionButton}>Explore all stories ↓</a>
+          <a href="#spotlight-topic-cards" className={styles.actionButton}>Explore all stories ↓</a>
           <a href="#submit-review" className={styles.actionButton}>Submit your work</a>
         </div>
         <div className={styles.pageActions}>
@@ -77,7 +78,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
           <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
         </div>
       </nav>
-      <div className={styles.cards}>
+      <div className={styles.cards} id="spotlight-topic-cards">
         {topics.map((topic, index) => {
           const item = feedById.get(topic.id)?.items[0];
           const isOpen = expanded === topic.id;
