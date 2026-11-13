@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import styles from "./spotlight-vertical-feed.module.css";
 
@@ -82,6 +82,7 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
           const isOpen = expanded === topic.id;
           const passage = item?.summary?.trim() || topic.fallbackPassage;
           return (
+            <Fragment key={topic.id}>
             <article className={styles.card} id={"spotlight-card-" + topic.id} key={topic.id}>
               <button
                 type="button"
@@ -127,6 +128,7 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
               </nav>
             </article>
             {index === 1 && afterSports}
+            </Fragment>
           );
         })}
       </div>
