@@ -8454,3 +8454,30 @@ body.tizibane-call-active .tizibane-notification-bell {
   .app-layout .member-profile-comment-form { align-items: stretch; flex-wrap: wrap; }
   .app-layout .member-profile-comment-form input[name="body"] { flex-basis: 100%; }
 }
+
+
+/* Home feed member identities: make profile photos and names open the same public member page. */
+.app-layout .community-home-page .home-member-profile-avatar-link{
+  display:inline-flex;
+  flex:0 0 auto;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  line-height:0;
+  text-decoration:none;
+}
+.app-layout .community-home-page .home-member-profile-name-link{
+  color:inherit !important;
+  text-decoration:none;
+  text-underline-offset:3px;
+  transition:text-decoration-color .16s ease;
+}
+.app-layout .community-home-page .home-member-profile-name-link:hover{
+  text-decoration:underline;
+}
+.app-layout .community-home-page .home-member-profile-avatar-link:focus-visible,
+.app-layout .community-home-page .home-member-profile-name-link:focus-visible{
+  outline:2px solid rgba(128,83,173,.9);
+  outline-offset:3px;
+  border-radius:4px;
+}
