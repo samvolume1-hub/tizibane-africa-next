@@ -1,8 +1,14 @@
 create table if not exists public.web_push_subscriptions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  endpoint text not null check (endpoint ~ '^https://(fcm[.]googleapis[.]com|updates[.]push[.]services[.]mozilla[.]com|web[.]push[.]apple[.]com|[a-z0-9.-]+[.]notify[.]windows[.]com)/'),
-  subscription jsonb not null check (jsonb_typeof(subscription) = 'object'),
+  endpoint text not null check (length(endpoint) <= 2048 and endpoint ~ '^https://(fcm[.]googleapis[.]com|updates[.]push[.]services[.]mozilla[.]com|web[.]push[.]apple[.]com|[a-z0-9.-]+[.]notify[.]windows[.]com)/'),
+  subscription jsonb not null check (
+    jsonb_typeof(subscription) = 'object'
+    and subscription->>'endpoint' = endpoint
+    and jsonb_typeof(subscription->'keys') = 'object'
+    and coalesce(length(subscription->'keys'->>'p256dh') between 32 and 256,false)
+    and coalesce(length(subscription->'keys'->>'auth') between 16 and 256,false)
+  ),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (user_id, endpoint)
@@ -56,6 +62,10 @@ set search_path = ''
 as $function$
 begin
   if new.kind like 'spotlight_%' then
+    return new;
+  end if;
+
+  if not exists (select 1 from public.web_push_subscriptions s where s.user_id=new.recipient_id) then
     return new;
   end if;
 
