@@ -39,12 +39,15 @@ function notificationText(kind: string, actor: string) {
     case "reaction": return actor + " reacted to your post.";
     case "message": return "You have a new private message. Open TIZIBANE to read it.";
     case "group": return "There is a new update in one of your TIZIBANE groups.";
+    case "group_invite": return "You have been invited to join a TIZIBANE group.";
     case "group_join_request": return actor + " requested to join a group you manage.";
     case "group_join_approved": return "Your request to join a TIZIBANE group was approved.";
     case "group_join_declined": return "There is an update to your group request.";
     case "event": return "There is a new community event update.";
     case "event_attendance": return actor + " responded to your community event.";
-    case "business_ad": return "A new business promotion is available in TIZIBANE.";
+    case "business_ad":
+    case "premium_ad":
+    case "premium_update": return "A new Premium business update is available in TIZIBANE.";
     case "trending_post": return "A community post is receiving attention on TIZIBANE.";
     default: return "You have a new community update on TIZIBANE.";
   }
@@ -53,7 +56,7 @@ function notificationText(kind: string, actor: string) {
 function allowedPushEndpoint(value: string) {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" && (
+    return url.protocol === "https:" && (url.port === "" || url.port === "443") && url.username === "" && url.password === "" && (
       url.hostname === "fcm.googleapis.com"
       || url.hostname === "updates.push.services.mozilla.com"
       || url.hostname === "web.push.apple.com"
@@ -122,7 +125,6 @@ Deno.serve(async (request: Request) => {
       continue;
     }
 
-    let delivered = 0;
     let transientFailures = 0;
     let actorName = cleanName(entry.metadata?.actor_name);
     if (actorName === "A TIZIBANE member" && entry.actor_id) {
@@ -130,7 +132,7 @@ Deno.serve(async (request: Request) => {
       actorName = cleanName(actorProfile?.display_name);
     }
     for (const stored of activeSubscriptions) {
-      if (!allowedPushEndpoint(stored.endpoint)) {
+      if (!allowedPushEndpoint(stored.endpoint) || stored.subscription.endpoint !== stored.endpoint) {
         await supabase.from("web_push_subscriptions").delete().eq("id", stored.id);
         continue;
       }
@@ -147,7 +149,6 @@ Deno.serve(async (request: Request) => {
           urgency: "low",
           topic: entry.notification_id.replace(/-/g, "").slice(0, 32),
         });
-        delivered++;
       } catch (error) {
         if (permanentPushFailure(error)) {
           await supabase.from("web_push_subscriptions").delete().eq("id", stored.id);
