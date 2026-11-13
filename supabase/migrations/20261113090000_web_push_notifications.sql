@@ -11,7 +11,7 @@ create table if not exists public.web_push_subscriptions (
   ),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  unique (user_id, endpoint)
+  unique (endpoint)
 );
 
 alter table public.web_push_subscriptions enable row level security;
@@ -26,6 +26,58 @@ for all
 to authenticated
 using ((select auth.uid()) = user_id)
 with check ((select auth.uid()) = user_id);
+
+
+create or replace function private.register_web_push_subscription(p_endpoint text,p_subscription jsonb)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $function$
+declare
+  v_user_id uuid := auth.uid();
+begin
+  if v_user_id is null then
+    raise exception 'Authentication required' using errcode='42501';
+  end if;
+
+  if p_endpoint is null
+     or length(p_endpoint) > 2048
+     or p_endpoint !~ '^https://(fcm[.]googleapis[.]com|updates[.]push[.]services[.]mozilla[.]com|web[.]push[.]apple[.]com|[a-z0-9.-]+[.]notify[.]windows[.]com)/'
+     or jsonb_typeof(p_subscription) <> 'object'
+     or p_subscription->>'endpoint' <> p_endpoint
+     or jsonb_typeof(p_subscription->'keys') <> 'object'
+     or not coalesce(length(p_subscription->'keys'->>'p256dh') between 32 and 256,false)
+     or not coalesce(length(p_subscription->'keys'->>'auth') between 16 and 256,false) then
+    raise exception 'Invalid web push subscription' using errcode='22023';
+  end if;
+
+  insert into public.web_push_subscriptions(user_id,endpoint,subscription,updated_at)
+  values (v_user_id,p_endpoint,p_subscription,pg_catalog.now())
+  on conflict (endpoint) do update
+    set user_id=excluded.user_id,
+        subscription=excluded.subscription,
+        updated_at=pg_catalog.now();
+
+  return true;
+end;
+$function$;
+
+revoke all on function private.register_web_push_subscription(text,jsonb) from public,anon,authenticated;
+grant usage on schema private to authenticated;
+grant execute on function private.register_web_push_subscription(text,jsonb) to authenticated;
+
+create or replace function public.register_web_push_subscription(p_endpoint text,p_subscription jsonb)
+returns boolean
+language sql
+security invoker
+set search_path = ''
+as $function$
+  select private.register_web_push_subscription(p_endpoint,p_subscription);
+$function$;
+
+revoke all on function public.register_web_push_subscription(text,jsonb) from public,anon;
+grant execute on function public.register_web_push_subscription(text,jsonb) to authenticated;
 
 create index if not exists web_push_subscriptions_user_idx
 on public.web_push_subscriptions (user_id);
