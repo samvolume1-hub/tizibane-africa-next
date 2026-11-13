@@ -133,7 +133,7 @@ Deno.serve(async (request: Request) => {
             const digestItems = Array.isArray(metadata.digest_items)
               ? metadata.digest_items as Array<Record<string, unknown>>
               : [];
-            if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(entry.recipient_email)) {
+            if (!/^[^\s@]+@[^\s@]+\\.[^\s@]+$/.test(entry.recipient_email)) {
               throw new Error("Recipient email is invalid");
             }
 
@@ -173,12 +173,12 @@ Deno.serve(async (request: Request) => {
                 ]),
                 "Connect. Belong. Grow.",
                 "© 2026 TIZIBANE Zambia",
-              ].join("\\n");
+              ].join("\n");
               const listHtml = safeItems.map((item, index) => `
                 <tr><td style="padding:17px 0;border-bottom:1px solid #eee7f1">
                   <div style="font-size:11px;font-weight:800;color:#a33a83;text-transform:uppercase;letter-spacing:1px">${escapeHtml(item.category)}${item.source ? " · " + escapeHtml(item.source) : ""}</div>
                   <h2 style="font-size:17px;line-height:1.35;margin:7px 0;color:#291638">${index + 1}. ${escapeHtml(item.title)}</h2>
-                  <p style="font-size:13px;line-height:1.65;color:#51435a;margin:0 0 10px">${escapeHtml(item.summary).replace(/\\r?\\n/g, "<br>")}</p>
+                  <p style="font-size:13px;line-height:1.65;color:#51435a;margin:0 0 10px">${escapeHtml(item.summary).replace(/\r?\n/g, "<br>")}</p>
                   <a href="${escapeHtml(item.spotlightUrl)}" style="color:#54246f;font-size:12px;font-weight:700">Open this story in Spotlight ↗</a>
                 </td></tr>`).join("");
               htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
@@ -204,14 +204,14 @@ Deno.serve(async (request: Request) => {
               subject = isUpdate ? "Spotlight update: " + title : "New in TIZIBANE Spotlight: " + title;
               const safeTitle = escapeHtml(title);
               const safeCategory = escapeHtml(category);
-              const safeSummary = escapeHtml(summary).replace(/\\r?\\n/g, "<br>");
+              const safeSummary = escapeHtml(summary).replace(/\r?\n/g, "<br>");
               const safeSource = escapeHtml(source);
               const safeUrl = escapeHtml(articleUrl);
               textContent = [
                 "TIZIBANE ZAMBIA", heading, "", title, category, summary,
                 source ? "Source: " + source : "", "", "Read the update: " + articleUrl,
                 "", "Connect. Belong. Grow.", "© 2026 TIZIBANE Zambia",
-              ].filter(Boolean).join("\\n");
+              ].filter(Boolean).join("\n");
               htmlContent = `<!doctype html><html><body style="margin:0;padding:24px 12px;background:#f5f1f8;font-family:Arial,Helvetica,sans-serif;color:#281b32">
                 <table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center">
                 <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#fff;border-radius:16px;overflow:hidden">
