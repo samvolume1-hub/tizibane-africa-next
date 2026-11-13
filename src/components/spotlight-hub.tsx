@@ -1,26 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import styles from "./spotlight-hub.module.css";
 import { SpotlightVerticalFeed } from "./spotlight-vertical-feed";
 
 const EMAIL = "samryt26@gmail.com";
 const WHATSAPP = "260760930509";
-const ALTERNATIVE_WHATSAPP = "260769614559";
 const reviewCategories = ["Music talent", "Music video", "Photography"] as const;
 
 type FeedItem = { title: string; source: string; publishedAt: string; summary: string; imageUrl: string | null; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
-
-const topicOrder = [
-  { id: "music-reviews", label: "Music Reviews", note: "New releases, top charts, album reviews, artist spotlights and music videos", tagline: "New sounds. Fresh perspectives.", sourceLabel: "Zambian & world music", art: "♫", tone: "music", placeholderImage: "/images/1.%20Music%20Reviews.jpg" },
-  { id: "sports-feed", label: "Sports Feed", note: "Football, basketball, tennis, athletics and the sporting moments everyone is talking about", tagline: "The moments that move us.", sourceLabel: "Zambian & international sport", art: "★", tone: "sports", placeholderImage: "/images/2.%20Sports%20Feed.jpg" },
-  { id: "chipata-activities", label: "Chipata Activities", note: "Our town, our people and our progress — community life, events, business and development", tagline: "Our town. Our people. Our progress.", sourceLabel: "Eastern Province · Zambia", art: "⌂", tone: "chipata", placeholderImage: "/images/3.%20Chipata%20Activities.jpg" },
-  { id: "zambian-politics", label: "Zambian Politics", note: "Public affairs, policy, civic issues and informed debate from across Zambia", tagline: "The issues shaping Zambia.", sourceLabel: "Public affairs & analysis", art: "◈", tone: "politics", placeholderImage: "/images/4.%20Zambian%20Politics.jpg" },
-  { id: "learn-trading", label: "Learn Online Trading", note: "Beginner-friendly learning about markets, platforms, forex, stocks, crypto and risk management", tagline: "Build knowledge. Understand risk.", sourceLabel: "Financial education", art: "↗", tone: "trading", placeholderImage: "/images/5.%20Learn%20Online%20Trading.jpg" },
-  { id: "business-hub", label: "Business Hub", note: "Discover local Zambian businesses, services and enterprise stories from Lusaka and Chipata. Support local entrepreneurs and help our communities grow.", tagline: "Discover local. Support Zambian.", sourceLabel: "Lusaka · Chipata · Zambia", art: "▦", tone: "business", placeholderImage: "/images/6.%20Business%20Hub.jpg" },
-] as const;
 
 function messageBody(title: string, category: string, link: string, note: string) {
   return [
@@ -44,12 +34,6 @@ function openContact(channel: "whatsapp" | "email", subject: string, body: strin
     ? "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(body)
     : gmailComposeUrl(subject, body);
   window.open(destination, "_blank", "noopener,noreferrer");
-}
-
-function formatPublishedAt(value: string) {
-  if (!value) return "";
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-ZM", { day: "numeric", month: "short" });
 }
 
 export function SpotlightHub() {
@@ -93,8 +77,6 @@ export function SpotlightHub() {
       document.removeEventListener("visibilitychange", onFocus);
     };
   }, []);
-
-  const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
   function submitReview(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
