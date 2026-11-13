@@ -345,3 +345,57 @@
   .featureCard, .featureImageWrap img { transition: none !important; }
   .featureCard:hover .featureImageWrap img { transform: none; }
 }
+
+
+/* Landing header: keep the brand left and the two navigation links right.
+   Installation now has its own section below the hero, so the ribbon never wraps around it. */
+@media (max-width: 900px) {
+  .page :global(.topbar) {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-height: 70px !important;
+    height: auto !important;
+    padding: 10px 18px !important;
+  }
+  .page :global(.topbar > .brand) {
+    flex: 0 1 auto !important;
+    justify-content: flex-start !important;
+    min-width: 0 !important;
+  }
+  .topbarNav {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin-left: auto !important;
+    justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+  }
+}
+@media (max-width: 600px) {
+  .page :global(.topbar) {
+    min-height: 62px !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+  }
+  .page :global(.topbar > .brand) { flex: 0 1 auto !important; gap: 6px !important; }
+  .page :global(.brand-mark) { width: 30px !important; height: 30px !important; }
+  .page :global(.brand-letter) { font-size: 21px !important; }
+  .page :global(.brand small) { font-size: 8px !important; }
+  .topbarNav { gap: 6px !important; }
+  .signInButton, .spotlightButton {
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+    font-size: 11px !important;
+  }
+}
+@media (max-width: 370px) {
+  .page :global(.topbar) { padding-inline: 9px !important; gap: 5px !important; }
+  .page :global(.topbar > .brand) { gap: 5px !important; }
+  .page :global(.brand small) { font-size: 7px !important; letter-spacing: .16em !important; }
+  .topbarNav { gap: 4px !important; }
+  .signInButton, .spotlightButton { padding-inline: 8px !important; font-size: 10px !important; }
+}
