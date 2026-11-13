@@ -112,7 +112,7 @@ Deno.serve(async (request: Request) => {
 
     if (brevoApiKey && senderEmail) {
       const { data: batch, error: claimError } = await supabase.rpc(
-        "claim_spotlight_email_batch", { p_limit: 30 },
+        "claim_spotlight_email_batch", { p_limit: 30, p_token: cronToken },
       );
       if (claimError) {
         console.error("[Spotlight email] queue claim failed", { code: claimError.code });
@@ -194,6 +194,7 @@ Deno.serve(async (request: Request) => {
             p_id: entry.id,
             p_sent: sent,
             p_error: sent ? null : failure,
+            p_token: cronToken,
           });
           if (completionError) {
             console.error("[Spotlight email] queue completion failed", { code: completionError.code });
