@@ -35,6 +35,14 @@ jobs:
       - name: Check TypeScript
         run: npm run typecheck
 
+      - name: Set up Deno for the Supabase Edge Function
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Check Web Push Edge Function
+        run: deno check supabase/functions/web-push-notification-worker/index.ts supabase/functions/web-push-notification-worker/generate-vapid-keys.ts
+
       - name: Build production app
         run: npm run build
         env:
