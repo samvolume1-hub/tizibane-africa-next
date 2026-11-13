@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import styles from "./spotlight-hub.module.css";
 import { SpotlightVerticalFeed } from "./spotlight-vertical-feed";
-import { SpotlightCompanyReviews, SpotlightSubmissionCentre } from "./spotlight-publishing";
+import { SpotlightCompanyReviews, SpotlightCommunityPicks, SpotlightSubmissionCentre } from "./spotlight-publishing";
 
 const EMAIL = "samryt26@gmail.com";
 const WHATSAPP = "260760930509";
@@ -71,6 +71,7 @@ export function SpotlightHub() {
   return (
     <div className={styles.spotlight} id="tizibane-spotlight-page">
       <SpotlightCompanyReviews />
+      <SpotlightCommunityPicks />
       <SpotlightVerticalFeed feeds={feeds} />
 
       <SpotlightSubmissionCentre />
