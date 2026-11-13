@@ -1771,3 +1771,208 @@
 .app-layout .app-featured-side-label.is-visible {
   transform: translate(-30%, -50%) !important;
 }
+
+
+
+
+/* ICON ARTWORK ONLY — preserve every existing position, size, route and control. */
+
+/* Spotlight: a distinct four-ray sparkle, not connected people or a chain. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::before {
+  left: 50% !important;
+  top: 50% !important;
+  width: 19px !important;
+  height: 19px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(145deg, #fff4d7, #d7ad5e) !important;
+  clip-path: polygon(50% 0, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0 50%, 39% 36%) !important;
+  box-shadow: none !important;
+  transform: translate(-50%, -50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::after {
+  left: 50% !important;
+  top: 50% !important;
+  width: 27px !important;
+  height: 27px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(var(--gold), var(--gold)) 50% 0 / 2px 5px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) 50% 100% / 2px 5px no-repeat,
+    linear-gradient(90deg, var(--gold), var(--gold)) 0 50% / 5px 2px no-repeat,
+    linear-gradient(90deg, var(--gold), var(--gold)) 100% 50% / 5px 2px no-repeat !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* People Hub heading: one person with a clear plus badge. */
+.app-layout .app-people-hub-icon {
+  background: none !important;
+}
+.app-layout .app-people-hub-icon::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  width: 25px !important;
+  height: 23px !important;
+  background:
+    radial-gradient(circle at 43% 25%, #fff 0 3.5px, transparent 4px),
+    radial-gradient(ellipse at 43% 100%, #fff 0 7.5px, transparent 8px) !important;
+}
+.app-layout .app-people-hub-icon::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 11px !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background:
+    linear-gradient(#563477, #563477) center / 2px 6px no-repeat,
+    linear-gradient(#563477, #563477) center / 6px 2px no-repeat,
+    #fff !important;
+}
+
+/* Find People menu item: reuse the same single-person-plus meaning. */
+.app-layout .app-people-hub-menu-icon.people {
+  position: relative !important;
+  background: #F1EAF6 !important;
+}
+.app-layout .app-people-hub-menu-icon.people::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: 2px !important;
+  width: 16px !important;
+  height: 20px !important;
+  background:
+    radial-gradient(circle at 50% 24%, #563477 0 3px, transparent 3.5px),
+    radial-gradient(ellipse at 50% 100%, #563477 0 6px, transparent 6.5px) !important;
+}
+.app-layout .app-people-hub-menu-icon.people::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 1px !important;
+  bottom: 1px !important;
+  width: 9px !important;
+  height: 9px !important;
+  border: 1px solid #F1EAF6 !important;
+  border-radius: 50% !important;
+  background:
+    linear-gradient(#563477, #563477) center / 1.5px 6px no-repeat,
+    linear-gradient(#563477, #563477) center / 6px 1.5px no-repeat,
+    #fff !important;
+}
+
+/* Blocked menu item: a person silhouette with a clear X badge, not a shield. */
+.app-layout .app-people-hub-menu-icon.blocked {
+  position: relative !important;
+  background: #F1EAF6 !important;
+}
+.app-layout .app-people-hub-menu-icon.blocked::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 2px !important;
+  top: 2px !important;
+  width: 16px !important;
+  height: 20px !important;
+  border: 0 !important;
+  background:
+    radial-gradient(circle at 50% 24%, #563477 0 3px, transparent 3.5px),
+    radial-gradient(ellipse at 50% 100%, #563477 0 6px, transparent 6.5px) !important;
+}
+.app-layout .app-people-hub-menu-icon.blocked::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 10px !important;
+  height: 10px !important;
+  border: 1px solid #F1EAF6 !important;
+  border-radius: 50% !important;
+  background:
+    linear-gradient(45deg, transparent 43%, #D84F7C 44% 56%, transparent 57%),
+    linear-gradient(-45deg, transparent 43%, #D84F7C 44% 56%, transparent 57%),
+    #fff !important;
+}
+
+
+/* FINAL ICON-MEANING ALIGNMENT — apply the agreed meanings to the actual
+   13-item left rail as well as the People Hub menu. Artwork only. */
+
+/* People — one portrait with a plus badge (not a pair of people). */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="people"]::before {
+  left: 42% !important;
+  top: 43% !important;
+  width: 9px !important;
+  height: 9px !important;
+  border: 1.8px solid var(--gold) !important;
+  border-radius: 50% !important;
+  background: var(--gold-hi) !important;
+  box-shadow: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="people"]::after {
+  left: 42% !important;
+  top: 72% !important;
+  width: 17px !important;
+  height: 10px !important;
+  border: 1.8px solid var(--gold) !important;
+  border-radius: 10px 10px 4px 4px !important;
+  background: #fffaf0 !important;
+  box-shadow: 9px -7px 0 -3px #fffaf0, 9px -7px 0 -1.2px var(--gold) !important;
+}
+
+/* Blocked — person silhouette with a separate, unmistakable X badge. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="blocked"]::before {
+  left: 43% !important;
+  top: 43% !important;
+  width: 9px !important;
+  height: 9px !important;
+  border: 1.8px solid var(--gold) !important;
+  border-radius: 50% !important;
+  clip-path: none !important;
+  background: var(--gold-hi) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="blocked"]::after {
+  left: 43% !important;
+  top: 72% !important;
+  width: 17px !important;
+  height: 10px !important;
+  border: 1.8px solid var(--gold) !important;
+  border-radius: 10px 10px 4px 4px !important;
+  background:
+    linear-gradient(45deg, transparent 44%, #b34d68 45% 55%, transparent 56%),
+    linear-gradient(-45deg, transparent 44%, #b34d68 45% 55%, transparent 56%),
+    #fffaf0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Premium advertising — shopfront and striped awning, not a crown. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::before {
+  left: 50% !important;
+  top: 65% !important;
+  width: 19px !important;
+  height: 15px !important;
+  border: 1.7px solid var(--gold) !important;
+  border-top: 0 !important;
+  border-radius: 1px 1px 3px 3px !important;
+  clip-path: none !important;
+  background:
+    linear-gradient(90deg, transparent 0 56%, var(--gold) 57% 64%, transparent 65%),
+    linear-gradient(var(--gold), var(--gold)) 0 5px / 100% 1.4px no-repeat,
+    #fffaf0 !important;
+  filter: none !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::after {
+  left: 50% !important;
+  top: 30% !important;
+  width: 22px !important;
+  height: 9px !important;
+  border: 1.5px solid var(--gold) !important;
+  border-radius: 2px 2px 5px 5px !important;
+  background:
+    linear-gradient(90deg, transparent 0 18%, #d9b66e 18% 32%, transparent 32% 48%, #d9b66e 48% 64%, transparent 64% 82%, #d9b66e 82% 100%),
+    #fffaf0 !important;
+  transform: translate(-50%, -50%) !important;
+}

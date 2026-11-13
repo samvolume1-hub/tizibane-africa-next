@@ -1,7 +1,7 @@
-/* Pure-CSS artwork only for the four featured controls.
-   The shared 32x29 icon footprint is retained. Button shells, purple
-   translucent backgrounds, opacity, layout, labels and interactions live
-   elsewhere and are intentionally not styled here. */
+/* Clear, unique artwork for the four fixed right-side destinations.
+   Keep the shared footprint; button shells, labels, colours and layout are
+   controlled by the existing navigation styles. */
+
 .illustration {
   position: relative;
   display: block;
@@ -12,55 +12,57 @@
   filter: drop-shadow(0 1px 1px rgba(32, 15, 45, .28));
 }
 
-/* Company links: three connected people, echoing the People Hub's solid
-   white silhouettes while reading as a connected community. */
+/* Spotlight: a single large eight-point sparkle, never a people silhouette. */
 .connect::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 19%, #fff 0 3.5px, transparent 4px),
-    radial-gradient(circle at 15% 43%, #fff 0 3.5px, transparent 4px),
-    radial-gradient(circle at 85% 43%, #fff 0 3.5px, transparent 4px);
+  left: 7px;
+  top: 2px;
+  width: 19px;
+  height: 19px;
+  background: #fff;
+  clip-path: polygon(50% 0, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0 50%, 39% 35%);
 }
 .connect::after {
   content: "";
   position: absolute;
-  inset: 11px 0 0;
-  background:
-    radial-gradient(ellipse at 50% 100%, #fff 0 7px, transparent 7.5px),
-    radial-gradient(ellipse at 0% 100%, #fff 0 6px, transparent 6.5px),
-    radial-gradient(ellipse at 100% 100%, #fff 0 6px, transparent 6.5px);
+  left: 22px;
+  top: 0;
+  width: 7px;
+  height: 7px;
+  background: #fff;
+  clip-path: polygon(50% 0, 63% 37%, 100% 50%, 63% 63%, 50% 100%, 37% 63%, 0 50%, 37% 37%);
 }
 
-/* Premium advertising: bold megaphone, handle and two broadcast rays. */
+/* Premium advertising: a shopfront with an awning, display window and door.
+   Deliberately different from Announcements' megaphone. */
 .premium::before {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 5px;
+  left: 5px;
+  top: 10px;
   width: 22px;
   height: 17px;
-  background: #fff;
-  clip-path: polygon(0 30%, 100% 0, 100% 100%, 0 70%);
-  border-radius: 2px;
+  background:
+    linear-gradient(90deg, transparent 0 53%, #563477 54% 60%, transparent 61%) 0 0 / 100% 100% no-repeat,
+    linear-gradient(#563477, #563477) 0 6px / 100% 1.5px no-repeat,
+    #fff;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  border-radius: 1px 1px 2px 2px;
 }
 .premium::after {
   content: "";
   position: absolute;
-  left: 8px;
-  top: 19px;
-  width: 5px;
-  height: 9px;
+  left: 4px;
+  top: 4px;
+  width: 24px;
+  height: 10px;
   background: #fff;
-  border-radius: 1px 1px 3px 3px;
-  transform: rotate(-16deg);
-  box-shadow:
-    19px -13px 0 -2px #fff,
-    23px -7px 0 -2px #fff;
+  clip-path: polygon(8% 0, 92% 0, 100% 70%, 88% 100%, 75% 70%, 62% 100%, 50% 70%, 38% 100%, 25% 70%, 12% 100%, 0 70%);
+  border-radius: 2px;
 }
 
-/* Events: a solid white calendar with purple negative-space date marks. */
+/* Events: calendar page with binding rings and clear date marks. */
 .events::before {
   content: "";
   position: absolute;
@@ -86,26 +88,25 @@
   box-shadow: 9px 0 0 #fff;
 }
 
-/* Community activity: a lively three-person community mark with a central
-   figure and two supporting figures, all in the same solid-white language. */
+/* Community activity: a rising pulse/analytics line, not another group icon. */
 .activity::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 22%, #fff 0 4px, transparent 4.5px),
-    radial-gradient(circle at 15% 37%, #fff 0 3px, transparent 3.5px),
-    radial-gradient(circle at 85% 37%, #fff 0 3px, transparent 3.5px);
+  left: 4px;
+  top: 4px;
+  width: 24px;
+  height: 22px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  opacity: .95;
 }
 .activity::after {
   content: "";
   position: absolute;
-  left: 1px;
-  bottom: 0;
-  width: 30px;
-  height: 16px;
-  background:
-    radial-gradient(ellipse at 50% 100%, #fff 0 8px, transparent 8.5px),
-    radial-gradient(ellipse at 0% 100%, #fff 0 6px, transparent 6.5px),
-    radial-gradient(ellipse at 100% 100%, #fff 0 6px, transparent 6.5px);
+  left: 5px;
+  top: 7px;
+  width: 23px;
+  height: 17px;
+  background: #fff;
+  clip-path: polygon(0 62%, 21% 62%, 34% 18%, 47% 88%, 61% 39%, 71% 62%, 100% 62%, 100% 74%, 68% 74%, 62% 58%, 47% 100%, 34% 47%, 27% 74%, 0 74%);
 }
