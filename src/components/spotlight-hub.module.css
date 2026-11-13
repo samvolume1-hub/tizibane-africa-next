@@ -59,3 +59,14 @@
 .statusApproved,.statusRejected,.statusPending{flex:none;padding:7px 10px;border-radius:999px;font-size:10px!important;font-weight:900!important}
 .statusApproved{background:#e5f5e9;color:#205b32!important}.statusRejected{background:#fff0f0;color:#8a2929!important}.statusPending{background:#fff5df;color:#77501b!important}
 @media(max-width:640px){.companySpotlight{padding:15px;border-radius:17px}.companyHeading{align-items:flex-start;flex-direction:column}.companyReview{padding:14px}.companyMeta time{margin-left:0}.submissionRow{align-items:flex-start;flex-direction:column}.statusApproved,.statusRejected,.statusPending{align-self:flex-start}}
+
+
+.communitySpotlight{display:grid;gap:13px;padding:clamp(18px,3vw,26px);border:1px solid #d8c6e7;border-radius:22px;background:#faf7fd;color:#21152c}
+.communitySpotlight h2{margin:7px 0 0;color:#21152c;font-size:clamp(22px,3vw,28px);font-weight:950;line-height:1.2}
+.communityPicks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.communityPick{display:grid;align-content:start;gap:8px;padding:16px;border:1px solid #dfd2e9;border-radius:15px;background:#fff;color:#21152c;min-width:0}
+.communityPick>span{color:#684083;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.communityPick h3{margin:0;color:#21152c;font-size:16px;font-weight:900;line-height:1.4;overflow-wrap:anywhere}
+.communityPick p{margin:0;color:#3d3147;font-size:13px;line-height:1.7}
+.communityPick a{color:#59316f!important;font-size:12px;font-weight:900;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:640px){.communitySpotlight{padding:15px;border-radius:17px}.communityPicks{grid-template-columns:1fr}}
