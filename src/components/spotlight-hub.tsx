@@ -70,9 +70,7 @@ export function SpotlightHub() {
 
   return (
     <div className={styles.spotlight} id="tizibane-spotlight-page">
-      <SpotlightCompanyReviews />
-      <SpotlightCommunityPicks />
-      <SpotlightVerticalFeed feeds={feeds} />
+      <SpotlightVerticalFeed feeds={feeds} afterSports={<><SpotlightCompanyReviews /><SpotlightCommunityPicks /></>} />
 
       <SpotlightSubmissionCentre />
 
