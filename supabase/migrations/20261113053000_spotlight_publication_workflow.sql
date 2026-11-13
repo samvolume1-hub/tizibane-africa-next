@@ -37,7 +37,9 @@ alter table public.spotlight_company_reviews enable row level security;
 alter table public.spotlight_submissions enable row level security;
 
 drop policy if exists spotlight_company_reviews_public_read on public.spotlight_company_reviews;
-create policy spotlight_company_reviews_public_read on public.spotlight_company_reviews for select to anon, authenticated using (status = 'published' or private.is_platform_admin((select auth.uid())));
+create policy spotlight_company_reviews_public_read on public.spotlight_company_reviews for select to anon, authenticated using (status = 'published');
+drop policy if exists spotlight_company_reviews_admin_read on public.spotlight_company_reviews;
+create policy spotlight_company_reviews_admin_read on public.spotlight_company_reviews for select to authenticated using (private.is_platform_admin((select auth.uid())));
 drop policy if exists spotlight_company_reviews_admin_insert on public.spotlight_company_reviews;
 create policy spotlight_company_reviews_admin_insert on public.spotlight_company_reviews for insert to authenticated with check (created_by = (select auth.uid()) and private.is_platform_admin((select auth.uid())));
 drop policy if exists spotlight_company_reviews_admin_update on public.spotlight_company_reviews;
