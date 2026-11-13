@@ -8282,3 +8282,175 @@ body.tizibane-call-active .tizibane-notification-bell {
     grid-template-columns: 360px minmax(0, 1fr);
   }
 }
+
+
+/* Public member profile page — isolated from the approved People directory card layout. */
+.app-layout .person-avatar-link {
+  display: inline-flex;
+  flex: none;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.app-layout .person-avatar-link:focus-visible,
+.app-layout .person-name-link:focus-visible {
+  outline: 2px solid #e9a8d0;
+  outline-offset: 4px;
+}
+.app-layout .person-name-link {
+  color: inherit;
+  text-decoration: none;
+}
+.app-layout .person-name-link:hover {
+  color: #e9a8d0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.app-layout .member-profile-page { max-width: 1040px; }
+.app-layout .member-profile-hero {
+  overflow: hidden;
+  border: 1px solid rgba(220,190,230,.18);
+  border-radius: 22px;
+  background: linear-gradient(145deg,#21162d,#382343 58%,#171323);
+}
+.app-layout .member-profile-cover {
+  display: block;
+  width: 100%;
+  height: clamp(170px,26vw,270px);
+  object-fit: cover;
+  object-position: center 35%;
+}
+.app-layout .member-profile-cover-fallback {
+  background: linear-gradient(120deg,#362044,#70436c 54%,#25213e);
+}
+.app-layout .member-profile-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 0 24px 22px;
+  margin-top: -42px;
+  position: relative;
+}
+.app-layout .member-profile-avatar {
+  width: 104px;
+  height: 104px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #21162d;
+  box-shadow: 0 4px 20px rgba(0,0,0,.32);
+}
+.app-layout .member-profile-avatar-fallback {
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: #8053ad;
+  font-size: 25px;
+  font-weight: 800;
+}
+.app-layout .member-profile-identity { min-width: 0; flex: 1; padding-top: 38px; }
+.app-layout .member-profile-identity h1 {
+  margin: 0;
+  color: #fff;
+  font: 800 clamp(22px,3vw,32px)/1.15 Manrope,sans-serif;
+  overflow-wrap: anywhere;
+}
+.app-layout .member-profile-identity span {
+  display: block;
+  margin-top: 6px;
+  color: #d0c4d7;
+  font-size: 12px;
+}
+.app-layout .member-profile-follow,
+.app-layout .member-profile-edit { margin-top: 38px; }
+.app-layout .member-profile-bio {
+  margin: 18px 0 28px;
+  padding: 18px 20px;
+  border: 1px solid rgba(220,190,230,.16);
+  border-radius: 16px;
+  background: rgba(28,20,37,.72);
+}
+.app-layout .member-profile-bio p {
+  margin: 8px 0 0;
+  color: #e4dce9;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.app-layout .member-profile-feed-heading { margin-top: 28px; }
+.app-layout .member-profile-posts { display: grid; gap: 16px; }
+.app-layout .member-profile-post { display: block; }
+.app-layout .member-profile-post-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(220,190,230,.12);
+}
+.app-layout .member-profile-comments {
+  display: grid;
+  gap: 10px;
+  padding: 4px 0 12px;
+}
+.app-layout .member-profile-comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+}
+.app-layout .member-profile-comment img,
+.app-layout .member-profile-comment-fallback {
+  width: 30px;
+  height: 30px;
+  flex: none;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.app-layout .member-profile-comment-fallback {
+  display: grid;
+  place-items: center;
+  background: #694783;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+}
+.app-layout .member-profile-comment p {
+  min-width: 0;
+  margin: 0;
+  padding: 8px 11px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.055);
+  color: #e6dfea;
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.app-layout .member-profile-comment p strong { color: #fff; margin-right: 4px; }
+.app-layout .member-profile-comment-form {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(220,190,230,.12);
+}
+.app-layout .member-profile-comment-form input[name="body"] {
+  min-width: 0;
+  flex: 1;
+  height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgba(220,190,230,.22);
+  border-radius: 22px;
+  background: rgba(10,8,16,.55);
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .app-layout .member-profile-cover { height: 165px; }
+  .app-layout .member-profile-heading { gap: 10px; padding: 0 15px 16px; margin-top: -34px; }
+  .app-layout .member-profile-avatar { width: 82px; height: 82px; }
+  .app-layout .member-profile-identity { flex-basis: calc(100% - 100px); padding-top: 30px; }
+  .app-layout .member-profile-identity h1 { font-size: 22px; }
+  .app-layout .member-profile-follow,
+  .app-layout .member-profile-edit { margin: 8px 0 0 92px; }
+  .app-layout .member-profile-comment-form { align-items: stretch; flex-wrap: wrap; }
+  .app-layout .member-profile-comment-form input[name="body"] { flex-basis: 100%; }
+}
