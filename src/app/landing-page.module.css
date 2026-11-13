@@ -302,7 +302,6 @@
   .topbarNav > * { flex: 0 0 auto; max-width: 100%; }
   .page :global(.brand) { gap: 7px !important; letter-spacing: .08em !important; }
   .signInButton, .spotlightButton { min-height: 38px; padding: 8px 13px; font-size: 12px; }
-  .page :global(.tizibane-install-app-button) { min-height: 38px !important; padding: 8px 9px !important; font-size: 10.5px !important; }
   .page :global(.brand-mark) { width: 33px !important; height: 33px !important; }
   .page :global(.brand-letter) { font-size: 23px !important; }
   .page :global(.brand small) { font-size: 8.8px !important; }
@@ -335,7 +334,6 @@
   .topbarNav { flex-basis: 100%; justify-content: center; gap: 6px; }
   .topbarNav > * { max-width: 100%; }
   .signInButton, .spotlightButton { padding-inline: 10px; font-size: 11px; }
-  .page :global(.tizibane-install-app-button) { padding-inline: 7px !important; font-size: 10px !important; }
   .page :global(.welcome-top-actions) { justify-content: center !important; }
   .featureGrid { grid-template-columns: minmax(0,1fr); }
   .featureCard:last-child { grid-column: auto; }
