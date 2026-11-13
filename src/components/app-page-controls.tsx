@@ -179,6 +179,7 @@ export function AppPageControls() {
               href={item.href}
               className="app-featured-side-control"
               aria-label={item.label}
+              title={item.label}
               onMouseEnter={() => setFeaturedLabel(item.key)}
               onMouseLeave={() => setFeaturedLabel(null)}
               onFocus={() => setFeaturedLabel(item.key)}
