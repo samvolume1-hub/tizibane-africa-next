@@ -3,7 +3,7 @@ import { PendingIconButton } from "@/components/pending-icon-button";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { addMemberPostComment, toggleMemberFollow, toggleMemberPostLike } from "../member-profile-actions";
+import { addMemberPostComment, toggleMemberFollow, toggleMemberPostLike } from "../../member-profile-actions";
 
 type Profile = {
   id: string; display_name: string; handle: string | null; bio: string;
@@ -132,13 +132,14 @@ export default async function MemberProfilePage({
           ) : <div className="feed-list member-profile-posts">
             {posts.map((post) => {
               const postComments = commentGroups.get(post.id) ?? [];
+              const postPhotoUrl = postPhotoUrls.get(post.id);
               return <article className="post-card member-profile-post" key={post.id}>
                 <div className="post-author">
                   {avatarUrl ? <img className="avatar avatar-image" src={avatarUrl} alt="" /> : <div className="avatar" style={{ background: profile.avatar_color || "#8053ad" }}>{profileInitials}</div>}
                   <div><strong>{profile.display_name}</strong><span>{new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" })}</span></div>
                 </div>
                 {post.body && <p className="post-body">{post.body}</p>}
-                {postPhotoUrls.get(post.id) && <img className="post-photo" src={postPhotoUrls.get(post.id)} alt="Photo shared in this post" loading="lazy" decoding="async" />}
+                {postPhotoUrl && <img className="post-photo" src={postPhotoUrl} alt="Photo shared in this post" loading="lazy" decoding="async" />}
                 <div className="member-profile-post-actions">
                   <form action={toggleMemberPostLike}>
                     <input type="hidden" name="member_id" value={memberId} />
