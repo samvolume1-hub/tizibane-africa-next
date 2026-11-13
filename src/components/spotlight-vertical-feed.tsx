@@ -112,7 +112,7 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
         <div>
           <span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span>
           <h2>Explore Spotlight</h2>
-          <p>Tap anywhere on a story card to reveal its passage. Continue to the publisher for the full story.</p>
+          <p>Open a topic to browse its latest stories. Read the short version here, then choose whether to explore further.</p>
         </div>
         <a className={styles.submitLink} href="#submit-review">Submit your work for review <span aria-hidden="true">↓</span></a>
       </header>
