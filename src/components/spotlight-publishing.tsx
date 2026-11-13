@@ -11,12 +11,14 @@ type Submission = {
   id: string; category: string; title: string; public_url: string; note: string;
   status: "pending" | "approved" | "rejected"; admin_note: string; created_at: string; reviewed_at: string | null;
 };
-type PublicationResponse = { authenticated: boolean; companyReviews: CompanyReview[]; submissions: Submission[]; error?: string };
+type CommunityPick = { id: string; category: string; title: string; public_url: string; note: string; created_at: string };
+type PublicationResponse = { authenticated: boolean; companyReviews: CompanyReview[]; communitySubmissions: CommunityPick[]; submissions: Submission[]; error?: string };
 const categories = ["Music talent", "Music video", "Photography"];
 
 export function SpotlightCompanyReviews() {
   const [reviews, setReviews] = useState<CompanyReview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [community, setCommunity] = useState<CommunityPick[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -25,14 +27,14 @@ export function SpotlightCompanyReviews() {
       .then(async response => {
         const data = await response.json() as PublicationResponse;
         if (!response.ok) throw new Error(data.error || "Company reviews could not be loaded.");
-        if (active) setReviews(data.companyReviews ?? []);
+        if (active) { setReviews(data.companyReviews ?? []); setCommunity(data.communitySubmissions ?? []); }
       })
       .catch(reason => { if (active) setError(reason instanceof Error ? reason.message : "Company reviews could not be loaded."); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
 
-  return <section className={styles.companySpotlight} aria-labelledby="company-spotlight-title" id="tizibane-company-reviews">
+  return <><section className={styles.companySpotlight} aria-labelledby="company-spotlight-title" id="tizibane-company-reviews">
     <div className={styles.companyHeading}>
       <div><span className={styles.kicker}>OFFICIAL · FROM TIZIBANE</span><h2 id="company-spotlight-title">TIZIBANE Company Reviews</h2></div>
       <span className={styles.companyPill}>Public for everyone</span>
@@ -44,6 +46,18 @@ export function SpotlightCompanyReviews() {
         <div className={styles.companyMeta}><span>{review.category}</span>{review.is_pinned && <span className={styles.featuredPill}>FEATURED</span>}{review.published_at && <time dateTime={review.published_at}>{new Date(review.published_at).toLocaleDateString("en-ZM", { day: "numeric", month: "short", year: "numeric" })}</time>}</div>
         <h3>{review.title}</h3><p>{review.body}</p>
         {review.source_url && <a className={styles.companySource} href={review.source_url} target="_blank" rel="noopener noreferrer">View original source ↗</a>}
+      </article>)}</div>}
+  </section><CommunitySpotlight items={community}/></>;
+}
+
+function CommunitySpotlight({ items }: { items: CommunityPick[] }) {
+  return <section className={styles.communitySpotlight} aria-labelledby="community-spotlight-title">
+    <div className={styles.companyHeading}><div><span className={styles.kicker}>MEMBER WORK · MODERATED</span><h2 id="community-spotlight-title">Community Spotlight</h2></div><span className={styles.companyPill}>Approved submissions</span></div>
+    <p className={styles.companyIntro}>Selected work shared by TIZIBANE members. Every item is checked by the review team before it appears here.</p>
+    {items.length === 0 ? <p className={styles.companyEmpty}>Approved member submissions will appear here.</p> :
+      <div className={styles.communityPicks}>{items.map(item => <article className={styles.communityPick} key={item.id}>
+        <span>{item.category}</span><h3>{item.title}</h3>{item.note && <p>{item.note}</p>}
+        <a href={item.public_url} target="_blank" rel="noopener noreferrer">View original work ↗</a>
       </article>)}</div>}
   </section>;
 }
