@@ -17,7 +17,6 @@ export async function GET() {
       .limit(12),
     supabase.from("spotlight_submissions")
       .select("id,category,title,public_url,note,created_at")
-      .eq("status", "approved")
       .order("created_at", { ascending: false })
       .limit(8),
   ]);
