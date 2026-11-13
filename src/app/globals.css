@@ -8318,3 +8318,24 @@ body.tizibane-call-active .tizibane-notification-bell {
   outline: 3px solid #8a59b0 !important;
   outline-offset: 3px !important;
 }
+
+
+/* SPOTLIGHT BUTTON ACCESSIBILITY — restore white labels on every purple action.
+   The page-wide text reset above is for content only; controls need their own
+   explicit foreground, including nested spans and icon glyphs. */
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel),
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel) :where(*) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel):is(:hover, :focus, :focus-visible, :active, :disabled),
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel):is(:hover, :focus, :focus-visible, :active, :disabled) :where(*) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button) svg,
+#tizibane-spotlight-page :is(button, [role="button"], .btn, .button) svg :where(*) {
+  color: #ffffff !important;
+  fill: currentColor;
+  stroke: currentColor;
+}
