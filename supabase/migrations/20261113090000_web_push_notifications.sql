@@ -84,7 +84,8 @@ on public.web_push_subscriptions (user_id);
 
 create table if not exists private.web_push_queue (
   id uuid primary key default gen_random_uuid(),
-  notification_id uuid not null unique references public.notifications(id) on delete cascade,
+  notification_id uuid unique references public.notifications(id) on delete cascade,
+  event_key text unique,
   recipient_id uuid not null references auth.users(id) on delete cascade,
   actor_id uuid references auth.users(id) on delete set null,
   kind text not null,
@@ -95,7 +96,8 @@ create table if not exists private.web_push_queue (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   claimed_at timestamptz,
-  sent_at timestamptz
+  sent_at timestamptz,
+  check ((notification_id is not null) <> (event_key is not null))
 );
 
 create index if not exists web_push_queue_pending_idx
@@ -135,6 +137,38 @@ drop trigger if exists queue_web_push_after_notification on public.notifications
 create trigger queue_web_push_after_notification
 after insert on public.notifications
 for each row execute function private.queue_web_push_notification();
+
+
+create or replace function private.queue_premium_product_push()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $function$
+begin
+  if new.status='published'
+     and new.payment_status='paid'
+     and (tg_op='INSERT' or old.status is distinct from new.status or old.payment_status is distinct from new.payment_status) then
+    insert into private.web_push_queue(event_key,recipient_id,actor_id,kind,metadata)
+    select
+      'premium-product:'||new.id::text||':'||coalesce(new.published_at::text,'published')||':'||s.user_id::text,
+      s.user_id,
+      new.created_by,
+      'premium_ad',
+      jsonb_build_object('product_name',pg_catalog.left(new.product_name,120),'category',pg_catalog.left(new.category,60))
+    from (select distinct user_id from public.web_push_subscriptions where user_id<>new.created_by) s
+    on conflict (event_key) do nothing;
+  end if;
+  return new;
+end;
+$function$;
+
+revoke all on function private.queue_premium_product_push() from public,anon,authenticated;
+
+drop trigger if exists queue_premium_product_push on public.premium_products;
+create trigger queue_premium_product_push
+after insert or update of status,payment_status on public.premium_products
+for each row execute function private.queue_premium_product_push();
 
 create or replace function public.claim_web_push_batch(p_limit integer,p_token text)
 returns table(id uuid,notification_id uuid,recipient_id uuid,actor_id uuid,kind text,metadata jsonb,attempts integer)
