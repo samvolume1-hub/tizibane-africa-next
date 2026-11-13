@@ -238,3 +238,11 @@ $function$;
 
 revoke all on function public.process_spotlight_feed(jsonb) from public,anon,authenticated;
 grant execute on function public.process_spotlight_feed(jsonb) to service_role;
+
+-- Email queue RPCs are internal worker operations. The worker authenticates with
+-- the service-role key and cron token; browser roles must not execute these
+-- SECURITY DEFINER functions through the public Data API.
+revoke all on function public.claim_spotlight_email_batch(integer,text) from public,anon,authenticated;
+revoke all on function public.complete_spotlight_email(uuid,boolean,text,text) from public,anon,authenticated;
+grant execute on function public.claim_spotlight_email_batch(integer,text) to service_role;
+grant execute on function public.complete_spotlight_email(uuid,boolean,text,text) to service_role;
