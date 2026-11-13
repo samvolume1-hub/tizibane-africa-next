@@ -1,7 +1,7 @@
 create table if not exists public.web_push_subscriptions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  endpoint text not null check (endpoint like 'https://%'),
+  endpoint text not null check (endpoint ~ '^https://(fcm[.]googleapis[.]com|updates[.]push[.]services[.]mozilla[.]com|web[.]push[.]apple[.]com|[a-z0-9.-]+[.]notify[.]windows[.]com)/'),
   subscription jsonb not null check (jsonb_typeof(subscription) = 'object'),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -11,6 +11,7 @@ create table if not exists public.web_push_subscriptions (
 alter table public.web_push_subscriptions enable row level security;
 revoke all on public.web_push_subscriptions from public, anon;
 grant select, insert, update, delete on public.web_push_subscriptions to authenticated;
+grant all on public.web_push_subscriptions to service_role;
 
 drop policy if exists "Members manage their own web push subscriptions" on public.web_push_subscriptions;
 create policy "Members manage their own web push subscriptions"
@@ -45,6 +46,7 @@ where status in ('pending','processing');
 
 alter table private.web_push_queue enable row level security;
 revoke all on private.web_push_queue from public, anon, authenticated;
+grant all on private.web_push_queue to service_role;
 
 create or replace function private.queue_web_push_notification()
 returns trigger
@@ -64,6 +66,8 @@ begin
   return new;
 end;
 $function$;
+
+revoke all on function private.queue_web_push_notification() from public, anon, authenticated;
 
 drop trigger if exists queue_web_push_after_notification on public.notifications;
 create trigger queue_web_push_after_notification
