@@ -10,7 +10,7 @@ const SUBSCRIBER = "mailto:samvolume1@gmail.com";
 
 type QueueEntry = {
   id: string;
-  notification_id: string;
+  notification_id: string | null;
   recipient_id: string;
   actor_id: string | null;
   kind: string;
@@ -29,7 +29,7 @@ function cleanName(value: unknown) {
   return name || "A TIZIBANE member";
 }
 
-function notificationText(kind: string, actor: string) {
+function notificationText(kind: string, actor: string, metadata: Record<string, unknown> | null) {
   switch (kind) {
     case "friend_request": return actor + " sent you a friend request.";
     case "friend_accepted": return actor + " accepted your friend request.";
@@ -46,8 +46,13 @@ function notificationText(kind: string, actor: string) {
     case "event": return "There is a new community event update.";
     case "event_attendance": return actor + " responded to your community event.";
     case "business_ad":
-    case "premium_ad":
     case "premium_update": return "A new Premium business update is available in TIZIBANE.";
+    case "premium_ad": {
+      const productName = typeof metadata?.product_name === "string"
+        ? metadata.product_name.replace(/[\\u0000-\\u001f\\u007f]/g, "").trim().slice(0, 90)
+        : "";
+      return productName ? "New Premium listing: " + productName + "." : "A new Premium listing is available in TIZIBANE.";
+    }
     case "trending_post": return "A community post is receiving attention on TIZIBANE.";
     default: return "You have a new community update on TIZIBANE.";
   }
@@ -137,17 +142,18 @@ Deno.serve(async (request: Request) => {
         continue;
       }
       try {
-        await send(stored.subscription, JSON.stringify({
+        const pushEventId = entry.notification_id ?? entry.id;
+      await send(stored.subscription, JSON.stringify({
           title: "TIZIBANE",
-          body: notificationText(entry.kind, actorName),
-          url: "/home/notifications",
-          tag: "tz-" + entry.notification_id.replace(/-/g, "").slice(0, 24),
+          body: notificationText(entry.kind, actorName, entry.metadata),
+          url: entry.kind === "premium_ad" ? "/home/premium" : "/home/notifications",
+          tag: "tz-" + pushEventId.replace(/-/g, "").slice(0, 24),
         }), {
           vapid,
           subscriber: SUBSCRIBER,
           ttl: 300,
           urgency: "low",
-          topic: entry.notification_id.replace(/-/g, "").slice(0, 32),
+          topic: pushEventId.replace(/-/g, "").slice(0, 32),
         });
       } catch (error) {
         if (permanentPushFailure(error)) {
