@@ -33,7 +33,7 @@ export function SpotlightCompanyReviews() {
     return () => { active = false; };
   }, []);
 
-  return <><section className={styles.companySpotlight} aria-labelledby="company-spotlight-title" id="tizibane-company-reviews">
+  return <section className={styles.companySpotlight} aria-labelledby="company-spotlight-title" id="tizibane-company-reviews">
     <div className={styles.companyHeading}>
       <div><span className={styles.kicker}>OFFICIAL · FROM TIZIBANE</span><h2 id="company-spotlight-title">TIZIBANE Company Reviews</h2></div>
       <span className={styles.companyPill}>Public for everyone</span>
