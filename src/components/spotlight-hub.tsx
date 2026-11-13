@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import styles from "./spotlight-hub.module.css";
 import { SpotlightVerticalFeed } from "./spotlight-vertical-feed";
+import { SpotlightCompanyReviews, SpotlightSubmissionCentre } from "./spotlight-publishing";
 
 const EMAIL = "samryt26@gmail.com";
 const WHATSAPP = "260760930509";
@@ -95,46 +96,10 @@ export function SpotlightHub() {
 
   return (
     <div className={styles.spotlight} id="tizibane-spotlight-page">
+      <SpotlightCompanyReviews />
       <SpotlightVerticalFeed feeds={feeds} />
 
-      <section className={styles.reviewSection} id="submit-review">
-        <div className={styles.sectionHeading}>
-          <div><span className={styles.kicker}>THE HEART OF SPOTLIGHT</span><h2>Submit your work for review</h2></div>
-          <span className={styles.pill}>Public links only · No uploads</span>
-        </div>
-        <p className={styles.sectionIntro}>Share a public link to music talent, a music video or photography. We review the work and direct visitors to the original platform. TIZIBANE does not upload, store or stream submitted media.</p>
-        <form className={styles.reviewForm} onSubmit={submitReview}>
-          <label>What are you submitting?
-            <select value={category} onChange={(event) => setCategory(event.target.value)}>
-              {reviewCategories.map((item) => <option key={item} value={item}>{item}</option>)}
-            </select>
-          </label>
-          <label>Title or artist name
-            <input required maxLength={90} value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Artist, song, video or photography title" />
-          </label>
-          <label className={styles.fullField}>Public link
-            <input required type="url" pattern="https://.*" title="Use a public HTTPS link." maxLength={500} value={link} onChange={(event) => setLink(event.target.value)} placeholder="https://…" />
-            <small>Use a public YouTube, TikTok, Instagram, Facebook, portfolio or website link.</small>
-          </label>
-          <label className={styles.fullField}>Brief note <span className={styles.optional}>Optional · 300 characters</span>
-            <textarea maxLength={300} rows={3} value={note} onChange={(event) => setNote(event.target.value)} placeholder="Tell our review team a little about this work…" />
-          </label>
-          <div className={styles.submitControls}>
-            <label className={styles.channelChoice}>Continue using
-              <select value={channel} onChange={(event) => setChannel(event.target.value as "whatsapp" | "email")}>
-                <option value="whatsapp">WhatsApp</option><option value="email">Gmail</option>
-              </select>
-            </label>
-            <button type="submit" className={styles.submitButton}>Continue to {channel === "whatsapp" ? "WhatsApp" : "Gmail"} <span aria-hidden="true">↗</span></button>
-          </div>
-          <p className={styles.privacyNote}>Your message opens in the service you choose. TIZIBANE does not store it as an in-app private conversation. Longer discussions continue directly by email or WhatsApp.</p>
-        </form>
-        <div className={styles.directContact}>
-          <span>Prefer to contact the review team directly?</span>
-          <a href={"https://wa.me/" + WHATSAPP} target="_blank" rel="noopener noreferrer">Continue on WhatsApp ↗</a>
-          <a href={gmailComposeUrl("TIZIBANE Spotlight enquiry")}>Continue by Gmail ↗</a>
-        </div>
-      </section>
+      <SpotlightSubmissionCentre />
 
       <section className={styles.reviewSection} aria-labelledby="spotlight-inquiry-title">
         <div className={styles.sectionHeading}>
