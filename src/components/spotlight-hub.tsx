@@ -95,7 +95,7 @@ export function SpotlightHub() {
 
   return (
     <div className={styles.spotlight}>
-      <SpotlightVerticalFeed feeds={feeds} />
+      <SpotlightVerticalFeed feeds={feeds} preview={{ category, title, link, note }} />
 
       <section className={styles.reviewSection} id="submit-review">
         <div className={styles.sectionHeading}>
