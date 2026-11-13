@@ -49,14 +49,14 @@ export function InstallAppButton() {
       setShowInstructions(true);
       return;
     }
-    if (!installPrompt) return;
+    if (!installPrompt) {\n      setShowInstructions(true);\n      return;\n    }
     await installPrompt.prompt();
     const choice = await installPrompt.userChoice;
     if (choice.outcome === "accepted") setInstalled(true);
     setInstallPrompt(null);
   }
 
-  if (installed || (!installPrompt && !isIos)) return null;
+  if (installed) return null;
 
   return (
     <>
