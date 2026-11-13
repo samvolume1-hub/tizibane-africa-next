@@ -69,7 +69,6 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
 
       <div className={styles.feedIntro}>
         <div><span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span><h2>Explore Spotlight</h2><p>Choose one of the six topics to open its latest story.</p></div>
-        <Link href="/home/notifications" className={styles.notificationsLink}>← Notifications</Link>
       </div>
       <div className={styles.cards} id="spotlight-topic-cards">
         {topics.map((topic, index) => {
@@ -96,24 +95,22 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
                   ) : <p>Fresh stories for this topic are being gathered. Please check back soon.</p>}
                 </div>
               )}
+              <nav className={styles.topicActions} aria-label={topic.label + " navigation"}>
+                <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>Previous page</button>
+                <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
+                <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>Previous topic</button>
+                <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic</button>
+                <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
+                <Link href="/home/notifications" className={styles.notificationsLink}>Notifications ↗</Link>
+              </nav>
             </article>
           );
         })}
       </div>
       {unavailableStory && <div id="spotlight-unavailable-story" className={styles.unavailableStory} role="status"><div><strong>{unavailableStory.title} is no longer the latest story in Spotlight.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
-      <nav className={styles.actionNav} aria-label="Spotlight navigation">
-        <div className={styles.primaryActions}>
-          <a href="#spotlight-topic-cards" className={styles.actionButton}>Explore all stories ↓</a>
-          <a href="#submit-review" className={styles.actionButton}>Submit your work</a>
-        </div>
-        <div className={styles.pageActions}>
-          <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>← Previous page</button>
-          <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
-          <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>← Previous topic</button>
-          <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic →</button>
-          <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
-        </div>
-      </nav>
+      <div className={styles.afterTopicsAction}>
+        <a href="#submit-review" className={styles.navButton}>Submit your work ↓</a>
+      </div>
     </section>
   );
 }
