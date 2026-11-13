@@ -52,8 +52,12 @@ Deno.serve(async (request: Request) => {
     const expectedCategories = new Set([
       "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading", "business-hub",
     ]);
-    if (!Array.isArray(payload.feeds) || payload.feeds.length !== expectedCategories.size) {
-      return Response.json({ error: "Spotlight feed did not return all six departments" }, { status: 502 });
+    const requiredCategories = new Set([
+      "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading",
+    ]);
+    if (!Array.isArray(payload.feeds) || payload.feeds.length < requiredCategories.size
+      || payload.feeds.length > expectedCategories.size) {
+      return Response.json({ error: "Spotlight feed response has an invalid department count" }, { status: 502 });
     }
 
     const seenCategories = new Set<string>();
@@ -90,8 +94,8 @@ Deno.serve(async (request: Request) => {
       }
     }
 
-    if (seenCategories.size !== expectedCategories.size) {
-      return Response.json({ error: "Spotlight feed is incomplete" }, { status: 502 });
+    if ([...requiredCategories].some((category) => !seenCategories.has(category))) {
+      return Response.json({ error: "A core Spotlight department is missing" }, { status: 502 });
     }
 
     const { data, error } = await supabase.rpc("process_spotlight_feed", { p_items: items });
