@@ -8,6 +8,8 @@ const previewImage = "/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTW
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   manifest: "/manifest.webmanifest",
+  icons: { icon: [{ url: "/images/tizibane-app-icon.svg", type: "image/svg+xml" }] },
+  appleWebApp: { capable: true, title: "TIZIBANE", statusBarStyle: "black-translucent" },
   title: "TIZIBANE Africa — Connect. Belong. Grow.",
   description: "You're invited to TIZIBANE Africa, a community made for Zambia. Discover Zambian people, join local communities and build meaningful connections. Connect. Belong. Grow.",
   alternates: { canonical: "/" },
