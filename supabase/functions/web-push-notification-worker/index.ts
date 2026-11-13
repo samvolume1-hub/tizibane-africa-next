@@ -50,6 +50,20 @@ function notificationText(kind: string, actor: string) {
   }
 }
 
+function allowedPushEndpoint(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && (
+      url.hostname === "fcm.googleapis.com"
+      || url.hostname === "updates.push.services.mozilla.com"
+      || url.hostname === "web.push.apple.com"
+      || url.hostname.endsWith(".notify.windows.com")
+    );
+  } catch {
+    return false;
+  }
+}
+
 function permanentPushFailure(error: unknown) {
   return Boolean(error && typeof error === "object" && "permanent" in error && (error as { permanent?: unknown }).permanent === true);
 }
@@ -110,11 +124,20 @@ Deno.serve(async (request: Request) => {
 
     let delivered = 0;
     let transientFailures = 0;
+    let actorName = cleanName(entry.metadata?.actor_name);
+    if (actorName === "A TIZIBANE member" && entry.actor_id) {
+      const { data: actorProfile } = await supabase.from("profiles").select("display_name").eq("id", entry.actor_id).maybeSingle();
+      actorName = cleanName(actorProfile?.display_name);
+    }
     for (const stored of activeSubscriptions) {
+      if (!allowedPushEndpoint(stored.endpoint)) {
+        await supabase.from("web_push_subscriptions").delete().eq("id", stored.id);
+        continue;
+      }
       try {
         await send(stored.subscription, JSON.stringify({
           title: "TIZIBANE",
-          body: notificationText(entry.kind, "A TIZIBANE member"),
+          body: notificationText(entry.kind, actorName),
           url: "/home/notifications",
           tag: "tz-" + entry.notification_id.replace(/-/g, "").slice(0, 24),
         }), {
@@ -138,7 +161,7 @@ Deno.serve(async (request: Request) => {
       }
     }
 
-    const success = delivered > 0 || transientFailures === 0;
+    const success = transientFailures === 0;
     const { error: completionError } = await supabase.rpc("complete_web_push_delivery", {
       p_id: entry.id,
       p_sent: success,
