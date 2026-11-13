@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { removeWebPushSubscription, saveWebPushSubscription } from "@/app/home/push-actions";
 
-type Props = { vapidPublicKey: string };
+type Props = { vapidPublicKey: string; userId: string };
+const OWNER_STORAGE_KEY = "tizibane-web-push-owner";
 type PushState = "checking" | "unsupported" | "not-configured" | "off" | "on" | "working" | "error";
 
 function decodeApplicationServerKey(value: string) {
@@ -20,7 +21,7 @@ function isIosHomeScreenApp() {
     && !window.matchMedia("(display-mode: standalone)").matches;
 }
 
-export function PushNotificationSettings({ vapidPublicKey }: Props) {
+export function PushNotificationSettings({ vapidPublicKey, userId }: Props) {
   const [state, setState] = useState<PushState>("checking");
   const [message, setMessage] = useState("");
   const [iosInstallRequired, setIosInstallRequired] = useState(false);
@@ -39,17 +40,23 @@ export function PushNotificationSettings({ vapidPublicKey }: Props) {
       try {
         const registration = await navigator.serviceWorker.getRegistration("/");
         const subscription = registration ? await registration.pushManager.getSubscription() : null;
-        if (active) {
+        let savedOwner = "";
+        try { savedOwner = window.localStorage.getItem(OWNER_STORAGE_KEY) ?? ""; } catch { /* Storage may be unavailable in private browsing. */ }
+        if (subscription && savedOwner !== userId) {
+          await subscription.unsubscribe();
+          try { window.localStorage.removeItem(OWNER_STORAGE_KEY); } catch { /* Ignore unavailable local storage. */ }
+          if (active) setState("off");
+        } else if (active) {
           setState(subscription ? "on" : "off");
-          setIosInstallRequired(isIosHomeScreenApp());
         }
+        if (active) setIosInstallRequired(isIosHomeScreenApp());
       } catch {
         if (active) setState("error");
       }
     }
     void inspect();
     return () => { active = false; };
-  }, [vapidPublicKey]);
+  }, [vapidPublicKey, userId]);
 
   async function enable() {
     if (!vapidPublicKey || state === "working") return;
@@ -85,6 +92,7 @@ export function PushNotificationSettings({ vapidPublicKey }: Props) {
         setMessage(saved.message);
         return;
       }
+      try { window.localStorage.setItem(OWNER_STORAGE_KEY, userId); } catch { /* The push subscription remains valid if local storage is unavailable. */ }
       setState("on");
       setMessage(saved.message);
     } catch (error) {
@@ -110,6 +118,7 @@ export function PushNotificationSettings({ vapidPublicKey }: Props) {
         }
         await subscription.unsubscribe();
       }
+      try { window.localStorage.removeItem(OWNER_STORAGE_KEY); } catch { /* Ignore unavailable local storage. */ }
       setState("off");
       setMessage("Push notifications are switched off on this device.");
     } catch {
