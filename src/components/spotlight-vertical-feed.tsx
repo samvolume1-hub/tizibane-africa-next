@@ -18,7 +18,7 @@ const topics: Topic[] = [
 ];
 
 function storyParagraphs(value: string) {
-  const clean = value.replace(/\\s+/g, " ").trim();
+  const clean = value.replace(/\s+/g, " ").trim();
   if (!clean) return [];
   const sentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map((part) => part.trim()).filter(Boolean);
   if (sentences.length === 1) {
