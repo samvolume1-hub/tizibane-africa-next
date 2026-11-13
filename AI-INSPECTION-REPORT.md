@@ -320,3 +320,19 @@ Copy and complete this section after each work session.
 - **Live endpoint check:** Attempted to open `https://tizibane-africa-next.onrender.com/api/spotlight-feed` and the authenticated Spotlight page. The available web inspection route reported the Render URL inaccessible; direct runtime network access was unavailable (DNS resolution failure). Therefore no HTTP status, six live feed payloads, live article counts, or current Render deployment SHA could be verified.
 - **Interactive navigation/browser checks:** Source-level destination and handler checks passed. No browser automation or authenticated browser session was available, so clicks, browser history behaviour, mobile/tablet/desktop rendering, and console/network errors remain unverified.
 - **Release status:** PR remains open and unmerged. Do not report this branch as deployed to Render. Next step is a real browser smoke test against the deployed URL, with an authenticated session, at desktop, tablet, and mobile widths; inspect the API response and browser console/network panel.
+
+
+## 2026-11-13 — ChatGPT — Zero-cost browser push notification implementation
+
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Base branch:** `main` (verified at `d32584a5fb0315708df7547856b66bf2927ebf2b` before work).
+- **Working branch:** `feat/free-web-push-notifications`.
+- **Agreed scope:** Prepare opt-in standards-based Web Push as an additional channel, keeping existing email/in-app notifications, Spotlight, and Brevo unchanged. No paid messaging provider.
+- **Files added:** `public/sw.js`, `public/manifest.webmanifest`, `src/app/home/push-actions.ts`, `src/components/push-notification-settings.tsx`, `supabase/functions/web-push-notification-worker/deno.json`, `supabase/functions/web-push-notification-worker/generate-vapid-keys.ts`, `supabase/functions/web-push-notification-worker/index.ts`, `supabase/migrations/20261113090000_web_push_notifications.sql`, and `docs/WEB-PUSH-SETUP.md`.
+- **Files updated:** `src/app/home/notifications/page.tsx` adds the opt-in settings control; `src/app/layout.tsx` declares the web app manifest.
+- **Findings:** The live Supabase project has a `public.notifications` table with UUID notification IDs and recipient/actor IDs. Existing kinds observed include friend requests/acceptances, messages, comments, reactions, follows, and Spotlight. Existing Vault entries and token-validation RPC used by the scheduled workers were verified by name/signature only; secret values were not read.
+- **Implementation:** Per-device subscriptions are protected by owner-only RLS; endpoints are constrained to known browser push services; a private idempotent queue excludes Spotlight; the separate worker uses the existing internal worker-token validation and a five-minute schedule; private message contents are never sent. Members must opt in on each browser/device. iOS requires adding the site to the Home Screen before permission can be requested.
+- **Cost boundary:** No Firebase project, SMS gateway, WhatsApp API, or paid push vendor is added. Web Push has no per-message provider fee; existing Supabase/Render quotas and internet/data use still apply.
+- **Tests/checks:** Read-only schema inspection and current notification-kind counts completed. Supabase docs were searched for push architecture. No migration was applied, no Edge Function deployed, no secrets changed, no Render settings changed, and no production notification was sent. GitHub CI has not yet been observed for this branch; build/typecheck remain pending.
+- **Protected areas:** Brevo worker, existing Spotlight notifications/email pipeline, and Spotlight UI were not modified.
+- **Next safe step:** Open a PR and observe GitHub CI. After review/approval, generate one VAPID key pair, set its private/public values in Supabase/Render, then apply the migration and deploy the worker. Do not merge, migrate, deploy, or alter secrets without explicit approval.
