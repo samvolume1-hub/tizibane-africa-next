@@ -94,7 +94,7 @@ export function SpotlightHub() {
   }
 
   return (
-    <div className={styles.spotlight}>
+    <div className={styles.spotlight} id="tizibane-spotlight-page">
       <SpotlightVerticalFeed feeds={feeds} preview={{ category, title, link, note }} />
 
       <section className={styles.reviewSection} id="submit-review">
