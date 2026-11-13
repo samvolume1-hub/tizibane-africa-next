@@ -64,7 +64,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
 
   return (
     <section className={styles.feed} id="spotlight-vertical-feed" aria-label="Six Spotlight topics">
-      <div className={styles.feedIntro} role="status"><div><strong>{unavailableStory.title} is no longer the latest story in Spotlight.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
+
       <div className={styles.feedIntro}>
         <div><span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span><h2>Explore Spotlight</h2><p>Choose one of the six topics to open its latest story.</p></div>
         <Link href="/home/notifications" className={styles.notificationsLink}>← Notifications</Link>
