@@ -1,8 +1,10 @@
 .feed{display:grid;gap:18px;scroll-margin-top:18px;color:#000;font-weight:800}
-.feedIntro{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:4px 2px 8px}
+.feedIntro{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:4px 2px 8px;flex-wrap:wrap}
 .eyebrow{display:block;color:#000;font-size:10px;font-weight:950;letter-spacing:.14em;text-transform:uppercase}
 .feedIntro h2{margin:7px 0;color:#000;font-size:clamp(22px,3vw,30px);font-weight:950;letter-spacing:-.035em}
 .feedIntro p{max-width:680px;margin:0;color:#000;font-size:13px;line-height:1.7;font-weight:800}
+.submitLink{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 17px;border:1px solid #8e66ad;border-radius:999px;background:#6b4387;color:#fff!important;-webkit-text-fill-color:#fff!important;text-decoration:none;font-size:12px;font-weight:900;box-shadow:0 6px 16px rgba(65,31,91,.16)}
+.submitLink:hover{background:#55316f}.submitLink:focus-visible{outline:3px solid #b78bd4;outline-offset:3px}
 .cards{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .card{overflow:hidden;border:1px solid #cbb4e3;border-radius:20px;background:#eadcf7;box-shadow:0 8px 22px rgba(65,31,91,.11)}
 .cardTrigger{display:flex;flex-direction:column;width:100%;padding:0;border:0;background:transparent;color:#000;text-align:left;cursor:pointer;font:inherit}
@@ -14,6 +16,12 @@
 .headline{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0;color:#000;font-size:14px;line-height:1.65;font-weight:850}
 .toggle{margin-top:2px;color:#000;font-size:10px;font-weight:950;letter-spacing:.1em}
 .cardTrigger:focus-visible,.expanded a:focus-visible{outline:3px solid #8a59b0;outline-offset:-4px}
+.submissionPreview{display:grid;gap:7px;padding:16px 19px;border-top:1px solid #cbb4e3;background:#f8f1fd;color:#21152c}
+.previewKicker{color:#694286;font-size:9px;font-weight:950;letter-spacing:.12em}
+.submissionPreview h4{margin:0;color:#21152c;font-size:17px;line-height:1.35;font-weight:900;overflow-wrap:anywhere}
+.previewCategory{justify-self:start;padding:5px 9px;border:1px solid #d4bce7;border-radius:999px;background:#eee2f8;color:#563475;font-size:10px;font-weight:850}
+.previewLink,.previewNote{margin:0;color:#30263a;font-size:12px;line-height:1.6;font-weight:700;overflow-wrap:anywhere;white-space:pre-wrap}
+.submissionPreview small{color:#665873;font-size:10px;line-height:1.55;font-weight:650}
 .expanded{padding:15px 19px 18px;border-top:1px solid #cbb4e3;background:#f2eafa;color:#000}
 .storyMeta{color:#000;font-size:11px;font-weight:950;letter-spacing:.06em;text-transform:uppercase}
 .expanded>p{margin:9px 0 13px;color:#000;font-size:13px;line-height:1.8;font-weight:800;white-space:pre-wrap}
@@ -27,5 +35,5 @@
 .unavailableStory>div{display:grid;gap:4px}.unavailableStory strong{font-size:13px;color:#000;font-weight:950}.unavailableStory span{font-size:12px;color:#000;font-weight:850}
 .unavailableStory a{flex:none;color:#000!important;font-size:12px;font-weight:950;text-decoration:underline;text-underline-offset:3px}
 .afterTopicsAction{display:flex;justify-content:flex-start;padding:8px 0 4px}
-@media(max-width:640px){.feedIntro{align-items:flex-start;flex-direction:column}.card{border-radius:16px}.imageFrame{aspect-ratio:16/10}.cardCopy{padding:14px}.cardCopy h3{font-size:22px}.headline{font-size:13px}.expanded{padding:13px 14px 15px}.topicActions{gap:7px;padding:11px}.navButton,.notificationsLink{min-height:42px;padding:10px 12px}.notificationsLink{margin-left:auto}.unavailableStory{align-items:flex-start;flex-direction:column}.unavailableStory a{width:100%}}
+@media(max-width:640px){.feedIntro{align-items:flex-start;flex-direction:column}.submitLink{width:100%}.card{border-radius:16px}.imageFrame{aspect-ratio:16/10}.cardCopy{padding:14px}.cardCopy h3{font-size:22px}.headline{font-size:13px}.expanded{padding:13px 14px 15px}.topicActions{gap:7px;padding:11px}.navButton,.notificationsLink{min-height:42px;padding:10px 12px}.notificationsLink{margin-left:auto}.unavailableStory{align-items:flex-start;flex-direction:column}.unavailableStory a{width:100%}}
 @media(prefers-reduced-motion:reduce){.imageFrame img{transition:none}.cardTrigger:hover .imageFrame img{transform:none}}
