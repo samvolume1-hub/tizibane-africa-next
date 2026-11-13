@@ -151,8 +151,8 @@ Deno.serve(async (request: Request) => {
         }), {
           vapid,
           subscriber: SUBSCRIBER,
-          ttl: 300,
-          urgency: "low",
+          ttl: 3600,
+          urgency: "normal",
           topic: pushEventId.replace(/-/g, "").slice(0, 32),
         });
       } catch (error) {
