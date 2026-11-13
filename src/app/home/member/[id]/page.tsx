@@ -16,7 +16,7 @@ type Reaction = { post_id: string; user_id: string; reaction: string };
 type MiniProfile = { id: string; display_name: string; initials: string; avatar_color: string; avatar_path: string | null };
 
 function initials(name: string) {
-  return name.trim().split(/\\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] ?? "").join("").toUpperCase() || "M";
+  return name.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0] ?? "").join("").toUpperCase() || "M";
 }
 
 export default async function MemberProfilePage({
