@@ -133,7 +133,7 @@ Deno.serve(async (request: Request) => {
             const digestItems = Array.isArray(metadata.digest_items)
               ? metadata.digest_items as Array<Record<string, unknown>>
               : [];
-            if (!/^[^\s@]+@[^\s@]+\\.[^\s@]+$/.test(entry.recipient_email)) {
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entry.recipient_email)) {
               throw new Error("Recipient email is invalid");
             }
 
