@@ -1,6 +1,8 @@
 import type {Metadata, Viewport} from "next";
 import "./globals.css";
 import { NotificationSoundListener } from "@/components/notification-sound-listener";
+import { PwaServiceWorkerRegistration } from "@/components/pwa-service-worker-registration";
+import { PwaInstallPrompt } from "@/components/pwa-install-prompt";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
 const previewImage = "/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTWXol0PwR-_i9ylJeocFChP4YecYSB8rj33c-3K7f8Z0MUJOfhDOS1AImcZOaZquQcuhHsjk56tioosY2XbBpKWUkKvAIGTI3NZcPHcvrDD588zSAZrotyamDJB9NUTqtNuOdiGMgZSIFdFi.jpg?v=2";
@@ -56,7 +58,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" />
       </head>
-      <body>{children}<NotificationSoundListener /></body>
+      <body>
+        {children}
+        <NotificationSoundListener />
+        <PwaServiceWorkerRegistration />
+        <PwaInstallPrompt />
+      </body>
     </html>
   );
 }
