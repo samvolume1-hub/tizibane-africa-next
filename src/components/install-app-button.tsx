@@ -53,10 +53,16 @@ export function InstallAppButton() {
       setShowInstructions(true);
       return;
     }
-    await installPrompt.prompt();
-    const choice = await installPrompt.userChoice;
-    if (choice.outcome === "accepted") setInstalled(true);
-    setInstallPrompt(null);
+    try {
+      await installPrompt.prompt();
+      const choice = await installPrompt.userChoice;
+      if (choice.outcome === "accepted") setInstalled(true);
+      setInstallPrompt(null);
+    } catch {
+      // If the browser's native prompt is unavailable or expires, keep a usable manual route.
+      setInstallPrompt(null);
+      setShowInstructions(true);
+    }
   }
 
   if (installed) return null;
@@ -67,7 +73,7 @@ export function InstallAppButton() {
         type="button"
         className={styles.installButton}
         onClick={() => void installApp()}
-        aria-haspopup={isIos ? "dialog" : undefined}
+        aria-haspopup="dialog"
       >
         <svg className={styles.downloadIcon} viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 3.75v10.5m0 0 4.1-4.1M12 14.25l-4.1-4.1M5 16.75v2.5h14v-2.5" />
