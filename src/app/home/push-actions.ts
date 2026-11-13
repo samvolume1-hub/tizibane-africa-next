@@ -45,12 +45,10 @@ export async function saveWebPushSubscription(value: unknown) {
     },
   };
 
-  const { error } = await supabase.from("web_push_subscriptions").upsert({
-    user_id: user.id,
-    endpoint: subscription.endpoint,
-    subscription,
-    updated_at: new Date().toISOString(),
-  }, { onConflict: "user_id,endpoint" });
+  const { error } = await supabase.rpc("register_web_push_subscription", {
+    p_endpoint: subscription.endpoint,
+    p_subscription: subscription,
+  });
 
   if (error) {
     console.error("[TIZIBANE push] subscription save failed", { code: error.code });
