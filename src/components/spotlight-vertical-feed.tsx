@@ -14,7 +14,7 @@ const topics: Topic[] = [
   { id: "chipata-activities", label: "Chipata Activities", description: "Our town, our people and our progress — community life, events and development.", image: "/images/3.%20Chipata%20Activities.jpg", icon: "⌂", location: "EASTERN PROVINCE" },
   { id: "zambian-politics", label: "Zambian Politics", description: "Public affairs, policy, civic issues and informed debate from across Zambia.", image: "/images/4.%20Zambian%20Politics.jpg", icon: "◈" },
   { id: "learn-trading", label: "Learn Online Trading", description: "Beginner-friendly learning about markets, trading platforms and risk management.", image: "/images/5.%20Learn%20Online%20Trading.jpg", icon: "↗" },
-  { id: "business-hub", label: "Business Hub", description: "Discover local Zambian businesses, services and enterprise stories from Lusaka and Chipata.", image: "/images/6.%20Business%20Hub.jpg", icon: "▦", location: "LUSAKA · CHIPATA" },
+  { id: "business-hub", label: "Business Hub", description: "Discover local Zambian businesses, services and enterprise stories from Lusaka and Chipata.", image: "/images/3.%20Chipata%20Activities.jpg", icon: "▦", location: "LUSAKA · CHIPATA" },
 ];
 
 function keyFor(topicId: string, item: FeedItem) {
