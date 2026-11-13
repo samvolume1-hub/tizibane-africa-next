@@ -78,23 +78,37 @@ export function SpotlightVerticalFeed({ feeds, preview }: { feeds: Feed[]; previ
           const isOpen = expanded === topic.id;
           return (
             <article className={styles.card} id={"spotlight-card-" + topic.id} key={topic.id}>
-              <button type="button" className={styles.cardTrigger} aria-expanded={isOpen} aria-controls={"spotlight-expanded-" + topic.id} onClick={() => setExpanded(isOpen ? null : topic.id)}>
-                <div className={styles.imageFrame}><img src={topic.image} alt="" loading={index === 0 ? "eager" : "lazy"} decoding="async" /></div>
-                <div className={styles.cardCopy}>
-                  <h3>{topic.label}</h3>
-                  <p className={styles.headline}>{item?.title || topic.fallbackHeadline}</p>
-                  <span className={styles.toggle}>{isOpen ? "CLOSE STORY ↑" : "EXPLORE TOPIC ↓"}</span>
-                </div>
-              </button>
-              {index === 0 && Boolean(preview.title.trim() || preview.link.trim() || preview.note.trim()) && (
-                <section className={styles.submissionPreview} aria-live="polite" aria-label="Live submission details">
-                  <span className={styles.previewKicker}>YOUR SPOTLIGHT SUBMISSION</span>
-                  <h4>{preview.title.trim() || "Your title or artist name will appear here"}</h4>
-                  <span className={styles.previewCategory}>{preview.category}</span>
-                  {preview.link.trim() && <p className={styles.previewLink}>{preview.link.trim()}</p>}
-                  {preview.note.trim() && <p className={styles.previewNote}>{preview.note.trim()}</p>}
-                  <small>Live preview · Complete the form below to update these details. Sending opens your chosen contact service.</small>
-                </section>
+              {index === 0 ? (
+                <>
+                  <a className={styles.leadImageLink} href="#submit-review" aria-label="Go to the Spotlight submission and review form">
+                    <div className={styles.imageFrame}><img src={topic.image} alt="Spotlight Music Reviews — submit your work for review" loading="eager" decoding="async" /></div>
+                    <span className={styles.leadImageLabel}>SUBMIT YOUR WORK FOR REVIEW ↓</span>
+                  </a>
+                  <section className={styles.submissionPreview} aria-live="polite" aria-label="Live Spotlight submission preview">
+                    <span className={styles.previewKicker}>SPOTLIGHT SUBMISSION PREVIEW</span>
+                    <h4>{preview.title.trim() || "Your title or artist name will appear here"}</h4>
+                    <span className={styles.previewCategory}>{preview.category}</span>
+                    {preview.link.trim() && <p className={styles.previewLink}>{preview.link.trim()}</p>}
+                    {preview.note.trim() && <p className={styles.previewNote}>{preview.note.trim()}</p>}
+                    <small>Details update as you complete the form below. This is a live preview, not a published or approved review.</small>
+                  </section>
+                  <button type="button" className={styles.cardTrigger} aria-expanded={isOpen} aria-controls={"spotlight-expanded-" + topic.id} onClick={() => setExpanded(isOpen ? null : topic.id)}>
+                    <div className={styles.cardCopy}>
+                      <h3>{topic.label}</h3>
+                      <p className={styles.headline}>{item?.title || topic.fallbackHeadline}</p>
+                      <span className={styles.toggle}>{isOpen ? "CLOSE STORY ↑" : "EXPLORE TOPIC ↓"}</span>
+                    </div>
+                  </button>
+                </>
+              ) : (
+                <button type="button" className={styles.cardTrigger} aria-expanded={isOpen} aria-controls={"spotlight-expanded-" + topic.id} onClick={() => setExpanded(isOpen ? null : topic.id)}>
+                  <div className={styles.imageFrame}><img src={topic.image} alt="" loading="lazy" decoding="async" /></div>
+                  <div className={styles.cardCopy}>
+                    <h3>{topic.label}</h3>
+                    <p className={styles.headline}>{item?.title || topic.fallbackHeadline}</p>
+                    <span className={styles.toggle}>{isOpen ? "CLOSE STORY ↑" : "EXPLORE TOPIC ↓"}</span>
+                  </div>
+                </button>
               )}
               {isOpen && (
                 <div className={styles.expanded} id={"spotlight-expanded-" + topic.id}>
