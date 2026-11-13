@@ -18,7 +18,6 @@ const categories = ["Music talent", "Music video", "Photography"];
 export function SpotlightCompanyReviews() {
   const [reviews, setReviews] = useState<CompanyReview[]>([]);
   const [loading, setLoading] = useState(true);
-  const [community, setCommunity] = useState<CommunityPick[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export function SpotlightCompanyReviews() {
       .then(async response => {
         const data = await response.json() as PublicationResponse;
         if (!response.ok) throw new Error(data.error || "Company reviews could not be loaded.");
-        if (active) { setReviews(data.companyReviews ?? []); setCommunity(data.communitySubmissions ?? []); }
+        if (active) setReviews(data.companyReviews ?? []);
       })
       .catch(reason => { if (active) setError(reason instanceof Error ? reason.message : "Company reviews could not be loaded."); })
       .finally(() => { if (active) setLoading(false); });
@@ -47,7 +46,7 @@ export function SpotlightCompanyReviews() {
         <h3>{review.title}</h3><p>{review.body}</p>
         {review.source_url && <a className={styles.companySource} href={review.source_url} target="_blank" rel="noopener noreferrer">View original source ↗</a>}
       </article>)}</div>}
-  </section><CommunitySpotlight items={community}/></>;
+  </section>;
 }
 
 function CommunitySpotlight({ items }: { items: CommunityPick[] }) {
@@ -60,6 +59,22 @@ function CommunitySpotlight({ items }: { items: CommunityPick[] }) {
         <a href={item.public_url} target="_blank" rel="noopener noreferrer">View original work ↗</a>
       </article>)}</div>}
   </section>;
+}
+
+
+export function SpotlightCommunityPicks() {
+  const [items, setItems] = useState<CommunityPick[]>([]);
+  useEffect(() => {
+    let active = true;
+    fetch("/api/spotlight-publication", { cache: "no-store" })
+      .then(async response => {
+        const data = await response.json() as PublicationResponse;
+        if (response.ok && active) setItems(data.communitySubmissions ?? []);
+      })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+  return <CommunitySpotlight items={items}/>;
 }
 
 export function SpotlightSubmissionCentre() {
