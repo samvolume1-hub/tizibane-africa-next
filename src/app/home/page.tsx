@@ -218,9 +218,11 @@ export default async function Home({
 
           <section className="composer home-composer">
             <div className="home-composer-heading">
-              {avatarUrls[user.id]
-                ? <img className="home-composer-avatar" src={avatarUrls[user.id]} alt={`${displayName} profile photo`} />
-                : <div className="home-composer-avatar home-composer-avatar-fallback" style={{ background: ownProfile?.avatar_color || "#8053ad" }} aria-hidden="true">{initialsFromName(displayName)}</div>}
+              <Link href={`/home/member/${user.id}`} className="home-member-profile-avatar-link" aria-label={`View ${displayName} profile`}>
+                {avatarUrls[user.id]
+                  ? <img className="home-composer-avatar" src={avatarUrls[user.id]} alt={`${displayName} profile photo`} />
+                  : <div className="home-composer-avatar home-composer-avatar-fallback" style={{ background: ownProfile?.avatar_color || "#8053ad" }} aria-hidden="true">{initialsFromName(displayName)}</div>}
+              </Link>
               <div>
                 <div className="home-section-kicker">YOUR VOICE</div>
                 <div className="eyebrow">Start a conversation</div>
@@ -266,10 +268,12 @@ export default async function Home({
                 return (
                   <article className={`post-card ${styles.homePostCard}`} key={post.id}>
                     <div className="post-author">
-                      {avatarUrls[post.author_id]
-                        ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" loading="lazy" decoding="async" />
-                        : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable"))}</div>}
-                      <div><strong>{author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable")}</strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
+                      <Link href={`/home/member/${post.author_id}`} className="home-member-profile-avatar-link" aria-label={`View ${author?.display_name || (post.author_id === user.id ? displayName : "member")} profile`}>
+                        {avatarUrls[post.author_id]
+                          ? <img className="avatar avatar-image" src={avatarUrls[post.author_id]} alt="" loading="lazy" decoding="async" />
+                          : <div className="avatar" style={{ background: author?.avatar_color || "#345844" }}>{initialsFromName(author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable"))}</div>}
+                      </Link>
+                      <div><strong><Link href={`/home/member/${post.author_id}`} className="home-member-profile-name-link">{author?.display_name || (post.author_id === user.id ? displayName : "Profile unavailable")}</Link></strong><span>{post.created_at ? new Date(post.created_at).toLocaleString("en-ZM", { dateStyle: "medium", timeStyle: "short" }) : ""} · {post.visibility === "public" ? "Everyone" : post.visibility === "friends" ? "Friends" : "Only me"}</span></div>
                       {post.author_id === user.id && <ContentMoreMenu fields={{ post_id: post.id }} edit={{ action: updatePost, value: post.body, label: "Edit post" }} deleteAction={deletePost} deleteLabel="Delete post" replacePhoto={{ action: replacePostPhoto, label: post.photo_path ? "Replace photo" : "Add photo" }} removePhoto={post.photo_path ? { action: removePostPhoto } : undefined} /> }
                     </div>
                     {post.body && <p className="post-body">{post.body}</p>}
@@ -314,11 +318,13 @@ export default async function Home({
                           const commenterInitials = initialsFromName(commenterName);
                           return (
                             <div className="comment" key={comment.id}>
-                              {avatarUrls[comment.author_id]
-                                ? <img className="comment-avatar avatar-image" src={avatarUrls[comment.author_id]} alt={`${commenterName} profile photo`} loading="lazy" decoding="async" />
-                                : <div className="comment-avatar comment-avatar-fallback" style={{ background: commenter?.avatar_color || "#8053ad" }} aria-hidden="true">{commenterInitials}</div>}
+                              <Link href={`/home/member/${comment.author_id}`} className="home-member-profile-avatar-link" aria-label={`View ${commenterName} profile`}>
+                                {avatarUrls[comment.author_id]
+                                  ? <img className="comment-avatar avatar-image" src={avatarUrls[comment.author_id]} alt={`${commenterName} profile photo`} loading="lazy" decoding="async" />
+                                  : <div className="comment-avatar comment-avatar-fallback" style={{ background: commenter?.avatar_color || "#8053ad" }} aria-hidden="true">{commenterInitials}</div>}
+                              </Link>
                               <div className="comment-content">
-                                <strong>{commenterName}</strong>
+                                <strong><Link href={`/home/member/${comment.author_id}`} className="home-member-profile-name-link">{commenterName}</Link></strong>
                                 <p>{comment.body}</p>
                               </div>
                               {comment.author_id === user.id && <ContentMoreMenu fields={{ comment_id: comment.id }} edit={{ action: updateComment, value: comment.body, label: "Edit comment", maxLength: 1000, rows: 3 }} deleteAction={deleteComment} deleteLabel="Delete comment" />}
