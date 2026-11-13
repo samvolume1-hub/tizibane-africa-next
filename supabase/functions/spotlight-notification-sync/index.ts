@@ -53,7 +53,7 @@ Deno.serve(async (request: Request) => {
       "music-reviews", "sports-feed", "chipata-activities", "zambian-politics", "learn-trading", "business-hub",
     ]);
     if (!Array.isArray(payload.feeds) || payload.feeds.length !== expectedCategories.size) {
-      return Response.json({ error: "Spotlight feed did not return all five departments" }, { status: 502 });
+      return Response.json({ error: "Spotlight feed did not return all six departments" }, { status: 502 });
     }
 
     const seenCategories = new Set<string>();
