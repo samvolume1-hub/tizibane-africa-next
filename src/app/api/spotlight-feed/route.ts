@@ -23,6 +23,7 @@ type FeedItem = {
   source: string;
   publishedAt: string;
   summary: string;
+  extendedSummary?: string;
   articleUrl: string;
 };
 
@@ -113,7 +114,8 @@ function parseFeed(xml: string, providerName: string): FeedItem[] {
       title: title.slice(0, 240),
       source: source.slice(0, 100) || providerName,
       publishedAt: readTag(item, "pubDate") || readTag(item, "published") || readTag(item, "updated"),
-      summary: readTag(item, "description") || readTag(item, "summary") || readTag(item, "content").slice(0, 900),
+      summary: (readTag(item, "description") || readTag(item, "summary") || readTag(item, "content:encoded") || readTag(item, "content")).slice(0, 900),
+      extendedSummary: (readTag(item, "content:encoded") || readTag(item, "content") || readTag(item, "description") || readTag(item, "summary")).slice(0, 1800),
       articleUrl,
     } satisfies FeedItem;
   }).filter((item): item is FeedItem => Boolean(item));
