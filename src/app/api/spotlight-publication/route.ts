@@ -7,7 +7,7 @@ const categories = new Set(["Music talent", "Music video", "Photography"]);
 
 export async function GET() {
   const supabase = await createClient();
-  const [{ data: userResult }, companyResult] = await Promise.all([
+  const [{ data: userResult }, companyResult, communityResult] = await Promise.all([
     supabase.auth.getUser(),
     supabase.from("spotlight_company_reviews")
       .select("id,title,company_name,category,body,source_url,is_pinned,published_at,created_at")
@@ -15,6 +15,11 @@ export async function GET() {
       .order("is_pinned", { ascending: false })
       .order("published_at", { ascending: false })
       .limit(12),
+    supabase.from("spotlight_submissions")
+      .select("id,category,title,public_url,note,created_at")
+      .eq("status", "approved")
+      .order("created_at", { ascending: false })
+      .limit(8),
   ]);
 
   if (companyResult.error) {
@@ -34,6 +39,7 @@ export async function GET() {
   return NextResponse.json({
     authenticated: Boolean(userResult.user),
     companyReviews: companyResult.data ?? [],
+    communitySubmissions: communityResult.data ?? [],
     submissions,
   }, { headers: { "Cache-Control": "private, no-store" } });
 }
