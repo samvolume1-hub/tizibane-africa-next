@@ -1,4 +1,4 @@
-import { generateVapidKey, vapidPublicKey } from "@daaku/webpush";
+import { generateVapidKey, vapidPublicKey } from "jsr:@daaku/webpush@0.2.0";
 
 const privateKey = await generateVapidKey();
 const publicKey = await vapidPublicKey(privateKey);
