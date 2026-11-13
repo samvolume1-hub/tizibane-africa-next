@@ -1771,3 +1771,93 @@
 .app-layout .app-featured-side-label.is-visible {
   transform: translate(-30%, -50%) !important;
 }
+
+
+/* ICON CLARITY PASS — artwork only. Keep rail geometry, control positions,
+   routes, labels, backgrounds and interactions unchanged. */
+
+/* Spotlight: a clear focused star with four light rays, never chain links. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::before {
+  left: 50% !important;
+  top: 50% !important;
+  width: 19px !important;
+  height: 19px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(145deg, #fff4d7, #d7ad5e) !important;
+  clip-path: polygon(50% 0, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0 50%, 39% 36%) !important;
+  box-shadow: none !important;
+  transform: translate(-50%, -50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="connect"]::after {
+  left: 50% !important;
+  top: 50% !important;
+  width: 27px !important;
+  height: 27px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    linear-gradient(var(--gold), var(--gold)) 50% 0 / 2px 5px no-repeat,
+    linear-gradient(var(--gold), var(--gold)) 50% 100% / 2px 5px no-repeat,
+    linear-gradient(90deg, var(--gold), var(--gold)) 0 50% / 5px 2px no-repeat,
+    linear-gradient(90deg, var(--gold), var(--gold)) 100% 50% / 5px 2px no-repeat !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Premium advertising: an unmistakable advertising placard marked AD.
+   Announcements keeps the megaphone; the two actions no longer share artwork. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::before {
+  left: 50% !important;
+  top: 48% !important;
+  width: 22px !important;
+  height: 17px !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 3px !important;
+  clip-path: none !important;
+  background:
+    linear-gradient(90deg, transparent 0 46%, rgba(184,138,54,.2) 47% 53%, transparent 54%),
+    linear-gradient(180deg, #fff4d7, #d9b66e) !important;
+  box-shadow: none !important;
+  transform: translate(-50%, -50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="premium"]::after {
+  left: 50% !important;
+  top: 48% !important;
+  width: 16px !important;
+  height: 9px !important;
+  border: 0 !important;
+  border-radius: 1px !important;
+  background: transparent !important;
+  color: #563477 !important;
+  content: "AD" !important;
+  font: 900 8px/9px system-ui, sans-serif !important;
+  letter-spacing: .3px !important;
+  text-align: center !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Community activity: a rising pulse/chart, not another people/group silhouette. */
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="activity"]::before {
+  left: 50% !important;
+  top: 54% !important;
+  width: 21px !important;
+  height: 17px !important;
+  border: 0 !important;
+  border-left: 1.8px solid var(--gold) !important;
+  border-bottom: 1.8px solid var(--gold) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  transform: translate(-50%, -50%) !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="activity"]::after {
+  left: 52% !important;
+  top: 50% !important;
+  width: 19px !important;
+  height: 13px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--gold-hi) !important;
+  clip-path: polygon(0 55%, 17% 55%, 29% 15%, 43% 88%, 57% 38%, 71% 57%, 100% 57%, 100% 70%, 74% 70%, 56% 55%, 42% 100%, 28% 35%, 21% 69%, 0 69%) !important;
+  transform: translate(-50%, -50%) !important;
+}
+
