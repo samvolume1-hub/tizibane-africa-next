@@ -20,5 +20,4 @@
 .directContact>span{color:#514a56;font-size:11px}.directContact a{color:#5b3477;font-size:11px;font-weight:900;text-underline-offset:4px}
 .inquiryForm{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,190px) auto;align-items:end;gap:12px;margin-top:18px}
 .inquiryMessage{min-width:0}.optional{float:right;color:#746b79;font-size:10px;font-weight:500}
-@media(max-width:760px){.hero{grid-template-columns:1fr}.heroArt{grid-row:1;min-height:180px}.heroCopy{grid-row:2}.sectionHeading{align-items:flex-start;flex-direction:column}}
-@media(max-width:640px){.spotlight{padding:12px;border-radius:18px}.hero{padding:17px;gap:12px}.heroArt{min-height:150px}.hero h1{font-size:38px}.reviewForm,.inquiryForm{grid-template-columns:1fr}.fullField,.submitControls,.privacyNote{grid-column:1}.submitControls{align-items:stretch;flex-direction:column}.channelChoice{max-width:none}.submitButton{width:100%}.directContact{align-items:flex-start;flex-direction:column}}
+@media(max-width:640px){.spotlight{padding:12px;border-radius:18px}.reviewForm,.inquiryForm{grid-template-columns:1fr}.fullField,.submitControls,.privacyNote{grid-column:1}.submitControls{align-items:stretch;flex-direction:column}.channelChoice{max-width:none}.submitButton{width:100%}.directContact{align-items:flex-start;flex-direction:column}}
