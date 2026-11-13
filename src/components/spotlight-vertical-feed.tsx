@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import styles from "./spotlight-vertical-feed.module.css";
 
@@ -17,7 +17,12 @@ const topics: Topic[] = [
   { id: "business-hub", label: "Business Hub", description: "Discover local Zambian businesses, services and enterprise stories from Lusaka and Chipata.", image: "/images/6.%20Business%20Hub.jpg", icon: "▦", location: "LUSAKA · CHIPATA" },
 ];
 
-function keyFor(topicId: string, index: number) { return topicId + "-" + index; }
+function keyFor(topicId: string, item: FeedItem) {
+  const value = item.articleUrl || item.title;
+  let hash = 2166136261;
+  for (let index = 0; index < value.length; index += 1) hash = Math.imul(hash ^ value.charCodeAt(index), 16777619);
+  return topicId + "-" + (hash >>> 0).toString(36);
+}
 function published(value: string) {
   if (!value) return "";
   const date = new Date(value);
@@ -26,14 +31,16 @@ function published(value: string) {
 
 export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [unavailableStory, setUnavailableStory] = useState<{ title: string; url: string } | null>(null);
+  const deepLinkHandled = useRef(false);
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
 
   useEffect(() => {
-    if (!feeds.length) return;
+    if (!feeds.length || deepLinkHandled.current || !topics.every((topic) => feedById.has(topic.id))) return;
     const params = new URLSearchParams(window.location.search);
     const articleUrl = params.get("story");
     const title = params.get("title");
-    if (!articleUrl && !title) return;
+    if (!articleUrl && !title) { deepLinkHandled.current = true; return; }
     let match: { topicId: string; index: number } | null = null;
     for (const topic of topics) {
       const index = (feedById.get(topic.id)?.items ?? []).findIndex((item) =>
@@ -42,12 +49,16 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
       if (index >= 0) { match = { topicId: topic.id, index }; break; }
     }
     if (match) {
-      const id = keyFor(match.topicId, match.index);
+      const matchedItem = feedById.get(match.topicId)?.items[match.index];
+      if (!matchedItem) return;
+      const id = keyFor(match.topicId, matchedItem);
+      deepLinkHandled.current = true;
       setExpanded(id);
       window.setTimeout(() => document.getElementById("spotlight-card-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
     } else {
-      const first = topics.find((topic) => (feedById.get(topic.id)?.items.length ?? 0) > 0);
-      if (first) window.setTimeout(() => document.getElementById("spotlight-section-" + first.id)?.scrollIntoView({ behavior: "smooth", block: "start" }), 180);
+      deepLinkHandled.current = true;
+      if (articleUrl) setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
+      window.setTimeout(() => document.getElementById("spotlight-vertical-feed")?.scrollIntoView({ behavior: "smooth", block: "start" }), 180);
     }
   }, [feeds, feedById]);
 
@@ -58,7 +69,8 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
       const items = feedById.get(topic.id)?.items ?? [];
       const nextIndex = step === 0 ? index + 1 : 0;
       if (items.length > nextIndex) {
-        const id = keyFor(topic.id, nextIndex);
+        const nextItem = items[nextIndex];
+        const id = keyFor(topic.id, nextItem);
         setExpanded(id);
         window.setTimeout(() => document.getElementById("spotlight-card-" + id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
         return;
@@ -75,6 +87,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
 
   return (
     <section className={styles.feed} id="spotlight-vertical-feed" aria-label="Spotlight departments and stories">
+      {unavailableStory && <div className={styles.unavailableStory} role="status"><div><strong>{unavailableStory.title} is no longer in the latest Spotlight cards.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
       <div className={styles.feedIntro}>
         <div><span className={styles.eyebrow}>EXPLORE AT YOUR OWN PACE</span><h2>Stories & discoveries</h2><p>Choose a card to open it. Choose it again to close it. Everything is arranged vertically so the next place to explore is always clear.</p></div>
         <Link href="/home/notifications" className={styles.notificationsLink}>← Notifications</Link>
@@ -97,7 +110,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
             {items.length ? (
               <div className={styles.cards}>
                 {items.map((item, index) => {
-                  const id = keyFor(topic.id, index);
+                  const id = keyFor(topic.id, item);
                   const isOpen = expanded === id;
                   return (
                     <article className={styles.card} id={"spotlight-card-" + id} key={id}>
