@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import styles from "./install-app-button.module.css";
 
 type DeferredInstallPrompt = Event & {
   prompt: () => Promise<void>;
@@ -61,28 +62,15 @@ export function InstallAppButton() {
     <>
       <button
         type="button"
-        className="tizibane-install-app-button"
+        className={styles.installButton}
         onClick={() => void installApp()}
         aria-haspopup={isIos ? "dialog" : undefined}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: 40,
-          padding: "10px 16px",
-          border: "1px solid rgba(220,190,240,.55)",
-          borderRadius: 999,
-          background: "linear-gradient(120deg,#69417f,#432454)",
-          color: "#fff",
-          fontFamily: "inherit",
-          fontSize: 12,
-          fontWeight: 700,
-          lineHeight: 1.2,
-          cursor: "pointer",
-          whiteSpace: "nowrap",
-        }}
       >
-        Install app
+        <svg className={styles.downloadIcon} viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.75v10.5m0 0 4.1-4.1M12 14.25l-4.1-4.1M5 16.75v2.5h14v-2.5" />
+        </svg>
+        <span>Install TIZIBANE</span>
+        <span className={styles.buttonArrow} aria-hidden="true">↓</span>
       </button>
 
       {showInstructions && (
