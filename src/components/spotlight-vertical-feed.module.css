@@ -10,7 +10,6 @@
 .topic:nth-of-type(4){background:linear-gradient(130deg,rgba(111,28,61,.96),rgba(64,28,101,.94),rgba(26,48,95,.92))}
 .topic:nth-of-type(5){background:linear-gradient(130deg,rgba(8,81,83,.96),rgba(29,48,107,.94),rgba(84,31,111,.92))}
 .topic:nth-of-type(6){background:linear-gradient(130deg,rgba(116,48,23,.97),rgba(103,27,82,.94),rgba(43,38,108,.94))}
-.topic:nth-of-type(7){background:linear-gradient(130deg,rgba(27,83,73,.97),rgba(24,48,104,.94),rgba(107,40,79,.94))}
 .topicHeader{display:flex;align-items:center;gap:14px;min-width:0}
 .topicIcon{display:grid;place-items:center;flex:0 0 54px;width:54px;height:54px;border:1px solid #ffffff85;border-radius:16px;background:linear-gradient(145deg,#ff4ba8,#8748e8 58%,#2da9d4);color:#fff;font-size:28px;font-weight:900;box-shadow:0 5px 18px #0004}
 .topicHeading{min-width:0;flex:1}
