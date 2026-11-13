@@ -57,7 +57,6 @@ export default function LandingPage() {
       <header className={`topbar ${styles.topbar}`}>
         <Brand />
         <nav className={styles.topbarNav} aria-label="Main navigation">
-          <InstallAppButton />
           <Link className={styles.signInButton} href="/login">Sign in</Link>
           <Link className={styles.spotlightButton} href="/home/connect">Spotlight</Link>
         </nav>
@@ -71,6 +70,8 @@ export default function LandingPage() {
           </div>
         </ScrollReveal>
       </section>
+
+      <InstallAppButton />
 
       <div className={styles.discover}>
         <SpotlightCompanyReviews />
