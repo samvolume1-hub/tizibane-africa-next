@@ -7,11 +7,25 @@ type PushSubscriptionInput = {
   keys?: { p256dh?: unknown; auth?: unknown };
 };
 
+function allowedPushEndpoint(value: string) {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && (
+      url.hostname === "fcm.googleapis.com"
+      || url.hostname === "updates.push.services.mozilla.com"
+      || url.hostname === "web.push.apple.com"
+      || url.hostname.endsWith(".notify.windows.com")
+    );
+  } catch {
+    return false;
+  }
+}
+
 function validSubscription(value: unknown): value is PushSubscriptionInput {
   if (!value || typeof value !== "object") return false;
   const subscription = value as PushSubscriptionInput;
   if (typeof subscription.endpoint !== "string" || subscription.endpoint.length > 2048) return false;
-  if (!subscription.endpoint.startsWith("https://")) return false;
+  if (!allowedPushEndpoint(subscription.endpoint)) return false;
   if (!subscription.keys || typeof subscription.keys.p256dh !== "string" || typeof subscription.keys.auth !== "string") return false;
   return subscription.keys.p256dh.length >= 32 && subscription.keys.p256dh.length <= 256
     && subscription.keys.auth.length >= 16 && subscription.keys.auth.length <= 256;
