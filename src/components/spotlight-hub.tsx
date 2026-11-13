@@ -66,17 +66,32 @@ export function SpotlightHub() {
 
   useEffect(() => {
     let active = true;
-    fetch("/api/spotlight-feed", { headers: { Accept: "application/json" } })
-      .then((response) => {
+    let inFlight = false;
+    const refreshFeeds = async () => {
+      if (inFlight || document.visibilityState === "hidden") return;
+      inFlight = true;
+      try {
+        const response = await fetch("/api/spotlight-feed", { headers: { Accept: "application/json" }, cache: "no-store" });
         if (!response.ok) throw new Error("Feed unavailable");
-        return response.json() as Promise<FeedResponse>;
-      })
-      .then((data) => {
-        if (!active) return;
-        setFeeds(data.feeds ?? []);
-      })
-      .catch(() => { if (active) setFeeds([]); });
-    return () => { active = false; };
+        const data = await response.json() as FeedResponse;
+        if (active) setFeeds(data.feeds ?? []);
+      } catch {
+        // Keep the last successfully loaded stories visible if a news source is temporarily unavailable.
+      } finally {
+        inFlight = false;
+      }
+    };
+    void refreshFeeds();
+    const interval = window.setInterval(() => { void refreshFeeds(); }, 30 * 60 * 1000);
+    const onFocus = () => { if (document.visibilityState === "visible") void refreshFeeds(); };
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onFocus);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onFocus);
+    };
   }, []);
 
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
