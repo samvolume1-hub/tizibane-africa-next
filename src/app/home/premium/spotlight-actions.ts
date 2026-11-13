@@ -14,7 +14,7 @@ async function requireSpotlightAdmin() {
 }
 function validId(value: string) { return /^[0-9a-f-]{36}$/i.test(value); }
 function refreshSpotlight() {
-  revalidatePath("/home/spotlight");
+  revalidatePath("/home");
   revalidatePath("/home/premium/admin");
 }
 
