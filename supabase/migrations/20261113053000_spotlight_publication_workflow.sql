@@ -58,3 +58,7 @@ grant select on public.spotlight_company_reviews to anon, authenticated;
 grant insert, update, delete on public.spotlight_company_reviews to authenticated;
 grant select on public.spotlight_submissions to anon, authenticated;
 grant insert, update on public.spotlight_submissions to authenticated;
+
+-- Anonymous visitors may see only the public fields of approved submissions.
+revoke select on public.spotlight_submissions from anon;
+grant select (id, category, title, public_url, note, created_at) on public.spotlight_submissions to anon;
