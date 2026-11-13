@@ -18,18 +18,18 @@ const MAX_FEED_BYTES = 512_000;
 
 function decodeXml(value: string) {
   return value
-    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, "$1")
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&#(\\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([\\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .trim();
 }
 
 function readTag(xml: string, tag: string) {
-  const match = xml.match(new RegExp("<" + tag + "(?:\\\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim() : "";
+  const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)</" + tag + ">", "i"));
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
 }
 
 function safeHttps(value: string) {
@@ -38,8 +38,8 @@ function safeHttps(value: string) {
     if (url.protocol !== "https:" || url.username || url.password) return null;
     if (url.port && url.port !== "443") return null;
     const host = url.hostname.toLowerCase();
-    if (!host || isIP(host.replace(/^\\[|\\]$/g, "")) || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
-    if (/^(127\\.|10\\.|192\\.168\\.|169\\.254\\.|0\\.)/.test(host) || /^172\\.(1[6-9]|2\\d|3[01])\\./.test(host) || host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return null;
+    if (!host || isIP(host.replace(/^\[|\]$/g, "")) || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
+    if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host) || host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return null;
     return url.toString();
   } catch {
     return null;
@@ -93,7 +93,7 @@ async function readTopic(topic: (typeof topics)[number]) {
     if (contentLength > MAX_FEED_BYTES) return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
 
     const xml = await readLimitedText(response);
-    const items = [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/gi)].slice(0, 5).map((match) => {
+    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).map((match) => {
       const item = match[1];
       const articleUrl = safeHttps(readTag(item, "link"));
       const title = readTag(item, "title");
