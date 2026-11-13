@@ -49,13 +49,13 @@ function decodeXml(value: string) {
 function readTag(xml: string, tag: string) {
   const escapedTag = tag.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = xml.match(new RegExp("<" + escapedTag + "(?:\\s[^>]*)?>([\\s\\S]*?)</" + escapedTag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim() : "";
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
 }
 
 function readArticleLink(item: string) {
-  const linkTag = item.match(/<link(?:\\s[^>]*)?>([\\s\\S]*?)<\\/link>/i);
-  const linkAttribute = item.match(/<link\\b[^>]*\\bhref=["']([^"']+)["'][^>]*\\/?\s*>/i);
-  const guid = item.match(/<guid\\b[^>]*>([\\s\\S]*?)<\\/guid>/i);
+  const linkTag = item.match(/<link(?:\s[^>]*)?>([\s\S]*?)<\/link>/i);
+  const linkAttribute = item.match(/<link\b[^>]*\bhref=["']([^"']+)["'][^>]*\/?\s*>/i);
+  const guid = item.match(/<guid\b[^>]*>([\s\S]*?)<\/guid>/i);
   const candidate = linkTag?.[1] || linkAttribute?.[1] || (guid?.[1] || "");
   return safeHttps(decodeXml(candidate.replace(/<[^>]+>/g, "").trim()));
 }
@@ -100,14 +100,14 @@ async function readLimitedText(response: Response) {
 }
 
 function parseFeed(xml: string, providerName: string): FeedItem[] {
-  const entries = [...xml.matchAll(/<(?:item|entry)\\b[^>]*>([\\s\\S]*?)<\\/(?:item|entry)>/gi)]
+  const entries = [...xml.matchAll(/<(?:item|entry)\b[^>]*>([\s\S]*?)<\/(?:item|entry)>/gi)]
     .slice(0, MAX_CANDIDATES);
   return entries.map((match) => {
     const item = match[1];
     const articleUrl = readArticleLink(item);
     const title = readTag(item, "title");
     if (!articleUrl || !title) return null;
-    const sourceTag = item.match(/<source\\b[^>]*>([\\s\\S]*?)<\\/source>/i);
+    const sourceTag = item.match(/<source\b[^>]*>([\s\S]*?)<\/source>/i);
     const source = sourceTag ? decodeXml(sourceTag[1]).replace(/<[^>]+>/g, "").trim() : providerName;
     return {
       title: title.slice(0, 240),
@@ -138,7 +138,7 @@ async function fetchProvider(provider: Provider) {
     }
     const xml = await readLimitedText(response);
     const items = parseFeed(xml, provider.name);
-    const looksLikeFeed = /<(?:rss|feed|rdf:RDF)\\b/i.test(xml);
+    const looksLikeFeed = /<(?:rss|feed|rdf:RDF)\b/i.test(xml);
     if (!looksLikeFeed) {
       console.warn("[spotlight-feed] provider returned non-feed content", { provider: provider.name, bytes: xml.length });
       return { items: [] as FeedItem[], ok: false };
