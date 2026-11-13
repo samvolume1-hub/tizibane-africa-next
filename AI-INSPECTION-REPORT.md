@@ -336,3 +336,17 @@ Copy and complete this section after each work session.
 - **Tests/checks:** Read-only schema inspection and current notification-kind counts completed. Supabase docs were searched for push architecture. No migration was applied, no Edge Function deployed, no secrets changed, no Render settings changed, and no production notification was sent. GitHub CI has not yet been observed for this branch; build/typecheck remain pending.
 - **Protected areas:** Brevo worker, existing Spotlight notifications/email pipeline, and Spotlight UI were not modified.
 - **Next safe step:** Open a PR and observe GitHub CI. After review/approval, generate one VAPID key pair, set its private/public values in Supabase/Render, then apply the migration and deploy the worker. Do not merge, migrate, deploy, or alter secrets without explicit approval.
+
+
+### Follow-up review and validation — 2026-11-13
+
+- **PR:** [#186 — Add free opt-in web push notifications](https://github.com/samvolume1-hub/tizibane-africa-next/pull/186).
+- **Final code commit validated:** `3942fcb8c66583141cac9164c7889f29f4053e2c`.
+- **GitHub Actions run:** `43392721219` completed successfully. TypeScript check, Deno check for both the Edge Function and VAPID generator, and Next.js production build all passed.
+- **Premium coverage:** Publishing a paid Premium listing now queues push-only alerts for opted-in devices. It deliberately does not insert into `public.notifications`, so it does not trigger Brevo.
+- **Account/device safety:** A globally unique push endpoint can belong to only one signed-in member at a time. The registration RPC checks `auth.uid()`; the browser also removes a prior account's active subscription when a different member signs in on that device.
+- **Delivery privacy:** Friend, group-membership, post-comment/reaction, follow and message-alert events use the existing notification rows. Message bodies are not sent. All Spotlight kinds are excluded. New Premium listing alerts use a separate push-only queue.
+- **Provider allowlist:** Browser subscription endpoints are restricted to FCM, Mozilla, Apple and Microsoft browser push services; arbitrary HTTPS endpoints are rejected.
+- **Current behavior boundary:** The app's existing notification producers cover friend changes, group membership changes, comments, reactions, follows and private-message alerts. New post creation itself does not currently create an in-app notification event; this implementation does not invent one. Premium publishing is handled separately as push-only.
+- **Production state remains unchanged:** PR is open and unmerged. No Supabase migration was applied, no Edge Function was deployed, no VAPID key was generated or stored, no Render environment variable was changed, and no user/device was subscribed. Brevo and Spotlight remain untouched.
+- **Next step:** Review and approve the PR before any production activation. Then generate and store one VAPID key pair, apply the migration, deploy the worker and configure the public Render key. Test with the two owner-controlled devices before enabling members.
