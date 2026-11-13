@@ -43,41 +43,32 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
     const params = new URLSearchParams(window.location.search);
     const articleUrl = params.get("story");
     const title = params.get("title");
-    if (!articleUrl && !title) { deepLinkHandled.current = true; return; }
+    const requestedTopic = params.get("topic");
+    if (!articleUrl && !title && !requestedTopic) { deepLinkHandled.current = true; return; }
     const match = topics.find((topic) => {
       const item = feedById.get(topic.id)?.items[0];
       return Boolean(item && ((articleUrl && item.articleUrl === articleUrl) || (title && item.title.toLowerCase() === title.toLowerCase())));
     });
     deepLinkHandled.current = true;
-    if (match) {
-      setExpanded(match.id);
-      window.setTimeout(() => document.getElementById("spotlight-card-" + match.id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
+    const topicMatch = topics.find((topic) => topic.id === requestedTopic);
+    const targetTopic = match || topicMatch;
+    if (targetTopic) {
+      setExpanded(targetTopic.id);
+      if (!match && articleUrl) setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
+      window.setTimeout(() => document.getElementById("spotlight-card-" + targetTopic.id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
     } else if (articleUrl) {
       setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
-      window.setTimeout(() => document.getElementById("spotlight-vertical-feed")?.scrollIntoView({ behavior: "smooth", block: "start" }), 180);
+      window.setTimeout(() => document.getElementById("spotlight-unavailable-story")?.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
     }
   }, [feeds, feedById]);
 
   return (
     <section className={styles.feed} id="spotlight-vertical-feed" aria-label="Six Spotlight topics">
-      {unavailableStory && <div className={styles.unavailableStory} role="status"><div><strong>{unavailableStory.title} is no longer the latest story in Spotlight.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
+      <div className={styles.feedIntro} role="status"><div><strong>{unavailableStory.title} is no longer the latest story in Spotlight.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
       <div className={styles.feedIntro}>
         <div><span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span><h2>Explore Spotlight</h2><p>Choose one of the six topics to open its latest story.</p></div>
         <Link href="/home/notifications" className={styles.notificationsLink}>← Notifications</Link>
       </div>
-      <nav className={styles.actionNav} aria-label="Spotlight navigation">
-        <div className={styles.primaryActions}>
-          <a href="#spotlight-topic-cards" className={styles.actionButton}>Explore all stories ↓</a>
-          <a href="#submit-review" className={styles.actionButton}>Submit your work</a>
-        </div>
-        <div className={styles.pageActions}>
-          <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>← Previous page</button>
-          <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
-          <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>← Previous topic</button>
-          <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic →</button>
-          <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
-        </div>
-      </nav>
       <div className={styles.cards} id="spotlight-topic-cards">
         {topics.map((topic, index) => {
           const item = feedById.get(topic.id)?.items[0];
@@ -107,6 +98,20 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
           );
         })}
       </div>
+      {unavailableStory && <div id="spotlight-unavailable-story" className={styles.unavailableStory} role="status"><div><strong>{unavailableStory.title} is no longer the latest story in Spotlight.</strong><span>You can still read the original publisher story here.</span></div><a href={unavailableStory.url} target="_blank" rel="noopener noreferrer">Read original story ↗</a></div>}
+      <nav className={styles.actionNav} aria-label="Spotlight navigation">
+        <div className={styles.primaryActions}>
+          <a href="#spotlight-topic-cards" className={styles.actionButton}>Explore all stories ↓</a>
+          <a href="#submit-review" className={styles.actionButton}>Submit your work</a>
+        </div>
+        <div className={styles.pageActions}>
+          <button type="button" className={styles.navButton} onClick={() => { if (window.history.length > 1) window.history.back(); else window.location.assign("/home"); }}>← Previous page</button>
+          <a className={styles.navButton} href="#spotlight-vertical-feed">Spotlight main page</a>
+          <button type="button" className={styles.navButton} onClick={() => moveTopic(-1)}>← Previous topic</button>
+          <button type="button" className={styles.navButton} onClick={() => moveTopic(1)}>Next topic →</button>
+          <Link className={styles.navButton} href="/home/premium">Premium page ↗</Link>
+        </div>
+      </nav>
     </section>
   );
 }
