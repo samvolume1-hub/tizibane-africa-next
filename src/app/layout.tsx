@@ -8,21 +8,35 @@ const previewImage = "/images/zfYl72ihl030o9SInNkzfy4-KiVQKN_NSxKvmFQPSJ_TsRvOTW
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   manifest: "/manifest.webmanifest",
-  title: "TIZIBANE Africa — Connect. Belong. Grow.",
-  description: "You're invited to TIZIBANE Africa, a community made for Zambia. Discover Zambian people, join local communities and build meaningful connections. Connect. Belong. Grow.",
+  title: "TIZIBANE Zambia — Connect. Belong. Grow.",
+  description: "TIZIBANE is a home for Zambian communities, friendships and meaningful conversations. Build connections, share stories and belong. Connect. Belong. Grow.",
   alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/icons/tizibane-app-icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/tizibane-app-icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "TIZIBANE",
+  },
   openGraph: {
     type: "website",
     url: siteUrl,
-    siteName: "TIZIBANE Africa",
-    title: "You're invited to TIZIBANE Africa",
-    description: "Join Zambia's community. Find your people, build your circle and stay connected. Connect. Belong. Grow.",
-    images: [{url: previewImage, alt: "TIZIBANE Africa — You're invited to join the community"}],
+    siteName: "TIZIBANE Zambia",
+    title: "You're invited to TIZIBANE Zambia",
+    description: "TIZIBANE is a home for Zambian communities, friendships and meaningful conversations. Connect. Belong. Grow.",
+    images: [{ url: previewImage, alt: "TIZIBANE Zambia — You're invited to connect, belong and grow" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "You're invited to TIZIBANE Africa",
-    description: "Join Zambia's community. Find your people, build your circle and stay connected.",
+    title: "You're invited to TIZIBANE Zambia",
+    description: "A home for Zambian communities, friendships and meaningful conversations. Connect. Belong. Grow.",
     images: [previewImage],
   },
 };
@@ -31,9 +45,10 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#24112f",
 };
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
