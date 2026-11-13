@@ -48,6 +48,7 @@ The push worker also uses the existing Supabase server credentials and the exist
 - Members can switch push off from the Notifications page.
 - The database stores the push endpoint and browser encryption keys, protected by row-level security so each member can manage only their own subscriptions.
 - The queue excludes all Spotlight notification kinds. Spotlight's existing experience and email pipeline are not changed.
+- When an administrator publishes a paid Premium listing, a separate push-only fan-out alerts opted-in members and opens the Premium page. It does not insert rows into the in-app notifications table and therefore does not trigger Brevo.
 - Push messages contain short activity alerts only. Private message contents are never included.
 - Expired subscriptions returning a permanent 404/410 response are removed automatically.
 - Temporary delivery failures are retried up to six attempts.
