@@ -33,7 +33,6 @@ export function CommunityNavigation({ active }: { active: string }) {
               className={active === item.key ? "active" : undefined}
               aria-current={active === item.key ? "page" : undefined}
               aria-label={item.label}
-              title={item.label}
               onMouseEnter={() => setHoveredItem(item.key)}
               onMouseLeave={() => setHoveredItem(null)}
               onFocus={() => setHoveredItem(item.key)}
