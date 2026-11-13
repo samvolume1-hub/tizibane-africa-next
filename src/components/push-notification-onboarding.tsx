@@ -18,7 +18,9 @@ function decodeApplicationServerKey(value: string) {
 
 function isIosHomeScreenApp() {
   const standaloneNavigator = navigator as Navigator & { standalone?: boolean };
-  return /iphone|ipad|ipod/i.test(navigator.userAgent)
+  const isAppleMobile = /iphone|ipad|ipod/i.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  return isAppleMobile
     && !standaloneNavigator.standalone
     && !window.matchMedia("(display-mode: standalone)").matches;
 }
