@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import styles from "./spotlight-vertical-feed.module.css";
 
-type FeedItem = { title: string; source: string; publishedAt: string; summary: string; imageUrl: string | null; articleUrl?: string };
+type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type Topic = { id: string; label: string; image: string; fallbackHeadline: string };
 
