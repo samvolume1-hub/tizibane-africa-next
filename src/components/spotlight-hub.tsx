@@ -7,22 +7,10 @@ import { SpotlightCompanyReviews, SpotlightSubmissionCentre } from "./spotlight-
 
 const EMAIL = "samryt26@gmail.com";
 const WHATSAPP = "260760930509";
-const reviewCategories = ["Music talent", "Music video", "Photography"] as const;
 
 type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
-
-function messageBody(title: string, category: string, link: string, note: string) {
-  return [
-    "Hello TIZIBANE Spotlight,",
-    "I would like to submit something for review.",
-    "Category: " + category,
-    "Title / artist name: " + title.trim(),
-    "Public link: " + link.trim(),
-    "Brief message: " + (note.trim() || "Please review this submission."),
-  ].join("\n");
-}
 
 function gmailComposeUrl(subject: string, body = "") {
   return "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(EMAIL)
@@ -40,11 +28,6 @@ function openContact(channel: "whatsapp" | "email", subject: string, body: strin
 export function SpotlightHub() {
   const [feeds, setFeeds] = useState<Feed[]>([]);
 
-  const [category, setCategory] = useState<string>(reviewCategories[0]);
-  const [title, setTitle] = useState("");
-  const [link, setLink] = useState("");
-  const [note, setNote] = useState("");
-  const [channel, setChannel] = useState<"whatsapp" | "email">("whatsapp");
   const [question, setQuestion] = useState("");
   const [inquiryChannel, setInquiryChannel] = useState<"whatsapp" | "email">("whatsapp");
 
@@ -78,15 +61,6 @@ export function SpotlightHub() {
       document.removeEventListener("visibilitychange", onFocus);
     };
   }, []);
-
-  function submitReview(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    openContact(
-      channel,
-      "TIZIBANE Spotlight submission: " + title.trim(),
-      messageBody(title, category, link, note),
-    );
-  }
 
   function submitInquiry(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
