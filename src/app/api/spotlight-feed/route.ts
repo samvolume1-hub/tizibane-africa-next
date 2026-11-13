@@ -23,7 +23,7 @@ type FeedItem = {
   source: string;
   publishedAt: string;
   summary: string;
-  extendedSummary?: string;
+  extendedSummary: string;
   articleUrl: string;
 };
 
