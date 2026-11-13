@@ -350,3 +350,20 @@ Copy and complete this section after each work session.
 - **Current behavior boundary:** The app's existing notification producers cover friend changes, group membership changes, comments, reactions, follows and private-message alerts. New post creation itself does not currently create an in-app notification event; this implementation does not invent one. Premium publishing is handled separately as push-only.
 - **Production state remains unchanged:** PR is open and unmerged. No Supabase migration was applied, no Edge Function was deployed, no VAPID key was generated or stored, no Render environment variable was changed, and no user/device was subscribed. Brevo and Spotlight remain untouched.
 - **Next step:** Review and approve the PR before any production activation. Then generate and store one VAPID key pair, apply the migration, deploy the worker and configure the public Render key. Test with the two owner-controlled devices before enabling members.
+
+
+### 13 November 2026 — Icon meanings and visual distinction only
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `fix/clear-distinct-navigation-icons-2026-11-13`, created from `main` at `09a7b1b05fd971c394e6974fe7204aafb91262ae`.
+- **Agreed scope:** Correct confusing or duplicated icon artwork and clarify icon names only. Preserve navigation positions, routes, page layouts, controls, and existing interactions.
+- **Commit/PR:** Icon-only branch; PR creation and CI validation pending at report time.
+- **Files inspected:** `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/illustrated-navigation-fix.css`, `src/components/featured-illustrations.module.css`, and the user's `corrections.jpg` reference.
+- **Files changed:** `src/app/illustrated-navigation-fix.css`, `src/components/featured-illustrations.module.css`, and `src/components/community-navigation.tsx`.
+- **Findings and decisions:** Confirmed the left-rail Spotlight artwork was a chain-link symbol; floating Spotlight used a people silhouette; floating Community activity also used a people silhouette; Premium advertising used a megaphone similar to Announcements. Replaced these with consistent, distinctive meanings in both locations: Spotlight = star/focused light; Community activity = pulse/chart; Premium advertising = AD placard; Announcements = megaphone. Preserved People = two people, Groups = three people, Events = calendar, Messages = speech bubbles, Notifications = bell, Blocked = shield/slash, Stories = story ring, Profile = portrait, Home = house. Existing accessible labels and hover labels are retained; native title text was added as a fallback. No icon positions, navigation membership, controls, routes, page layout, or behaviour were changed.
+- **Tests/checks run and actual results:** Source inspection confirms that the three affected icons now have distinct CSS artwork in both the left rail and featured controls, while Events remains a calendar and Announcements remains a megaphone. Automated CI, compiled CSS/browser rendering, and device-size visual checks are pending.
+- **Deployment status (verified/unverified):** Not deployed. No merge performed.
+- **Production, hosting, Supabase, or data changes:** None. Web Push, service worker, Brevo, Supabase, Render, authentication and all data remain untouched.
+- **Blockers/risks:** Confirm the new custom CSS glyphs are visually legible at the actual small rail icon size in desktop, tablet and phone views.
+- **Next safe step:** Run CI and verify icon appearance/labels at real responsive sizes; review the icon-only diff before any merge.
