@@ -7,6 +7,7 @@ import styles from "./spotlight-vertical-feed.module.css";
 type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type Topic = { id: string; label: string; image: string; fallbackHeadline: string };
+type SubmissionPreview = { category: string; title: string; link: string; note: string };
 
 const topics: Topic[] = [
   { id: "music-reviews", label: "Music Reviews", image: "/images/1.%20Music%20Reviews.jpg", fallbackHeadline: "Discover the latest music, artists and releases." },
@@ -23,7 +24,7 @@ function published(value: string) {
   return Number.isNaN(date.getTime()) ? "" : date.toLocaleDateString("en-ZM", { day: "numeric", month: "short", year: "numeric" });
 }
 
-export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
+export function SpotlightVerticalFeed({ feeds, preview }: { feeds: Feed[]; preview: SubmissionPreview }) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [unavailableStory, setUnavailableStory] = useState<{ title: string; url: string } | null>(null);
   const deepLinkHandled = useRef(false);
@@ -69,6 +70,7 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
 
       <div className={styles.feedIntro}>
         <div><span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span><h2>Explore Spotlight</h2><p>Choose one of the six topics to open its latest story.</p></div>
+        <a className={styles.submitLink} href="#submit-review">Submit your work for review ↓</a>
       </div>
       <div className={styles.cards} id="spotlight-topic-cards">
         {topics.map((topic, index) => {
@@ -84,6 +86,16 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
                   <span className={styles.toggle}>{isOpen ? "CLOSE STORY ↑" : "EXPLORE TOPIC ↓"}</span>
                 </div>
               </button>
+              {index === 0 && Boolean(preview.title.trim() || preview.link.trim() || preview.note.trim()) && (
+                <section className={styles.submissionPreview} aria-live="polite" aria-label="Live submission details">
+                  <span className={styles.previewKicker}>YOUR SPOTLIGHT SUBMISSION</span>
+                  <h4>{preview.title.trim() || "Your title or artist name will appear here"}</h4>
+                  <span className={styles.previewCategory}>{preview.category}</span>
+                  {preview.link.trim() && <p className={styles.previewLink}>{preview.link.trim()}</p>}
+                  {preview.note.trim() && <p className={styles.previewNote}>{preview.note.trim()}</p>}
+                  <small>Live preview · Complete the form below to update these details. Sending opens your chosen contact service.</small>
+                </section>
+              )}
               {isOpen && (
                 <div className={styles.expanded} id={"spotlight-expanded-" + topic.id}>
                   {item ? (
