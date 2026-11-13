@@ -49,7 +49,10 @@ export function InstallAppButton() {
       setShowInstructions(true);
       return;
     }
-    if (!installPrompt) {\n      setShowInstructions(true);\n      return;\n    }
+    if (!installPrompt) {
+      setShowInstructions(true);
+      return;
+    }
     await installPrompt.prompt();
     const choice = await installPrompt.userChoice;
     if (choice.outcome === "accepted") setInstalled(true);
@@ -123,12 +126,22 @@ export function InstallAppButton() {
               TIZIBANE ON YOUR PHONE
             </p>
             <h2 id="tizibane-install-title" style={{ margin: "0 0 12px", fontSize: 22 }}>
-              Add TIZIBANE to your Home Screen
+              {isIos ? "Add TIZIBANE to your Home Screen" : "Install TIZIBANE"}
             </h2>
             <ol style={{ margin: 0, paddingLeft: 21, color: "rgba(255,255,255,.88)", fontSize: 14, lineHeight: 1.8 }}>
-              <li>Tap the <strong>Share</strong> button in Safari.</li>
-              <li>Scroll down and choose <strong>Add to Home Screen</strong>.</li>
-              <li>Tap <strong>Add</strong> to finish.</li>
+              {isIos ? (
+                <>
+                  <li>Tap the <strong>Share</strong> button in Safari.</li>
+                  <li>Scroll down and choose <strong>Add to Home Screen</strong>.</li>
+                  <li>Tap <strong>Add</strong> to finish.</li>
+                </>
+              ) : (
+                <>
+                  <li>Open your browser menu (usually <strong>⋮</strong> or <strong>⋯</strong>).</li>
+                  <li>Choose <strong>Install app</strong> or <strong>Add to Home screen</strong>, if offered.</li>
+                  <li>Confirm <strong>Install</strong> or <strong>Add</strong>.</li>
+                </>
+              )}
             </ol>
             <p style={{ margin: "15px 0 0", color: "rgba(255,255,255,.68)", fontSize: 12, lineHeight: 1.6 }}>
               Open TIZIBANE from the new home-screen icon for an app-like experience.
