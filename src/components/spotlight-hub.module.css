@@ -1,6 +1,10 @@
 .spotlight{display:grid;gap:clamp(20px,2.4vw,30px);padding:clamp(14px,2vw,24px);border-radius:26px;background:#fff;color:#100b16;font-weight:700;box-shadow:0 18px 55px rgba(50,15,50,.12)}
 .spotlight :is(h1,h2,h3,h4,p,span,small,label,a,strong,time,button){color:#100b16!important;font-weight:800!important;text-shadow:none}
-.spotlight :is(input,select,textarea){color:#100b16!important;font-weight:700!important}
+.spotlight :is(input,select,textarea){color:#100b16!important;-webkit-text-fill-color:#100b16!important;font-weight:700!important}
+/* Reset inherited WebKit text paint from legacy dark-surface rules. The app shell
+   previously allowed white -webkit-text-fill-color to leak into this light page. */
+:global(.app-layout .app-content) .spotlight,
+:global(.app-layout .app-content) .spotlight *{-webkit-text-fill-color:currentColor!important;}
 .spotlight :is(p, label, input, select, textarea, small){line-height:1.7}
 .spotlight :is(input,select,textarea){font-size:14px!important}
 .spotlight :is(button,a){-webkit-tap-highlight-color:transparent}
