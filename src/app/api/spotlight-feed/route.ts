@@ -13,23 +13,23 @@ const topics = [
 ] as const;
 
 const USER_AGENT = "Mozilla/5.0 (compatible; TIZIBANE-Spotlight/1.0; +https://tizibane-africa-next.onrender.com)";
-const PAGE_TIMEOUT_MS = 2500;
-const MAX_HTML_BYTES = 900_000;
+const FEED_TIMEOUT_MS = 7000;
+const MAX_FEED_BYTES = 512_000;
 
 function decodeXml(value: string) {
   return value
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+    .replace(/<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>/g, "$1")
     .replace(/&amp;/g, "&").replace(/&quot;/g, '"')
     .replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&#(\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
-    .replace(/&#x([\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
+    .replace(/&#(\\d+);/g, (_, code: string) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\\da-f]+);/gi, (_, code: string) => String.fromCodePoint(parseInt(code, 16)))
     .trim();
 }
 
 function readTag(xml: string, tag: string) {
-  const match = xml.match(new RegExp("<" + tag + "(?:\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
-  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() : "";
+  const match = xml.match(new RegExp("<" + tag + "(?:\\\\s[^>]*)?>([\\s\\S]*?)<\\/" + tag + ">", "i"));
+  return match ? decodeXml(match[1]).replace(/<[^>]+>/g, " ").replace(/\\s+/g, " ").trim() : "";
 }
 
 function safeHttps(value: string) {
@@ -38,67 +38,12 @@ function safeHttps(value: string) {
     if (url.protocol !== "https:" || url.username || url.password) return null;
     if (url.port && url.port !== "443") return null;
     const host = url.hostname.toLowerCase();
-    if (!host || isIP(host.replace(/^\[|\]$/g, "")) || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
-    if (/^(127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(host) || /^172\.(1[6-9]|2\d|3[01])\./.test(host) || host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return null;
+    if (!host || isIP(host.replace(/^\\[|\\]$/g, "")) || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return null;
+    if (/^(127\\.|10\\.|192\\.168\\.|169\\.254\\.|0\\.)/.test(host) || /^172\\.(1[6-9]|2\\d|3[01])\\./.test(host) || host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return null;
     return url.toString();
   } catch {
     return null;
   }
-}
-
-function looksLikeBrandAsset(value: string) {
-  return /(?:favicon|site[-_]?logo|logo[._/-]|avatar|icon[._/-]|sprite|placeholder|default[-_]?image)/i.test(value);
-}
-
-function readImage(xml: string) {
-  const tags = [...xml.matchAll(/<(media:content|media:thumbnail|enclosure)\b([^>]*)>/gi)];
-  for (const match of tags) {
-    const tag = match[1].toLowerCase();
-    const attributes = match[2];
-    const url = attributes.match(/\burl=["']([^"']+)["']/i)?.[1];
-    const type = attributes.match(/\btype=["']([^"']+)["']/i)?.[1] || "";
-    const medium = attributes.match(/\bmedium=["']([^"']+)["']/i)?.[1] || "";
-    const width = Number(attributes.match(/\bwidth=["'](\d+)["']/i)?.[1] || 0);
-    const height = Number(attributes.match(/\bheight=["'](\d+)["']/i)?.[1] || 0);
-    const isThumbnailLargeEnough = tag !== "media:thumbnail" || (width >= 300 && height >= 180);
-    const isImage = medium.toLowerCase() === "image" || type.toLowerCase().startsWith("image/") || tag === "media:thumbnail";
-    if (url && isImage && isThumbnailLargeEnough && !looksLikeBrandAsset(url)) {
-      const safe = safeHttps(url);
-      if (safe) return safe;
-    }
-  }
-  const content = xml.match(/<(?:content:encoded|description)\b[^>]*>([\s\S]*?)<\/(?:content:encoded|description)>/i);
-  const inline = (content?.[1] || xml).match(/<img\b[^>]*\bsrc=["']([^"']+)["']/i);
-  const inlineUrl = inline?.[1] || "";
-  const safeInlineUrl = safeHttps(inlineUrl);
-  return safeInlineUrl && !looksLikeBrandAsset(safeInlineUrl) && !/\.svg(?:[?#]|$)/i.test(safeInlineUrl) ? safeInlineUrl : null;
-}
-
-function extractMetaImage(html: string, pageUrl: string) {
-  const candidates: string[] = [];
-  const metaTags = html.match(/<meta\b[^>]*>/gi) || [];
-  for (const tag of metaTags) {
-    const property = tag.match(/\b(?:property|name)=["']([^"']+)["']/i)?.[1]?.toLowerCase();
-    if (!["og:image", "og:image:url", "twitter:image", "twitter:image:src"].includes(property || "")) continue;
-    const content = tag.match(/\bcontent=["']([^"']+)["']/i)?.[1];
-    if (content) candidates.push(content);
-  }
-  const jsonLd = html.match(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
-  for (const block of jsonLd) {
-    const body = block.replace(/^<script[^>]*>/i, "").replace(/<\/script>$/i, "");
-    const imageMatch = body.match(/["']image["']\s*:\s*(?:\[\s*)?["']([^"']+)["']/i);
-    if (imageMatch?.[1]) candidates.push(imageMatch[1]);
-  }
-  for (const candidate of candidates) {
-    try {
-      const resolved = new URL(decodeXml(candidate), pageUrl).toString();
-      const safe = safeHttps(resolved);
-      if (safe && !/\.svg(?:[?#]|$)/i.test(safe) && !looksLikeBrandAsset(safe)) return safe;
-    } catch {
-      // Ignore malformed publisher metadata and continue to the next candidate.
-    }
-  }
-  return null;
 }
 
 async function readLimitedText(response: Response) {
@@ -106,15 +51,17 @@ async function readLimitedText(response: Response) {
   if (!reader) return "";
   const chunks: Uint8Array[] = [];
   let total = 0;
-  while (total < MAX_HTML_BYTES) {
+  while (total < MAX_FEED_BYTES) {
     const { done, value } = await reader.read();
     if (done) break;
-    const chunk = value.subarray(0, MAX_HTML_BYTES - total);
-    chunks.push(chunk);
-    total += chunk.byteLength;
-    if (chunk.byteLength !== value.byteLength) break;
+    const remaining = MAX_FEED_BYTES - total;
+    chunks.push(value.subarray(0, remaining));
+    total += Math.min(value.byteLength, remaining);
+    if (value.byteLength > remaining) {
+      await reader.cancel().catch(() => undefined);
+      break;
+    }
   }
-  reader.cancel().catch(() => undefined);
   const merged = new Uint8Array(total);
   let offset = 0;
   for (const chunk of chunks) {
@@ -124,59 +71,11 @@ async function readLimitedText(response: Response) {
   return new TextDecoder().decode(merged);
 }
 
-async function fetchPublicArticlePage(startUrl: string) {
-  let current = safeHttps(startUrl);
-  if (!current) return null;
-  for (let hop = 0; hop <= 4; hop += 1) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), PAGE_TIMEOUT_MS);
-    try {
-      const response = await fetch(current, {
-        redirect: "manual",
-        headers: { "User-Agent": USER_AGENT, Accept: "text/html,application/xhtml+xml;q=0.9,*/*;q=0.1" },
-        signal: controller.signal,
-        cache: "force-cache",
-        next: { revalidate: 3600 },
-      });
-      if ([301, 302, 303, 307, 308].includes(response.status)) {
-        const location = response.headers.get("location");
-        if (!location || hop === 4) return null;
-        current = safeHttps(new URL(location, current).toString());
-        if (!current) return null;
-        continue;
-      }
-      if (!response.ok || !/text\/html|application\/xhtml\+xml/i.test(response.headers.get("content-type") || "")) return null;
-      const html = await readLimitedText(response);
-      return extractMetaImage(html, response.url || current);
-    } catch {
-      return null;
-    } finally {
-      clearTimeout(timeout);
-    }
-  }
-  return null;
-}
-
-async function mapWithConcurrency<T, R>(values: T[], limit: number, mapper: (value: T) => Promise<R>): Promise<R[]> {
-  const results = new Array<R>(values.length);
-  let next = 0;
-  const workers = Array.from({ length: Math.min(limit, values.length) }, async () => {
-    while (true) {
-      const index = next++;
-      if (index >= values.length) return;
-      results[index] = await mapper(values[index]);
-    }
-  });
-  await Promise.all(workers);
-  return results;
-}
-
 type FeedItem = {
   title: string;
   source: string;
   publishedAt: string;
   summary: string;
-  imageUrl: string | null;
   articleUrl: string;
 };
 
@@ -185,24 +84,26 @@ async function readTopic(topic: (typeof topics)[number]) {
   const url = "https://news.google.com/rss/search?q=" + query + "&hl=en-ZM&gl=ZM&ceid=ZM:en";
   try {
     const response = await fetch(url, {
-      headers: { "User-Agent": USER_AGENT },
+      headers: { "User-Agent": USER_AGENT, Accept: "application/rss+xml, application/xml, text/xml;q=0.9" },
       next: { revalidate: 900 },
-      signal: AbortSignal.timeout(7000),
+      signal: AbortSignal.timeout(FEED_TIMEOUT_MS),
     });
     if (!response.ok) return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
-    const xml = await response.text();
-    const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0, 5).map((match) => {
+    const contentLength = Number(response.headers.get("content-length") || 0);
+    if (contentLength > MAX_FEED_BYTES) return { id: topic.id, label: topic.label, available: false, items: [] as FeedItem[] };
+
+    const xml = await readLimitedText(response);
+    const items = [...xml.matchAll(/<item>([\\s\\S]*?)<\\/item>/gi)].slice(0, 5).map((match) => {
       const item = match[1];
-      const link = safeHttps(readTag(item, "link"));
+      const articleUrl = safeHttps(readTag(item, "link"));
       const title = readTag(item, "title");
-      if (!link || !title) return null;
+      if (!articleUrl || !title) return null;
       return {
         title: title.slice(0, 240),
         source: readTag(item, "source").slice(0, 100) || "Online source",
         publishedAt: readTag(item, "pubDate"),
         summary: readTag(item, "description").slice(0, 900),
-        imageUrl: readImage(item),
-        articleUrl: link,
+        articleUrl,
       };
     }).filter((item): item is FeedItem => Boolean(item));
     return { id: topic.id, label: topic.label, available: true, items };
@@ -213,17 +114,8 @@ async function readTopic(topic: (typeof topics)[number]) {
 
 export async function GET() {
   const feeds = await Promise.all(topics.map(readTopic));
-  const candidates = feeds.flatMap((feed) => feed.items.slice(0, 2).filter((item) => !item.imageUrl));
-  await mapWithConcurrency(candidates, 6, async (item) => {
-    item.imageUrl = await fetchPublicArticlePage(item.articleUrl);
-    return item;
-  });
-  const publicFeeds = feeds.map((feed) => ({
-    ...feed,
-    items: feed.items, // Publisher URLs are used by the scheduled server-side notification sync; the Spotlight UI does not render this field.
-  }));
   return NextResponse.json(
-    { updatedAt: new Date().toISOString(), feeds: publicFeeds },
+    { updatedAt: new Date().toISOString(), feeds },
     { headers: { "Cache-Control": "public, s-maxage=900, stale-while-revalidate=3600" } },
   );
 }
