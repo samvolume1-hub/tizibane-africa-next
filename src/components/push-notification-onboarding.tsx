@@ -142,7 +142,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
     setState("hidden");
   }
 
-  if (state === "checking" || state === "hidden" || state === "enabled" || state === "denied") return null;
+  if (state === "checking" || state === "hidden" || state === "enabled") return null;
 
   const cardStyle: React.CSSProperties = {
     position: "fixed",
@@ -169,7 +169,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
         <div style={{ minWidth: 0, flex: 1 }}>
           <span style={{ color: "#d9b8ed", fontSize: 10, fontWeight: 800, letterSpacing: ".16em" }}>STAY IN THE LOOP</span>
           <h2 id="push-onboarding-title" style={{ margin: "4px 0 6px", color: "#fff", fontSize: 18, lineHeight: 1.2 }}>
-            {state === "ios-install" ? "Add TIZIBANE to your Home Screen" : "Never miss a moment"}
+            {state === "ios-install" ? "Add TIZIBANE to your Home Screen" : state === "denied" ? "Allow notifications in your browser" : "Never miss a moment"}
           </h2>
         </div>
         <button type="button" onClick={dismiss} aria-label="Dismiss notification invitation" style={{
@@ -181,10 +181,12 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
       <p style={{ color: "rgba(255,255,255,.82)", fontSize: 13, lineHeight: 1.6, margin: "10px 0 16px" }}>
         {state === "ios-install"
           ? "On iPhone or iPad, tap Share, choose Add to Home Screen, then open TIZIBANE from its new icon. You can enable alerts there."
-          : "Get timely alerts for messages, friend requests, group activity and community updates—even when TIZIBANE isn't open. Your private message contents stay private."}
+          : state === "denied" ? "Notifications are currently blocked for this site. Open your browser or device site settings, change Notifications to Allow, then return to TIZIBANE." : "Get timely alerts for messages, friend requests, group activity and community updates—even when TIZIBANE isn't open. Your private message contents stay private."}
       </p>
 
-      {state !== "ios-install" && (
+      {state === "denied" ? (
+        <a href="/home/notifications" style={{ display: "block", textAlign: "center", textDecoration: "none", border: "1px solid rgba(255,255,255,.2)", borderRadius: 999, padding: "12px 18px", background: "rgba(255,255,255,.1)", color: "#fff", fontSize: 13, fontWeight: 800 }}>Open notification settings</a>
+      ) : state !== "ios-install" && (
         <button type="button" onClick={enableNotifications} disabled={state === "working"} style={{
           width: "100%", border: "1px solid rgba(255,255,255,.2)", borderRadius: 999,
           padding: "12px 18px", background: "linear-gradient(100deg, #9a55bd, #67318b)",
@@ -195,7 +197,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
         </button>
       )}
 
-      {state === "error" && <p role="status" aria-live="polite" style={{ color: "#f5d7a7", fontSize: 12, lineHeight: 1.5, margin: "10px 0 0" }}>{message}</p>}
+      {message && <p role="status" aria-live="polite" style={{ color: "#f5d7a7", fontSize: 12, lineHeight: 1.5, margin: "10px 0 0" }}>{message}</p>}
     </aside>
   );
 }
