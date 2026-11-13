@@ -8320,22 +8320,40 @@ body.tizibane-call-active .tizibane-notification-bell {
 }
 
 
-/* SPOTLIGHT BUTTON ACCESSIBILITY — restore white labels on every purple action.
-   The page-wide text reset above is for content only; controls need their own
-   explicit foreground, including nested spans and icon glyphs. */
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel),
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel) :where(*) {
+/* SPOTLIGHT — separate clickable topic cards from compact action controls.
+   .cardTrigger is a whole lavender story card, not a purple action button:
+   keep all of its headline/content dark. Only true action controls get white. */
+#tizibane-spotlight-page .cardTrigger,
+#tizibane-spotlight-page .cardTrigger :where(*) {
+  color: #17111f !important;
+  -webkit-text-fill-color: #17111f !important;
+}
+#tizibane-spotlight-page :is(
+  .submitButton,
+  .submitLink,
+  .leadImageLabel,
+  .navButton,
+  .notificationsLink,
+  .readStory,
+  .directContact a
+),
+#tizibane-spotlight-page :is(
+  .submitButton,
+  .submitLink,
+  .leadImageLabel,
+  .navButton,
+  .notificationsLink,
+  .readStory,
+  .directContact a
+) :where(*) {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel):is(:hover, :focus, :focus-visible, :active, :disabled),
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button, .submitLink, .leadImageLabel):is(:hover, :focus, :focus-visible, :active, :disabled) :where(*) {
+#tizibane-spotlight-page :is(button, [role="button"]):not(.cardTrigger) {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
 }
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button) svg,
-#tizibane-spotlight-page :is(button, [role="button"], .btn, .button) svg :where(*) {
+#tizibane-spotlight-page :is(button, [role="button"]):not(.cardTrigger) :where(*) {
   color: #ffffff !important;
-  fill: currentColor;
-  stroke: currentColor;
+  -webkit-text-fill-color: #ffffff !important;
 }
