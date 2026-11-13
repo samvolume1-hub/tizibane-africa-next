@@ -14,7 +14,7 @@ This implementation uses the standards-based Web Push API, Service Workers and V
 Generate a single VAPID key pair from the repository root using Deno:
 
 ```sh
-deno run --allow-env supabase/functions/web-push-notification-worker/generate-vapid-keys.ts
+deno run --allow-net supabase/functions/web-push-notification-worker/generate-vapid-keys.ts
 ```
 
 The script prints:
