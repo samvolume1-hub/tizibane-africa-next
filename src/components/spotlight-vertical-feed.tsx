@@ -51,10 +51,12 @@ export function SpotlightVerticalFeed({ feeds }: { feeds: Feed[] }) {
     });
     deepLinkHandled.current = true;
     const topicMatch = topics.find((topic) => topic.id === requestedTopic);
-    const targetTopic = match || topicMatch;
+    const targetTopic = topicMatch || match;
     if (targetTopic) {
+      const currentItem = feedById.get(targetTopic.id)?.items[0];
+      const requestedStoryIsCurrent = Boolean(currentItem && ((articleUrl && currentItem.articleUrl === articleUrl) || (title && currentItem.title.toLowerCase() === title.toLowerCase())));
       setExpanded(targetTopic.id);
-      if (!match && articleUrl) setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
+      if (articleUrl && !requestedStoryIsCurrent) setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
       window.setTimeout(() => document.getElementById("spotlight-card-" + targetTopic.id)?.scrollIntoView({ behavior: "smooth", block: "center" }), 180);
     } else if (articleUrl) {
       setUnavailableStory({ title: title || "This Spotlight story", url: articleUrl });
