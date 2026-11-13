@@ -132,7 +132,7 @@ export function SpotlightSubmissionCentre() {
       </label>
       {(title || publicUrl || note) && <div className={styles.submissionPreview}>
         <strong>Your private preview</strong><span>{category}</span><b>{title || "Your title will appear here"}</b>
-        {note && <p>{note}</p>}{publicUrl && <a href={publicUrl} target="_blank" rel="noopener noreferrer">{publicUrl}</a>}
+        {note && <p>{note}</p>}{publicUrl.startsWith("https://") && <a href={publicUrl} target="_blank" rel="noopener noreferrer">{publicUrl}</a>}
       </div>}
       <div className={styles.submitControls}>
         <span className={styles.channelHint}>{authenticated === false ? "Sign in is required to submit." : authenticated ? "Signed-in members can submit for review." : "Checking your sign-in…"}</span>
