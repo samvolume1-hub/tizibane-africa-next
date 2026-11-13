@@ -8,7 +8,7 @@ const EMAIL = "samryt26@gmail.com";
 const WHATSAPP = "260760930509";
 const reviewCategories = ["Music talent", "Music video", "Photography"] as const;
 
-type FeedItem = { title: string; source: string; publishedAt: string; summary: string; imageUrl: string | null; articleUrl?: string };
+type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type FeedResponse = { updatedAt: string; feeds: Feed[] };
 
