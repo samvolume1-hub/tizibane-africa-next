@@ -37,9 +37,9 @@ alter table public.spotlight_company_reviews enable row level security;
 alter table public.spotlight_submissions enable row level security;
 
 drop policy if exists spotlight_company_reviews_public_read on public.spotlight_company_reviews;
-create policy spotlight_company_reviews_public_read on public.spotlight_company_reviews for select to anon, authenticated using (status = 'published');
 drop policy if exists spotlight_company_reviews_admin_read on public.spotlight_company_reviews;
-create policy spotlight_company_reviews_admin_read on public.spotlight_company_reviews for select to authenticated using (private.is_platform_admin((select auth.uid())));
+create policy spotlight_company_reviews_public_read on public.spotlight_company_reviews for select to anon using (status = 'published');
+create policy spotlight_company_reviews_authenticated_read on public.spotlight_company_reviews for select to authenticated using (status = 'published' or private.is_platform_admin((select auth.uid())));
 drop policy if exists spotlight_company_reviews_admin_insert on public.spotlight_company_reviews;
 create policy spotlight_company_reviews_admin_insert on public.spotlight_company_reviews for insert to authenticated with check (created_by = (select auth.uid()) and private.is_platform_admin((select auth.uid())));
 drop policy if exists spotlight_company_reviews_admin_update on public.spotlight_company_reviews;
@@ -48,9 +48,9 @@ drop policy if exists spotlight_company_reviews_admin_delete on public.spotlight
 create policy spotlight_company_reviews_admin_delete on public.spotlight_company_reviews for delete to authenticated using (private.is_platform_admin((select auth.uid())));
 
 drop policy if exists spotlight_submissions_public_read_approved on public.spotlight_submissions;
-create policy spotlight_submissions_public_read_approved on public.spotlight_submissions for select to anon, authenticated using (status = 'approved');
 drop policy if exists spotlight_submissions_owner_read on public.spotlight_submissions;
-create policy spotlight_submissions_owner_read on public.spotlight_submissions for select to authenticated using (user_id = (select auth.uid()) or private.is_platform_admin((select auth.uid())));
+create policy spotlight_submissions_public_read_approved on public.spotlight_submissions for select to anon using (status = 'approved');
+create policy spotlight_submissions_authenticated_read on public.spotlight_submissions for select to authenticated using (status = 'approved' or user_id = (select auth.uid()) or private.is_platform_admin((select auth.uid())));
 drop policy if exists spotlight_submissions_member_insert on public.spotlight_submissions;
 create policy spotlight_submissions_member_insert on public.spotlight_submissions for insert to authenticated with check (user_id = (select auth.uid()) and status = 'pending' and reviewed_by is null and reviewed_at is null);
 drop policy if exists spotlight_submissions_admin_update on public.spotlight_submissions;
@@ -64,3 +64,6 @@ grant insert, update on public.spotlight_submissions to authenticated;
 -- Anonymous visitors may see only the public fields of approved submissions.
 revoke select on public.spotlight_submissions from anon;
 grant select (id, category, title, public_url, note, created_at) on public.spotlight_submissions to anon;
+
+create index if not exists spotlight_company_reviews_created_by_idx on public.spotlight_company_reviews (created_by);
+create index if not exists spotlight_submissions_reviewed_by_idx on public.spotlight_submissions (reviewed_by) where reviewed_by is not null;
