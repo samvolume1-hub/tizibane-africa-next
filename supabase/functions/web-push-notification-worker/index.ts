@@ -1,5 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2.118.0";
-import { send, type Subscription } from "@daaku/webpush";
+import { send, type Subscription } from "jsr:@daaku/webpush@0.2.0";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const rawKeys = Deno.env.get("SUPABASE_SECRET_KEYS");
