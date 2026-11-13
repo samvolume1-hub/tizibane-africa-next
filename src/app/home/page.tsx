@@ -170,24 +170,7 @@ export default async function Home({
               <p>Connect. Belong. Grow.</p>
             </div>
           </section>
-          <nav className="home-quick-actions home-quick-actions-below" aria-label="Quick community actions">
-            <Link href="/home/people" className="home-quick-action home-quick-action-primary">
-              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 8v6m-3-3h6"/></svg>
-              <span>People</span>
-            </Link>
-            <Link href="/home/connect" className="home-quick-action">
-              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8 14.6 9.4 21.2 12l-6.6 2.6L12 21.2l-2.6-6.6L2.8 12l6.6-2.6L12 2.8Z"/><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z"/></svg>
-              <span>Spotlight</span>
-            </Link>
-            <Link href="/home/events" className="home-quick-action">
-              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
-              <span>Events</span>
-            </Link>
-            <Link href="/home/messages" className="home-quick-action" aria-label="Open Messages">
-              <svg className="home-quick-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.7 8.7 0 0 1-4-.98L3 21l1.98-5.5A8.7 8.7 0 0 1 4 11.5 8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 11.5h.01M12.5 11.5h.01M17 11.5h.01"/></svg>
-              <span>Messages</span>
-            </Link>
-          </nav>
+
 
           {params.welcome && <div className="notice" role="status">Logged in successfully. Welcome to TIZIBANE!</div>}
           {params.commented && <div className="notice" role="status">Your comment has been added.</div>}
