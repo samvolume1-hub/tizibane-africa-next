@@ -57,13 +57,18 @@ Deno.serve(async (request: Request) => {
     }
 
     const seenCategories = new Set<string>();
+    const unavailableCategories: string[] = [];
     const items: Record<string, unknown>[] = [];
     for (const feed of payload.feeds) {
       if (!feed.id || !expectedCategories.has(feed.id) || seenCategories.has(feed.id)
-        || feed.available !== true || !Array.isArray(feed.items)) {
-        return Response.json({ error: "A Spotlight department feed is temporarily unavailable" }, { status: 502 });
+        || !Array.isArray(feed.items)) {
+        return Response.json({ error: "Spotlight feed response is invalid" }, { status: 502 });
       }
       seenCategories.add(feed.id);
+      if (feed.available !== true) {
+        unavailableCategories.push(feed.id);
+        continue;
+      }
       for (const item of feed.items) {
         const articleUrl = item.articleUrl ?? "";
         const title = (item.title ?? "").trim();
@@ -269,7 +274,7 @@ Deno.serve(async (request: Request) => {
       }
     }
 
-    return Response.json({ ok: true, items_checked: items.length, result: data, email_dispatch: emailDispatch });
+    return Response.json({ ok: true, items_checked: items.length, unavailable_categories: unavailableCategories, result: data, email_dispatch: emailDispatch });
   } catch (error) {
     console.error("[Spotlight notification sync] sync failed", error);
     return Response.json({ error: "Spotlight sync failed" }, { status: 502 });
