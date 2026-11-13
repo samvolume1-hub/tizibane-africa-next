@@ -216,10 +216,13 @@ begin
       get diagnostics v_rows=row_count;
       v_sent:=v_rows;
       delete from private.spotlight_digest_pending;
-      update private.spotlight_digest_state
-      set last_digest_at=now()
-      where singleton=true;
     end if;
+
+    -- Advance the 12-hour window even when it was empty. Otherwise a story
+    -- arriving after a quiet period would be delivered immediately in a stale digest.
+    update private.spotlight_digest_state
+    set last_digest_at=now()
+    where singleton=true;
   end if;
 
   return jsonb_build_object(
