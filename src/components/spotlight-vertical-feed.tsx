@@ -20,23 +20,23 @@ const topics: Topic[] = [
 function storyParagraphs(value: string) {
   const clean = value.replace(/\\s+/g, " ").trim();
   if (!clean) return [];
-  const sentences = clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean];
-  const paragraphs: string[] = [];
+  const sentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map((part) => part.trim()).filter(Boolean);
+  if (sentences.length === 1) {
+    const midpoint = Math.floor(clean.length / 2);
+    const splitAt = clean.lastIndexOf(" ", midpoint);
+    return splitAt > 20 ? [clean.slice(0, splitAt).trim(), clean.slice(splitAt + 1).trim()] : [clean];
+  }
+  const paragraphs = [sentences[0]];
   let current = "";
-  for (const sentence of sentences) {
-    const next = current ? current + " " + sentence.trim() : sentence.trim();
+  for (const sentence of sentences.slice(1)) {
+    const next = current ? current + " " + sentence : sentence;
     if (current && next.length > 360 && paragraphs.length < 4) {
       paragraphs.push(current);
-      current = sentence.trim();
+      current = sentence;
     } else current = next;
   }
   if (current) paragraphs.push(current);
-  if (paragraphs.length === 1 && clean.length > 180) {
-    const midpoint = Math.floor(clean.length / 2);
-    const splitAt = clean.lastIndexOf(" ", midpoint);
-    if (splitAt > 60) return [clean.slice(0, splitAt).trim(), clean.slice(splitAt + 1).trim()];
-  }
-  return paragraphs;
+  return paragraphs.slice(0, 5);
 }
 
 function published(value: string) {
