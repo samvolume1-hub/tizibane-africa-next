@@ -61,6 +61,7 @@ export function InstallAppButton() {
     <>
       <button
         type="button"
+        className="tizibane-install-app-button"
         onClick={() => void installApp()}
         aria-haspopup={isIos ? "dialog" : undefined}
         style={{
@@ -73,7 +74,10 @@ export function InstallAppButton() {
           borderRadius: 999,
           background: "linear-gradient(120deg,#69417f,#432454)",
           color: "#fff",
-          font: "700 12px/1.2 inherit",
+          fontFamily: "inherit",
+          fontSize: 12,
+          fontWeight: 700,
+          lineHeight: 1.2,
           cursor: "pointer",
           whiteSpace: "nowrap",
         }}
