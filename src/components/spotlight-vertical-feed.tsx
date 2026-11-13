@@ -4,7 +4,7 @@ import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from "
 import Link from "next/link";
 import styles from "./spotlight-vertical-feed.module.css";
 
-type FeedItem = { title: string; source: string; publishedAt: string; summary: string; articleUrl?: string };
+type FeedItem = { title: string; source: string; publishedAt: string; summary: string; extendedSummary?: string; articleUrl?: string };
 type Feed = { id: string; label: string; items: FeedItem[] };
 type Topic = { id: string; label: string; image: string; fallbackHeadline: string; fallbackPassage: string };
 
@@ -17,6 +17,28 @@ const topics: Topic[] = [
   { id: "business-hub", label: "Business Hub", image: "/images/5.%20Business.jpg", fallbackHeadline: "Zambian enterprise, local businesses and new opportunities.", fallbackPassage: "Explore Zambian entrepreneurs, small businesses, markets, services and practical opportunities. A current business report will appear here when available." },
 ];
 
+function storyParagraphs(value: string) {
+  const clean = value.replace(/\s+/g, " ").trim();
+  if (!clean) return [];
+  const sentences = (clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean]).map((part) => part.trim()).filter(Boolean);
+  if (sentences.length === 1) {
+    const midpoint = Math.floor(clean.length / 2);
+    const splitAt = clean.lastIndexOf(" ", midpoint);
+    return splitAt > 20 ? [clean.slice(0, splitAt).trim(), clean.slice(splitAt + 1).trim()] : [clean];
+  }
+  const paragraphs = [sentences[0]];
+  let current = "";
+  for (const sentence of sentences.slice(1)) {
+    const next = current ? current + " " + sentence : sentence;
+    if (current && next.length > 360 && paragraphs.length < 4) {
+      paragraphs.push(current);
+      current = sentence;
+    } else current = next;
+  }
+  if (current) paragraphs.push(current);
+  return paragraphs.slice(0, 5);
+}
+
 function published(value: string) {
   if (!value) return "";
   const date = new Date(value);
@@ -25,9 +47,28 @@ function published(value: string) {
 
 export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; afterSports?: ReactNode }) {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [reader, setReader] = useState<{ topicId: string; item: FeedItem } | null>(null);
+  const [readMore, setReadMore] = useState(false);
+  const [storiesRead, setStoriesRead] = useState(0);
   const [unavailableStory, setUnavailableStory] = useState<{ title: string; url: string } | null>(null);
   const deepLinkHandled = useRef(false);
   const feedById = useMemo(() => new Map(feeds.map((feed) => [feed.id, feed])), [feeds]);
+
+  function openReader(topicId: string, item: FeedItem) {
+    setReader({ topicId, item });
+    setReadMore(false);
+    setStoriesRead((count) => count + 1);
+    window.setTimeout(() => document.getElementById("spotlight-in-app-reader")?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+  }
+
+  function closeReader() {
+    setReader(null);
+    setReadMore(false);
+    window.setTimeout(() => {
+      const target = document.getElementById("spotlight-card-" + (reader?.topicId || ""));
+      target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+  }
 
   function openTopic(topicId: string) {
     setExpanded((current) => current === topicId ? null : topicId);
@@ -71,7 +112,7 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
         <div>
           <span className={styles.eyebrow}>SIX TOPICS · ONE PLACE TO DISCOVER</span>
           <h2>Explore Spotlight</h2>
-          <p>Tap anywhere on a story card to reveal its passage. Continue to the publisher for the full story.</p>
+          <p>Open a topic to browse its latest stories. Read the short version here, then choose whether to explore further.</p>
         </div>
         <a className={styles.submitLink} href="#submit-review">Submit your work for review <span aria-hidden="true">↓</span></a>
       </header>
@@ -103,19 +144,25 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
               </button>
 
               {isOpen && (
-                <section className={styles.expanded} id={"spotlight-expanded-" + topic.id} aria-label={topic.label + " story passage"}>
-                  <div className={styles.storyMeta}>
-                    <span>{item?.source || "TIZIBANE Spotlight"}</span>
-                    {item?.publishedAt && <time dateTime={item.publishedAt}>{published(item.publishedAt)}</time>}
+                <section className={styles.expanded} id={"spotlight-expanded-" + topic.id} aria-label={topic.label + " stories"}>
+                  <div className={styles.storyListHeading}>
+                    <div><strong>Latest stories in {topic.label}</strong><span>Choose a story to read it here on TIZIBANE.</span></div>
+                    <span className={styles.storyCount}>{feedById.get(topic.id)?.items.length || 0} available</span>
                   </div>
-                  <p>{passage}</p>
-                  {item?.articleUrl ? (
-                    <a className={styles.readStory} href={item.articleUrl} target="_blank" rel="noopener noreferrer">
-                      Continue reading at {item.source || "the original publisher"} <span aria-hidden="true">↗</span>
-                    </a>
+                  {(feedById.get(topic.id)?.items || []).length > 0 ? (
+                    <div className={styles.storyList}>
+                      {(feedById.get(topic.id)?.items || []).map((story, storyIndex) => (
+                        <button type="button" className={styles.storyChoice} key={story.articleUrl || story.title} onClick={() => openReader(topic.id, story)}>
+                          <span className={styles.storyChoiceNumber}>{String(storyIndex + 1).padStart(2, "0")}</span>
+                          <span className={styles.storyChoiceCopy}><strong>{story.title}</strong><small>{story.source}{story.publishedAt ? " · " + published(story.publishedAt) : ""}</small></span>
+                          <span className={styles.storyChoiceArrow} aria-hidden="true">Read ↗</span>
+                        </button>
+                      ))}
+                    </div>
                   ) : (
-                    <p className={styles.sourcePending}>A current publisher link is not available for this topic yet. Please check again shortly.</p>
+                    <div className={styles.sourcePending}>There are no current publisher stories in this topic yet. Please check again shortly.</div>
                   )}
+                  {item && <p className={styles.topicFallback}>{passage}</p>}
                 </section>
               )}
 
@@ -132,6 +179,46 @@ export function SpotlightVerticalFeed({ feeds, afterSports }: { feeds: Feed[]; a
           );
         })}
       </div>
+
+
+      {reader && (() => {
+        const topic = topics.find((entry) => entry.id === reader.topicId);
+        const fullText = (reader.item.extendedSummary || reader.item.summary || "").trim();
+        const paragraphs = storyParagraphs(fullText);
+        const opening = paragraphs.slice(0, 2);
+        const remaining = paragraphs.slice(2);
+        const hasMore = remaining.length > 0;
+        return (
+          <section className={styles.reader} id="spotlight-in-app-reader" aria-labelledby="spotlight-reader-title">
+            <div className={styles.readerTopline}>
+              <span className={styles.readerEyebrow}>TIZIBANE SPOTLIGHT · IN-APP READING</span>
+              <button type="button" className={styles.readerClose} onClick={closeReader}>← Back to Spotlight</button>
+            </div>
+            {topic && <img className={styles.readerImage} src={topic.image} alt={topic.label} loading="lazy" />}
+            <div className={styles.readerBody}>
+              <span className={styles.readerTopic}>{topic?.label || "Spotlight"}</span>
+              <h2 id="spotlight-reader-title">{reader.item.title}</h2>
+              <div className={styles.storyMeta}><span>{reader.item.source || "TIZIBANE Spotlight"}</span>{reader.item.publishedAt && <time dateTime={reader.item.publishedAt}>{published(reader.item.publishedAt)}</time>}</div>
+              {opening.length ? opening.map((paragraph, index) => <p className={styles.readerParagraph} key={index}>{paragraph}</p>) : <p className={styles.readerParagraph}>This publisher has not supplied a readable summary for this story yet. Check the other stories in this topic while we wait for a fuller update.</p>}
+              {readMore && hasMore && remaining.map((paragraph, index) => <p className={styles.readerParagraph} key={"more-" + index}>{paragraph}</p>)}
+              <button type="button" className={styles.readMoreButton} onClick={() => setReadMore((value) => !value)} aria-expanded={readMore}>
+                {readMore ? "SHOW LESS ↑" : "READ MORE ↓"}
+              </button>
+              {readMore && !hasMore && <p className={styles.readerNote}>That is the full short brief currently supplied by the publisher feed. We have kept you on TIZIBANE rather than sending you away for a longer article.</p>}
+              <div className={styles.readerFooter}>
+                <button type="button" className={styles.backToStories} onClick={closeReader}>← Return to Spotlight stories</button>
+                {reader.item.articleUrl && <a className={styles.originalSource} href={reader.item.articleUrl} target="_blank" rel="noopener noreferrer">Original publisher source ↗</a>}
+              </div>
+              {storiesRead >= 2 && <aside className={styles.premiumInvitation}>
+                <span>DISCOVER MORE ON TIZIBANE</span>
+                <strong>Give your business a place in the spotlight.</strong>
+                <p>Reach Zambian communities with a Premium advertising feature on TIZIBANE.</p>
+                <Link href="/home/premium" className={styles.premiumButton}>Explore Premium advertising ↗</Link>
+              </aside>}
+            </div>
+          </section>
+        );
+      })()}
 
       {unavailableStory && (
         <aside id="spotlight-unavailable-story" className={styles.unavailableStory}>
