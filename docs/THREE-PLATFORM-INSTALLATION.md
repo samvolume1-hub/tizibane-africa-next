@@ -93,7 +93,7 @@ In the GitHub repository, open **Settings → Secrets and variables → Actions*
 - [x] Generate and configure the Android project.
 - [x] Confirm permanent Android application ID: `com.royaltystudios.tizibane`.
 - [x] Prepare a signed-build workflow that uses owner-managed GitHub Actions secrets and never commits the keystore.
-- [ ] Owner creates and securely backs up the permanent signing keystore; adds the three GitHub Actions secrets.
+- [x] Owner generated a replacement JKS signing keystore locally after the previous copy was exposed; new public SHA-256 fingerprint recorded below. Secure backup and GitHub Actions secrets are still pending.
 - [ ] Build signed APK/AAB and configure Digital Asset Links using the matching SHA-256 fingerprint.
 - [ ] Android real-device verification.
 - [ ] Windows installer implementation and verification.
@@ -104,8 +104,8 @@ In the GitHub repository, open **Settings → Secrets and variables → Actions*
 
 ### Android Digital Asset Links — certificate fingerprint configured
 
-The owner has generated the permanent JKS signing key locally and supplied its public SHA-256 certificate fingerprint:
+The owner has generated a replacement JKS signing key locally (the previous keystore copy was exposed and must not be used) and supplied this new public SHA-256 certificate fingerprint:
 
-`21:9D:36:F7:0F:8D:1C:63:CA:16:43:D7:CB:52:24:F1:26:D1:77:84:88:04:38:A7:78:6E:91:0E:45:55:F8:B5`
+`3B:6C:07:88:BF:16:3C:A4:F5:69:FF:C9:5C:5D:67:B3:5B:A9:81:7D:B2:EB:A2:3B:63:81:75:CA:D3:73:44:FC`
 
 A matching `public/.well-known/assetlinks.json` has been added on this working branch for package `com.royaltystudios.tizibane`. It is not live until this branch is approved, merged and deployed. After deployment, verify that `https://tizibane-africa-next.onrender.com/.well-known/assetlinks.json` returns the exact JSON and that Android validates the association. The signing key remains owner-controlled and is not stored in Git.
