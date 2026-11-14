@@ -404,3 +404,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** Need a full successful Bubblewrap/PageSpeed quality report or equivalent independent Lighthouse review before final Android release acceptance. Android application ID and signing key must be finalized before a signed build; the private key must remain outside Git.
 - **Next safe step:** Prepare the Android TWA project configuration and build pipeline, then establish the permanent signing identity and produce a signed APK for real-device testing.
+
+
+### 14 November 2026 — First Android TWA prototype built successfully
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `build/three-platform-installation`
+- **Agreed scope:** Generate the Android TWA project from the hosted PWA manifest and prove that the Android build pipeline can produce real APK/AAB outputs without exposing signing credentials.
+- **Commit/PR:** Successful Android prototype workflow run [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788). Latest code commit at build time: `50669e05c88ace55cdf7a6acf7e78a7453d6dc7c`. No PR or merge.
+- **Files inspected:** `android/twa-manifest.json`, `scripts/check-pwa-readiness.mjs`, `.github/workflows/android-prototype-build.yml`, and generated Bubblewrap/Gradle build output.
+- **Files changed:** Added `android/twa-manifest.json` with a provisional package ID `com.royaltystudios.tizibane`; added `.github/workflows/android-prototype-build.yml` to generate the TWA project, compile unsigned artifacts and upload only the final outputs; updated the installation project documentation and this report.
+- **Findings and decisions:** Bubblewrap successfully generated the Android project. The first compile completed and produced `app-release-unsigned-aligned.apk` and `app/build/outputs/bundle/release/app-release.aab`. The first artifact upload attempt failed because the container created root-owned intermediate files; the workflow was corrected to upload only the two final output files after making them readable. The corrected workflow succeeded. The package ID is explicitly provisional pending owner confirmation; no keystore or fingerprint has been created.
+- **Tests/checks run and actual results:** Hosted PWA deterministic readiness checks passed. Android build workflow [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788) completed successfully and uploaded artifact `tizibane-android-unsigned-prototype` (APK + AAB; 1,599,693 bytes; artifact ID `14093953419`; 7-day retention). These outputs are unsigned prototypes and are not installable public release packages. No Android device installation test has been run.
+- **Deployment status (verified/unverified):** No deployment performed or verified.
+- **Production, hosting, Supabase, or data changes:** None. All work remains on the isolated installation branch.
+- **Blockers/risks:** Permanent package ID must be confirmed before signing; a permanent keystore must be generated and securely retained outside Git. Digital Asset Links must use the final signing certificate fingerprint. Bubblewrap PageSpeed validation remains rate-limited by Google (HTTP 429), although deterministic live PWA checks passed.
+- **Next safe step:** Obtain owner approval for the proposed package ID `com.royaltystudios.tizibane`, then establish the permanent signing key and build a signed APK/AAB for real-device testing.
