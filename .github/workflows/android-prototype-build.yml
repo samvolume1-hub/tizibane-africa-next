@@ -40,9 +40,9 @@ jobs:
 
       - name: Build unsigned Android prototype
         run: |
-          docker run --rm \
+          yes | docker run -i --rm \
             -v "$PWD:/workspace" \
-            -w /workspace \
+            -w /workspace/android \
             ghcr.io/googlechromelabs/bubblewrap:latest \
             build --skipSigning --skipPwaValidation \
             --directory=/workspace/android \
