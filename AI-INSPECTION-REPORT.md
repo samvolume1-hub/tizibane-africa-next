@@ -387,3 +387,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** Android package ID and permanent signing keystore must be confirmed before first signed release; the signing private key must remain outside Git. The live hosted manifest could not be fetched in this inspection environment, so the automated readiness result is the next evidence gate. Windows and Apple packaging still require platform-specific implementation/testing.
 - **Next safe step:** Observe the Android TWA readiness workflow result, address any PWA criteria it reports, then generate the Android project and establish a secure signing-key process before building the first signed APK.
+
+
+### 14 November 2026 — Android hosted-PWA readiness check passed
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `build/three-platform-installation`
+- **Agreed scope:** Verify the production-hosted web app's PWA foundations before generating the Android TWA project.
+- **Commit/PR:** Workflow and readiness-check implementation are on the isolated task branch. Successful workflow run [#43545807328](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43545807328). No PR or merge.
+- **Files inspected:** `public/manifest.webmanifest`, `public/sw.js`, app icon assets, and the hosted production endpoints.
+- **Files changed:** Added `scripts/check-pwa-readiness.mjs`; added and refined `.github/workflows/android-twa-readiness.yml`; updated `docs/THREE-PLATFORM-INSTALLATION.md` and this report.
+- **Findings:** The live HTTPS origin returned the expected web manifest. The declared 192×192 and 512×512 PNG icons were both reachable and their PNG signatures/dimensions passed checks. The live service worker was reachable and contained both push and notification-click handlers. Bubblewrap's PageSpeed Insights request returned HTTP 429, so its full PSI-based quality report remains inconclusive; the workflow explicitly records that warning and proceeds with deterministic endpoint checks.
+- **Tests/checks run and actual results:** GitHub Actions run [#43545807328](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43545807328) completed **successfully**. Deterministic manifest, icon and service-worker checks all passed. This does not constitute an APK build or real-device test.
+- **Deployment status (verified/unverified):** No deployment performed or verified.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** Need a full successful Bubblewrap/PageSpeed quality report or equivalent independent Lighthouse review before final Android release acceptance. Android application ID and signing key must be finalized before a signed build; the private key must remain outside Git.
+- **Next safe step:** Prepare the Android TWA project configuration and build pipeline, then establish the permanent signing identity and produce a signed APK for real-device testing.
