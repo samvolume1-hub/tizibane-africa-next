@@ -421,3 +421,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None. All work remains on the isolated installation branch.
 - **Blockers/risks:** Permanent package ID must be confirmed before signing; a permanent keystore must be generated and securely retained outside Git. Digital Asset Links must use the final signing certificate fingerprint. Bubblewrap PageSpeed validation remains rate-limited by Google (HTTP 429), although deterministic live PWA checks passed.
 - **Next safe step:** Obtain owner approval for the proposed package ID `com.royaltystudios.tizibane`, then establish the permanent signing key and build a signed APK/AAB for real-device testing.
+
+
+### 14 November 2026 — Permanent Android app identity approved; secure signing pipeline prepared
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `build/three-platform-installation`
+- **Agreed scope:** Continue Android packaging after the owner explicitly approved the permanent application ID.
+- **Commit/PR:** Branch commits include `86e54c3` (approved manifest identity), `e69b1d2` (manual signed-release workflow), `fd7bbf1` (ignore private signing material), and `94bfbbf` (signing instructions). No PR or merge.
+- **Files inspected:** Existing Bubblewrap TWA configuration and prototype workflow.
+- **Files changed:** Updated `android/twa-manifest.json` to the approved package ID `com.royaltystudios.tizibane` and signing alias `tizibane`; added `.github/workflows/android-signed-release.yml`; updated `.gitignore` to exclude `.keystore`, `.jks` and generated Android release outputs; documented secure owner-managed signing setup in `docs/THREE-PLATFORM-INSTALLATION.md`.
+- **Findings and decisions:** User explicitly approved the exact permanent application ID. The signing pipeline uses repository secrets and reconstructs the owner-controlled keystore only on an ephemeral GitHub Actions runner. The keystore is never committed or created by CI. Workflow dispatch is manual so it cannot accidentally run before the owner adds the secrets.
+- **Tests/checks run and actual results:** Configuration and workflow committed to the isolated branch. Signed build has not been run because the owner-managed keystore and three required repository secrets do not yet exist. The unsigned prototype build is separately verified in run [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788).
+- **Deployment status (verified/unverified):** No deployment performed or verified.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** The owner must generate and securely back up the permanent JKS keystore, set `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, and `ANDROID_KEY_PASSWORD` as GitHub Actions repository secrets, then manually run the signed build. Only the public SHA-256 certificate fingerprint should be shared for Digital Asset Links; never share the keystore or passwords.
+- **Next safe step:** Complete the owner-side signing-key setup, run the signed APK/AAB workflow, then configure and verify `/.well-known/assetlinks.json` using the matching certificate fingerprint.
