@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.royaltystudios.tizibane",
+      "sha256_cert_fingerprints": [
+        "21:9D:36:F7:0F:8D:1C:63:CA:16:43:D7:CB:52:24:F1:26:D1:77:84:88:04:38:A7:78:6E:91:0E:45:55:F8:B5"
+      ]
+    }
+  }
+]
