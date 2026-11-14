@@ -22,10 +22,5 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Validate TIZIBANE's live PWA against TWA quality criteria
-        run: npx --yes @bubblewrap/cli validate --url=https://tizibane-africa-next.onrender.com
+        run: docker run --rm ghcr.io/googlechromelabs/bubblewrap:latest validate --url=https://tizibane-africa-next.onrender.com
