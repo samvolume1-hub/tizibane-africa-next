@@ -350,3 +350,23 @@ Copy and complete this section after each work session.
 - **Current behavior boundary:** The app's existing notification producers cover friend changes, group membership changes, comments, reactions, follows and private-message alerts. New post creation itself does not currently create an in-app notification event; this implementation does not invent one. Premium publishing is handled separately as push-only.
 - **Production state remains unchanged:** PR is open and unmerged. No Supabase migration was applied, no Edge Function was deployed, no VAPID key was generated or stored, no Render environment variable was changed, and no user/device was subscribed. Brevo and Spotlight remain untouched.
 - **Next step:** Review and approve the PR before any production activation. Then generate and store one VAPID key pair, apply the migration, deploy the worker and configure the public Render key. Test with the two owner-controlled devices before enabling members.
+
+
+### 14 November 2026 — Remove legacy install button and establish clean installation baseline
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `build/three-platform-installation` (created from `main`)
+- **Agreed scope:** Remove the existing browser-PWA install card and its component-specific implementation, then build genuine Android, Windows and Apple distribution packages before creating the replacement download experience.
+- **Files changed on the task branch:**
+  - `src/app/page.tsx`: removed the legacy install component import and rendered section.
+  - `src/components/install-app-button.tsx`: deleted the old browser-prompt/instructions component.
+  - `src/components/install-app-button.module.css`: deleted its component-only styles.
+- **Files inspected:** `public/manifest.webmanifest`, `public/sw.js`, `src/app/layout.tsx`, `package.json`, `PRODUCT-AND-ARCHITECTURE.md`, and relevant push-notification components.
+- **Findings:** The legacy component combined a browser PWA prompt and manual browser instructions; it did not provide APK or Windows installer artifacts. The existing web manifest and service worker are separate platform foundations and were preserved. Push-notification onboarding/settings independently register `/sw.js`; the service worker was not removed.
+- **Implementation decision:** Work through Android APK, Windows installer, then iOS/iPadOS supported Apple distribution, followed by the new download-centre UI. Package work can proceed in this order within one coordinated release; each package still requires its own build and device/platform validation. No incomplete download link will be published.
+- **Tests:** No local build, typecheck, or device installation test was run in this repository inspection session. These remain required.
+- **Pull request/merge:** No PR opened and no merge performed.
+- **Deployment:** Not performed or verified.
+- **Production/data impact:** None. `main`, Render, Supabase settings, migrations, Edge Functions, secrets and member data were not changed.
+- **Next step:** Inspect full application/PWA behavior and build environment; choose and configure the Android packaging approach, then create and test the APK before moving to Windows.
