@@ -1,0 +1,38 @@
+{
+  "packageId": "com.royaltystudios.tizibane",
+  "host": "tizibane-africa-next.onrender.com",
+  "name": "TIZIBANE Zambia",
+  "launcherName": "TIZIBANE",
+  "display": "standalone",
+  "themeColor": "#24112f",
+  "themeColorDark": "#160d20",
+  "navigationColor": "#24112f",
+  "navigationColorDark": "#160d20",
+  "navigationDividerColor": "#00000000",
+  "navigationDividerColorDark": "#00000000",
+  "backgroundColor": "#160d20",
+  "enableNotifications": true,
+  "enableSiteSettingsShortcut": true,
+  "startUrl": "/home",
+  "iconUrl": "https://tizibane-africa-next.onrender.com/images/tizibane-app-icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersion": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "webManifestUrl": "https://tizibane-africa-next.onrender.com/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "orientation": "default",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}
