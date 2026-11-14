@@ -55,7 +55,7 @@ Public distribution must use Apple's supported route: TestFlight for beta testin
 - No music/video uploads, call recording, or call-media storage is introduced by this project.
 - No merge, production deployment, or public download button until artifacts and platform checks are complete and the user approves the final release.
 
-## Current status
+## Android prototype build result\n\n- Provisional Android package ID in the draft configuration: `com.royaltystudios.tizibane` (not yet owner-approved and not yet signed).\n- Bubblewrap generated the Android project and built an unsigned aligned APK plus an unsigned Android App Bundle.\n- Successful CI run: [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788).\n- Prototype artifact: `tizibane-android-unsigned-prototype` (APK + AAB), retained by GitHub for 7 days from 14 November 2026. This is a build artifact for engineering verification only; it is not a signed installer and must not be distributed to members.\n\n## Current status
 
 - [x] Create isolated installation branch.
 - [x] Remove the old browser-prompt download button/component/styles on the working branch.
@@ -63,8 +63,8 @@ Public distribution must use Apple's supported route: TestFlight for beta testin
 - [x] Inspect app architecture and identify Android TWA as the first packaging route.
 - [x] Add an automated hosted-PWA/TWA readiness check.
 - [x] Run and review the TWA readiness result.
-- [ ] Generate and configure the Android project.
-- [ ] Secure signing-key setup and signed APK build.
+- [x] Generate and configure the Android project.
+- [ ] Confirm permanent Android application ID, securely establish signing key, and build signed APK.
 - [ ] Android real-device verification.
 - [ ] Windows installer implementation and verification.
 - [ ] Apple build/distribution setup and verification.
