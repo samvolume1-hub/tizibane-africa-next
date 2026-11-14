@@ -37,7 +37,7 @@ Required release gates:
 - Publish the matching Digital Asset Links file at `/.well-known/assetlinks.json` on the exact production origin. Its SHA-256 certificate fingerprint must match the signing certificate.
 - Verify full-screen TWA launch, sign-in/session restoration, navigation, external links, file/photo selection, camera/microphone permissions and push notifications on supported Android devices.
 
-The first automated readiness check is in `.github/workflows/android-twa-readiness.yml`. It validates the currently hosted PWA; it does not build or sign an APK.
+The first automated readiness check is in `.github/workflows/android-twa-readiness.yml`. Run [43545807328](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43545807328) passed. Bubblewrap's PageSpeed Insights call was rate-limited (HTTP 429), so the workflow recorded a warning and ran deterministic live checks instead: HTTPS origin, web-manifest fields, reachable 192×192 and 512×512 PNG icons with valid dimensions, and the push/notification-click service-worker handlers. All deterministic checks passed. This is a positive baseline, not a complete Lighthouse/PageSpeed quality report and not an APK build.
 
 ### Windows
 
@@ -62,7 +62,7 @@ Public distribution must use Apple's supported route: TestFlight for beta testin
 - [x] Preserve the web manifest and service worker used by push notifications.
 - [x] Inspect app architecture and identify Android TWA as the first packaging route.
 - [x] Add an automated hosted-PWA/TWA readiness check.
-- [ ] Run and review the TWA readiness result.
+- [x] Run and review the TWA readiness result.
 - [ ] Generate and configure the Android project.
 - [ ] Secure signing-key setup and signed APK build.
 - [ ] Android real-device verification.
