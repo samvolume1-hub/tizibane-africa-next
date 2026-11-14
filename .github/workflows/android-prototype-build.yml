@@ -1,0 +1,59 @@
+name: TIZIBANE Android prototype build
+
+on:
+  push:
+    branches:
+      - build/three-platform-installation
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tizibane-android-prototype-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    name: Generate and build Android TWA prototype
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify hosted PWA foundations
+        run: node scripts/check-pwa-readiness.mjs
+
+      - name: Generate Android project from the TWA manifest
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            ghcr.io/googlechromelabs/bubblewrap:latest \
+            update --skipVersionUpgrade \
+            --directory=/workspace/android \
+            --manifest=/workspace/android/twa-manifest.json
+
+      - name: Build unsigned Android prototype
+        run: |
+          docker run --rm \
+            -v "$PWD:/workspace" \
+            -w /workspace \
+            ghcr.io/googlechromelabs/bubblewrap:latest \
+            build --skipSigning --skipPwaValidation \
+            --directory=/workspace/android \
+            --manifest=/workspace/android/twa-manifest.json
+
+      - name: Upload Android prototype artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: tizibane-android-unsigned-prototype
+          path: |
+            android/**/*.apk
+            android/**/*.aab
+          if-no-files-found: error
+          retention-days: 7
