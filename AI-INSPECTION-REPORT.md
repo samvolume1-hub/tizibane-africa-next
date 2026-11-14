@@ -370,3 +370,20 @@ Copy and complete this section after each work session.
 - **Deployment:** Not performed or verified.
 - **Production/data impact:** None. `main`, Render, Supabase settings, migrations, Edge Functions, secrets and member data were not changed.
 - **Next step:** Inspect full application/PWA behavior and build environment; choose and configure the Android packaging approach, then create and test the APK before moving to Windows.
+
+
+### 14 November 2026 — Three-platform installation architecture and Android readiness gate
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `build/three-platform-installation`
+- **Agreed scope:** Build a coordinated Android, Windows and iOS installation project while protecting all existing application features and keeping production untouched.
+- **Commit/PR:** Android readiness workflow commit `d0bc0dc51393ce10bdec614e94a009f19bb38e63`; architecture document added on the same task branch. No PR opened and no merge performed.
+- **Files inspected:** `README.md`, `AI-HANDOVER.md`, `PRODUCT-AND-ARCHITECTURE.md`, `package.json`, `next.config.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `middleware.ts`, `public/manifest.webmanifest`, `public/sw.js`, push-notification onboarding/settings components, and the existing CI workflow.
+- **Findings and decisions:** The product is a server-rendered Next.js 15/Supabase SSR app, not a static-only website. It already has a web manifest, app icons and a service worker independently used by web-push notifications. Android TWA via Bubblewrap is the lightest suitable first packaging route; a signed APK and Digital Asset Links verification are mandatory before a full-screen trusted launch can be claimed. Windows packaging must retain the hosted Next.js server functionality. iOS/iPadOS public distribution must use TestFlight/App Store, with Mac/Xcode and Apple developer access required for final signing/submission.
+- **Files changed:** Added `.github/workflows/android-twa-readiness.yml` to run Bubblewrap validation against the currently hosted PWA on the installation branch; added `docs/THREE-PLATFORM-INSTALLATION.md` with platform decisions, release gates and security boundaries. Existing app features, Supabase code, database, service worker and web manifest were not modified in this session.
+- **Tests/checks run and actual results:** Source/config inspection completed. The automated Bubblewrap readiness workflow has been added but its run result has not yet been observed. No APK or other platform installer has been built in this session.
+- **Deployment status (verified/unverified):** No deployment performed or verified. `main` and Render remain untouched.
+- **Production, hosting, Supabase, or data changes:** None.
+- **Blockers/risks:** Android package ID and permanent signing keystore must be confirmed before first signed release; the signing private key must remain outside Git. The live hosted manifest could not be fetched in this inspection environment, so the automated readiness result is the next evidence gate. Windows and Apple packaging still require platform-specific implementation/testing.
+- **Next safe step:** Observe the Android TWA readiness workflow result, address any PWA criteria it reports, then generate the Android project and establish a secure signing-key process before building the first signed APK.
