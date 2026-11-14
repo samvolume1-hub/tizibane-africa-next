@@ -100,3 +100,12 @@ In the GitHub repository, open **Settings → Secrets and variables → Actions*
 - [ ] Apple build/distribution setup and verification.
 - [ ] Build the final platform chooser/download-centre UI.
 - [ ] Final review, one coordinated release PR, and explicit merge/deployment approval.
+
+
+### Android Digital Asset Links — certificate fingerprint configured
+
+The owner has generated the permanent JKS signing key locally and supplied its public SHA-256 certificate fingerprint:
+
+`21:9D:36:F7:0F:8D:1C:63:CA:16:43:D7:CB:52:24:F1:26:D1:77:84:88:04:38:A7:78:6E:91:0E:45:55:F8:B5`
+
+A matching `public/.well-known/assetlinks.json` has been added on this working branch for package `com.royaltystudios.tizibane`. It is not live until this branch is approved, merged and deployed. After deployment, verify that `https://tizibane-africa-next.onrender.com/.well-known/assetlinks.json` returns the exact JSON and that Android validates the association. The signing key remains owner-controlled and is not stored in Git.
