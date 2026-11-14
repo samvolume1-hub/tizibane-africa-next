@@ -65,19 +65,19 @@ The signing workflow is ready at `.github/workflows/android-signed-release.yml`.
 On the Windows PC, with a JDK installed and `keytool` available in PowerShell:
 
 ```powershell
-keytool -genkeypair -v -keystore "$env:USERPROFILE\\tizibane-release.keystore" -storetype JKS -alias tizibane -keyalg RSA -keysize 2048 -validity 10000
+keytool -genkeypair -v -keystore "$env:USERPROFILE\tizibane-release.keystore" -storetype JKS -alias tizibane -keyalg RSA -keysize 2048 -validity 10000
 ```
 
 Keep the keystore and both passwords in a secure password manager/backup. Do not upload the keystore to chat, commit it to Git, or send either password. To display the public SHA-256 certificate fingerprint:
 
 ```powershell
-keytool -list -v -keystore "$env:USERPROFILE\\tizibane-release.keystore" -alias tizibane
+keytool -list -v -keystore "$env:USERPROFILE\tizibane-release.keystore" -alias tizibane
 ```
 
 Copy the Base64 representation of the keystore to the clipboard for the GitHub Actions secret (do not paste it into chat):
 
 ```powershell
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\\tizibane-release.keystore")) | Set-Clipboard
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\tizibane-release.keystore")) | Set-Clipboard
 ```
 
 In the GitHub repository, open **Settings → Secrets and variables → Actions** and add these repository secrets: `ANDROID_KEYSTORE_BASE64` (paste from clipboard), `ANDROID_KEYSTORE_PASSWORD`, and `ANDROID_KEY_PASSWORD`. Use the exact passwords entered when generating the key. Then manually run the **TIZIBANE Android signed release build** workflow. It will produce signed APK/AAB candidates without exposing the keystore in the repository. Share only the SHA-256 fingerprint with the project maintainer so the public `/.well-known/assetlinks.json` association can be configured. Never share the keystore or passwords.
