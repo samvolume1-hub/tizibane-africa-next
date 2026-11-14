@@ -5,7 +5,6 @@ import { ScrollReveal } from "@/components/scroll-reveal";
 import { LandingContacts } from "@/components/landing-contacts";
 import { WelcomeActions } from "@/components/welcome-actions";
 import { SpotlightCompanyReviews } from "@/components/spotlight-publishing";
-import { InstallAppButton } from "@/components/install-app-button";
 import styles from "./landing-page.module.css";
 
 const destinations = [
@@ -70,8 +69,6 @@ export default function LandingPage() {
           </div>
         </ScrollReveal>
       </section>
-
-      <InstallAppButton />
 
       <div className={styles.discover}>
         <SpotlightCompanyReviews />
