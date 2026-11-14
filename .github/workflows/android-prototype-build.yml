@@ -48,12 +48,15 @@ jobs:
             --directory=/workspace/android \
             --manifest=/workspace/android/twa-manifest.json
 
+      - name: Make final Android artifacts readable by the runner
+        run: sudo chmod a+r android/app-release-unsigned-aligned.apk android/app/build/outputs/bundle/release/app-release.aab
+
       - name: Upload Android prototype artifacts
         uses: actions/upload-artifact@v4
         with:
           name: tizibane-android-unsigned-prototype
           path: |
-            android/**/*.apk
-            android/**/*.aab
+            android/app-release-unsigned-aligned.apk
+            android/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
           retention-days: 7
