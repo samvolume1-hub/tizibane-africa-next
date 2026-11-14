@@ -55,7 +55,34 @@ Public distribution must use Apple's supported route: TestFlight for beta testin
 - No music/video uploads, call recording, or call-media storage is introduced by this project.
 - No merge, production deployment, or public download button until artifacts and platform checks are complete and the user approves the final release.
 
-## Android prototype build result\n\n- Provisional Android package ID in the draft configuration: `com.royaltystudios.tizibane` (not yet owner-approved and not yet signed).\n- Bubblewrap generated the Android project and built an unsigned aligned APK plus an unsigned Android App Bundle.\n- Successful CI run: [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788).\n- Prototype artifact: `tizibane-android-unsigned-prototype` (APK + AAB), retained by GitHub for 7 days from 14 November 2026. This is a build artifact for engineering verification only; it is not a signed installer and must not be distributed to members.\n\n## Current status
+## Android prototype build result
+
+- **Approved permanent Android application ID:** `com.royaltystudios.tizibane`.
+- The user explicitly approved this exact ID on 14 November 2026. It is now set in `android/twa-manifest.json` and must remain stable for future upgrades.\n- Bubblewrap generated the Android project and built an unsigned aligned APK plus an unsigned Android App Bundle.\n- Successful CI run: [#43546263788](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/43546263788).\n- Prototype artifact: `tizibane-android-unsigned-prototype` (APK + AAB), retained by GitHub for 7 days from 14 November 2026. This is a build artifact for engineering verification only; it is not a signed installer and must not be distributed to members.\n\n## Permanent Android signing — owner action required
+
+The signing workflow is ready at `.github/workflows/android-signed-release.yml`. It deliberately requires a keystore controlled by the app owner; no private key is generated in CI or committed to Git.
+
+On the Windows PC, with a JDK installed and `keytool` available in PowerShell:
+
+```powershell
+keytool -genkeypair -v -keystore "$env:USERPROFILE\\tizibane-release.keystore" -storetype JKS -alias tizibane -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Keep the keystore and both passwords in a secure password manager/backup. Do not upload the keystore to chat, commit it to Git, or send either password. To display the public SHA-256 certificate fingerprint:
+
+```powershell
+keytool -list -v -keystore "$env:USERPROFILE\\tizibane-release.keystore" -alias tizibane
+```
+
+Copy the Base64 representation of the keystore to the clipboard for the GitHub Actions secret (do not paste it into chat):
+
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("$env:USERPROFILE\\tizibane-release.keystore")) | Set-Clipboard
+```
+
+In the GitHub repository, open **Settings → Secrets and variables → Actions** and add these repository secrets: `ANDROID_KEYSTORE_BASE64` (paste from clipboard), `ANDROID_KEYSTORE_PASSWORD`, and `ANDROID_KEY_PASSWORD`. Use the exact passwords entered when generating the key. Then manually run the **TIZIBANE Android signed release build** workflow. It will produce signed APK/AAB candidates without exposing the keystore in the repository. Share only the SHA-256 fingerprint with the project maintainer so the public `/.well-known/assetlinks.json` association can be configured. Never share the keystore or passwords.
+
+## Current status
 
 - [x] Create isolated installation branch.
 - [x] Remove the old browser-prompt download button/component/styles on the working branch.
@@ -64,7 +91,10 @@ Public distribution must use Apple's supported route: TestFlight for beta testin
 - [x] Add an automated hosted-PWA/TWA readiness check.
 - [x] Run and review the TWA readiness result.
 - [x] Generate and configure the Android project.
-- [ ] Confirm permanent Android application ID, securely establish signing key, and build signed APK.
+- [x] Confirm permanent Android application ID: `com.royaltystudios.tizibane`.
+- [x] Prepare a signed-build workflow that uses owner-managed GitHub Actions secrets and never commits the keystore.
+- [ ] Owner creates and securely backs up the permanent signing keystore; adds the three GitHub Actions secrets.
+- [ ] Build signed APK/AAB and configure Digital Asset Links using the matching SHA-256 fingerprint.
 - [ ] Android real-device verification.
 - [ ] Windows installer implementation and verification.
 - [ ] Apple build/distribution setup and verification.
