@@ -22,5 +22,26 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Validate TIZIBANE's live PWA against TWA quality criteria
-        run: docker run --rm ghcr.io/googlechromelabs/bubblewrap:latest validate --url=https://tizibane-africa-next.onrender.com
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run Bubblewrap TWA quality validation
+        id: bubblewrap
+        shell: bash
+        run: |
+          set +e
+          output="$(docker run --rm ghcr.io/googlechromelabs/bubblewrap:latest validate --url=https://tizibane-africa-next.onrender.com 2>&1)"
+          result=$?
+          printf '%s\n' "$output"
+          if [ "$result" -eq 0 ]; then
+            echo "Bubblewrap TWA validation passed."
+            exit 0
+          fi
+          if printf '%s' "$output" | grep -qE 'status 429|status: 429'; then
+            echo "::warning::Google PageSpeed API rate-limited Bubblewrap validation (HTTP 429). Deterministic hosted manifest, icon and service-worker checks will still run."
+            exit 0
+          fi
+          exit "$result"
+
+      - name: Run deterministic manifest, icon and service-worker checks
+        run: node scripts/check-pwa-readiness.mjs
