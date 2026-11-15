@@ -61,18 +61,29 @@ jobs:
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           BUBBLEWRAP_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        shell: bash
         run: |
+          set -euo pipefail
           docker run --rm \
             -v "$PWD:/workspace" \
             -w /workspace/android \
             --env BUBBLEWRAP_KEYSTORE_PASSWORD \
             --env BUBBLEWRAP_KEY_PASSWORD \
+            --entrypoint /bin/bash \
             ghcr.io/googlechromelabs/bubblewrap:latest \
-            build --skipPwaValidation \
-            --directory=/workspace/android \
-            --manifest=/workspace/android/twa-manifest.json \
-            --signingKeyPath=/workspace/android/tizibane-release.keystore \
-            --signingKeyAlias=tizibane
+            -lc '
+              set -euo pipefail
+              SDK_ROOT=/root/.bubblewrap/android_sdk
+              SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager | head -n 1)"
+              test -n "$SDKMANAGER"
+              yes | "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses
+              "$SDKMANAGER" --sdk_root="$SDK_ROOT" --install "build-tools;35.0.0" "platforms;android-36"
+              bubblewrap build --skipPwaValidation \
+                --directory=/workspace/android \
+                --manifest=/workspace/android/twa-manifest.json \
+                --signingKeyPath=/workspace/android/tizibane-release.keystore \
+                --signingKeyAlias=tizibane
+            '
 
       - name: Verify signed release artifacts exist
         run: |
