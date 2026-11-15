@@ -1,6 +1,9 @@
 name: TIZIBANE Android signed release build
 
 on:
+  push:
+    branches:
+      - build/three-platform-installation
   workflow_dispatch:
 
 permissions:
