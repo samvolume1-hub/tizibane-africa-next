@@ -438,3 +438,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None.
 - **Blockers/risks:** The owner must generate and securely back up the permanent JKS keystore, set `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, and `ANDROID_KEY_PASSWORD` as GitHub Actions repository secrets, then manually run the signed build. Only the public SHA-256 certificate fingerprint should be shared for Digital Asset Links; never share the keystore or passwords.
 - **Next safe step:** Complete the owner-side signing-key setup, run the signed APK/AAB workflow, then configure and verify `/.well-known/assetlinks.json` using the matching certificate fingerprint.
+
+
+### 16 November 2026 — Smart comment protection implementation prepared
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feature/smart-comment-protection`
+- **Agreed scope:** Add automatic moderation to public feed comments and group comments, including edits. Private messages remain outside this filter. Public post descriptions were not included in the confirmed scope.
+- **Commit/PR:** Feature branch created from verified `main` commit `41d5cc5978307c87f8bcb97a2a9c6389ef68cf23`. Commits: `3fc58bf` moderation engine; `079189f` and `0192114` comment action enforcement; `384f864`, `203fcf3`, and `68af5e3` refinements.
+- **Files inspected:** `AI-HANDOVER.md`, `PRODUCT-AND-ARCHITECTURE.md`, `package.json`, `src/app/home/page.tsx`, `src/app/home/post-actions.ts`, `src/app/home/group-feed-actions.ts`, Supabase migration inventory, and current CI workflow inventory.
+- **Files changed:** Added `src/lib/comment-moderation.ts`; updated `src/app/home/post-actions.ts` and `src/app/home/group-feed-actions.ts`; added `supabase/migrations/20261116140000_smart_comment_protection.sql`.
+- **Findings and decisions:** The app uses server actions for feed and group comments. The shared `comments` table makes an additive database trigger the appropriate second enforcement layer for direct Supabase writes as well. The TypeScript matcher normalizes case, Unicode marks, punctuation/spacing, and common leetspeak variants. Existing comments are not deleted or rewritten. The migration is committed to the feature branch only and has NOT been applied to Supabase.
+- **Tests/checks run and actual results:** Repository and source inspection completed. Automated typecheck/build and runtime moderation tests have not yet been run in this environment; CI result is pending PR creation. The blocklist implementation is a first pass and should receive a test matrix for false positives, obfuscation, and every supplied category before production acceptance.
+- **Deployment status (verified/unverified):** No deployment performed or verified.
+- **Production, hosting, Supabase, or data changes:** None. No migration applied; no production data touched.
+- **Blockers/risks:** The SQL trigger currently contains a curated subset of the supplied terms rather than every entry; the TypeScript dictionary also requires completeness review against the full supplied list. A few matching edge cases need automated regression tests. The database migration must be reviewed and explicitly approved before applying to the Supabase project.
+- **Next safe step:** Open a PR, inspect its CI results, complete blocklist parity and regression tests, review SQL matching behavior, then obtain explicit approval before applying the migration or merging/deploying.
