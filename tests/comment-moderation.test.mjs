@@ -52,7 +52,7 @@ test("allows normal respectful conversation and empty input", () => {
 
 test("every configured blocked term is actually rejected", () => {
   const source = readFileSync(new URL("../src/lib/comment-moderation.ts", import.meta.url), "utf8");
-  const categories = [...source.matchAll(/^\\s{2}(\\w+): \`([^\\`]*)\\`,?$/gm)];
+  const categories = [...source.matchAll(/^\s{2}(\w+): `([^`]*)`,?$/gm)];
   const allTerms = categories.flatMap(([, category, terms]) =>
     terms.split("|").map((term) => ({ category, term })),
   );
