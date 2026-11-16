@@ -1,0 +1,42 @@
+/* TIZIBANE authentication form readability.
+   Keep text legible in light input fields across sign-in, registration and resend-confirmation forms. */
+.auth-wrap .auth-card .field input,
+.auth-wrap .auth-card .password-input-wrap input,
+.auth-wrap .auth-card .field select,
+.auth-wrap .auth-card .field textarea {
+  color-scheme: light !important;
+  background-color: #ffffff !important;
+  color: #302632 !important;
+  -webkit-text-fill-color: #302632 !important;
+  caret-color: #704184 !important;
+  border-color: #d9c9df !important;
+}
+
+.auth-wrap .auth-card .field input::placeholder,
+.auth-wrap .auth-card .password-input-wrap input::placeholder,
+.auth-wrap .auth-card .field textarea::placeholder {
+  color: #756b75 !important;
+  -webkit-text-fill-color: #756b75 !important;
+  opacity: 1 !important;
+}
+
+.auth-wrap .auth-card .field input:-webkit-autofill,
+.auth-wrap .auth-card .field input:-webkit-autofill:hover,
+.auth-wrap .auth-card .field input:-webkit-autofill:focus,
+.auth-wrap .auth-card .password-input-wrap input:-webkit-autofill,
+.auth-wrap .auth-card .password-input-wrap input:-webkit-autofill:hover,
+.auth-wrap .auth-card .password-input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #302632 !important;
+  caret-color: #704184 !important;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  transition: background-color 99999s ease-out 0s;
+}
+
+.auth-wrap .auth-card .field input:focus-visible,
+.auth-wrap .auth-card .password-input-wrap input:focus-visible,
+.auth-wrap .auth-card .field select:focus-visible,
+.auth-wrap .auth-card .field textarea:focus-visible {
+  outline: 2px solid #a94f7b !important;
+  outline-offset: 2px;
+}
