@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { moderateComment } from "../src/lib/comment-moderation.ts";
 
 const blocked = [
@@ -46,5 +47,18 @@ test("does not reject ordinary words containing blocked-word fragments", () => {
 test("allows normal respectful conversation and empty input", () => {
   for (const phrase of ["Hello friends, how are you?", "Thank you for sharing.", "I disagree respectfully.", "", "   "]) {
     assert.equal(moderateComment(phrase).allowed, true, phrase);
+  }
+});
+
+test("every configured blocked term is actually rejected", () => {
+  const source = readFileSync(new URL("../src/lib/comment-moderation.ts", import.meta.url), "utf8");
+  const categories = [...source.matchAll(/^\\s{2}(\\w+): \`([^\\`]*)\\`,?$/gm)];
+  const allTerms = categories.flatMap(([, category, terms]) =>
+    terms.split("|").map((term) => ({ category, term })),
+  );
+  assert.equal(categories.length, 13, "all moderation categories must remain represented");
+  assert.ok(allTerms.length >= 400, "the supplied policy dictionary must not silently shrink");
+  for (const { category, term } of allTerms) {
+    assert.equal(moderateComment(term).allowed, false, `not blocked in ${category}: ${term}`);
   }
 });
