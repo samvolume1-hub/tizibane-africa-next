@@ -492,3 +492,10 @@ drop trigger if exists tizibane_comment_content_guard on public.comments;
 create trigger tizibane_comment_content_guard
 before insert or update of body on public.comments
 for each row execute function public.tizibane_guard_comment_content();
+
+-- Public announcement discussions are also comments and receive the same
+-- database-level protection. Private messages remain intentionally excluded.
+drop trigger if exists tizibane_announcement_comment_content_guard on public.announcement_comments;
+create trigger tizibane_announcement_comment_content_guard
+before insert or update of body on public.announcement_comments
+for each row execute function public.tizibane_guard_comment_content();
