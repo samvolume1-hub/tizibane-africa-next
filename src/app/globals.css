@@ -8612,3 +8612,47 @@ body.tizibane-call-active .tizibane-notification-bell {
 .app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form .btn {
   justify-self: start !important;
 }
+
+
+/* Final Content Control polish — only Archive, Pin/Unpin and Delete actions.
+   Keep all other announcement styling and controls unchanged. */
+.app-layout .community-feature-page .feature-admin-item-actions > form > .feature-secondary-button {
+  min-height: 40px !important;
+  padding: 9px 15px !important;
+  border: 1px solid #c8b5e6 !important;
+  border-radius: 999px !important;
+  background: #eee7ff !important;
+  color: #352047 !important;
+  -webkit-text-fill-color: #352047 !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  text-shadow: none !important;
+  box-shadow: 0 1px 3px rgba(20, 10, 35, .18) !important;
+}
+.app-layout .community-feature-page .feature-admin-item-actions > form > .feature-danger-button {
+  min-height: 40px !important;
+  padding: 9px 15px !important;
+  border: 1px solid #e7aeb7 !important;
+  border-radius: 999px !important;
+  background: #ffe7eb !important;
+  color: #781d2b !important;
+  -webkit-text-fill-color: #781d2b !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  text-shadow: none !important;
+  box-shadow: 0 1px 3px rgba(50, 10, 20, .16) !important;
+}
+.app-layout .community-feature-page .feature-admin-item-actions > form > .feature-secondary-button:hover {
+  background: #e2d5fa !important;
+  border-color: #a990d0 !important;
+}
+.app-layout .community-feature-page .feature-admin-item-actions > form > .feature-danger-button:hover {
+  background: #ffd5dc !important;
+  border-color: #d77f8d !important;
+}
+.app-layout .community-feature-page .feature-admin-item-actions > form > :is(.feature-secondary-button, .feature-danger-button):focus-visible {
+  outline: 3px solid #b69adf !important;
+  outline-offset: 3px !important;
+}
