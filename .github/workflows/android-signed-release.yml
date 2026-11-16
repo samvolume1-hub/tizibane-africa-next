@@ -65,7 +65,7 @@ jobs:
           set +o pipefail
           yes | docker run -i --rm \
             -v "$PWD:/workspace" \
-            -w /workspace \
+            -w /workspace/android \
             --env BUBBLEWRAP_KEYSTORE_PASSWORD \
             --env BUBBLEWRAP_KEY_PASSWORD \
             --entrypoint /bin/bash \
@@ -75,6 +75,11 @@ jobs:
               bubblewrap update --skipVersionUpgrade \
                 --directory=/workspace/android \
                 --manifest=/workspace/android/twa-manifest.json
+
+              # Bubblewrap invokes ./gradlew relative to its current directory.
+              # The container must therefore run from the generated Android project.
+              test -f ./gradlew
+              chmod +x ./gradlew
 
               bubblewrap build --skipPwaValidation \
                 --directory=/workspace/android \
