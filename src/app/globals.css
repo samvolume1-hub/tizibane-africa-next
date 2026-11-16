@@ -8538,3 +8538,77 @@ body.tizibane-call-active .tizibane-notification-bell {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
+
+/* Make the complete per-announcement editor a distinct, light surface.
+   This includes its heading, labels, inputs, message area and pin/status controls. */
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit {
+  flex: 1 0 100% !important;
+  min-width: 0 !important;
+  margin-top: 8px !important;
+  padding: 16px !important;
+  border: 1px solid #c9b9e2 !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, #fbfaff 0%, #eee8fa 100%) !important;
+  color: #30223e !important;
+  -webkit-text-fill-color: #30223e !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit > summary {
+  display: list-item !important;
+  padding: 3px 2px 8px !important;
+  color: #38234f !important;
+  -webkit-text-fill-color: #38234f !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit[open] > summary {
+  margin-bottom: 12px !important;
+  border-bottom: 1px solid #d7c9e9 !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form {
+  display: grid !important;
+  gap: 10px !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form > label {
+  color: #382b48 !important;
+  -webkit-text-fill-color: #382b48 !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form input:not([type="hidden"]):not([type="checkbox"]),
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form textarea {
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 44px !important;
+  padding: 11px 13px !important;
+  border: 1px solid #bfb0d2 !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: #21182b !important;
+  -webkit-text-fill-color: #21182b !important;
+  caret-color: #21182b !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.6 !important;
+  box-shadow: inset 0 1px 2px rgba(45, 30, 60, .05) !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form textarea {
+  min-height: 150px !important;
+  resize: vertical !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form input::placeholder,
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form textarea::placeholder {
+  color: #746a7c !important;
+  -webkit-text-fill-color: #746a7c !important;
+  opacity: 1 !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form input:focus,
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form textarea:focus {
+  outline: 3px solid #8a6ab0 !important;
+  outline-offset: 2px !important;
+  border-color: #755394 !important;
+}
+.app-layout .community-feature-page .feature-admin-item > .feature-admin-edit .feature-admin-form .btn {
+  justify-self: start !important;
+}
