@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - build/three-platform-installation
+      - main
+    paths:
+      - .github/workflows/android-signed-release.yml
+      - android/**
+      - scripts/check-pwa-readiness.mjs
+      - public/manifest.webmanifest
   workflow_dispatch:
 
 permissions:
