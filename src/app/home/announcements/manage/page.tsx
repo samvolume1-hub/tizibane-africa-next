@@ -6,7 +6,7 @@ import { CommunityNavigation } from "@/components/community-navigation";
 import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { createAnnouncement, editAnnouncement, updateAnnouncementStatus, toggleAnnouncementPin, deleteAnnouncement, broadcastAnnouncement } from "../announcement-actions";
 
-type Announcement = { id: string; title: string; body: string; status: string; is_pinned: boolean; expires_at: string | null; created_at: string; published_at: string | null };
+type Announcement = { id: string; title: string; body: string; status: string; is_pinned: boolean; expires_at: string | null; created_at: string; published_at: string | null; broadcasted_at: string | null };
 export default async function ManageAnnouncements({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string }> }) {
   const params = await searchParams;
   const supabase = await createClient();
@@ -14,7 +14,7 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
   if (!user) redirect("/login");
   const { data: adminFlag } = await supabase.rpc("is_current_platform_admin");
   if (adminFlag !== true) redirect("/home/announcements?error=admin");
-  const { data } = await supabase.from("community_announcements").select("id,title,body,status,is_pinned,expires_at,created_at,published_at").order("created_at", { ascending: false });
+  const { data } = await supabase.from("community_announcements").select("id,title,body,status,is_pinned,expires_at,created_at,published_at,broadcasted_at").order("created_at", { ascending: false });
   const announcements = (data ?? []) as Announcement[];
   return <main className="app-layout"><CommunityNavigation active="announcements"/><section className="app-main">
     <header className="topbar"><Link href="/home/announcements" className="back-link">← Official announcements</Link><span className="muted">ADMINISTRATION</span></header>
@@ -34,7 +34,8 @@ export default async function ManageAnnouncements({ searchParams }: { searchPara
       </form></section>
       <section className="feature-admin-list"><div className="feed-heading"><div><span className="eyebrow">CONTENT CONTROL</span><h2>All announcements</h2></div><span className="muted">{announcements.length} total</span></div>
         {announcements.length ? announcements.map((item) => <article className="feature-admin-item" key={item.id}><div className="feature-admin-item-copy"><span className={"feature-status status-" + item.status}>{item.status}</span>{item.is_pinned && <span className="home-pinned-label">PINNED</span>}<h3>{item.title}</h3><p>{item.body.length > 180 ? item.body.slice(0,180) + "…" : item.body}</p></div><div className="feature-admin-item-actions">
-          {item.status === "published" && <form action={broadcastAnnouncement}><input type="hidden" name="id" value={item.id}/><PendingIconButton className="btn btn-primary" label="Send announcement to all members" pendingLabel="Queuing…">Send to all members</PendingIconButton></form>}
+          {item.status === "published" && !item.broadcasted_at && <form action={broadcastAnnouncement}><input type="hidden" name="id" value={item.id}/><PendingIconButton className="btn btn-primary" label="Send announcement to all members" pendingLabel="Queuing…">Send to all members</PendingIconButton></form>}
+          {item.broadcasted_at && <span className="feature-status status-published">SENT TO MEMBERS</span>}
           {item.status !== "published" ? <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="published"/><PendingIconButton className="btn btn-primary" label="Publish announcement" pendingLabel="Publishing…">Publish</PendingIconButton></form> : <form action={updateAnnouncementStatus}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="status" value="archived"/><PendingIconButton className="feature-secondary-button" label="Archive announcement" pendingLabel="Archiving…">Archive</PendingIconButton></form>}
           <form action={toggleAnnouncementPin}><input type="hidden" name="id" value={item.id}/><input type="hidden" name="pinned" value={String(item.is_pinned)}/><PendingIconButton className="feature-secondary-button" label={item.is_pinned ? "Unpin announcement" : "Pin announcement"} pendingLabel="Updating…">{item.is_pinned ? "Unpin" : "Pin"}</PendingIconButton></form>
           <form action={deleteAnnouncement}><input type="hidden" name="id" value={item.id}/><PendingIconButton className="feature-danger-button" label="Delete announcement" pendingLabel="Deleting…">Delete</PendingIconButton></form>
