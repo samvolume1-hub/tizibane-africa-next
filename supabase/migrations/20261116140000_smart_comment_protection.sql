@@ -49,7 +49,7 @@ declare
     'meetaminor','grooming','sellachild','buyachild','forcedlabour',
     'dmme','whatsappme','telegramme','linkinbio','clickmylink',
     'joinmywhatsappgroup','joinmytelegramgroup','youmustobeyme',
-    'iwillleakyourpictures','iwillruinyourreputation','letusbulythisperson'
+    'iwillleakyourpictures','iwillruinyourreputation','letusbullythisperson'
   ];
   term text;
 begin
