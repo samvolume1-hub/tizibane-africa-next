@@ -57,7 +57,13 @@ jobs:
           # Keep Bubblewrap project generation and build in the same container:
           # the Android SDK lives inside the image and is not shared between
           # separate docker run invocations.
-          docker run --rm \
+          # Bubblewrap's own installer provisions its SDK at the path recorded in
+          # ~/.bubblewrap/config.json. Keep update and build in one container so
+          # that SDK installation and the generated Android project are retained.
+          # Disable pipefail for the yes|docker pipeline: yes may receive SIGPIPE
+          # after Docker exits successfully; Docker's exit code remains decisive.
+          set +o pipefail
+          yes | docker run -i --rm \
             -v "$PWD:/workspace" \
             -w /workspace \
             --env BUBBLEWRAP_KEYSTORE_PASSWORD \
@@ -69,12 +75,6 @@ jobs:
               bubblewrap update --skipVersionUpgrade \
                 --directory=/workspace/android \
                 --manifest=/workspace/android/twa-manifest.json
-
-              SDK_ROOT=/root/.bubblewrap/android_sdk
-              SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager | head -n 1)"
-              test -n "$SDKMANAGER"
-              yes | "$SDKMANAGER" --sdk_root="$SDK_ROOT" --licenses
-              "$SDKMANAGER" --sdk_root="$SDK_ROOT" --install "build-tools;35.0.0" "platforms;android-36"
 
               bubblewrap build --skipPwaValidation \
                 --directory=/workspace/android \
