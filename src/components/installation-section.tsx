@@ -20,18 +20,18 @@ export function InstallationSection() {
         <p className={styles.androidNote}>For Android phones and tablets · Direct APK download</p>
 
         <div className={styles.platformLinks} aria-label="Other installation options">
-          <a href="https://support.apple.com/en-us/guide/iphone/iphea86e5236/ios" target="_blank" rel="noreferrer">
-            <span className={styles.platformIcon} aria-hidden="true"></span>
+          <a href="https://support.apple.com/en-gb/guide/iphone/iphea86e5236/27/ios/27" target="_blank" rel="noreferrer">
+            <span className={styles.platformIcon} aria-hidden="true">iOS</span>
             <span><strong>iPhone &amp; iPad</strong><small>Open in Safari · Add to Home Screen</small></span>
             <span className={styles.arrow} aria-hidden="true">↗</span>
           </a>
           <a href="https://support.microsoft.com/en-us/microsoft-edge/install-manage-or-uninstall-apps-in-microsoft-edge-0c156575-a94a-45e4-a54f-3a84846f6113" target="_blank" rel="noreferrer">
-            <span className={styles.platformIcon} aria-hidden="true">▣</span>
+            <span className={styles.platformIcon} aria-hidden="true">PC</span>
             <span><strong>Windows desktop</strong><small>Install this site as an app in Edge</small></span>
             <span className={styles.arrow} aria-hidden="true">↗</span>
           </a>
         </div>
-        <p className={styles.helpText}>Need help? <a href="mailto:samvolume1@gmail.com?subject=TIZIBANE%20installation%20help">Contact TIZIBANE support</a></p>
+        <p className={styles.helpText}>Need help? Use the contact options further down this page.</p>
       </div>
     </section>
   );
