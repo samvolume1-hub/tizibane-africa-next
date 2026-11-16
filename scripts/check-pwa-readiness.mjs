@@ -1,9 +1,34 @@
 const origin = (process.env.TIZIBANE_ORIGIN || "https://tizibane-africa-next.onrender.com").replace(/\/$/, "");
+const REQUEST_TIMEOUT_MS = 60000;
+const MAX_ATTEMPTS = 3;
 
 async function get(path) {
-  const response = await fetch(new URL(path, origin), { signal: AbortSignal.timeout(20000) });
-  if (!response.ok) throw new Error(`${path} returned HTTP ${response.status}`);
-  return response;
+  const url = new URL(path, origin);
+  let lastError;
+
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+      if (response.ok) return response;
+
+      const error = new Error(`${path} returned HTTP ${response.status}`);
+      if (![408, 429].includes(response.status) && response.status < 500) throw error;
+      lastError = error;
+    } catch (error) {
+      lastError = error;
+      if (error?.name !== "TimeoutError" && error?.name !== "AbortError" && !/fetch failed|network|socket/i.test(String(error))) {
+        throw error;
+      }
+    }
+
+    if (attempt < MAX_ATTEMPTS) {
+      const delayMs = attempt * 5000;
+      console.warn(`Retrying ${path} after attempt ${attempt}/${MAX_ATTEMPTS} failed: ${lastError?.message || lastError}. Waiting ${delayMs / 1000}s.`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+
+  throw new Error(`Unable to fetch ${path} after ${MAX_ATTEMPTS} attempts: ${lastError?.message || lastError}`);
 }
 
 function assert(condition, message) {
