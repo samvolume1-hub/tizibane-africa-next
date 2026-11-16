@@ -37,6 +37,6 @@ Hi! We've updated the TIZIBANE login system. Please try confirming your email ag
 
 After tapping the link, you should be taken straight into TIZIBANE, already signed in.
 
-Please let us know whether it works. If it doesn't, send us a screenshot of what appears. Thank you!
+Please let me know whether it works. If it doesn't, send me a screenshot of what appears. Thank you!
 
 Only publish this notice after the login changes and delivery pipeline are deployed and a real confirmation test has succeeded.
