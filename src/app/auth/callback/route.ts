@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import { getSafeAuthNext } from "@/lib/supabase/auth-flow";
 import {
   createAuthRedirectClient,
   setAuthRedirectDestination,
@@ -11,12 +12,7 @@ export async function GET(request: NextRequest) {
     "https://tizibane-africa-next.onrender.com"
   ).replace(/\/+$/, "");
   const code = searchParams.get("code");
-  const requestedNext = searchParams.get("next") ?? "/home";
-
-  const safeNext =
-    requestedNext.startsWith("/") && !requestedNext.startsWith("//")
-      ? requestedNext
-      : "/home";
+  const next = getSafeAuthNext(searchParams.get("next"));
 
   const fallbackUrl = new URL(
     "/login?error=Could%20not%20confirm%20your%20email",
@@ -26,20 +22,24 @@ export async function GET(request: NextRequest) {
 
   if (!code) return response;
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
-  if (error) return response;
+  try {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) return response;
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-  if (userError || !user) return response;
+    if (userError || !user) return response;
 
-  const destination =
-    user.email?.toLowerCase() === "samvolume1@gmail.com"
-      ? "/home/premium/admin"
-      : safeNext;
+    const { data: isPlatformAdmin, error: adminCheckError } =
+      await supabase.rpc("is_current_platform_admin");
+    const destination =
+      !adminCheckError && isPlatformAdmin ? "/home/premium/admin" : next;
 
-  return setAuthRedirectDestination(response, new URL(destination, siteUrl));
+    return setAuthRedirectDestination(response, new URL(destination, siteUrl));
+  } catch {
+    return response;
+  }
 }
