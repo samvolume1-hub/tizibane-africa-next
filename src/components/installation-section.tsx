@@ -2,6 +2,7 @@ import styles from "./installation-section.module.css";
 
 const androidDownload =
   "https://github.com/samvolume1-hub/tizibane-africa-next/releases/latest/download/tizibane-android.apk";
+const welcomePage = "https://tizibane-africa-next.onrender.com";
 
 export function InstallationSection() {
   return (
@@ -19,15 +20,15 @@ export function InstallationSection() {
         </a>
         <p className={styles.androidNote}>For Android phones and tablets · Direct APK download</p>
 
-        <div className={styles.platformLinks} aria-label="Other installation options">
-          <a href="https://support.apple.com/en-gb/guide/iphone/iphea86e5236/27/ios/27" target="_blank" rel="noreferrer">
+        <div className={styles.platformLinks} aria-label="Open TIZIBANE">
+          <a href={welcomePage}>
             <span className={styles.platformIcon} aria-hidden="true">iOS</span>
-            <span><strong>iPhone &amp; iPad</strong><small>Open in Safari · Add to Home Screen</small></span>
+            <span><strong>iPhone &amp; iPad</strong><small>Open TIZIBANE welcome page in your browser</small></span>
             <span className={styles.arrow} aria-hidden="true">↗</span>
           </a>
-          <a href="https://support.microsoft.com/en-us/microsoft-edge/install-manage-or-uninstall-apps-in-microsoft-edge-0c156575-a94a-45e4-a54f-3a84846f6113" target="_blank" rel="noreferrer">
+          <a href={welcomePage}>
             <span className={styles.platformIcon} aria-hidden="true">PC</span>
-            <span><strong>Windows desktop</strong><small>Install this site as an app in Edge</small></span>
+            <span><strong>Windows desktop</strong><small>Open TIZIBANE welcome page in your browser</small></span>
             <span className={styles.arrow} aria-hidden="true">↗</span>
           </a>
         </div>
