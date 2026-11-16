@@ -33,18 +33,33 @@ export async function createAnnouncement(formData: FormData) {
     redirect("/home/announcements/manage?error=length");
   }
   if (!["draft", "published"].includes(status)) redirect("/home/announcements/manage?error=status");
-  const { error } = await supabase.from("community_announcements").insert({
+  const { data, error } = await supabase.from("community_announcements").insert({
     title, body, status, is_pinned: pinned, created_by: user.id,
     published_at: status === "published" ? new Date().toISOString() : null,
     expires_at: expiry ? new Date(expiry).toISOString() : null,
-  });
+  }).select("id").single();
   if (error) redirect("/home/announcements/manage?error=create");
   revalidatePath("/home");
   revalidatePath("/home/announcements");
+  if (status === "published") {
+    const { error: broadcastError } = await supabase.rpc("broadcast_platform_announcement", { p_announcement_id: data.id });
+    if (broadcastError) redirect("/home/announcements/manage?error=broadcast");
+  }
   revalidatePath("/home/announcements/manage");
   redirect("/home/announcements/manage?created=1");
 }
 
+
+export async function broadcastAnnouncement(formData: FormData) {
+  const { supabase } = await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!/^[0-9a-f-]{36}$/i.test(id)) redirect("/home/announcements/manage?error=invalid");
+  const { data, error } = await supabase.rpc("broadcast_platform_announcement", { p_announcement_id: id });
+  if (error) redirect("/home/announcements/manage?error=broadcast");
+  revalidatePath("/home/announcements");
+  revalidatePath("/home/announcements/manage");
+  redirect("/home/announcements/manage?broadcast=" + encodeURIComponent(String(data ?? 0)));
+}
 
 export async function editAnnouncement(formData: FormData) {
   const { supabase } = await requireAdmin();
@@ -72,6 +87,10 @@ export async function updateAnnouncementStatus(formData: FormData) {
     published_at: status === "published" ? new Date().toISOString() : null,
   }).eq("id", id);
   if (error) redirect("/home/announcements/manage?error=update");
+  if (status === "published") {
+    const { error: broadcastError } = await supabase.rpc("broadcast_platform_announcement", { p_announcement_id: id });
+    if (broadcastError) redirect("/home/announcements/manage?error=broadcast");
+  }
   revalidatePath("/home");
   revalidatePath("/home/announcements");
   revalidatePath("/home/announcements/manage");
