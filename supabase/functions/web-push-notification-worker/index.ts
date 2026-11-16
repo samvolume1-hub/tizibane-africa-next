@@ -31,6 +31,12 @@ function cleanName(value: unknown) {
 
 function notificationText(kind: string, actor: string, metadata: Record<string, unknown> | null) {
   switch (kind) {
+    case "platform_update": {
+      const body = typeof metadata?.body === "string"
+        ? metadata.body.replace(/[\\x00-\\x1f\\x7f]/g, " ").trim().slice(0, 220)
+        : "";
+      return body || "A new official TIZIBANE update is available.";
+    }
     case "friend_request": return actor + " sent you a friend request.";
     case "friend_accepted": return actor + " accepted your friend request.";
     case "friend_declined": return "There is an update to your friend request.";
@@ -143,10 +149,18 @@ Deno.serve(async (request: Request) => {
       }
       try {
         const pushEventId = entry.notification_id ?? entry.id;
+        const updateTitle = typeof entry.metadata?.title === "string"
+          ? entry.metadata.title.replace(/[\\x00-\\x1f\\x7f]/g, " ").trim().slice(0, 70)
+          : "";
+        const updatePath = typeof entry.metadata?.url === "string"
+          && entry.metadata.url.startsWith("/")
+          && !entry.metadata.url.startsWith("//")
+          ? entry.metadata.url
+          : "/home/announcements";
         await send(stored.subscription, JSON.stringify({
-          title: "TIZIBANE",
+          title: entry.kind === "platform_update" && updateTitle ? updateTitle : "TIZIBANE",
           body: notificationText(entry.kind, actorName, entry.metadata),
-          url: entry.kind === "premium_ad" ? "/home/premium" : "/home/notifications",
+          url: entry.kind === "platform_update" ? updatePath : entry.kind === "premium_ad" ? "/home/premium" : "/home/notifications",
           tag: "tz-" + pushEventId.replace(/-/g, "").slice(0, 24),
         }), {
           vapid,
