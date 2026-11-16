@@ -25,7 +25,10 @@ export async function signIn(data: FormData) {
   }
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) redirect("/login?error=Sign-in%20failed.%20Check%20your%20details");
+  if (error?.code === "email_not_confirmed") {
+    redirect("/login?error=Please%20confirm%20your%20email%20first.%20Use%20the%20resend%20option%20below");
+  }
+  if (error) redirect("/login?error=Sign-in%20failed.%20Check%20your%20email%20and%20password");
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login?error=Could%20not%20verify%20your%20session");
   const { data: isPlatformAdmin } = await supabase.rpc("is_current_platform_admin");
