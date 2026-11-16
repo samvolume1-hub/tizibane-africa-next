@@ -455,3 +455,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** None. No migration applied; no production data touched.
 - **Blockers/risks:** The SQL trigger currently contains a curated subset of the supplied terms rather than every entry; the TypeScript dictionary also requires completeness review against the full supplied list. A few matching edge cases need automated regression tests. The database migration must be reviewed and explicitly approved before applying to the Supabase project.
 - **Next safe step:** Open a PR, inspect its CI results, complete blocklist parity and regression tests, review SQL matching behavior, then obtain explicit approval before applying the migration or merging/deploying.
+
+
+### 16 November 2026 — Smart comment protection hardening and verification
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `feature/smart-comment-protection`
+- **Agreed scope:** Enforce the supplied community-safety policy before public feed, group, and public announcement comments are published or edited. Keep private messages and post descriptions outside this comment-specific change.
+- **Commit/PR:** PR [#201](https://github.com/samvolume1-hub/tizibane-africa-next/pull/201); latest implementation commit at report time: `9c3f95df5feb2fbb1a5fdb7dab58d7147d802b00` (subsequent commits may advance the branch).
+- **Files inspected:** `src/app/home/post-actions.ts`, `src/app/home/group-feed-actions.ts`, `src/lib/comment-moderation.ts`, Supabase public table metadata, migration and CI workflow.
+- **Files changed:** Added shared moderation engine; added pre-save checks to feed/group comment create and edit actions; added additive database trigger migration for `public.comments` and `public.announcement_comments`; added Node regression test suite and CI test step; updated PR description.
+- **Findings and decisions:** The live schema confirms both comment tables have a `body` text column and RLS enabled. The policy dictionary currently contains 446 normalized terms across 13 named categories, with punctuation, case, Unicode combining marks, common leetspeak and character-spaced evasion handling. Matching uses token sequences and boundaries rather than naive substring matching. Private messages are not scanned. Existing stored comments are not retroactively changed.
+- **Tests/checks run and actual results:** An earlier CI attempt exposed a malformed file prefix and a dictionary typing error; both were corrected. The most recent completed CI before the latest changes passed TypeScript, the initial moderation tests and Deno checks, but its production build was still running when checked. A later CI run is queued/pending for the latest branch head. A read-only Postgres SQL smoke test confirmed detection of a spaced-letter abuse sample and a sexual-harassment phrase while not flagging ordinary phrases containing blocked fragments. The full 446-term automated regression suite is now included in CI; its result is pending. No claim of a full end-to-end database-trigger test is made.
+- **Deployment status (verified/unverified):** No production deployment performed.
+- **Production, hosting, Supabase, or data changes:** No production migration applied; no Supabase schema or member data changed. The migration is committed to the feature branch only.
+- **Blockers/risks:** Do not merge until the latest CI run, including the exhaustive term test and production build, is green. The SQL migration has been statically reviewed and smoke-tested at the expression level but has not been applied or exercised as an installed trigger.
+- **Next safe step:** Confirm the latest CI checks and review the complete PR diff. Merge only when every required check passes; then obtain explicit approval before applying the Supabase migration.
