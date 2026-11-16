@@ -52,10 +52,9 @@ export function moderateComment(value: string): CommentModerationResult {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[013457@$!]/g, (character) => LEET[character] ?? character)
     .split(/[^a-z0-9]+/).filter(Boolean);
-  const joined = compactWords.join("");
   for (const entry of TERMS) {
     if (entry.normalized.length <= 7 && !entry.normalized.includes(" ")) {
-      if (compactWords.includes(entry.normalized) || joined.includes(entry.normalized)) {
+      if (compactWords.includes(entry.normalized) || (compactWords.length > 1 && compactWords.every((word) => word.length === 1) && compactWords.join("") === entry.normalized)) {
         return { allowed: false, category: entry.category };
       }
     }
