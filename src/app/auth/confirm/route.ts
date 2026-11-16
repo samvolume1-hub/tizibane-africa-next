@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       : "/home";
 
   const fallbackUrl = new URL(
-    "/login?error=Could%20not%20complete%20email%20confirmation.%20Please%20request%20a%20new%20link",
+    "/auth/finish?next=%2Fhome",
     siteUrl,
   );
   const { supabase, response } = createAuthRedirectClient(request, fallbackUrl);
@@ -51,6 +51,10 @@ export async function GET(request: NextRequest) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);
       if (error) return response;
     } else {
+      response.headers.set(
+        "Location",
+        new URL("/auth/finish?next=%2Fhome", siteUrl).toString(),
+      );
       return response;
     }
 
