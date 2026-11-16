@@ -7,7 +7,7 @@ import { RoyaltyCopyright } from "@/components/royalty-copyright";
 import { createAnnouncement, editAnnouncement, updateAnnouncementStatus, toggleAnnouncementPin, deleteAnnouncement, broadcastAnnouncement } from "../announcement-actions";
 
 type Announcement = { id: string; title: string; body: string; status: string; is_pinned: boolean; expires_at: string | null; created_at: string; published_at: string | null; broadcasted_at: string | null };
-export default async function ManageAnnouncements({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string }> }) {
+export default async function ManageAnnouncements({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string; broadcast?: string }> }) {
   const params = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
