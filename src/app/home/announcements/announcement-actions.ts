@@ -33,11 +33,11 @@ export async function createAnnouncement(formData: FormData) {
     redirect("/home/announcements/manage?error=length");
   }
   if (!["draft", "published"].includes(status)) redirect("/home/announcements/manage?error=status");
-  const { error } = await supabase.from("community_announcements").insert({
+  const { data, error } = await supabase.from("community_announcements").insert({
     title, body, status, is_pinned: pinned, created_by: user.id,
     published_at: status === "published" ? new Date().toISOString() : null,
     expires_at: expiry ? new Date(expiry).toISOString() : null,
-  });
+  }).select("id").single();
   if (error) redirect("/home/announcements/manage?error=create");
   revalidatePath("/home");
   revalidatePath("/home/announcements");
