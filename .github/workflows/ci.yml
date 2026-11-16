@@ -38,6 +38,9 @@ jobs:
       - name: Test comment moderation policy
         run: npm run test:moderation
 
+      - name: Test authentication redirect safety and token parsing
+        run: npm run test:auth
+
       - name: Set up Deno for the Supabase Edge Function
         uses: denoland/setup-deno@v2
         with:

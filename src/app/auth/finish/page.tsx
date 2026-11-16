@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { createClient } from "@/lib/supabase/client";
+import {
+  getSafeAuthNext,
+  readAuthRedirectTokens,
+} from "@/lib/supabase/auth-flow";
 
 export default function AuthFinishPage() {
   const [message, setMessage] = useState("Confirming your email and opening TIZIBANE…");
@@ -13,14 +17,12 @@ export default function AuthFinishPage() {
     let active = true;
 
     async function finishSignIn() {
-      const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-      const accessToken = hash.get("access_token");
-      const refreshToken = hash.get("refresh_token");
-      const errorDescription = hash.get("error_description");
+      const { accessToken, refreshToken, errorDescription } =
+        readAuthRedirectTokens(window.location.hash);
 
       if (errorDescription) {
         if (active) {
-          setMessage(decodeURIComponent(errorDescription.replace(/\+/g, " ")));
+          setMessage(errorDescription);
           setFailed(true);
         }
         return;
@@ -28,7 +30,7 @@ export default function AuthFinishPage() {
 
       if (!accessToken || !refreshToken) {
         if (active) {
-          setMessage("Your email link did not include a sign-in session. Please request a fresh confirmation email and try again.");
+          setMessage("This confirmation link is incomplete or has expired. Request a fresh email and open its newest link.");
           setFailed(true);
         }
         return;
@@ -42,36 +44,48 @@ export default function AuthFinishPage() {
 
       if (error) {
         if (active) {
-          setMessage("Your email was confirmed, but we could not finish signing you in. Please request a fresh link or sign in.");
+          setMessage("Your email may be confirmed, but we could not finish signing you in. Please request a fresh link or sign in.");
           setFailed(true);
         }
         return;
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
         if (active) {
-          setMessage("Your session could not be verified. Please sign in to continue.");
+          setMessage("We couldn't verify your sign-in session. Please sign in again.");
           setFailed(true);
         }
         return;
       }
 
-      const requestedNext = new URLSearchParams(window.location.search).get("next") ?? "/home";
-      const safeNext =
-        requestedNext.startsWith("/") && !requestedNext.startsWith("//")
-          ? requestedNext
-          : "/home";
+      const next = getSafeAuthNext(
+        new URLSearchParams(window.location.search).get("next"),
+      );
+      const { data: isPlatformAdmin, error: adminCheckError } =
+        await supabase.rpc("is_current_platform_admin");
       const destination =
-        user.email?.toLowerCase() === "samvolume1@gmail.com"
-          ? "/home/premium/admin"
-          : safeNext;
+        !adminCheckError && isPlatformAdmin ? "/home/premium/admin" : next;
 
-      window.history.replaceState(null, "", window.location.pathname + window.location.search);
-      window.location.replace(destination);
+      // Remove one-time tokens from the visible URL before navigating.
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+      if (active) window.location.replace(destination);
     }
 
-    void finishSignIn();
+    void finishSignIn().catch(() => {
+      if (active) {
+        setMessage("We couldn't complete sign-in. Please request a fresh confirmation email or sign in.");
+        setFailed(true);
+      }
+    });
+
     return () => {
       active = false;
     };

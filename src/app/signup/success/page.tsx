@@ -15,17 +15,17 @@ export default function SignupSuccess() {
         <div className="signup-step">
           <span>STEP 2 — EMAIL CONFIRMATION</span>
           <h2>One last step!</h2>
-          <p>Please check your email and click the confirmation link to activate your account.</p>
+          <p>Check your inbox and open the newest confirmation email. After confirmation, TIZIBANE will sign you in and take you straight into your community.</p>
         </div>
 
         <div className="signup-step">
-          <span>STEP 3 — SIGN IN</span>
-          <h2>Welcome to TIZIBANE Africa!</h2>
-          <p>Once your email is confirmed, return here and sign in.</p>
+          <span>IF YOU NEED HELP</span>
+          <h2>Having trouble?</h2>
+          <p>If the link has expired or does not open TIZIBANE, return to sign in and request a fresh confirmation email.</p>
         </div>
 
         <Link className="btn btn-primary signup-success-button" href="/login">
-          Continue to sign in
+          Open sign in / resend confirmation
         </Link>
       </section>
     </main>
