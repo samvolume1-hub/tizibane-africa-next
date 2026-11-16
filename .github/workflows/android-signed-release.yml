@@ -4,10 +4,16 @@ on:
   push:
     branches:
       - build/three-platform-installation
+      - main
+    paths:
+      - .github/workflows/android-signed-release.yml
+      - android/**
+      - scripts/check-pwa-readiness.mjs
+      - public/manifest.webmanifest
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: tizibane-android-signed-release
@@ -94,6 +100,7 @@ jobs:
           test -s android/app-release-signed.apk
           test -s android/app-release-bundle.aab
           sudo chmod a+r android/app-release-signed.apk android/app-release-bundle.aab
+          cp android/app-release-signed.apk android/tizibane-android.apk
 
       - name: Upload signed Android release candidates
         uses: actions/upload-artifact@v4
@@ -102,5 +109,22 @@ jobs:
           path: |
             android/app-release-signed.apk
             android/app-release-bundle.aab
+            android/tizibane-android.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish public Android APK download
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-v1.0.0
+          name: TIZIBANE Android v1.0.0
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          overwrite_files: true
+          files: android/tizibane-android.apk
+          fail_on_unmatched_files: true
+          body: |
+            Official signed TIZIBANE Android installation package.
+            Package ID: com.royaltystudios.tizibane
+            Download the APK directly and install it on your Android device.
