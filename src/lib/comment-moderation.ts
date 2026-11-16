@@ -42,19 +42,26 @@ export type CommentModerationResult =
 export function moderateComment(value: string): CommentModerationResult {
   const normalized = normalize(value);
   if (!normalized) return { allowed: true };
-  for (const entry of TERMS) {
-    if (entry.normalized.length < 3) continue;
-    if (normalized.includes(entry.normalized)) return { allowed: false, category: entry.category };
-  }
-  // Catch spaced-out single-word profanity and common evasions without matching
-  // innocent words that merely contain the same letters.
   const compactWords = value.toLocaleLowerCase("en").normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\\u0300-\\u036f]/g, "")
     .replace(/[013457@$!]/g, (character) => LEET[character] ?? character)
     .split(/[^a-z0-9]+/).filter(Boolean);
+
+  // Phrases are matched in normalized text; single words must match a complete
+  // token so innocent words such as "class" and "shitake" are not rejected.
   for (const entry of TERMS) {
-    if (entry.normalized.length <= 7 && !entry.normalized.includes(" ")) {
-      if (compactWords.includes(entry.normalized) || (compactWords.length > 1 && compactWords.every((word) => word.length === 1) && compactWords.join("") === entry.normalized)) {
+    if (entry.normalized.length < 3) continue;
+    const matched = /\\s/.test(entry.term)
+      ? normalized.includes(entry.normalized)
+      : compactWords.includes(entry.normalized);
+    if (matched) return { allowed: false, category: entry.category };
+  }
+
+  // Catch a fully spaced character-by-character attempt such as "f u c k".
+  if (compactWords.length > 1 && compactWords.every((word) => word.length === 1)) {
+    const joined = compactWords.join("");
+    for (const entry of TERMS) {
+      if (entry.normalized.length >= 3 && entry.normalized === joined) {
         return { allowed: false, category: entry.category };
       }
     }
