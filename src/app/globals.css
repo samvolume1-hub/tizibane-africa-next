@@ -8656,3 +8656,34 @@ body.tizibane-call-active .tizibane-notification-bell {
   outline: 3px solid #b69adf !important;
   outline-offset: 3px !important;
 }
+
+
+/* Official announcements — ensure the public comment composer is readable.
+   Scoped only to the add-comment input; no announcement or admin behavior changes. */
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"] {
+  background: #ffffff !important;
+  color: #302632 !important;
+  -webkit-text-fill-color: #302632 !important;
+  caret-color: #302632 !important;
+  color-scheme: light !important;
+  border: 1px solid #cbb8d5 !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"]::placeholder {
+  color: #75677a !important;
+  -webkit-text-fill-color: #75677a !important;
+  opacity: 1 !important;
+}
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"]:focus {
+  outline: 3px solid #b69adf !important;
+  outline-offset: 2px !important;
+  border-color: #8060a5 !important;
+}
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"]:-webkit-autofill,
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"]:-webkit-autofill:hover,
+.app-layout .community-feature-page .feature-announcement-comment-form input[name="body"]:-webkit-autofill:focus {
+  -webkit-text-fill-color: #302632 !important;
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  caret-color: #302632 !important;
+}
