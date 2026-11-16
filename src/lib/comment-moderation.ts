@@ -1,0 +1,84 @@
+/**
+ * TIZIBANE Smart Comment Protection.
+ * Server-side moderation shared by feed and group comment actions.
+ * Normalizes case, spacing, punctuation and common leetspeak before matching.
+ */
+export type ModerationCategory =
+  | "profanity" | "personal_attacks" | "hate_speech" | "sexual_harassment"
+  | "threats" | "self_harm" | "scams" | "phishing" | "spam"
+  | "illegal_trade" | "child_safety" | "contact_spam" | "harassment";
+
+const BLOCKLIST: Record<ModerationCategory, string> = {
+  profanity: `fuck|fucking|fucker|motherfucker|shit|bullshit|horseshit|bitch|bitches|bitchass|son of a bitch|bastard|asshole|arsehole|dick|dickhead|prick|piss off|pissed|crap|damn|goddamn|cunt|twat|wanker|jackass|dumbass|dipshit|shithead|scumbag|whore|slut|skank|cocksucker|fuck off|fuck you|go fuck yourself|eat shit|piece of shit|screw you|suck my dick|fucking hell|fuk|fuking|fck|fkn|shyt|biatch|azzhole|dikk|phuk|fuq|fuqk`,
+  personal_attacks: `idiot|moron|imbecile|stupid|retard|retarded|loser|worthless|useless|pathetic|disgusting|ugly|fat pig|fat cow|freak|creep|pervert|fool|dumb fool|stupid fool|you are nothing|nobody likes you|everyone hates you|shut up|you are trash|you are useless|you are a disgrace|you are disgusting|your family hates you|nobody wants you|you deserve nothing|you are a failure|you are a waste of space|you are worthless|go away|get lost|you are stupid`,
+  hate_speech: `nigger|nigga|niguh|nigguh|coon|darkie|spic|wetback|chink|gook|kike|raghead|towelhead|cracker|porch monkey|beaner|slope|zipperhead|wog|redskin|savages|subhuman|go back to your country|you don't belong here|your tribe is inferior|your race is inferior|your people are animals|your tribe is backward|your tribe is useless|your people are stupid|tribal hatred|racial hatred|ethnic hatred|religious hatred|racial slurs|tribal slurs|ethnic slurs|religious insults|kill all group|exterminate group|foreigners are not welcome|hate speech|ethnic discrimination`,
+  sexual_harassment: `send nudes|send me nudes|show me your body|show your tits|show your boobs|show your ass|sex with me|sleep with me|come to my bed|i want to rape you|rape you|i will rape you|sexy body|nice tits|nice ass|your body is mine|suck my dick|blow me|ride me|get naked|take your clothes off|send naked pictures|send naked videos|sex video|nude video|porn|pornography|xxx|adult content|explicit pictures|explicit videos|hook up with me|dm me for sex|buy sex|sexual services|escort service|prostitute|prostitution|show me your private parts|let me touch you|i want your body|come sleep with me`,
+  threats: `i will kill you|i'll kill you|i am going to kill you|i will hurt you|i will beat you|i will stab you|i will shoot you|i will burn your house|i know where you live|i am coming for you|watch your back|you are dead|death threat|bomb threat|shoot up|stab you|beat you up|break your bones|hurt your family|attack your family|rape your family|i will find you|i will make you pay|you will regret this|i will destroy you|i will get you|i will hunt you down|i will finish you|you will die|i am watching you|i know your location|i will deal with you`,
+  self_harm: `kill yourself|go kill yourself|you should die|cut yourself|hurt yourself|end your life|take your own life|nobody would miss you|the world is better without you|do everyone a favour and die|go commit suicide|you deserve to die|just die|end it all|k y s`,
+  scams: `you have won|you are the lucky winner|claim your prize|claim now|free money|instant cash|double your money|guaranteed profit|send your details|send your password|verify your account|account verification required|your account will be blocked|click this link|limited time offer|investment opportunity|risk free investment|make money fast|work from home and earn|pay a small fee|processing fee|activation fee|withdrawal fee|send me your otp|send otp|send verification code|bank details|mobile money pin|mpesa pin|airtel money pin|mtn momo pin|giveaway winner|crypto giveaway|bitcoin giveaway|free bitcoin|free cryptocurrency|recovery agent|account recovery service|dm to claim|whatsapp me to claim|telegram me to claim|send money first|pay to receive prize|deposit to withdraw|double your investment|guaranteed returns|free investment capital|investment doubling|fake loan|instant loan approval fee`,
+  phishing: `i am official support|official admin|platform administrator|support team|security team|verify your account here|click to verify|send login details|send your login|send password|send otp|send verification code|your account is compromised|your account will be deleted|copyright violation click here|appeal your account here|fake support|impersonating admin|impersonating staff|account for sale|buy verified account|sell verified account|password reset link|login here|free followers login|free likes login|your account has been suspended|send your recovery code|send your security code|admin verification|official tizibane support|tizibane account verification`,
+  spam: `follow for follow|f4f|like for like|l4l|sub for sub|s4s|follow me|follow back|follow train|buy followers|cheap followers|free followers|buy likes|cheap likes|buy views|cheap views|buy comments|buy subscribers|instant followers|get 1000 followers|get 10k followers|increase followers fast|dm for promotion|paid promotion|promote my page|check my profile|visit my page|click my bio|spam link|bit.ly|tinyurl|t.me/|wa.me/|join my group|join my channel|share this to win|tag 10 friends|copy and paste this|comment yes to win|earn money by clicking|traffic exchange|engagement group|bot followers|automated likes|mass dm|buy social media accounts|get free likes|free instagram followers|free facebook followers|free tiktok followers|free views guaranteed`,
+  illegal_trade: `buy drugs|sell drugs|drug dealer|weed for sale|cocaine for sale|heroin for sale|meth for sale|pills for sale|fake documents|fake passport|fake id|forged certificate|stolen phone for sale|stolen account|hack any account|hire a hacker|hacking service|ddos for hire|malware for sale|ransomware service|stolen credit cards|carding service|money laundering|fake money|counterfeit cash|illegal weapons|guns for sale|ammunition for sale|hitman for hire|human trafficking|buy a passport|smuggle across border|sell stolen data|sell passwords|sell bank accounts|identity theft|fraud services`,
+  child_safety: `underage nudes|send child pics|child porn|minor for sex|underage sex|meet a minor|grooming|i can get you a young girl|i can get you a young boy|sell a child|buy a child|forced labour|slave for sale|sexualise a child|send pictures of your daughter|send pictures of your son|meet me secretly|don't tell your parents`,
+  contact_spam: `dm me|message me privately|whatsapp me|telegram me|contact me on whatsapp|contact me on telegram|link in bio|click my link|visit this url|short link|join my whatsapp group|join my telegram group|send me a direct message|inbox me now|click here now|visit my website|private chat only|message me for details|contact me for business|send me your number|drop your number|send me your contact|add me on whatsapp`,
+  harassment: `you must obey me|i will expose you|i will leak your pictures|i will leak your number|i will share your secrets|i know your secrets|i will ruin your reputation|everyone should attack this person|go report this person|let us bully this person|everybody insult this person|you deserve harassment|i will embarrass you|i will publish your photos|i will leak your chats|i will spread rumours about you`,
+};
+
+const LEET: Record<string, string> = { "0":"o", "1":"i", "3":"e", "4":"a", "5":"s", "7":"t", "@":"a", "$":"s", "!":"i" };
+function tokenize(value: string): string[] {
+  return value.toLocaleLowerCase("en").normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[013457@$!]/g, (character) => LEET[character] ?? character)
+    .split(/[^a-z0-9]+/).filter(Boolean);
+}
+const TERMS = Object.entries(BLOCKLIST).flatMap(([category, terms]) =>
+  terms.split("|").map((term) => ({
+    category: category as ModerationCategory,
+    tokens: tokenize(term),
+  })),
+).sort((a, b) => b.tokens.length - a.tokens.length);
+
+export type CommentModerationResult =
+  | { allowed: true }
+  | { allowed: false; category: ModerationCategory };
+
+function containsSequence(haystack: string[], needle: string[]): boolean {
+  if (!needle.length || needle.length > haystack.length) return false;
+  for (let index = 0; index <= haystack.length - needle.length; index += 1) {
+    if (needle.every((token, offset) => haystack[index + offset] === token)) return true;
+  }
+  return false;
+}
+
+export function moderateComment(value: string): CommentModerationResult {
+  const words = tokenize(value);
+  if (!words.length) return { allowed: true };
+
+  for (const entry of TERMS) {
+    if (entry.tokens.join("").length < 3) continue;
+    if (containsSequence(words, entry.tokens)) {
+      return { allowed: false, category: entry.category };
+    }
+  }
+
+  // Detect character-by-character spelling anywhere in a sentence, not
+  // only when the entire comment consists of single-letter tokens.
+  const singleWordTerms = TERMS.filter((entry) => entry.tokens.length === 1);
+  for (let start = 0; start < words.length; start += 1) {
+    if (words[start].length !== 1) continue;
+    let joined = "";
+    for (let end = start; end < words.length && end < start + 32; end += 1) {
+      if (words[end].length !== 1) break;
+      joined += words[end];
+      if (joined.length >= 3) {
+        const match = singleWordTerms.find((entry) => entry.tokens[0] === joined);
+        if (match) return { allowed: false, category: match.category };
+      }
+    }
+  }
+  return { allowed: true };
+}
+
+export function commentModerationMessage(): string {
+  return "Your comment contains language or content that is not permitted in the TIZIBANE community. Please revise it and try again.";
+}
