@@ -8,7 +8,7 @@ export type ModerationCategory =
   | "threats" | "self_harm" | "scams" | "phishing" | "spam"
   | "illegal_trade" | "child_safety" | "contact_spam" | "harassment";
 
-const BLOCKLIST: Record<ModerationCategory, string[]> = {
+const BLOCKLIST: Record<ModerationCategory, string> = {
   profanity: `fuck|fucking|fucker|motherfucker|shit|bullshit|horseshit|bitch|bitches|bitchass|son of a bitch|bastard|asshole|arsehole|dick|dickhead|prick|piss off|pissed|crap|damn|goddamn|cunt|twat|wanker|jackass|dumbass|dipshit|shithead|scumbag|whore|slut|skank|cocksucker|fuck off|fuck you|go fuck yourself|eat shit|piece of shit|screw you|suck my dick|fucking hell|fuk|fuking|fck|fkn|shyt|biatch|azzhole|dikk|phuk|fuq|fuqk`,
   personal_attacks: `idiot|moron|imbecile|stupid|retard|retarded|loser|worthless|useless|pathetic|disgusting|ugly|fat pig|fat cow|freak|creep|pervert|fool|dumb fool|stupid fool|you are nothing|nobody likes you|everyone hates you|shut up|you are trash|you are useless|you are a disgrace|you are disgusting|your family hates you|nobody wants you|you deserve nothing|you are a failure|you are a waste of space|you are worthless|go away|get lost|you are stupid`,
   hate_speech: `nigger|nigga|niguh|nigguh|coon|darkie|spic|wetback|chink|gook|kike|raghead|towelhead|cracker|porch monkey|beaner|slope|zipperhead|wog|redskin|savages|subhuman|go back to your country|you don't belong here|your tribe is inferior|your race is inferior|your people are animals|your tribe is backward|your tribe is useless|your people are stupid|tribal hatred|racial hatred|ethnic hatred|religious hatred|racial slurs|tribal slurs|ethnic slurs|religious insults|kill all group|exterminate group|foreigners are not welcome|hate speech|ethnic discrimination`,
