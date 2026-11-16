@@ -478,7 +478,11 @@ declare
 begin
   normalized_body := public.tizibane_normalize_comment(new.body);
   foreach term in array blocked_terms loop
-    if normalized_body ~ ('(^| )' || replace(term, ' ', E'\\s+') || '( |$)') then
+    if (
+      (position(' ' in term) > 0 and normalized_body ~ ('(^| )' || replace(term, ' ', E'\\s+') || '( |$)'))
+      or
+      (position(' ' in term) = 0 and normalized_body ~ ('(^| )' || regexp_replace(term, '(.)', E'\\1\\s*', 'g') || '( |$)'))
+    ) then
       raise exception using
         errcode = 'check_violation',
         message = 'Your comment contains language or content that is not permitted in the TIZIBANE community. Please revise it and try again.';
