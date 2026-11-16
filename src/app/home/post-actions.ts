@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { moderateComment, commentModerationMessage } from "@/lib/comment-moderation";
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const REACTIONS = ["like", "love", "laugh", "wow", "sad", "celebrate", "support", "salute", "pray"] as const;
@@ -44,6 +45,7 @@ export async function createComment(formData: FormData) {
   const body = String(formData.get("body") ?? "").trim();
   if (!UUID_PATTERN.test(postId)) fail("That post could not be found.");
   if (!body || body.length > 1000) fail("Comments must be between 1 and 1000 characters.");
+  if (!moderateComment(body).allowed) fail(commentModerationMessage());
 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -147,6 +149,7 @@ export async function updateComment(formData: FormData) {
   const commentId = String(formData.get("comment_id") ?? "");
   const body = String(formData.get("body") ?? "").trim();
   if (!UUID_PATTERN.test(commentId) || !body || body.length > 1000) fail("Comments must be between 1 and 1000 characters.");
+  if (!moderateComment(body).allowed) fail(commentModerationMessage());
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
