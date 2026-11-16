@@ -61,12 +61,20 @@ export function moderateComment(value: string): CommentModerationResult {
     }
   }
 
-  // Detect character-by-character obfuscation, but only when the whole
-  // comment is a single spaced spelling (avoids joining ordinary initials).
-  if (words.length > 1 && words.every((word) => word.length === 1)) {
-    const joined = words.join("");
-    const match = TERMS.find((entry) => entry.tokens.length === 1 && entry.tokens[0] === joined);
-    if (match) return { allowed: false, category: match.category };
+  // Detect character-by-character spelling anywhere in a sentence, not
+  // only when the entire comment consists of single-letter tokens.
+  const singleWordTerms = TERMS.filter((entry) => entry.tokens.length === 1);
+  for (let start = 0; start < words.length; start += 1) {
+    if (words[start].length !== 1) continue;
+    let joined = "";
+    for (let end = start; end < words.length && end < start + 32; end += 1) {
+      if (words[end].length !== 1) break;
+      joined += words[end];
+      if (joined.length >= 3) {
+        const match = singleWordTerms.find((entry) => entry.tokens[0] === joined);
+        if (match) return { allowed: false, category: match.category };
+      }
+    }
   }
   return { allowed: true };
 }
