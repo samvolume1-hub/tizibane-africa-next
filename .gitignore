@@ -5,3 +5,10 @@ node_modules/
 .env.*.local
 !.env.example
 .DS_Store
+
+# Android signing material and generated release outputs must never enter Git.
+*.keystore
+*.jks
+android/app/build/
+android/app-release-*.apk
+android/app-release-*.aab
