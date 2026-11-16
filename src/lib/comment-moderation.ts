@@ -1,4 +1,4 @@
-"/**
+/**
  * TIZIBANE Smart Comment Protection.
  * Server-side moderation shared by feed and group comment actions.
  * Normalizes case, spacing, punctuation and common leetspeak before matching.
@@ -25,46 +25,48 @@ const BLOCKLIST: Record<ModerationCategory, string[]> = {
 };
 
 const LEET: Record<string, string> = { "0":"o", "1":"i", "3":"e", "4":"a", "5":"s", "7":"t", "@":"a", "$":"s", "!":"i" };
-function normalize(value: string): string {
+function tokenize(value: string): string[] {
   return value.toLocaleLowerCase("en").normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[013457@$!]/g, (character) => LEET[character] ?? character)
-    .replace(/[^a-z0-9]+/g, "");
+    .split(/[^a-z0-9]+/).filter(Boolean);
 }
 const TERMS = Object.entries(BLOCKLIST).flatMap(([category, terms]) =>
-  terms.split("|").map((term) => ({ category: category as ModerationCategory, term, normalized: normalize(term) })),
-).sort((a, b) => b.normalized.length - a.normalized.length);
+  terms.split("|").map((term) => ({
+    category: category as ModerationCategory,
+    tokens: tokenize(term),
+  })),
+).sort((a, b) => b.tokens.length - a.tokens.length);
 
 export type CommentModerationResult =
   | { allowed: true }
   | { allowed: false; category: ModerationCategory };
 
-export function moderateComment(value: string): CommentModerationResult {
-  const normalized = normalize(value);
-  if (!normalized) return { allowed: true };
-  const compactWords = value.toLocaleLowerCase("en").normalize("NFKD")
-    .replace(/[\\u0300-\\u036f]/g, "")
-    .replace(/[013457@$!]/g, (character) => LEET[character] ?? character)
-    .split(/[^a-z0-9]+/).filter(Boolean);
+function containsSequence(haystack: string[], needle: string[]): boolean {
+  if (!needle.length || needle.length > haystack.length) return false;
+  for (let index = 0; index <= haystack.length - needle.length; index += 1) {
+    if (needle.every((token, offset) => haystack[index + offset] === token)) return true;
+  }
+  return false;
+}
 
-  // Phrases are matched in normalized text; single words must match a complete
-  // token so innocent words such as "class" and "shitake" are not rejected.
+export function moderateComment(value: string): CommentModerationResult {
+  const words = tokenize(value);
+  if (!words.length) return { allowed: true };
+
   for (const entry of TERMS) {
-    if (entry.normalized.length < 3) continue;
-    const matched = /\\s/.test(entry.term)
-      ? normalized.includes(entry.normalized)
-      : compactWords.includes(entry.normalized);
-    if (matched) return { allowed: false, category: entry.category };
+    if (entry.tokens.join("").length < 3) continue;
+    if (containsSequence(words, entry.tokens)) {
+      return { allowed: false, category: entry.category };
+    }
   }
 
-  // Catch a fully spaced character-by-character attempt such as "f u c k".
-  if (compactWords.length > 1 && compactWords.every((word) => word.length === 1)) {
-    const joined = compactWords.join("");
-    for (const entry of TERMS) {
-      if (entry.normalized.length >= 3 && entry.normalized === joined) {
-        return { allowed: false, category: entry.category };
-      }
-    }
+  // Detect character-by-character obfuscation, but only when the whole
+  // comment is a single spaced spelling (avoids joining ordinary initials).
+  if (words.length > 1 && words.every((word) => word.length === 1)) {
+    const joined = words.join("");
+    const match = TERMS.find((entry) => entry.tokens.length === 1 && entry.tokens[0] === joined);
+    if (match) return { allowed: false, category: match.category };
   }
   return { allowed: true };
 }
