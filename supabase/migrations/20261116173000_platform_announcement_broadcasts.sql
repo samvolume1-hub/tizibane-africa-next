@@ -1,6 +1,9 @@
 -- Broadcast each published platform announcement once to every active member.
 -- Existing notification triggers fan out to in-app, confirmed-email, and subscribed push channels.
 
+alter table public.community_announcements
+  add column if not exists broadcasted_at timestamptz;
+
 create table if not exists private.platform_announcement_broadcasts (
   announcement_id uuid primary key references public.community_announcements(id) on delete cascade,
   sent_by uuid not null references auth.users(id) on delete restrict,
@@ -68,6 +71,10 @@ begin
   update private.platform_announcement_broadcasts
   set recipient_count = v_count
   where announcement_id = p_announcement_id;
+
+  update public.community_announcements
+  set broadcasted_at = pg_catalog.now()
+  where id = p_announcement_id;
 
   return v_count;
 end;
