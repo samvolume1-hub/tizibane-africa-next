@@ -26,7 +26,7 @@ for (const [category, phrase] of blocked) {
 }
 
 test("blocks punctuation, spacing and common leetspeak evasions", () => {
-  for (const phrase of ["f.u.c.k", "f u c k", "sh1t", "b!tch", "g0 k1ll y0urself"]) {
+  for (const phrase of ["f.u.c.k", "f u c k", "Please f u c k off", "You are a b i t c h", "sh1t", "b!tch", "g0 k1ll y0urself"]) {
     assert.equal(moderateComment(phrase).allowed, false, phrase);
   }
 });
