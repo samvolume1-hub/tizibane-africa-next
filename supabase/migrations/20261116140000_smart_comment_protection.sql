@@ -12,7 +12,7 @@ as $$
   select translate(
     regexp_replace(lower(coalesce(input_text, '')), '[^a-z0-9@!$]+', '', 'g'),
     '013457@$!',
-    'oieastsas'
+    'oieastasi'
   );
 $$;
 
