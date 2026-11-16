@@ -1,0 +1,164 @@
+.installSection {
+  width: min(100% - 40px, 1120px);
+  margin: 0 auto clamp(42px, 5vw, 66px);
+}
+.installPanel {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(25px, 4vw, 42px) clamp(18px, 4vw, 48px) 25px;
+  border: 1px solid rgba(219, 198, 232, .8);
+  border-radius: 25px;
+  background:
+    radial-gradient(ellipse at 12% 0%, rgba(194, 127, 222, .22), transparent 43%),
+    linear-gradient(135deg, #21102f 0%, #351447 52%, #1d102a 100%);
+  box-shadow: 0 18px 42px rgba(34, 13, 49, .24);
+  color: #fff;
+  text-align: center;
+}
+.installPanel::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(115deg, transparent 15%, rgba(255,255,255,.035) 50%, transparent 85%);
+}
+.eyebrow {
+  position: relative;
+  margin: 0 0 9px;
+  color: #f1a6dc;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .19em;
+}
+.installPanel h2 {
+  position: relative;
+  margin: 0;
+  color: #fff;
+  font: 850 clamp(22px, 3.2vw, 34px)/1.2 Manrope, sans-serif;
+  letter-spacing: -.025em;
+}
+.intro {
+  position: relative;
+  margin: 10px 0 23px;
+  color: rgba(255,255,255,.78);
+  font-size: 14px;
+}
+.androidButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  min-width: min(100%, 330px);
+  padding: 14px 27px;
+  border: 1px solid #ffc1ec;
+  border-radius: 999px;
+  background: linear-gradient(110deg, #e84cae, #bd3a9e 55%, #9142b8);
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 9px 25px rgba(218, 53, 164, .3), inset 0 1px 0 rgba(255,255,255,.28);
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: .045em;
+  text-decoration: none !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.androidButton svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.androidButton:hover, .androidButton:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 30px rgba(218, 53, 164, .42);
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.androidNote {
+  position: relative;
+  margin: 10px 0 24px;
+  color: rgba(255,255,255,.67);
+  font-size: 11px;
+}
+.platformLinks {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: min(100%, 720px);
+  margin: 0 auto;
+}
+.platformLinks a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(237, 219, 247, .25);
+  border-radius: 15px;
+  background: rgba(255,255,255,.075);
+  color: #fff !important;
+  text-align: left;
+  text-decoration: none !important;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.platformLinks a:hover, .platformLinks a:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.62);
+  background: rgba(255,255,255,.13);
+  outline: none;
+}
+.platformIcon {
+  display: grid;
+  flex: 0 0 37px;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  border-radius: 11px;
+  background: rgba(238, 201, 247, .15);
+  color: #ffd3f1;
+  font-size: 23px;
+  font-weight: 700;
+}
+.platformLinks a > span:nth-child(2) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 4px;
+}
+.platformLinks strong {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 850;
+}
+.platformLinks small {
+  color: rgba(255,255,255,.7);
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+.arrow { color: #f4a9dd; font-size: 17px; }
+.helpText {
+  position: relative;
+  margin: 19px 0 0;
+  color: rgba(255,255,255,.66);
+  font-size: 11px;
+}
+.helpText a { color: #ffc1ec !important; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 620px) {
+  .installSection { width: calc(100% - 26px); margin-bottom: 38px; }
+  .installPanel { padding: 24px 14px 20px; border-radius: 19px; }
+  .eyebrow { font-size: 9px; letter-spacing: .14em; }
+  .intro { font-size: 12px; }
+  .androidButton { min-height: 52px; padding: 13px 17px; font-size: 11.5px; }
+  .platformLinks { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+  .platformLinks a { padding: 12px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .androidButton, .platformLinks a { transition: none; }
+}
