@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Brand } from "@/components/brand";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AuthFinishPage() {
-  const router = useRouter();
   const [message, setMessage] = useState("Confirming your email and opening TIZIBANE…");
   const [failed, setFailed] = useState(false);
 
@@ -70,15 +68,14 @@ export default function AuthFinishPage() {
           : safeNext;
 
       window.history.replaceState(null, "", window.location.pathname + window.location.search);
-      router.replace(destination);
-      router.refresh();
+      window.location.replace(destination);
     }
 
     void finishSignIn();
     return () => {
       active = false;
     };
-  }, [router]);
+  }, []);
 
   return (
     <main className="auth-wrap">
