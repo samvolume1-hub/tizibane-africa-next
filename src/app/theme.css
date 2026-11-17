@@ -399,3 +399,17 @@ html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="s
   background: #493451 !important;
   border-color: #72558a !important;
 }
+
+
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="card"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="reader"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="expanded"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="reviewSection"] {
+  background: #281a32 !important;
+  border-color: #594267 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="cardTrigger"] {
+  background: #281a32 !important;
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
