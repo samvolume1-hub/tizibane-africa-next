@@ -245,3 +245,171 @@ html[data-theme="dark"] .app-layout .app-content .theme-choice-button.is-selecte
   border-color: #c09bd8 !important;
   background: #3d2850 !important;
 }
+
+
+/* Dark-mode contrast repair: inbox, community activity and Spotlight surfaces. */
+html[data-theme="dark"] .app-layout .app-content.messages-page {
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .messages-titlebar,
+html[data-theme="dark"] .app-layout .messages-workspace,
+html[data-theme="dark"] .app-layout .messages-sidebar,
+html[data-theme="dark"] .app-layout .messages-workspace-live .messages-chat-pane,
+html[data-theme="dark"] .app-layout .messages-selected-heading,
+html[data-theme="dark"] .app-layout .messages-chat-placeholder,
+html[data-theme="dark"] .app-layout .messages-start-hero,
+html[data-theme="dark"] .app-layout .messages-list-empty {
+  background: linear-gradient(145deg, #281a32, #211529) !important;
+  border-color: #50385e !important;
+  color: #f5eff9 !important;
+  box-shadow: 0 10px 28px rgba(0,0,0,.24) !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar {
+  border-right-color: #50385e !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar-heading,
+html[data-theme="dark"] .app-layout .messages-selected-heading {
+  border-color: #50385e !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar-heading h2,
+html[data-theme="dark"] .app-layout .messages-selected-heading h2,
+html[data-theme="dark"] .app-layout .messages-selected-heading .person-identity span,
+html[data-theme="dark"] .app-layout .messages-titlebar :is(h1,p),
+html[data-theme="dark"] .app-layout .messages-chat-placeholder :is(h2,p),
+html[data-theme="dark"] .app-layout .messages-start-hero :is(h2,p,span),
+html[data-theme="dark"] .app-layout .messages-list-empty :is(strong,p,span),
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card :is(strong,span,p),
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card .conversation-time {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card {
+  border-bottom-color: #493451 !important;
+  background: transparent !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card:hover,
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card:focus-visible,
+html[data-theme="dark"] .app-layout .messages-sidebar .conversation-card.is-active {
+  background: #392448 !important;
+}
+html[data-theme="dark"] .app-layout .messages-sidebar-heading > span {
+  background: #493451 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .messages-open-full,
+html[data-theme="dark"] .app-layout .messages-back-to-chats {
+  border-color: #72558a !important;
+  color: #e8d4f5 !important;
+  -webkit-text-fill-color: #e8d4f5 !important;
+}
+html[data-theme="dark"] .app-layout .messages-open-full:hover {
+  background: #392448 !important;
+}
+html[data-theme="dark"] .app-layout .conversation-card-copy p,
+html[data-theme="dark"] .app-layout .messages-titlebar p,
+html[data-theme="dark"] .app-layout .messages-chat-placeholder p {
+  color: #cbbbd4 !important;
+  -webkit-text-fill-color: #cbbbd4 !important;
+}
+html[data-theme="dark"] .app-layout .conversation-unread {
+  background: #8053a0 !important;
+  color: #fff !important;
+}
+
+/* Community Activity uses its own light-only feed styling in globals.css. */
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-feed {
+  background: linear-gradient(145deg, #281a32, #211529 62%, #1d1426) !important;
+  border-color: #50385e !important;
+}
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-row {
+  border-bottom-color: #493451 !important;
+}
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-icon {
+  background: #493451 !important;
+  color: #ead8f5 !important;
+}
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-row p,
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-row p strong,
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-row time {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .community-activity-page .feature-activity-row p a {
+  color: #e4c8f4 !important;
+  -webkit-text-fill-color: #e4c8f4 !important;
+}
+
+/* Spotlight is built from CSS modules with deliberately light surfaces. Keep its
+   premium purple identity while replacing white panels and dark text in dark mode. */
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] {
+  color-scheme: dark !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"][class*="spotlight_"],
+html[data-theme="dark"] .app-layout .app-content [class*="reviewSection"],
+html[data-theme="dark"] .app-layout .app-content [class*="companySpotlight"],
+html[data-theme="dark"] .app-layout .app-content [class*="communitySpotlight"],
+html[data-theme="dark"] .app-layout .app-content [class*="companyReview"],
+html[data-theme="dark"] .app-layout .app-content [class*="communityPick"],
+html[data-theme="dark"] .app-layout .app-content [class*="reader"],
+html[data-theme="dark"] .app-layout .app-content [class*="storyChoice"],
+html[data-theme="dark"] .app-layout .app-content [class*="submissionRow"],
+html[data-theme="dark"] .app-layout .app-content [class*="submissionPreview"] {
+  background: linear-gradient(145deg, #2b1c36, #211529) !important;
+  border-color: #594267 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(h1,h2,h3,h4,p,span,strong,small,time,label,b) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(.submitButton,.submitLink,.readStory,.readMoreButton,.readerClose,.backToStories,.navButton,.notificationsLink,.premiumButton) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(input,select,textarea) {
+  background: #160f20 !important;
+  border-color: #634a72 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  color-scheme: dark !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(input,textarea)::placeholder {
+  color: #c2b1cd !important;
+  -webkit-text-fill-color: #c2b1cd !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="cardCopy"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="expanded"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="readerTopline"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="topicActions"] {
+  background: #24172e !important;
+  border-color: #594267 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="headline"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="storyChoiceCopy"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="readerBody"] {
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="storyChoice"] {
+  background: #30213a !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="pill"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="storyCount"] {
+  background: #493451 !important;
+  border-color: #72558a !important;
+}
+
+
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="card"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="reader"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="expanded"],
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="reviewSection"] {
+  background: #281a32 !important;
+  border-color: #594267 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="cardTrigger"] {
+  background: #281a32 !important;
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
