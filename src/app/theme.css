@@ -222,3 +222,26 @@ html[data-theme="dark"] .app-layout .nav-illustration[data-icon="settings"]::bef
 .theme-choice-check { margin-left: auto; color: #68408b; font-size: 18px; font-weight: 900; }
 .theme-settings-note { margin: 0; color: #756b75; font-size: 12px; }
 @media (max-width: 600px) { .theme-settings-card { padding: 17px; } .theme-choice-group { grid-template-columns: 1fr; } }
+
+/* Keep the Light/Dark choices as selectable cards rather than inheriting the app's global action-button treatment. */
+.app-layout .app-content .theme-choice-button {
+  border: 1px solid #d9c9df !important;
+  background: #ffffff !important;
+  color: #302632 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.app-layout .app-content .theme-choice-button.is-selected {
+  border: 2px solid #70458d !important;
+  background: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .theme-choice-button {
+  border-color: #61456f !important;
+  background: #1b1224 !important;
+  color: #f8f0fc !important;
+}
+html[data-theme="dark"] .app-layout .app-content .theme-choice-button.is-selected {
+  border-color: #c09bd8 !important;
+  background: #3d2850 !important;
+}
