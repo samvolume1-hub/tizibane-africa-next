@@ -300,22 +300,23 @@ export function CallControls({ conversationId, userId }: { conversationId: strin
   return (
     <>
       <div className="message-call-actions" aria-label="Calling options">
-        <button type="button" className="message-call-button" onClick={() => void startCall("audio")} disabled={Boolean(busy)} aria-label="Start voice call" title="Start a secure voice call">
+        <button type="button" className="message-call-button" onClick={() => void startCall("audio")} disabled={Boolean(busy)} aria-label="Start a voice call" title="Start a secure voice call">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.8 9.1 3.3l2 4.7-2 1.5a15 15 0 0 0 5.4 5.4l1.5-2 4.7 2-.5 2.5a2 2 0 0 1-2 1.6A15.5 15.5 0 0 1 4.9 5.8a2 2 0 0 1 1.7-2Z" /></svg>
-          <span>{busy === "audio" ? "Calling…" : "Call"}</span>
+          <span>{busy === "audio" ? "Calling…" : "Voice call"}</span>
         </button>
-        <button type="button" className="message-call-button" onClick={() => void startCall("video")} disabled={Boolean(busy)} aria-label="Start video call" title="Start a secure video call">
+        <button type="button" className="message-call-button" onClick={() => void startCall("video")} disabled={Boolean(busy)} aria-label="Start a video call" title="Start a secure video call">
           <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="12" height="12" rx="2" /><path d="m15 10 6-3v10l-6-3" /></svg>
-          <span>{busy === "video" ? "Calling…" : "Video"}</span>
+          <span>{busy === "video" ? "Calling…" : "Video call"}</span>
         </button>
       </div>
+      <p className="message-call-hint">Choose Voice call or Video call to ring this member. Keep this conversation open to receive their call, then select Answer.</p>
       {error && <p role="alert" style={{ color: "#b42318", fontSize: 12, margin: "8px 0" }}>{error}</p>}
       {incoming && !activeCall && (
-        <div role="dialog" aria-label="Incoming call" style={{ position: "fixed", zIndex: 80, right: 20, bottom: 20, width: "min(360px, calc(100vw - 40px))", padding: 18, borderRadius: 18, background: "#21142c", color: "#fff", border: "1px solid #9c6bb5", boxShadow: "0 18px 55px #0008" }}>
+        <div role="dialog" aria-modal="true" aria-label={"Incoming " + (incoming.call_type === "audio" ? "voice" : "video") + " call"} style={{ position: "fixed", zIndex: 80, right: 20, bottom: 20, width: "min(360px, calc(100vw - 40px))", padding: 18, borderRadius: 18, background: "#21142c", color: "#fff", border: "1px solid #9c6bb5", boxShadow: "0 18px 55px #0008" }}>
           <strong>Incoming {incoming.call_type === "audio" ? "voice" : "video"} call</strong>
-          <p style={{ color: "#e7dced", fontSize: 13 }}>A member of this conversation is calling you.</p>
+          <p style={{ color: "#e7dced", fontSize: 13 }}>A member of this conversation is calling you. Tap Answer to join the call.</p>
           <div style={{ display: "flex", gap: 9 }}>
-            <button type="button" className="btn btn-primary" disabled={Boolean(busy)} onClick={() => void joinCall(incoming.id)}>{busy === "join" ? "Joining…" : "Accept"}</button>
+            <button type="button" className="btn btn-primary" disabled={Boolean(busy)} onClick={() => void joinCall(incoming.id)} aria-label={"Answer " + (incoming.call_type === "audio" ? "voice" : "video") + " call"}>{busy === "join" ? "Joining…" : "Answer"}</button>
             <button type="button" className="btn" onClick={() => void declineCall()}>Decline</button>
           </div>
         </div>
