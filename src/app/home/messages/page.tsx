@@ -165,12 +165,13 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
                   <span className="messages-hero-eyebrow">YOUR PRIVATE INBOX</span>
                   <div className="messages-placeholder-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M8 11.5h32v23H8z" /><path d="m9 13 15 12 15-12" /><path d="M15 29h8" /></svg></div>
                   <h2>Start a conversation.</h2>
-                  <p>Ready to chat? Choose a friend and send your first message. Your private chat will open right here.</p>
+                  <p>Choose a friend and open their chat. At the top of the conversation, select Voice call or Video call. When they call you, choose Answer.</p>
                   <Link href="/home/people" className="messages-start-link messages-start-primary"><span aria-hidden="true">＋</span> Choose a friend</Link>
                   <div className="messages-start-steps" aria-label="How to start messaging">
                     <span><b>1</b> Choose a friend</span>
                     <span><b>2</b> Tap Message on their profile</span>
-                    <span><b>3</b> Chat here</span>
+                    <span><b>3</b> Send a message</span>
+                    <span><b>4</b> Choose Voice call or Video call</span>
                   </div>
                   <span className="messages-privacy-note"><span aria-hidden="true">🔒</span> Private conversations between connected members</span>
                 </div>
