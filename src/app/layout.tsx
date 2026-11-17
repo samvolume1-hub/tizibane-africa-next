@@ -1,6 +1,7 @@
 import type {Metadata, Viewport} from "next";
 import "./globals.css";
 import "./auth-readability.css";
+import "./calling.css";
 import { NotificationSoundListener } from "@/components/notification-sound-listener";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
