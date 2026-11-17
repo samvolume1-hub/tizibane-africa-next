@@ -18,6 +18,7 @@ const items = [
   { href: "/home/groups", label: "Groups", key: "groups" },
   { href: "/home/events", label: "Events", key: "events" },
   { href: "/home/premium", label: "Premium advertising", key: "premium" },
+  { href: "/home/settings", label: "Settings", key: "settings" },
 ];
 
 export function CommunityNavigation({ active }: { active: string }) {
