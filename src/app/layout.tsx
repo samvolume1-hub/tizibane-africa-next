@@ -1,6 +1,7 @@
 import type {Metadata, Viewport} from "next";
 import "./globals.css";
 import "./auth-readability.css";
+import "./theme.css";
 import { NotificationSoundListener } from "@/components/notification-sound-listener";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
@@ -46,6 +47,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: "try { document.documentElement.dataset.theme = localStorage.getItem(\u0027tizibane-theme\u0027) === \u0027dark\u0027 ? \u0027dark\u0027 : \u0027light\u0027; } catch { document.documentElement.dataset.theme = \u0027light\u0027; }" }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&family=Manrope:wght@400;500;600;700;800&display=swap" />

@@ -1,0 +1,247 @@
+/* User-controlled appearance. Light mode remains the unchanged default. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  background: #100b18;
+}
+html[data-theme="dark"] body {
+  background: #100b18;
+  color: #f5eff9;
+}
+html[data-theme="dark"] .app-layout {
+  background: linear-gradient(145deg, #100b18 0%, #1a1024 52%, #120b1b 100%) !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout > .app-main > .app-content {
+  background: #17101f !important;
+  color: #f5eff9 !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,.24) !important;
+}
+html[data-theme="dark"] .app-layout .topbar {
+  background: linear-gradient(110deg, #21142d, #281733 58%, #1c1226) !important;
+  border-color: #4b3458 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout > .sidebar {
+  background: linear-gradient(180deg, #1c1227, #24152f 54%, #1a1024) !important;
+  border-color: #4b3458 !important;
+}
+html[data-theme="dark"] .app-layout .community-nav-section,
+html[data-theme="dark"] .app-layout .mobile-more-panel {
+  background: linear-gradient(155deg, #21132e, #2b193b 58%, #1a1025) !important;
+  border-color: #684982 !important;
+  color: #f8f0fc !important;
+}
+html[data-theme="dark"] .app-layout .community-nav-section .side-nav a,
+html[data-theme="dark"] .app-layout .mobile-bottom-nav > a,
+html[data-theme="dark"] .app-layout .mobile-bottom-nav .mobile-more-menu > summary,
+html[data-theme="dark"] .app-layout .mobile-more-panel > a {
+  background: linear-gradient(145deg, #342044, #291735) !important;
+  border-color: #76558d !important;
+  color: #f8f0fc !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 3px 9px rgba(0,0,0,.2) !important;
+}
+html[data-theme="dark"] .app-layout .community-nav-section .side-nav a.active,
+html[data-theme="dark"] .app-layout .community-nav-section .side-nav a:hover,
+html[data-theme="dark"] .app-layout .mobile-bottom-nav > a.active,
+html[data-theme="dark"] .app-layout .mobile-more-panel > a.active {
+  background: linear-gradient(145deg, #68408b, #48265f) !important;
+  border-color: #bd91d8 !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .community-nav-section .side-nav a .nav-illustration,
+html[data-theme="dark"] .app-layout .mobile-bottom-nav .nav-icon {
+  filter: brightness(1.35);
+}
+html[data-theme="dark"] .app-layout .app-content :is(.profile-editor,.composer,.post-card,.person-card,.notification-card,.conversation-card,.conversation-heading,.group-card,.event-card,.empty-state,.premium-admin-form,.premium-admin-list,.message-composer,.module-section,.module,.theme-settings-card,.people-search-panel) {
+  background: linear-gradient(145deg, #281a32, #211529) !important;
+  border-color: #50385e !important;
+  box-shadow: 0 9px 24px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.035) !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(h1,h2,h3,h4,p,span,small,strong,time,li,label,.muted,.field-help,.eyebrow,.back-link) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(.muted,.field-help,.empty-state p,.module p,.group-card p,.event-details p) {
+  color: #c6b7d0 !important;
+  -webkit-text-fill-color: #c6b7d0 !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(input:not([type="file"]),select,textarea),
+html[data-theme="dark"] .app-layout .app-content .composer textarea,
+html[data-theme="dark"] .app-layout .app-content .message-composer textarea,
+html[data-theme="dark"] .app-layout .app-content .comment-form input {
+  background: #160f20 !important;
+  border-color: #634a72 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff !important;
+  color-scheme: dark !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(input,textarea,select)::placeholder {
+  color: #c2b1cd !important;
+  -webkit-text-fill-color: #c2b1cd !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .welcome {
+  background: linear-gradient(120deg, #48263f, #3b2148 58%, #302044) !important;
+  border-color: #765078 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .welcome :is(h1,h2,h3,p,.eyebrow) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .composer,
+html[data-theme="dark"] .app-layout .app-content .home-composer {
+  background: linear-gradient(145deg, #4b2944, #38203f) !important;
+  border-color: #805273 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .composer :is(h1,h2,h3,p,span,label,.eyebrow,.field-help) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .composer textarea,
+html[data-theme="dark"] .app-layout .app-content .composer select {
+  background: #28172d !important;
+}
+html[data-theme="dark"] .app-layout .app-content .btn,
+html[data-theme="dark"] .app-layout .app-content button:not(.text-action),
+html[data-theme="dark"] .app-layout .mobile-bottom-nav > a,
+html[data-theme="dark"] .app-layout .mobile-more-panel > a {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .text-action,
+html[data-theme="dark"] .app-layout .app-content a:not(.btn) {
+  color: #e4c8f4 !important;
+  -webkit-text-fill-color: #e4c8f4 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .message-bubble,
+html[data-theme="dark"] .app-layout .app-content .message-bubble :is(p,span,strong) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .message-theirs {
+  background: #30213a !important;
+  border-color: #624975 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .message-own {
+  background: #52336c !important;
+  border-color: #8c67a5 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .conversation-card {
+  background: linear-gradient(145deg, #2b1b36, #24172e) !important;
+  border-color: #5a4168 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .conversation-card :is(strong,span,p) {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .notice {
+  background: #30223a !important;
+  border-color: #72548a !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .feature-announcement-card {
+  background: #29264f !important;
+}
+html[data-theme="dark"] .app-layout .app-content .feature-announcement-card * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .premium-product-card,
+html[data-theme="dark"] .app-layout .app-content .premium-hero-photo {
+  color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content .premium-product-card * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .theme-settings-card {
+  background: linear-gradient(145deg, #281a32, #211529) !important;
+  border-color: #624771 !important;
+}
+html[data-theme="dark"] .theme-choice-button {
+  background: #1b1224 !important;
+  border-color: #61456f !important;
+  color: #f8f0fc !important;
+}
+html[data-theme="dark"] .theme-choice-button.is-selected {
+  background: #3d2850 !important;
+  border-color: #c09bd8 !important;
+}
+
+
+/* Give the new Settings destination a clear icon without changing the existing navigation artwork. */
+.app-layout .nav-illustration[data-icon="settings"] {
+  display: grid !important;
+  place-items: center !important;
+  background-image: none !important;
+}
+.app-layout .nav-illustration[data-icon="settings"]::before {
+  content: "⚙";
+  display: block;
+  color: #563078;
+  font-size: 20px;
+  line-height: 1;
+}
+html[data-theme="dark"] .app-layout .nav-illustration[data-icon="settings"]::before {
+  color: #e8d4f5;
+}
+.app-layout .settings-page { display: grid; gap: 20px; }
+.app-layout .settings-welcome { margin-bottom: 0; }
+.theme-settings-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid #e8dfd8;
+  border-radius: 18px;
+  background: #faf8f6;
+  color: #211a22;
+  box-shadow: 0 8px 22px rgba(48,33,24,.055);
+}
+.theme-settings-copy h2 { margin: 7px 0; font: 800 22px/1.2 Manrope,sans-serif; color: #382438; }
+.theme-settings-copy p { max-width: 650px; margin: 0; color: #665c68; font-size: 13px; line-height: 1.7; }
+.theme-choice-group { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.theme-choice-button {
+  display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 78px; padding: 12px 14px;
+  border: 1px solid #d9c9df; border-radius: 14px; background: #fff; color: #302632; text-align: left; cursor: pointer;
+}
+.theme-choice-button.is-selected { border: 2px solid #70458d; padding: 11px 13px; background: #f5eff9; }
+.theme-choice-button > span:nth-child(2) { display: grid; gap: 4px; min-width: 0; }
+.theme-choice-button strong { font-size: 13px; }
+.theme-choice-button small { color: #756b75; font-size: 11px; }
+.theme-choice-preview { display: grid; flex: 0 0 48px; gap: 4px; width: 48px; height: 48px; padding: 8px; border: 1px solid #d7cbdc; border-radius: 9px; }
+.theme-choice-preview i { display: block; height: 5px; border-radius: 4px; }
+.theme-choice-preview-light { background: #fff8fc; }
+.theme-choice-preview-light i { background: #e6b6cf; }
+.theme-choice-preview-light i:first-child { width: 100%; background: #70458d; }
+.theme-choice-preview-dark { background: #191020; border-color: #614675; }
+.theme-choice-preview-dark i { background: #6f5681; }
+.theme-choice-preview-dark i:first-child { width: 100%; background: #bd8fd8; }
+.theme-choice-check { margin-left: auto; color: #68408b; font-size: 18px; font-weight: 900; }
+.theme-settings-note { margin: 0; color: #756b75; font-size: 12px; }
+@media (max-width: 600px) { .theme-settings-card { padding: 17px; } .theme-choice-group { grid-template-columns: 1fr; } }
+
+/* Keep the Light/Dark choices as selectable cards rather than inheriting the app's global action-button treatment. */
+.app-layout .app-content .theme-choice-button {
+  border: 1px solid #d9c9df !important;
+  background: #ffffff !important;
+  color: #302632 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.app-layout .app-content .theme-choice-button.is-selected {
+  border: 2px solid #70458d !important;
+  background: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .theme-choice-button {
+  border-color: #61456f !important;
+  background: #1b1224 !important;
+  color: #f8f0fc !important;
+}
+html[data-theme="dark"] .app-layout .app-content .theme-choice-button.is-selected {
+  border-color: #c09bd8 !important;
+  background: #3d2850 !important;
+}
