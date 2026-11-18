@@ -91,7 +91,7 @@ export function CommunityNavigation({ active }: { active: string }) {
           ))}
           <button
             type="button"
-            className={styles.moreTrigger}
+            className={`${styles.moreTrigger}${isSecondaryActive ? ` ${styles.moreActive}` : ""}`}
             aria-expanded={moreOpen}
             aria-controls="tizibane-more-destinations"
             onClick={() => setMoreOpen((value) => !value)}
