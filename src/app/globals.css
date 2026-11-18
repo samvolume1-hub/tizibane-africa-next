@@ -1016,11 +1016,6 @@ body *{
 /* Small-screen navigation: retain a slim, fixed left rail instead of placing
    the navigation ribbon above the page content. */
 @media (max-width: 820px) {
-  .app-layout {
-    display: grid !important;
-    grid-template-columns: 72px minmax(0, 1fr) !important;
-    align-items: start;
-  }
   .app-layout > .sidebar {
     position: sticky;
     top: 0;
@@ -1113,9 +1108,6 @@ body *{
   }
 }
 @media (max-width: 380px) {
-  .app-layout {
-    grid-template-columns: 62px minmax(0, 1fr) !important;
-  }
   .app-layout > .sidebar {
     width: 62px !important;
     padding: 6px 4px !important;
@@ -1185,7 +1177,7 @@ body *{
    This is layout-only; the existing pink navigation/canvas artwork is untouched. */
 @media (max-width: 820px) {
   .app-layout {
-    grid-template-columns: 64px minmax(0, 1fr) !important;
+    
     width: 100%;
     max-width: 100%;
   }
@@ -1249,9 +1241,7 @@ body *{
   .company-link-grid {
     grid-template-columns: minmax(0, 1fr);
   }
-  .app-layout {
-    grid-template-columns: 56px minmax(0, 1fr) !important;
-  }
+  
   .app-layout > .sidebar {
     width: 56px !important;
     padding: 6px 3px !important;
@@ -1506,9 +1496,7 @@ body *{
 }
 
 @media (max-width: 380px) {
-  .app-layout {
-    grid-template-columns: 50px minmax(0, 1fr) !important;
-  }
+  
   .app-layout > .sidebar {
     width: 50px !important;
     padding: 5px 2px !important;
@@ -1773,7 +1761,7 @@ body *{
    the legacy left-hand sidebar grid track. */
 @media (max-width: 820px) {
   .app-layout {
-    grid-template-columns: minmax(0, 1fr) !important;
+    
     width: 100%;
     max-width: 100%;
   }
@@ -5529,8 +5517,8 @@ main > .landing-contacts .landing-contact-panel a {
 @media (max-width: 820px) {
   .app-layout {
     min-height: 100vh;
-    padding-bottom: 0 !important;
-    grid-template-columns: 72px minmax(0, 1fr) !important;
+
+    
   }
   .app-layout > .sidebar.tizibane-illustrated-sidebar {
     position: sticky !important;
@@ -5586,9 +5574,7 @@ main > .landing-contacts .landing-contact-panel a {
   }
 }
 @media (max-width: 540px) {
-  .app-layout {
-    grid-template-columns: 64px minmax(0, 1fr) !important;
-  }
+  
   .app-layout > .sidebar.tizibane-illustrated-sidebar {
     width: 64px;
     padding: 6px 2px 66px;
@@ -5617,9 +5603,7 @@ main > .landing-contacts .landing-contact-panel a {
 }
 
 /* Match the desktop grid track to the compact illustration rail. */
-.app-layout {
-  grid-template-columns: 108px minmax(0, 1fr);
-}
+
 /* Keep sprite-cell spacing exact at every viewport size. */
 @media (max-width: 820px) {
   .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {

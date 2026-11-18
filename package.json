@@ -10,7 +10,8 @@
     "start": "next start --hostname 0.0.0.0 --port ${PORT:-10000}",
     "typecheck": "tsc --noEmit",
     "test:moderation": "node --experimental-strip-types --test tests/comment-moderation.test.mjs",
-    "test:auth": "node --experimental-strip-types --test tests/auth-flow.test.mjs"
+    "test:auth": "node --experimental-strip-types --test tests/auth-flow.test.mjs",
+    "test:navigation": "node --experimental-strip-types --test tests/navigation-routes.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

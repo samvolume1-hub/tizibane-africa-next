@@ -1,46 +1,128 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { signOut } from "@/app/auth-actions";
+import { NavigationIcon } from "@/components/navigation-icon";
+import { mobileNavigationItems, primaryNavigationItems, secondaryNavigationItems } from "@/components/navigation-items";
 import { AppPageControls } from "@/components/app-page-controls";
+import styles from "@/components/community-navigation.module.css";
 
-const items = [
-  { href: "/home", label: "Home", key: "home" },
-  { href: "/home/profile", label: "My profile", key: "profile" },
-  { href: "/home/stories", label: "Stories", key: "stories" },
-  { href: "/home/people", label: "People", key: "people" },
-  { href: "/home/messages", label: "Messages", key: "messages" },
-  { href: "/home/connect", label: "Spotlight", key: "connect" },
-  { href: "/home/notifications", label: "Notifications", key: "notifications" },
-  { href: "/home/announcements", label: "Announcements", key: "announcements" },
-  { href: "/home/activity", label: "Community activity", key: "activity" },
-  { href: "/home/blocked", label: "Blocked", key: "blocked" },
-  { href: "/home/groups", label: "Groups", key: "groups" },
-  { href: "/home/events", label: "Events", key: "events" },
-  { href: "/home/premium", label: "Premium advertising", key: "premium" },
-  { href: "/home/settings", label: "Settings", key: "settings" },
-];
+const primaryItems = primaryNavigationItems;
+const secondaryItems = secondaryNavigationItems;
+const mobileItems = mobileNavigationItems;
 
 export function CommunityNavigation({ active }: { active: string }) {
+  const pathname = usePathname();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [confirmMobileLogout, setConfirmMobileLogout] = useState(false);
+  const isSecondaryActive = secondaryItems.some((item) => item.key === active);
+
+  useEffect(() => {
+    setMoreOpen(false);
+    setConfirmMobileLogout(false);
+  }, [pathname]);
+
   return (
-    <aside className="sidebar tizibane-illustrated-sidebar">
-      <section className="community-nav-section" aria-label="TIZIBANE Africa community navigation">
-        <nav className="side-nav illustrated-side-nav" aria-label="Main navigation">
-          {items.filter((item) => !["people", "blocked", "activity", "events", "premium"].includes(item.key)).map((item) => (
+    <>
+      <aside className={styles.sidebar} aria-label="TIZIBANE navigation" onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}>
+        <div className={styles.brand}>
+          <span className={styles.brandMark} aria-hidden="true">T</span>
+          <span className={styles.brandCopy}>
+            <span className={styles.brandName}>TIZIBANE</span>
+            <span className={styles.brandTagline}>Connect. Belong. Grow.</span>
+          </span>
+        </div>
+
+        <div className={styles.sectionLabel}>Your community</div>
+        <nav className={styles.primaryNav} aria-label="Main navigation">
+          {primaryItems.map((item) => (
             <Link
               key={item.key}
               href={item.href}
-              className={active === item.key ? "active" : undefined}
-              data-nav-key={item.key}
+              className={styles.primaryLink}
               aria-current={active === item.key ? "page" : undefined}
-              aria-label={item.label}
+              title={item.label}
             >
-              <span className="nav-illustration" data-icon={item.key} aria-hidden="true" />
-              <span className="nav-visible-label" aria-hidden="true">{item.label}</span>
+              <span className={styles.iconContainer}><NavigationIcon name={item.key} /></span>
+              <span className={styles.primaryLabel}>{item.label}</span>
             </Link>
           ))}
         </nav>
-      </section>
-      <AppPageControls />
-    </aside>
+
+        <button
+          type="button"
+          className={styles.desktopMoreTrigger}
+          aria-expanded={moreOpen}
+          aria-controls="tizibane-more-destinations"
+          onClick={() => setMoreOpen((value) => !value)}
+        >
+          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>
+          More destinations
+        </button>
+
+        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
+
+        <nav className={styles.mobileBar} aria-label="Mobile navigation">
+          {mobileItems.map((item) => (
+            <Link
+              key={item.key}
+              href={item.href}
+              className={styles.mobileLink}
+              aria-current={active === item.key ? "page" : undefined}
+              aria-label={item.label}
+            >
+              <NavigationIcon name={item.key} className={styles.mobileIcon} />
+              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.key === "notifications" ? "Alerts" : item.label}</span>
+            </Link>
+          ))}
+          <button
+            type="button"
+            className={`${styles.moreTrigger}${isSecondaryActive ? ` ${styles.moreActive}` : ""}`}
+            aria-expanded={moreOpen}
+            aria-controls="tizibane-more-destinations"
+            onClick={() => setMoreOpen((value) => !value)}
+          >
+            <NavigationIcon name="more" className={styles.mobileIcon} />
+            <span className={styles.mobileLabel}>More</span>
+          </button>
+        </nav>
+
+        <nav
+          id="tizibane-more-destinations"
+          className={styles.mobileMorePanel}
+          aria-label="More destinations"
+          onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}
+          hidden={!moreOpen}
+        >
+          {secondaryItems.map((item) => (
+            <Link
+              key={item.key}
+              href={item.href}
+              className={styles.moreLink}
+              aria-current={active === item.key ? "page" : undefined}
+              onClick={() => setMoreOpen(false)}
+            >
+              <NavigationIcon name={item.key} className={styles.moreIcon} />
+              <span>{item.label}</span>
+            </Link>
+          ))}
+          <div className={styles.mobileMoreFooter}>
+            {confirmMobileLogout ? (
+              <div className={styles.logoutConfirm} role="group" aria-label="Confirm sign out">
+                <span>Are you sure you want to sign out?</span>
+                <form action={signOut}><button type="submit">Yes, sign out</button></form>
+                <button type="button" onClick={() => setConfirmMobileLogout(false)}>Cancel</button>
+              </div>
+            ) : (
+              <button type="button" onClick={() => setConfirmMobileLogout(true)}>Sign out</button>
+            )}
+          </div>
+        </nav>
+      </aside>
+
+      <AppPageControls active={active} />
+    </>
   );
 }

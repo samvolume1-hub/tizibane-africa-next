@@ -472,3 +472,49 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** No production migration applied; no Supabase schema or member data changed. The migration is committed to the feature branch only.
 - **Blockers/risks:** Do not merge until the latest CI run, including the exhaustive term test and production build, is green. The SQL migration has been statically reviewed and smoke-tested at the expression level but has not been applied or exercised as an installed trigger.
 - **Next safe step:** Confirm the latest CI checks and review the complete PR diff. Merge only when every required check passes; then obtain explicit approval before applying the Supabase migration.
+
+
+### 18 November 2026 — Premium navigation architecture recovery: initial source archaeology
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Baseline:** `main` at `10a6cc128582c23ce4d509086a202f6fe898ebfc`.
+- **Working branch:** `recovery/premium-navigation-architecture`, created from the verified main baseline.
+- **Agreed scope:** Investigate accumulated navigation/theme CSS and component dependencies, then rebuild desktop, secondary and mobile navigation around a shared design system. Keep `main` untouched; do not merge or deploy without separate approval.
+- **Files inspected:** `AI-HANDOVER.md`, `PRODUCT-AND-ARCHITECTURE.md`, `package.json`, `src/app/layout.tsx`, `src/app/home/layout.tsx`, `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/globals.css`, `src/app/illustrated-navigation-fix.css`, `src/app/navigation-labels.css`, `src/app/theme.css`, and representative Home, Profile and Messages pages.
+- **Files changed:** Added `docs/NAVIGATION-ARCHITECTURE-AUDIT.md` on the recovery branch. No application source or CSS changed.
+- **Findings:** The global stylesheet is 324,304 bytes / 8,689 lines with 1,924 `!important` declarations. The illustrated navigation stylesheet is 75,593 bytes / 1,966 lines with 1,198 `!important` declarations and 23 media queries. The navigation-labels stylesheet is 25,064 bytes / 394 lines with 436 `!important` declarations and 5 media queries. The theme stylesheet is 29,348 bytes / 619 lines with 240 `!important` declarations. Navigation CSS is split between the root and authenticated layouts; the labels stylesheet is imported after the illustrated-navigation stylesheet and changes its geometry. Several different rail widths are declared across the illustrated-navigation stylesheet. The labels stylesheet adds per-destination coloured borders, contrary to the newly approved direction. The current component splits destinations between a primary sidebar and a floating, auto-hiding/pinnable controls panel; Messages and Spotlight are duplicated. The illustrated stylesheet hides legacy mobile bottom navigation while theme CSS retains styling for legacy mobile navigation selectors.
+- **Decisions:** Do not append another patch layer to the current navigation styles. Map route ownership and responsive/theme dependencies before modifying the component. Keep global content/theme CSS out of scope unless a verified navigation dependency requires a narrowly scoped change. Preserve active-route semantics, Next.js links, People hub behaviour where still needed, Back/Top behaviour if retained, logout confirmation/server action, theme bootstrapping, notification bell and push onboarding.
+- **Tests/checks:** Read-only source inspection and static inventory only. No TypeScript, lint, automated tests, production build or browser viewport checks have been run in this session. No claim of visual verification is made.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Next safe step:** Complete a route/active-state map across every page, inspect all navigation-related CSS blocks and responsive breakpoints, then design the new component ownership and token plan before the first application-code edit.
+
+
+### 18 November 2026 — Premium navigation reconstruction and route rationalisation
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `recovery/premium-navigation-architecture`, based on `main` at `10a6cc128582c23ce4d509086a202f6fe898ebfc`.
+- **Agreed scope:** Replace the competing navigation presentation with one responsive system while preserving every authenticated destination and its interactions. Keep `main` untouched and do not merge or deploy.
+- **Files inspected:** All authenticated `src/app/home/**/page.tsx` files using `CommunityNavigation`, the navigation components, app shell imports, legacy navigation styles, global shell layout declarations and CI workflow.
+- **Files changed:** Added `src/components/community-navigation.module.css` and `src/components/navigation-icon.tsx`; rebuilt `src/components/community-navigation.tsx` and `src/components/app-page-controls.tsx`; removed legacy navigation stylesheet imports from `src/app/home/layout.tsx`; surgically removed obsolete app-shell grid-track declarations from `src/app/globals.css`; added `docs/NAVIGATION-ARCHITECTURE-AUDIT.md`; this report.
+- **Findings/implementation:** Route ownership was mapped across every authenticated page. Seven destinations now form the desktop primary sidebar; seven secondary destinations appear in a restrained text-labelled right rail on wide desktop and a More panel on tablet/mobile. The mobile bottom bar promotes Home, People, Messages, Alerts and Profile. Shared sizing/spacing and light/dark surface tokens live in the CSS module. Duplicate Messages and Spotlight entries were removed from the desktop destination split. Existing route URLs, active-state values, Back/Top utilities, sign-out server action and confirmation behaviour are retained. The old navigation stylesheets remain as unreferenced source files pending final verification; no blind deletion was performed.
+- **Tests/checks:** CI on intermediate commit `b7da5a13030d446f68897be940927b43838fb9ce` passed TypeScript, moderation tests, auth tests, Deno checks and production build (run [44301193716](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301193716)). An earlier build exposed a CSS Modules pure-selector restriction on a global root token selector; tokens were moved onto the scoped app-layout selector and the subsequent build passed. An earlier malformed tablet-menu markup edit was caught by TypeScript and corrected. The latest cleanup commit `dd86f8a2afec884477eeebda468687d14aedbaef` is awaiting its own CI run [44301611772](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301611772). No browser or real viewport test has been performed.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Risks/blockers:** Real visual verification is still required at desktop, tablet and mobile widths, portrait and landscape, in both themes. The right-side rail and More panel need actual device/browser review for fit, focus order, touch targets and scroll behaviour. Old navigation CSS files should only be deleted after that review confirms no remaining consumer.
+- **Next safe step:** Confirm latest CI on `dd86f8a`, then run authenticated browser viewport and interaction checks in both themes before considering any further CSS cleanup or merge.
+
+
+### 18 November 2026 — Shared route contract and final automated build verification
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `recovery/premium-navigation-architecture`; latest validated application commit `2efb859b63acf6748d08401288c963093ee2dd0e`.
+- **Files changed:** Added `src/components/navigation-items.ts` as the single source of truth for primary, secondary and mobile destination lists. Added `tests/navigation-routes.test.mjs`, a `test:navigation` package script and a CI step. Removed legacy app-shell grid-track declarations and the obsolete zero-bottom-padding override from `src/app/globals.css`, leaving navigation geometry and mobile safe-area spacing owned by the scoped navigation module. Updated the navigation audit.
+- **Tests/checks:** GitHub Actions run [44302164990](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44302164990) completed successfully on commit `2efb859b63acf6748d08401288c963093ee2dd0e`: TypeScript, comment moderation tests, authentication tests, the new navigation destination contract tests, Deno Edge Function checks and the Next.js production build all passed. The navigation contract test verifies 14 unique route keys/URLs, that every destination maps to a real page file, that mobile navigation has five unique primary destinations, and that all literal page active keys exist in the shared config.
+- **Visual verification:** Not performed. No authenticated browser screenshots or viewport tests have been run. Desktop, tablet and mobile portrait/landscape in both light and dark themes remain mandatory review gates.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Next safe step:** Arrange a browser/device review of the draft PR and verify navigation placement, text contrast, touch targets, focus behaviour, menu dismissal and page-content clearance in both themes. Only after that review should legacy CSS files be considered for deletion or the PR be considered for merge.

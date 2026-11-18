@@ -1,5 +1,3 @@
-import "./../illustrated-navigation-fix.css";
-import "./../navigation-labels.css";
 import { createClient } from "@/lib/supabase/server";
 import { NotificationBell } from "@/components/notification-bell";
 import { PushNotificationOnboarding } from "@/components/push-notification-onboarding";
