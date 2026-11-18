@@ -19,8 +19,6 @@ export function AppPageControls() {
   const [showTop, setShowTop] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [peopleHubOpen, setPeopleHubOpen] = useState(false);
-  const [featuredLabel, setFeaturedLabel] = useState<string | null>(null);
-  const [logoutLabelVisible, setLogoutLabelVisible] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(false);
   const [controlsPinned, setControlsPinned] = useState(false);
   const hideControlsTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -221,11 +219,7 @@ export function AppPageControls() {
           <button
             type="button"
             className="app-page-control app-logout-trigger"
-            onMouseEnter={() => setLogoutLabelVisible(true)}
-            onMouseLeave={() => setLogoutLabelVisible(false)}
-            onFocus={() => setLogoutLabelVisible(true)}
-            onBlur={() => setLogoutLabelVisible(false)}
-            onClick={() => { setLogoutLabelVisible(false); setConfirmLogout(true); }}
+            onClick={() => setConfirmLogout(true)}
             aria-label="Log out"
           >
             <span className="app-logout-icon" aria-hidden="true" />
