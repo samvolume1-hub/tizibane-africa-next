@@ -1016,11 +1016,6 @@ body *{
 /* Small-screen navigation: retain a slim, fixed left rail instead of placing
    the navigation ribbon above the page content. */
 @media (max-width: 820px) {
-  .app-layout {
-    display: grid !important;
-    grid-template-columns: 72px minmax(0, 1fr) !important;
-    align-items: start;
-  }
   .app-layout > .sidebar {
     position: sticky;
     top: 0;
@@ -1113,9 +1108,6 @@ body *{
   }
 }
 @media (max-width: 380px) {
-  .app-layout {
-    grid-template-columns: 62px minmax(0, 1fr) !important;
-  }
   .app-layout > .sidebar {
     width: 62px !important;
     padding: 6px 4px !important;
