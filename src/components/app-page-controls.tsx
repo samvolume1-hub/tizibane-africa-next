@@ -19,7 +19,6 @@ export function AppPageControls() {
   const [showTop, setShowTop] = useState(false);
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [peopleHubOpen, setPeopleHubOpen] = useState(false);
-  const [featuredLabel, setFeaturedLabel] = useState<string | null>(null);
   const [logoutLabelVisible, setLogoutLabelVisible] = useState(false);
   const [controlsVisible, setControlsVisible] = useState(false);
   const [controlsPinned, setControlsPinned] = useState(false);
@@ -130,6 +129,7 @@ export function AppPageControls() {
           title={controlsPinned ? "Unpin navigation" : "Pin navigation open"}
         >
           <span aria-hidden="true">{controlsPinned ? "●" : "⌖"}</span>
+          <span className="app-page-controls-pin-label">{controlsPinned ? "Unpin panel" : "Keep panel open"}</span>
         </button>
         <section className={`app-people-hub${peopleHubOpen ? " is-open" : ""}`} aria-label="People hub">
           <button
@@ -179,14 +179,9 @@ export function AppPageControls() {
               href={item.href}
               className="app-featured-side-control"
               aria-label={item.label}
-              onMouseEnter={() => setFeaturedLabel(item.key)}
-              onMouseLeave={() => setFeaturedLabel(null)}
-              onFocus={() => setFeaturedLabel(item.key)}
-              onBlur={() => setFeaturedLabel(null)}
-              onClick={() => setFeaturedLabel(null)}
             >
               <span className={`nav-illustration ${featuredIllustrations.illustration} ${featuredIllustrations[item.key]}`} data-icon={item.key} aria-hidden="true" />
-              <span className={`app-featured-side-label${featuredLabel === item.key ? " is-visible" : ""}`} aria-hidden="true">{item.label}</span>
+              <span className="app-featured-side-label app-featured-side-label-visible" aria-hidden="true">{item.label}</span>
             </Link>
           ))}
         </nav>
@@ -211,6 +206,7 @@ export function AppPageControls() {
         tabIndex={controlsVisible || controlsPinned ? -1 : 0}
       >
         <span aria-hidden="true">‹</span>
+        <span className="app-page-controls-edge-label">Open panel</span>
       </button>
 
       <div className="app-logout-controls" aria-label="Account controls">
