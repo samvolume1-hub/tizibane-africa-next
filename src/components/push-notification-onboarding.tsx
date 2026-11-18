@@ -149,10 +149,8 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
   }
 
   function dismiss() {
-    try {
-      window.localStorage.setItem(dismissedStorageKey(userId), "1");
-      window.sessionStorage.setItem(DISMISSED_STORAGE_KEY, "1");
-    } catch { /* Keep a session-only dismissal if persistent storage is unavailable. */ }
+    try { window.localStorage.setItem(dismissedStorageKey(userId), "1"); } catch { /* Persistent storage may be unavailable. */ }
+    try { window.sessionStorage.setItem(DISMISSED_STORAGE_KEY, "1"); } catch { /* Session storage may also be unavailable. */ }
     setState("hidden");
   }
 
