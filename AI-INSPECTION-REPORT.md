@@ -489,3 +489,19 @@ Copy and complete this section after each work session.
 - **Deployment status:** No deployment performed or verified.
 - **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
 - **Next safe step:** Complete a route/active-state map across every page, inspect all navigation-related CSS blocks and responsive breakpoints, then design the new component ownership and token plan before the first application-code edit.
+
+
+### 18 November 2026 — Premium navigation reconstruction and route rationalisation
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `recovery/premium-navigation-architecture`, based on `main` at `10a6cc128582c23ce4d509086a202f6fe898ebfc`.
+- **Agreed scope:** Replace the competing navigation presentation with one responsive system while preserving every authenticated destination and its interactions. Keep `main` untouched and do not merge or deploy.
+- **Files inspected:** All authenticated `src/app/home/**/page.tsx` files using `CommunityNavigation`, the navigation components, app shell imports, legacy navigation styles, global shell layout declarations and CI workflow.
+- **Files changed:** Added `src/components/community-navigation.module.css` and `src/components/navigation-icon.tsx`; rebuilt `src/components/community-navigation.tsx` and `src/components/app-page-controls.tsx`; removed legacy navigation stylesheet imports from `src/app/home/layout.tsx`; surgically removed obsolete app-shell grid-track declarations from `src/app/globals.css`; added `docs/NAVIGATION-ARCHITECTURE-AUDIT.md`; this report.
+- **Findings/implementation:** Route ownership was mapped across every authenticated page. Seven destinations now form the desktop primary sidebar; seven secondary destinations appear in a restrained text-labelled right rail on wide desktop and a More panel on tablet/mobile. The mobile bottom bar promotes Home, People, Messages, Alerts and Profile. Shared sizing/spacing and light/dark surface tokens live in the CSS module. Duplicate Messages and Spotlight entries were removed from the desktop destination split. Existing route URLs, active-state values, Back/Top utilities, sign-out server action and confirmation behaviour are retained. The old navigation stylesheets remain as unreferenced source files pending final verification; no blind deletion was performed.
+- **Tests/checks:** CI on intermediate commit `b7da5a13030d446f68897be940927b43838fb9ce` passed TypeScript, moderation tests, auth tests, Deno checks and production build (run [44301193716](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301193716)). An earlier build exposed a CSS Modules pure-selector restriction on a global root token selector; tokens were moved onto the scoped app-layout selector and the subsequent build passed. An earlier malformed tablet-menu markup edit was caught by TypeScript and corrected. The latest cleanup commit `dd86f8a2afec884477eeebda468687d14aedbaef` is awaiting its own CI run [44301611772](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301611772). No browser or real viewport test has been performed.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Risks/blockers:** Real visual verification is still required at desktop, tablet and mobile widths, portrait and landscape, in both themes. The right-side rail and More panel need actual device/browser review for fit, focus order, touch targets and scroll behaviour. Old navigation CSS files should only be deleted after that review confirms no remaining consumer.
+- **Next safe step:** Confirm latest CI on `dd86f8a`, then run authenticated browser viewport and interaction checks in both themes before considering any further CSS cleanup or merge.
