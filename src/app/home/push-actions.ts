@@ -76,3 +76,25 @@ export async function removeWebPushSubscription(endpoint: string) {
   }
   return { ok: true, message: "Push notifications are switched off on this device." };
 }
+
+
+export async function dismissPushNotificationOnboarding() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { ok: false, message: "Please sign in again." };
+
+  const metadata = user.user_metadata ?? {};
+  const { error } = await supabase.auth.updateUser({
+    data: {
+      ...metadata,
+      tizibane_push_onboarding_dismissed: true,
+    },
+  });
+
+  if (error) {
+    console.error("[TIZIBANE push] onboarding dismissal save failed", { message: error.message });
+    return { ok: false, message: "We could not save this preference to your account." };
+  }
+
+  return { ok: true };
+}

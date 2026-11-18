@@ -5,11 +5,12 @@ import { PushNotificationOnboarding } from "@/components/push-notification-onboa
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const hasDismissedPushOnboarding = user?.user_metadata?.tizibane_push_onboarding_dismissed === true;
 
   return (
     <>
       <NotificationBell userId={user?.id ?? ""} />
-      {user && (
+      {user && !hasDismissedPushOnboarding && (
         <PushNotificationOnboarding
           userId={user.id}
           vapidPublicKey={process.env.NEXT_PUBLIC_WEB_PUSH_VAPID_PUBLIC_KEY ?? ""}

@@ -369,3 +369,81 @@
   :global(html[data-theme="dark"]) .mobileMoreFooter { border-color: #4b3957; }
   :global(html[data-theme="dark"]) .mobileMoreFooter button { background: #3b2949; color: #fff; }
 }
+
+
+.sidebarActions {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #eee8f1;
+}
+.sidebarAction {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tizibane-nav-text);
+  font: 700 14px/1.25 "DM Sans",sans-serif;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sidebarAction:hover,.sidebarAction:focus-visible {
+  border-color: var(--tizibane-nav-active-border);
+  background: var(--tizibane-nav-active);
+  color: var(--tizibane-nav-active-text);
+  outline: none;
+}
+.sidebarAction[aria-current="page"] {
+  border-color: var(--tizibane-nav-active-border);
+  background: var(--tizibane-nav-active);
+  color: var(--tizibane-nav-active-text);
+}
+.sidebarAction svg { flex: 0 0 22px; width: 22px; height: 22px; }
+.sidebarLogoutConfirm {
+  display: grid;
+  gap: 7px;
+  padding: 8px 5px 3px;
+  color: var(--tizibane-nav-text);
+  font: 650 12px/1.4 "DM Sans",sans-serif;
+}
+.sidebarLogoutConfirm button {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--tizibane-nav-border);
+  border-radius: 9px;
+  background: var(--tizibane-nav-raised);
+  color: var(--tizibane-nav-text);
+  font: 750 12px/1 "DM Sans",sans-serif;
+  cursor: pointer;
+}
+.sidebarLogoutConfirm button[type="submit"] {
+  border-color: #68408b;
+  background: #563477;
+  color: #fff;
+}
+:global(html[data-theme="dark"]) .sidebarActions { border-color: #44334f; }
+:global(html[data-theme="dark"]) .sidebarAction { color: #d9cde2; }
+:global(html[data-theme="dark"]) .sidebarAction:hover,
+:global(html[data-theme="dark"]) .sidebarAction:focus-visible,
+:global(html[data-theme="dark"]) .sidebarAction[aria-current="page"] {
+  border-color: #654d76;
+  background: #392747;
+  color: #fff;
+}
+:global(html[data-theme="dark"]) .sidebarLogoutConfirm { color: #eee5f4; }
+:global(html[data-theme="dark"]) .sidebarLogoutConfirm button {
+  border-color: #654d76;
+  background: #2a1d35;
+  color: #fff;
+}
+:global(html[data-theme="dark"]) .sidebarLogoutConfirm button[type="submit"] { background: #68408b; }
+@media (max-width: 820px) {
+  .sidebarActions { display: none; }
+}

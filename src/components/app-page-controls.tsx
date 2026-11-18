@@ -3,15 +3,15 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "@/app/auth-actions";
 import { NavigationIcon } from "@/components/navigation-icon";
 import { secondaryNavigationItems } from "@/components/navigation-items";
 import styles from "@/components/community-navigation.module.css";
 
+const railItems = secondaryNavigationItems.filter((item) => item.key !== "settings");
+
 export function AppPageControls({ active }: { active: string }) {
   const router = useRouter();
   const [showTop, setShowTop] = useState(false);
-  const [confirmLogout, setConfirmLogout] = useState(false);
 
   useEffect(() => {
     const updateVisibility = () => setShowTop(window.scrollY > 240);
@@ -27,7 +27,7 @@ export function AppPageControls({ active }: { active: string }) {
 
   return (
     <nav className={styles.secondaryRail} aria-label="Additional destinations and page controls">
-      {secondaryNavigationItems.map((item) => (
+      {railItems.map((item) => (
         <Link
           key={item.key}
           href={item.href}
@@ -48,18 +48,6 @@ export function AppPageControls({ active }: { active: string }) {
         <button type="button" className={styles.utilityButton} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Back to top" title="Top">
           <NavigationIcon name="top" />
           <span className={styles.utilityLabel}>Top</span>
-        </button>
-      )}
-      {confirmLogout ? (
-        <div className={styles.logoutConfirm} role="group" aria-label="Confirm sign out">
-          <span>Sign out?</span>
-          <form action={signOut}><button type="submit">Yes</button></form>
-          <button type="button" onClick={() => setConfirmLogout(false)}>Cancel</button>
-        </div>
-      ) : (
-        <button type="button" className={styles.utilityButton} onClick={() => setConfirmLogout(true)} aria-label="Sign out" title="Sign out">
-          <NavigationIcon name="logout" />
-          <span className={styles.utilityLabel}>Sign out</span>
         </button>
       )}
     </nav>

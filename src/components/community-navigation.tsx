@@ -17,16 +17,18 @@ export function CommunityNavigation({ active }: { active: string }) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
   const [confirmMobileLogout, setConfirmMobileLogout] = useState(false);
+  const [confirmSidebarLogout, setConfirmSidebarLogout] = useState(false);
   const isSecondaryActive = secondaryItems.some((item) => item.key === active);
 
   useEffect(() => {
     setMoreOpen(false);
     setConfirmMobileLogout(false);
+    setConfirmSidebarLogout(false);
   }, [pathname]);
 
   return (
     <>
-      <aside className={styles.sidebar} aria-label="TIZIBANE navigation" onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}>
+      <aside className={styles.sidebar} aria-label="TIZIBANE navigation" onKeyDown={(event) => { if (event.key === "Escape") { setMoreOpen(false); setConfirmSidebarLogout(false); } }}>
         <div className={styles.brand}>
           <span className={styles.brandMark} aria-hidden="true">T</span>
           <span className={styles.brandCopy}>
@@ -63,6 +65,30 @@ export function CommunityNavigation({ active }: { active: string }) {
         </button>
 
         <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
+
+        <div className={styles.sidebarActions} aria-label="Account controls">
+          <Link
+            href="/home/settings"
+            className={styles.sidebarAction}
+            aria-current={active === "settings" ? "page" : undefined}
+            title="Settings"
+          >
+            <NavigationIcon name="settings" />
+            <span>Settings</span>
+          </Link>
+          {confirmSidebarLogout ? (
+            <div className={styles.sidebarLogoutConfirm} role="group" aria-label="Confirm sign out">
+              <span>Are you sure you want to sign out?</span>
+              <form action={signOut}><button type="submit">Yes, sign out</button></form>
+              <button type="button" onClick={() => setConfirmSidebarLogout(false)}>Cancel</button>
+            </div>
+          ) : (
+            <button type="button" className={styles.sidebarAction} onClick={() => setConfirmSidebarLogout(true)} title="Sign out">
+              <NavigationIcon name="logout" />
+              <span>Sign out</span>
+            </button>
+          )}
+        </div>
 
         <nav className={styles.mobileBar} aria-label="Mobile navigation">
           {mobileItems.map((item) => (
