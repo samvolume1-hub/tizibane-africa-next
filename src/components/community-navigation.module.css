@@ -1,6 +1,6 @@
 :global(.app-layout):has(> .sidebar) {
   --tizibane-nav-target: 44px;
-  --tizibane-nav-icon: 22px;
+  --tizibane-nav-icon: 24px;
   --tizibane-nav-gap: 7px;
   --tizibane-nav-radius: 11px;
   --tizibane-nav-surface: rgba(255,255,255,.92);
@@ -74,11 +74,11 @@
 }
 .brandCopy { display: grid; gap: 2px; min-width: 0; }
 .brandName { color: #352344; font: 800 14px/1.1 Manrope,sans-serif; letter-spacing: .12em; }
-.brandTagline { color: #887b91; font: 500 10px/1.2 "DM Sans",sans-serif; letter-spacing: .04em; }
+.brandTagline { color: #887b91; font: 540 10.8px/1.2 "DM Sans",sans-serif; letter-spacing: .04em; }
 .sectionLabel {
   padding: 7px 11px 8px;
   color: #92879a;
-  font: 700 10px/1.2 "DM Sans",sans-serif;
+  font: 750 10.8px/1.2 "DM Sans",sans-serif;
   letter-spacing: .15em;
   text-transform: uppercase;
 }
@@ -126,8 +126,8 @@
   background: var(--tizibane-nav-raised);
   color: var(--tizibane-nav-accent);
 }
-.primaryLabel { overflow: hidden; color: inherit; font: 650 13.5px/1.3 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
-.sidebarFoot { margin-top: auto; padding: 12px 10px 0; border-top: 1px solid #eee8f1; color: #988da0; font: 500 10px/1.4 "DM Sans",sans-serif; }
+.primaryLabel { overflow: hidden; color: inherit; font: 700 14.6px/1.3 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.sidebarFoot { margin-top: auto; padding: 12px 10px 0; border-top: 1px solid #eee8f1; color: #988da0; font: 540 10.8px/1.4 "DM Sans",sans-serif; }
 .secondaryRail {
   position: fixed;
   z-index: 60;
@@ -158,7 +158,7 @@
 .secondaryLink:hover,.secondaryLink:focus-visible { background: #f5f0f8; color: #4f3268; outline: none; }
 .secondaryLink[aria-current="page"] { background: var(--tizibane-nav-active); color: var(--tizibane-nav-accent); }
 .secondaryIcon { flex: 0 0 var(--tizibane-nav-icon); width: var(--tizibane-nav-icon); height: var(--tizibane-nav-icon); }
-.secondaryLabel { overflow: hidden; color: inherit; font: 650 13px/1.25 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+.secondaryLabel { overflow: hidden; color: inherit; font: 700 14px/1.25 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
 .railDivider { height: 1px; margin: 2px 5px; background: #eee8f1; }
 .utilityButton {
   display: flex;
@@ -175,7 +175,7 @@
   cursor: pointer;
 }
 .utilityButton:hover,.utilityButton:focus-visible { background: #f5f0f8; color: #4f3268; outline: none; }
-.utilityLabel { font: 650 12px/1.2 "DM Sans",sans-serif; }
+.utilityLabel { font: 700 13px/1.2 "DM Sans",sans-serif; }
 .logoutConfirm { display: grid; gap: 5px; padding: 7px 4px 3px; color: #5e5268; font: 600 9px/1.3 "DM Sans",sans-serif; text-align: center; }
 .logoutConfirm button { min-height: 32px; border: 1px solid #ded2e7; border-radius: 8px; background: #fff; color: #563477; font: 700 10px/1 "DM Sans",sans-serif; cursor: pointer; }
 .logoutConfirm button[type="submit"] { background: #563477; color: #fff; }
@@ -197,7 +197,7 @@
   background: var(--tizibane-nav-active);
   color: var(--tizibane-nav-active-text);
 }
-.moreIcon { flex: 0 0 20px; width: 20px; height: 20px; }
+.moreIcon { flex: 0 0 20px; width: 22px; height: 22px; }
 .mobileBar,.mobileMorePanel,.desktopMoreTrigger { display: none; }
 @media (max-width: 1100px) and (min-width: 821px) {
   .sidebar { width: 208px; min-width: 208px; padding-inline: 10px; }
@@ -215,7 +215,7 @@
     border-radius: var(--tizibane-nav-radius);
     background: transparent;
     color: var(--tizibane-nav-text);
-    font: 650 13.5px/1.25 "DM Sans",sans-serif;
+    font: 700 14.6px/1.25 "DM Sans",sans-serif;
     text-align: left;
   }
   .desktopMoreTrigger:hover,.desktopMoreTrigger:focus-visible,.desktopMoreTrigger[aria-expanded="true"] {
@@ -295,8 +295,8 @@
     cursor: pointer;
   }
   .mobileLink[aria-current="page"],.moreTrigger[aria-expanded="true"],.moreTrigger.moreActive { background: #f1eaf7; color: #563477; }
-  .mobileIcon { width: 24px; height: 24px; }
-  .mobileLabel { max-width: 100%; overflow: hidden; color: inherit; font: 700 11px/1.15 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
+  .mobileIcon { width: 26px; height: 26px; }
+  .mobileLabel { max-width: 100%; overflow: hidden; color: inherit; font: 750 11.9px/1.15 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
   .secondaryRail { display: none; }
   .mobileMorePanel {
     position: fixed;
@@ -321,13 +321,13 @@
   .mobileMoreFooter button { width: 100%; min-height: 42px; border: 0; border-radius: 10px; background: #f4eff7; color: #563477; font: 700 12px "DM Sans",sans-serif; }
 }
 @media (max-width: 420px) {
-  .mobileLabel { font-size: 10.5px; }
+  .mobileLabel { font-size: 11.3px; }
   .mobileBar { gap: 2px; }
   .mobileLink,.moreTrigger { gap: 3px; }
    .mobileMorePanel { grid-template-columns: 1fr; }
 }
 @media (max-width: 360px) {
-  .mobileLabel { font-size: 10px; }
+  .mobileLabel { font-size: 10.8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .primaryLink,.secondaryLink { transition: none; }
