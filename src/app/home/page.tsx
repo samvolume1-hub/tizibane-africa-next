@@ -53,7 +53,10 @@ export default async function Home({
     redirect("/login?error=Connect%20the%20Supabase%20project%20to%20continue");
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError) {
+    throw new Error("TIZIBANE could not verify your session. Please retry when your connection is stable.");
+  }
   if (!user) redirect("/login");
 
   const [
