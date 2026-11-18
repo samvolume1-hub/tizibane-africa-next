@@ -505,3 +505,16 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
 - **Risks/blockers:** Real visual verification is still required at desktop, tablet and mobile widths, portrait and landscape, in both themes. The right-side rail and More panel need actual device/browser review for fit, focus order, touch targets and scroll behaviour. Old navigation CSS files should only be deleted after that review confirms no remaining consumer.
 - **Next safe step:** Confirm latest CI on `dd86f8a`, then run authenticated browser viewport and interaction checks in both themes before considering any further CSS cleanup or merge.
+
+
+### 18 November 2026 — Shared route contract and final automated build verification
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Branch:** `recovery/premium-navigation-architecture`; latest validated application commit `2efb859b63acf6748d08401288c963093ee2dd0e`.
+- **Files changed:** Added `src/components/navigation-items.ts` as the single source of truth for primary, secondary and mobile destination lists. Added `tests/navigation-routes.test.mjs`, a `test:navigation` package script and a CI step. Removed legacy app-shell grid-track declarations and the obsolete zero-bottom-padding override from `src/app/globals.css`, leaving navigation geometry and mobile safe-area spacing owned by the scoped navigation module. Updated the navigation audit.
+- **Tests/checks:** GitHub Actions run [44302164990](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44302164990) completed successfully on commit `2efb859b63acf6748d08401288c963093ee2dd0e`: TypeScript, comment moderation tests, authentication tests, the new navigation destination contract tests, Deno Edge Function checks and the Next.js production build all passed. The navigation contract test verifies 14 unique route keys/URLs, that every destination maps to a real page file, that mobile navigation has five unique primary destinations, and that all literal page active keys exist in the shared config.
+- **Visual verification:** Not performed. No authenticated browser screenshots or viewport tests have been run. Desktop, tablet and mobile portrait/landscape in both light and dark themes remain mandatory review gates.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Next safe step:** Arrange a browser/device review of the draft PR and verify navigation placement, text contrast, touch targets, focus behaviour, menu dismissal and page-content clearance in both themes. Only after that review should legacy CSS files be considered for deletion or the PR be considered for merge.
