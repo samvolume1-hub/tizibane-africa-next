@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { saveWebPushSubscription } from "@/app/home/push-actions";
+import { dismissPushNotificationOnboarding, saveWebPushSubscription } from "@/app/home/push-actions";
 import styles from "./push-notification-onboarding.module.css";
 
 type Props = { userId: string; vapidPublicKey: string };
@@ -48,25 +48,24 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
       }
 
       try {
+        // Migrate any dismissal saved by an earlier browser-only version into
+        // the signed-in account, then rely on account metadata on future visits.
+        let legacyDismissed = false;
+        try {
+          legacyDismissed = window.localStorage.getItem(dismissedStorageKey(userId)) === "1"
+            || window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1";
+        } catch { /* Account metadata remains the durable source of truth. */ }
+        if (legacyDismissed) {
+          const saved = await dismissPushNotificationOnboarding();
+          if (active) setState("hidden");
+          if (!saved.ok) console.warn("[TIZIBANE push] legacy dismissal could not be migrated");
+          return;
+        }
+
         const permission = Notification.permission;
         if (permission !== "granted") {
-          let dismissed = false;
-          try {
-            dismissed = window.localStorage.getItem(dismissedStorageKey(userId)) === "1";
-            // Migrate a dismissal from the previous session-only implementation.
-            if (!dismissed && window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1") {
-              dismissed = true;
-              window.localStorage.setItem(dismissedStorageKey(userId), "1");
-            }
-          } catch {
-            // If persistent storage is blocked, retain the previous session-level
-            // behavior so dismissing the invitation still works for this visit.
-            try {
-              dismissed = window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1";
-            } catch { /* Both storage mechanisms may be unavailable. */ }
-          }
           if (active) {
-            setState(dismissed ? "hidden" : permission === "denied" ? "denied" : isIosHomeScreenApp() ? "ios-install" : "prompt");
+            setState(permission === "denied" ? "denied" : isIosHomeScreenApp() ? "ios-install" : "prompt");
           }
           return;
         }
@@ -154,10 +153,16 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
     }
   }
 
-  function dismiss() {
-    try { window.localStorage.setItem(dismissedStorageKey(userId), "1"); } catch { /* Persistent storage may be unavailable. */ }
-    try { window.sessionStorage.setItem(DISMISSED_STORAGE_KEY, "1"); } catch { /* Session storage may also be unavailable. */ }
+  async function dismiss() {
+    // Hide immediately; persist the choice against the authenticated account so
+    // it survives browser restarts, storage restrictions, and other devices.
     setState("hidden");
+    const saved = await dismissPushNotificationOnboarding();
+    if (!saved.ok) {
+      // Best-effort fallback for this browser if the account update is unavailable.
+      try { window.localStorage.setItem(dismissedStorageKey(userId), "1"); } catch { /* Browser storage may be unavailable too. */ }
+      console.warn("[TIZIBANE push] account dismissal preference was not saved");
+    }
   }
 
   if (state === "checking" || state === "hidden" || state === "enabled") return null;
