@@ -282,7 +282,7 @@
   .mobileMorePanel {
     position: fixed;
     right: 10px;
-    bottom: calc(76px + env(safe-area-inset-bottom,0px));
+    bottom: calc(88px + env(safe-area-inset-bottom,0px));
     left: 10px;
     z-index: 110;
     display: grid;
@@ -316,20 +316,6 @@
     background: var(--tizibane-nav-active);
     color: var(--tizibane-nav-active-text);
   }
-  .moreIcon { flex: 0 0 20px; width: 20px; height: 20px; }
-    display: flex;
-    min-height: 48px;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 11px;
-    border: 1px solid #ded3e7;
-    border-radius: 10px;
-    background: #fff;
-    color: #49375a;
-    font: 650 13px/1.25 "DM Sans",sans-serif;
-    text-decoration: none;
-  }
-  .moreLink[aria-current="page"] { border-color: #d8c5e6; background: #f3edf8; color: #563477; }
   .moreIcon { flex: 0 0 20px; width: 20px; height: 20px; }
   .mobileMoreFooter { grid-column: 1/-1; padding-top: 7px; border-top: 1px solid #eee8f2; }
   .mobileMoreFooter button { width: 100%; min-height: 42px; border: 0; border-radius: 10px; background: #f4eff7; color: #563477; font: 700 12px "DM Sans",sans-serif; }
