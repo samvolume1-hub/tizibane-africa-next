@@ -58,7 +58,13 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
               dismissed = true;
               window.localStorage.setItem(dismissedStorageKey(userId), "1");
             }
-          } catch { /* Fall back to session storage when persistent storage is unavailable. */ }
+          } catch {
+            // If persistent storage is blocked, retain the previous session-level
+            // behavior so dismissing the invitation still works for this visit.
+            try {
+              dismissed = window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1";
+            } catch { /* Both storage mechanisms may be unavailable. */ }
+          }
           if (active) {
             setState(dismissed ? "hidden" : permission === "denied" ? "denied" : isIosHomeScreenApp() ? "ios-install" : "prompt");
           }
