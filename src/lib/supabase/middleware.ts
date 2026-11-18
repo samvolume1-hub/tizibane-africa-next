@@ -1,11 +1,13 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseConfig } from "./config";
+import { supabaseFetch } from "./fetch";
 
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
   const { url, key } = getSupabaseConfig();
   const supabase = createServerClient(url, key, {
+    global: { fetch: supabaseFetch },
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll(items, headers) {
@@ -19,8 +21,13 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  // Verify the JWT locally and refresh it when needed. Individual server pages
-  // still call getUser() when they need the authoritative user record.
-  await supabase.auth.getClaims();
+  // A transient auth-network failure must not turn every /home navigation into
+  // an opaque middleware 500. The destination page still verifies the user;
+  // its route error boundary provides a visible retry if the service is down.
+  try {
+    await supabase.auth.getClaims();
+  } catch {
+    // Continue with the request; authoritative page-level auth checks remain.
+  }
   return response;
 }
