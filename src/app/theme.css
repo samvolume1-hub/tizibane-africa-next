@@ -429,7 +429,7 @@ html[data-theme="dark"] .app-layout .community-stories-page .story-composer {
   border-color: #765482 !important;
   color: #f8f2fc !important;
 }
-html[data-theme="dark"] .app-layout .community-home-page .composer :is(h1,h2,h3,h4,p,span,strong,label,small,.eyebrow,.field-help),
+html[data-theme="dark"] .app-layout .community-home-page .composer :is(h1,h2,h3,h4,p,span,strong,label,small,.eyebrow,.field-help,.home-section-kicker),
 html[data-theme="dark"] .app-layout .community-stories-page .story-composer :is(h1,h2,h3,h4,p,span,strong,label,small,.eyebrow,.field-help) {
   color: #f5edf9 !important;
   -webkit-text-fill-color: #f5edf9 !important;
