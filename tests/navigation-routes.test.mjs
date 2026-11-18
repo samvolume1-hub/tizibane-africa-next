@@ -54,3 +54,13 @@ test("every page active key is represented in the shared navigation config", () 
   assert.ok(activeKeys.size > 0, "No literal CommunityNavigation active keys were found");
   for (const key of activeKeys) assert.ok(configuredKeys.has(key), `Unconfigured active key: ${key}`);
 });
+
+test("desktop Settings and Sign out controls sit directly beneath primary navigation", async () => {
+  const source = readFileSync(resolve(root, "src/components/community-navigation.tsx"), "utf8");
+  const primaryNavEnd = source.indexOf("</nav>", source.indexOf('aria-label="Main navigation"'));
+  const accountControlsStart = source.indexOf('className={styles.sidebarActions}');
+  const moreDestinationsStart = source.indexOf('className={styles.desktopMoreTrigger}');
+  assert.ok(primaryNavEnd >= 0, "Primary navigation should be present");
+  assert.ok(accountControlsStart > primaryNavEnd, "Account controls should follow Notifications");
+  assert.ok(moreDestinationsStart > accountControlsStart, "Account controls should appear before More destinations");
+});
