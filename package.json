@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test:moderation": "node --experimental-strip-types --test tests/comment-moderation.test.mjs",
     "test:auth": "node --experimental-strip-types --test tests/auth-flow.test.mjs",
-    "test:navigation": "node --experimental-strip-types --test tests/navigation-routes.test.mjs"
+    "test:navigation": "node --experimental-strip-types --test tests/navigation-routes.test.mjs",
+    "test:push-onboarding": "node --experimental-strip-types --test tests/push-onboarding.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",

@@ -2,12 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { saveWebPushSubscription } from "@/app/home/push-actions";
+import styles from "./push-notification-onboarding.module.css";
 
 type Props = { userId: string; vapidPublicKey: string };
 type ViewState = "checking" | "prompt" | "working" | "enabled" | "denied" | "ios-install" | "error" | "hidden";
 
 const OWNER_STORAGE_KEY = "tizibane-web-push-owner";
 const DISMISSED_STORAGE_KEY = "tizibane-push-onboarding-dismissed";
+
+function dismissedStorageKey(userId: string) {
+  return DISMISSED_STORAGE_KEY + ":" + userId;
+}
 
 function decodeApplicationServerKey(value: string) {
   const padding = "=".repeat((4 - value.length % 4) % 4);
@@ -44,15 +49,25 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
 
       try {
         const permission = Notification.permission;
-        if (permission === "denied") {
-          if (active) setState("denied");
-          return;
-        }
-
         if (permission !== "granted") {
           let dismissed = false;
-          try { dismissed = window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1"; } catch { /* Storage may be unavailable. */ }
-          if (active) setState(dismissed ? "hidden" : isIosHomeScreenApp() ? "ios-install" : "prompt");
+          try {
+            dismissed = window.localStorage.getItem(dismissedStorageKey(userId)) === "1";
+            // Migrate a dismissal from the previous session-only implementation.
+            if (!dismissed && window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1") {
+              dismissed = true;
+              window.localStorage.setItem(dismissedStorageKey(userId), "1");
+            }
+          } catch {
+            // If persistent storage is blocked, retain the previous session-level
+            // behavior so dismissing the invitation still works for this visit.
+            try {
+              dismissed = window.sessionStorage.getItem(DISMISSED_STORAGE_KEY) === "1";
+            } catch { /* Both storage mechanisms may be unavailable. */ }
+          }
+          if (active) {
+            setState(dismissed ? "hidden" : permission === "denied" ? "denied" : isIosHomeScreenApp() ? "ios-install" : "prompt");
+          }
           return;
         }
 
@@ -78,6 +93,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
         if (!saved.ok) throw new Error(saved.message);
         try {
           window.localStorage.setItem(OWNER_STORAGE_KEY, userId);
+          window.localStorage.removeItem(dismissedStorageKey(userId));
           window.sessionStorage.removeItem(DISMISSED_STORAGE_KEY);
         } catch { /* The server subscription remains valid without browser storage. */ }
         if (active) setState("enabled");
@@ -127,6 +143,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
 
       try {
         window.localStorage.setItem(OWNER_STORAGE_KEY, userId);
+        window.localStorage.removeItem(dismissedStorageKey(userId));
         window.sessionStorage.removeItem(DISMISSED_STORAGE_KEY);
       } catch { /* The server subscription remains valid without browser storage. */ }
       setState("enabled");
@@ -138,18 +155,14 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
   }
 
   function dismiss() {
-    try { window.sessionStorage.setItem(DISMISSED_STORAGE_KEY, "1"); } catch { /* Ignore unavailable storage. */ }
+    try { window.localStorage.setItem(dismissedStorageKey(userId), "1"); } catch { /* Persistent storage may be unavailable. */ }
+    try { window.sessionStorage.setItem(DISMISSED_STORAGE_KEY, "1"); } catch { /* Session storage may also be unavailable. */ }
     setState("hidden");
   }
 
   if (state === "checking" || state === "hidden" || state === "enabled") return null;
 
   const cardStyle: React.CSSProperties = {
-    position: "fixed",
-    zIndex: 90,
-    right: "max(18px, env(safe-area-inset-right))",
-    bottom: "max(18px, env(safe-area-inset-bottom))",
-    width: "min(390px, calc(100vw - 28px))",
     padding: "20px",
     borderRadius: 22,
     border: "1px solid rgba(224, 190, 246, .38)",
@@ -160,7 +173,7 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
   };
 
   return (
-    <aside aria-labelledby="push-onboarding-title" role="region" style={cardStyle}>
+    <aside aria-labelledby="push-onboarding-title" role="region" className={styles.card} style={cardStyle}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
         <span aria-hidden="true" style={{
           display: "grid", placeItems: "center", flex: "0 0 42px", height: 42,
