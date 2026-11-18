@@ -46,7 +46,7 @@ test("every page active key is represented in the shared navigation config", () 
 
   for (const pageFile of pageFiles) {
     const source = readFileSync(pageFile, "utf8");
-    for (const match of source.matchAll(/<CommunityNavigation\\s+active=["']([^"']+)["']/g)) {
+    for (const match of source.matchAll(/<CommunityNavigation\s+active=["']([^"']+)["']/g)) {
       activeKeys.add(match[1]);
     }
   }
