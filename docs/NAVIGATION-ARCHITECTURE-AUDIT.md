@@ -1,0 +1,93 @@
+# TIZIBANE Premium Navigation — Architecture Audit
+
+**Date:** 18 November 2026  
+**Repository:** `samvolume1-hub/tizibane-africa-next`  
+**Baseline:** `main` at `10a6cc128582c23ce4d509086a202f6fe898ebfc`  
+**Working branch:** `recovery/premium-navigation-architecture`  
+**Scope:** Read-only source archaeology and navigation architecture mapping. No application code changed in this audit.
+
+## Executive finding
+
+The navigation is not controlled by one coherent stylesheet. It is currently assembled from a component plus several large, overlapping global stylesheets, with late overrides that materially change earlier layout decisions. The current implementation therefore has accumulated CSS debt and should be rationalised before a visual rebuild.
+
+## Verified source inventory
+
+| File | Approx. size | Lines | `!important` declarations | Media queries |
+|---|---:|---:|---:|---:|
+| `src/app/globals.css` | 324,304 bytes | 8,689 | 1,924 | 146 |
+| `src/app/illustrated-navigation-fix.css` | 75,593 bytes | 1,966 | 1,198 | 23 |
+| `src/app/navigation-labels.css` | 25,064 bytes | 394 | 436 | 5 |
+| `src/app/theme.css` | 29,348 bytes | 619 | 240 | 1 |
+
+These counts are source inventory indicators, not a claim that every declaration is harmful. The three navigation/theme files alone contain 1,874 `!important` declarations. The global stylesheet contains many unrelated feature styles and must not be wholesale replaced as part of navigation work.
+
+## Confirmed architectural findings
+
+### 1. CSS import cascade is split across layout boundaries
+
+- `src/app/layout.tsx` imports `globals.css`, `auth-readability.css`, `theme.css`, `app-polish.css`, and `calling.css`.
+- `src/app/home/layout.tsx` separately imports `illustrated-navigation-fix.css` and then `navigation-labels.css`.
+- The latter file is therefore loaded after the former within the authenticated home layout and overrides some of its geometry and presentation.
+- This split ownership makes the effective navigation style difficult to reason about from any one file.
+
+### 2. Navigation geometry is repeatedly overridden
+
+- The illustrated-navigation stylesheet starts with a 54px rail and contains later layout declarations using 64px, 60px, 45px and 42px grid columns, alongside multiple responsive overrides.
+- The navigation-labels stylesheet changes the rail to 166px and changes link geometry and labels again.
+- These are not merely theme colour differences; they are competing layout systems layered on the same selectors.
+
+### 3. The current component divides destinations across multiple controls
+
+- `CommunityNavigation` defines 14 destinations.
+- Its primary sidebar filters out People, Blocked, Community activity, Events and Premium advertising.
+- `AppPageControls` then exposes a People hub, featured links, pin/auto-hide behaviour, Back/Top controls, and separate logout confirmation.
+- Messages appears in the primary navigation and again in the People hub. Spotlight appears in the primary navigation and in featured controls.
+- This duplication and the auto-hiding/pinning interaction are part of the current UI architecture, not simply decorative CSS. Destination mapping and interaction semantics must be deliberately preserved or rationalised.
+
+### 4. Current CSS conflicts with the newly approved design direction
+
+- `navigation-labels.css` assigns a different accent to individual destinations and applies a 3px left border to each navigation item; responsive rules also apply individual top-border accents.
+- This directly conflicts with the requested unified icon containers, restrained active state and removal of individual coloured stripes.
+- The illustrated stylesheet hides `.mobile-bottom-nav`, while the theme stylesheet still contains styling for the legacy mobile bottom navigation and More menu. The current `CommunityNavigation` component does not render that bottom-navigation markup.
+- Therefore, a proper mobile bottom navigation requires a considered component change and route mapping, not just CSS repainting.
+
+### 5. Theme architecture has legacy selectors and broad override pressure
+
+- `theme.css` contains substantial dark-theme overrides and still targets both current illustrated navigation and older `.side-nav`, `.mobile-bottom-nav`, and `.mobile-more-panel` structures.
+- The root layout sets `data-theme` before hydration using local storage. That behaviour is outside the navigation redesign and must remain intact.
+- The navigation work must avoid changing global theme bootstrapping or broad content contrast rules.
+
+## Component and behaviour constraints
+
+The following current behaviours were observed in source and must be considered before changing the component:
+
+- Active destination is passed into `CommunityNavigation` by each page and reflected with `active` and `aria-current="page"`.
+- Destination links use Next.js `Link`.
+- People hub opens and closes client-side and closes after a destination is selected.
+- The side controls auto-hide after a delay, can be pinned, and include Back/Top navigation.
+- Logout uses a confirmation step and the existing `signOut` server action.
+- Notification bell and push-notification onboarding are mounted in the authenticated home layout and must remain independent of navigation rendering.
+
+## Safe implementation strategy
+
+1. Treat `main` as immutable during this task. Work only on `recovery/premium-navigation-architecture`.
+2. Keep the current navigation component and CSS as a reference while mapping all route destinations and page usage.
+3. Establish a single component ownership model for primary desktop navigation, secondary destinations, mobile bottom navigation and the additional-destinations menu.
+4. Introduce narrowly scoped navigation tokens and styles; do not add new global overrides to `globals.css`.
+5. Remove legacy selectors only after confirming no live component depends on them. Do not delete the old navigation styles until the replacement has passed route, theme and responsive checks.
+6. Preserve the theme boot script, notification features, logout server action, route permissions, and all destination URLs.
+7. Verify TypeScript, lint if configured, production build, automated tests, and real browser layouts at desktop/tablet/mobile widths in both themes. Report unavailable checks honestly.
+
+## Explicit non-goals
+
+- No database, Supabase, authentication, member-data, hosting, environment-variable or deployment changes.
+- No merge to `main`.
+- No broad rewrite or cleanup of unrelated feature styles.
+- No deletion of old navigation CSS before dependency and visual verification.
+
+## Current status
+
+**Phase 1 — initial source inventory: complete.**  
+**Full route/dependency map and responsive/theme verification: in progress.**  
+**Application code changes: not started.**  
+**Production changes: none.**
