@@ -10,6 +10,7 @@ test("notification invitation dismissal persists per signed-in user", () => {
   assert.match(onboarding, /localStorage\.getItem\(dismissedStorageKey\(userId\)\)/);
   assert.match(onboarding, /localStorage\.setItem\(dismissedStorageKey\(userId\), "1"\)/);
   assert.match(onboarding, /localStorage\.removeItem\(dismissedStorageKey\(userId\)\)/);
+  assert.match(onboarding, /dismissed = window\.sessionStorage\.getItem\(DISMISSED_STORAGE_KEY\) === "1"/);
 });
 
 test("dismissal is checked before showing either prompt or denied-permission guidance", () => {
