@@ -5,17 +5,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/app/auth-actions";
 import { NavigationIcon } from "@/components/navigation-icon";
+import { secondaryNavigationItems } from "@/components/navigation-items";
 import styles from "@/components/community-navigation.module.css";
-
-const secondaryItems = [
-  { href: "/home/connect", label: "Spotlight", key: "connect" },
-  { href: "/home/announcements", label: "Announcements", key: "announcements" },
-  { href: "/home/activity", label: "Activity", key: "activity" },
-  { href: "/home/events", label: "Events", key: "events" },
-  { href: "/home/premium", label: "Premium", key: "premium" },
-  { href: "/home/blocked", label: "Blocked", key: "blocked" },
-  { href: "/home/settings", label: "Settings", key: "settings" },
-];
 
 export function AppPageControls({ active }: { active: string }) {
   const router = useRouter();
@@ -36,7 +27,7 @@ export function AppPageControls({ active }: { active: string }) {
 
   return (
     <nav className={styles.secondaryRail} aria-label="Additional destinations and page controls">
-      {secondaryItems.map((item) => (
+      {secondaryNavigationItems.map((item) => (
         <Link
           key={item.key}
           href={item.href}
