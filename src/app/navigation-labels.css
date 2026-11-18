@@ -356,3 +356,38 @@ html[data-theme="dark"] .app-layout .app-page-controls-edge-label { color: #fff 
     transform: translateX(calc(100% + 8px)) !important;
   }
 }
+
+/* Shared light-theme navigation button colours — deliberately not viewport-scoped.
+   Keep the same clean lavender/white button palette on phones, tablets and desktop;
+   responsive rules above may still change dimensions and placement. */
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a,
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
+  border-color: #d5ccdf !important;
+  border-left: 3px solid var(--nav-accent, #8b789e) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  color: #24152f !important;
+}
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active {
+  border-color: #8b789e !important;
+  border-left-color: var(--nav-accent, #8b789e) !important;
+  background: #f8f5fb !important;
+}
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a .nav-visible-label {
+  color: #24152f !important;
+  text-shadow: none !important;
+}
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  border: 1px solid #d5ccdf !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  color: #24152f !important;
+}
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar .app-logout-trigger span:last-child {
+  color: #24152f !important;
+}
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:focus-visible,
+html:not([data-theme="dark"]) .app-layout .tizibane-illustrated-sidebar .app-logout-trigger:focus-visible {
+  outline: 2px solid #9568bd !important;
+  outline-offset: 2px !important;
+}
