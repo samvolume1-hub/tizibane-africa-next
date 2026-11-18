@@ -413,3 +413,38 @@ html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="c
   color: #f5eff9 !important;
   -webkit-text-fill-color: #f5eff9 !important;
 }
+
+
+/* Persistent navigation labels — maintain strong contrast in dark appearance. */
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a .nav-item-label {
+  color: #f8f0fc !important;
+  -webkit-text-fill-color: #f8f0fc !important;
+}
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active .nav-item-label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar .app-logout-label {
+  color: #f8f0fc !important;
+  -webkit-text-fill-color: #f8f0fc !important;
+}
+html[data-theme="dark"] .app-layout .app-featured-side-label,
+html[data-theme="dark"] .app-layout .app-page-controls-pin-label,
+html[data-theme="dark"] .app-layout .app-page-controls-edge-label {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+html[data-theme="dark"] .app-layout .app-featured-side-control,
+html[data-theme="dark"] .app-layout .app-people-hub-trigger,
+html[data-theme="dark"] .app-layout .app-page-controls-pin,
+html[data-theme="dark"] .app-layout .app-page-controls-edge-toggle {
+  border-color: #b78bd2 !important;
+  background: linear-gradient(145deg, #49305d, #342044) !important;
+  color: #ffffff !important;
+}
+html[data-theme="dark"] .app-layout .app-featured-side-control:hover,
+html[data-theme="dark"] .app-layout .app-featured-side-control:focus-visible,
+html[data-theme="dark"] .app-layout .app-people-hub-trigger:hover,
+html[data-theme="dark"] .app-layout .app-people-hub-trigger:focus-visible {
+  background: linear-gradient(145deg, #68458a, #4c2e65) !important;
+}
