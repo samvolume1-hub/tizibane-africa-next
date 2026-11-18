@@ -2064,6 +2064,13 @@
 }
 .app-layout .app-page-controls-edge-label { font: 700 10px/1.1 system-ui,sans-serif !important; white-space: nowrap !important; }
 
+/* All labels sit on purple navigation buttons in both themes, so keep them white. */
+.app-layout .tizibane-illustrated-sidebar .nav-visible-label,
+.app-layout .tizibane-illustrated-sidebar .app-logout-label { color: #fff !important; }
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:active .nav-visible-label {
+  opacity: 1 !important; visibility: visible !important;
+}
+
 /* Explicit dark-mode label contrast; light-mode defaults remain dark purple on pale surfaces. */
 html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar .nav-visible-label,
 html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar .app-logout-label { color: #fff !important; }
