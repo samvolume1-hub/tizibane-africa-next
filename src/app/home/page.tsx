@@ -8,6 +8,7 @@ import { createComment, toggleReaction, updatePost, deletePost, replacePostPhoto
 import { ContentMoreMenu } from "@/components/content-more-menu";
 import { ReportControl } from "./report-control";
 import { PendingIconButton } from "@/components/pending-icon-button";
+import { PostReactionPicker } from "@/components/post-reaction-picker";
 import { CompressedImageForm } from "@/components/compressed-image-form";
 import styles from "./post-more-menu.module.css";
 
@@ -279,35 +280,12 @@ export default async function Home({
                     {post.body && <p className="post-body">{post.body}</p>}
                     {photoUrls[post.id] && <img className="post-photo" src={photoUrls[post.id]} alt="Photo shared with this post" loading="lazy" decoding="async" />}
                     <div className="post-interactions">
-                      <div className="reaction-picker" aria-label="Choose how you feel about this post">
-                        <details className="reaction-menu">
-                          <summary aria-label="Choose a reaction" title="Choose a reaction">
-                            <span aria-hidden="true">{myReaction === "love" ? "❤️" : myReaction === "laugh" ? "😂" : myReaction === "wow" ? "😮" : myReaction === "sad" ? "😢" : myReaction === "celebrate" ? "🎉" : myReaction === "support" ? "🤗" : myReaction === "salute" ? "🫡" : myReaction === "pray" ? "🙏" : "👍"}</span>
-                          </summary>
-                          <div className="reaction-menu-panel">
-                            {[
-                              { value: "like", emoji: "👍", label: "Like" },
-                              { value: "love", emoji: "❤️", label: "Love" },
-                              { value: "laugh", emoji: "😂", label: "Joy" },
-                              { value: "wow", emoji: "😮", label: "Wow" },
-                              { value: "sad", emoji: "😢", label: "Sad" },
-                              { value: "celebrate", emoji: "🎉", label: "Celebrate" },
-                              { value: "support", emoji: "🤗", label: "Support" },
-                              { value: "salute", emoji: "🫡", label: "Salute" },
-                              { value: "pray", emoji: "🙏", label: "Pray" },
-                            ].map((choice) => (
-                              <form action={toggleReaction} key={choice.value}>
-                                <input type="hidden" name="post_id" value={post.id} />
-                                <input type="hidden" name="reaction" value={choice.value} />
-                                <PendingIconButton className={`reaction-choice${myReaction === choice.value ? " is-selected" : ""}`} pressed={myReaction === choice.value} label={choice.label}>
-                                  <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
-                                </PendingIconButton>
-                              </form>
-                            ))}
-                          </div>
-                        </details>
-                        <span className="reaction-total">{reactionCounts[post.id] ?? 0} reactions</span>
-                      </div>
+                      <PostReactionPicker
+                        postId={post.id}
+                        myReaction={myReaction}
+                        reactionCount={reactionCounts[post.id] ?? 0}
+                        action={toggleReaction}
+                      />
                       <span className="comment-count">{commentsByPost[post.id]?.length ?? 0} comments</span>
                     </div>
                     {postComments.length > 0 && (
