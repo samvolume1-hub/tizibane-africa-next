@@ -30,6 +30,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               key={item.key}
               href={item.href}
               className={active === item.key ? "active" : undefined}
+              data-nav-key={item.key}
               aria-current={active === item.key ? "page" : undefined}
               aria-label={item.label}
             >
