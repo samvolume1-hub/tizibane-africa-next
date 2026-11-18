@@ -74,7 +74,18 @@ export function CommunityNavigation({ active }: { active: string }) {
           ))}
         </nav>
 
-        <button\n          type="button"\n          className={styles.desktopMoreTrigger}\n          aria-expanded={moreOpen}\n          aria-controls="tizibane-more-destinations"\n          onClick={() => setMoreOpen((value) => !value)}\n        >\n          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>\n          More destinations\n        </button>\n\n        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
+        <button
+          type="button"
+          className={styles.desktopMoreTrigger}
+          aria-expanded={moreOpen}
+          aria-controls="tizibane-more-destinations"
+          onClick={() => setMoreOpen((value) => !value)}
+        >
+          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>
+          More destinations
+        </button>
+
+        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
 
         <nav className={styles.mobileBar} aria-label="Mobile navigation">
           {mobileItems.map((item) => (
