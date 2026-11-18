@@ -345,15 +345,15 @@ html[data-theme="dark"] #tizibane-spotlight-page {
   color-scheme: dark !important;
 }
 html[data-theme="dark"] #tizibane-spotlight-page[class*="spotlight_"],
-html[data-theme="dark"] .app-layout .app-content [class*="reviewSection"],
-html[data-theme="dark"] .app-layout .app-content [class*="companySpotlight"],
-html[data-theme="dark"] .app-layout .app-content [class*="communitySpotlight"],
-html[data-theme="dark"] .app-layout .app-content [class*="companyReview"],
-html[data-theme="dark"] .app-layout .app-content [class*="communityPick"],
-html[data-theme="dark"] .app-layout .app-content [class*="reader"],
-html[data-theme="dark"] .app-layout .app-content [class*="storyChoice"],
-html[data-theme="dark"] .app-layout .app-content [class*="submissionRow"],
-html[data-theme="dark"] .app-layout .app-content [class*="submissionPreview"] {
+html[data-theme="dark"] #tizibane-spotlight-page [class*="reviewSection"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="companySpotlight"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="communitySpotlight"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="companyReview"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="communityPick"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="reader"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="storyChoice"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="submissionRow"],
+html[data-theme="dark"] #tizibane-spotlight-page [class*="submissionPreview"] {
   background: linear-gradient(145deg, #2b1c36, #211529) !important;
   border-color: #594267 !important;
   color: #f5eff9 !important;
