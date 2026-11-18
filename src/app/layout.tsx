@@ -2,7 +2,6 @@ import type {Metadata, Viewport} from "next";
 import "./globals.css";
 import "./auth-readability.css";
 import "./theme.css";
-import "./app-polish.css";
 import "./calling.css";
 import { NotificationSoundListener } from "@/components/notification-sound-listener";
 
