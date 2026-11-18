@@ -53,19 +53,6 @@ export function CommunityNavigation({ active }: { active: string }) {
           ))}
         </nav>
 
-        <button
-          type="button"
-          className={styles.desktopMoreTrigger}
-          aria-expanded={moreOpen}
-          aria-controls="tizibane-more-destinations"
-          onClick={() => setMoreOpen((value) => !value)}
-        >
-          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>
-          More destinations
-        </button>
-
-        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
-
         <div className={styles.sidebarActions} aria-label="Account controls">
           <Link
             href="/home/settings"
@@ -89,6 +76,19 @@ export function CommunityNavigation({ active }: { active: string }) {
             </button>
           )}
         </div>
+
+        <button
+          type="button"
+          className={styles.desktopMoreTrigger}
+          aria-expanded={moreOpen}
+          aria-controls="tizibane-more-destinations"
+          onClick={() => setMoreOpen((value) => !value)}
+        >
+          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>
+          More destinations
+        </button>
+
+        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
 
         <nav className={styles.mobileBar} aria-label="Mobile navigation">
           {mobileItems.map((item) => (
