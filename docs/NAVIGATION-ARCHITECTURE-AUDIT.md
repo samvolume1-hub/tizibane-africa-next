@@ -90,7 +90,7 @@ The following current behaviours were observed in source and must be considered 
 **Phase 1 — initial source inventory: complete.**  
 **Full route/active-state map: complete.**  
 **Navigation reconstruction: implemented on the recovery branch; responsive/theme visual verification remains outstanding.**  
-**Automated verification: passed on intermediate commit `b7da5a1`; latest cleanup commit `dd86f8a` is awaiting its own CI result.**  
+**Automated verification: passed on commit `2efb859`.**  
 **Production changes: none.**
 
 
@@ -120,15 +120,15 @@ The route audit inspected every authenticated page using `CommunityNavigation`. 
 
 ### Implementation decisions
 
-- Added `community-navigation.module.css` as the new scoped navigation style owner, with shared sizing/spacing and light/dark theme tokens.
-- Added a shared local SVG icon component; no new dependency or external icon asset was introduced.
+- Added `community-navigation.module.css` as the new scoped navigation style owner, with shared sizing/spacing and light/dark theme tokens. The CSS module scopes its tokens to the authenticated app layout instead of using global root selectors.
+- Added `navigation-items.ts` as the single source of truth for all primary, secondary and mobile destination lists, plus a shared local SVG icon component. No new dependency or external icon asset was introduced.
 - Rebuilt `CommunityNavigation` and `AppPageControls` to provide a labelled desktop sidebar, a low-chrome text-labelled secondary rail, a tablet More menu, and a safe-area-aware mobile bottom bar with a separate More panel.
 - Preserved all destination URLs, active route states, Back/Top controls, sign-out confirmation and the existing `signOut` server action. Mobile sign-out also retains explicit confirmation.
 - Removed the two legacy navigation stylesheet imports from `src/app/home/layout.tsx`. The old stylesheets remain in the repository as reference and have not been deleted.
-- Removed 11 obsolete `.app-layout` grid-track declarations from `globals.css` so the new navigation module owns the authenticated app-shell grid. No feed, page-content, theme bootstrap, notification or data-access styles were intentionally rewritten.
+- Removed 11 obsolete `.app-layout` grid-track declarations and one legacy zero-bottom-padding override from `globals.css` so the new navigation module owns the authenticated app-shell grid and mobile safe-area spacing. No feed, page-content, theme bootstrap, notification or data-access styles were intentionally rewritten.
 
 ### Verification boundary
 
 - TypeScript, moderation tests, auth tests and Deno checks passed in CI on commit `b7da5a13030d446f68897be940927b43838fb9ce`; the production build also passed on that commit: [GitHub Actions run 44301193716](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301193716).
-- A later cleanup commit `dd86f8a2afec884477eeebda468687d14aedbaef` removes empty legacy shell blocks. Its production CI run [44301611772](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301611772) is pending at the time of this update.
+- Added `tests/navigation-routes.test.mjs` and a `test:navigation` CI step to enforce unique destinations, real route files, the five-item mobile set and valid page active keys. The production CI run on commit `2efb859b63acf6748d08401288c963093ee2dd0e` passed TypeScript, moderation, auth, navigation contract tests, Deno checks and the Next.js production build: [GitHub Actions run 44302164990](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44302164990).
 - No real browser screenshot, authenticated interaction test, or desktop/tablet/mobile light/dark viewport test has been performed. These remain release gates; a passing build does not establish visual correctness.
