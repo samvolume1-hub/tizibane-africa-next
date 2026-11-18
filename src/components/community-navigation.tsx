@@ -5,36 +5,13 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { signOut } from "@/app/auth-actions";
 import { NavigationIcon } from "@/components/navigation-icon";
+import { mobileNavigationItems, primaryNavigationItems, secondaryNavigationItems } from "@/components/navigation-items";
 import { AppPageControls } from "@/components/app-page-controls";
 import styles from "@/components/community-navigation.module.css";
 
-const primaryItems = [
-  { href: "/home", label: "Home", key: "home" },
-  { href: "/home/profile", label: "My profile", key: "profile" },
-  { href: "/home/people", label: "People", key: "people" },
-  { href: "/home/messages", label: "Messages", key: "messages" },
-  { href: "/home/groups", label: "Groups", key: "groups" },
-  { href: "/home/stories", label: "Stories", key: "stories" },
-  { href: "/home/notifications", label: "Notifications", key: "notifications" },
-];
-
-const secondaryItems = [
-  { href: "/home/connect", label: "Spotlight", key: "connect" },
-  { href: "/home/announcements", label: "Announcements", key: "announcements" },
-  { href: "/home/activity", label: "Community activity", key: "activity" },
-  { href: "/home/events", label: "Events", key: "events" },
-  { href: "/home/premium", label: "Premium advertising", key: "premium" },
-  { href: "/home/blocked", label: "Blocked", key: "blocked" },
-  { href: "/home/settings", label: "Settings", key: "settings" },
-];
-
-const mobileItems = [
-  primaryItems[0],
-  primaryItems[2],
-  primaryItems[3],
-  primaryItems[6],
-  primaryItems[1],
-];
+const primaryItems = primaryNavigationItems;
+const secondaryItems = secondaryNavigationItems;
+const mobileItems = mobileNavigationItems;
 
 export function CommunityNavigation({ active }: { active: string }) {
   const pathname = usePathname();
