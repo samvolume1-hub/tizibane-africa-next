@@ -367,13 +367,6 @@ html[data-theme="dark"] #tizibane-spotlight-page :is([class*="submitButton"],[cl
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
-html[data-theme="dark"] #tizibane-spotlight-page :is(input,select,textarea) {
-  background: #160f20 !important;
-  border-color: #634a72 !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  color-scheme: dark !important;
-}
 html[data-theme="dark"] #tizibane-spotlight-page :is(input,textarea)::placeholder {
   color: #c2b1cd !important;
   -webkit-text-fill-color: #c2b1cd !important;
