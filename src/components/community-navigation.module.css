@@ -108,7 +108,7 @@
   border-color: var(--tizibane-nav-active-border);
   background: var(--tizibane-nav-active);
   color: var(--tizibane-nav-active-text);
-  font-weight: 700;
+  font-weight: 750;
 }
 .iconContainer {
   display: grid;
@@ -176,8 +176,8 @@
 }
 .utilityButton:hover,.utilityButton:focus-visible { background: #f5f0f8; color: #4f3268; outline: none; }
 .utilityLabel { font: 700 13px/1.2 "DM Sans",sans-serif; }
-.logoutConfirm { display: grid; gap: 5px; padding: 7px 4px 3px; color: #5e5268; font: 600 9px/1.3 "DM Sans",sans-serif; text-align: center; }
-.logoutConfirm button { min-height: 32px; border: 1px solid #ded2e7; border-radius: 8px; background: #fff; color: #563477; font: 700 10px/1 "DM Sans",sans-serif; cursor: pointer; }
+.logoutConfirm { display: grid; gap: 5px; padding: 7px 4px 3px; color: #5e5268; font: 650 9.7px/1.3 "DM Sans",sans-serif; text-align: center; }
+.logoutConfirm button { min-height: 32px; border: 1px solid #ded2e7; border-radius: 8px; background: #fff; color: #563477; font: 750 10.8px/1 "DM Sans",sans-serif; cursor: pointer; }
 .logoutConfirm button[type="submit"] { background: #563477; color: #fff; }
 .moreLink {
   display: flex;
@@ -189,7 +189,7 @@
   border-radius: 10px;
   background: var(--tizibane-nav-raised);
   color: var(--tizibane-nav-text);
-  font: 650 13px/1.25 "DM Sans",sans-serif;
+  font: 700 14px/1.25 "DM Sans",sans-serif;
   text-decoration: none;
 }
 .moreLink[aria-current="page"] {
@@ -197,7 +197,7 @@
   background: var(--tizibane-nav-active);
   color: var(--tizibane-nav-active-text);
 }
-.moreIcon { flex: 0 0 20px; width: 22px; height: 22px; }
+.moreIcon { flex: 0 0 22px; width: 22px; height: 22px; }
 .mobileBar,.mobileMorePanel,.desktopMoreTrigger { display: none; }
 @media (max-width: 1100px) and (min-width: 821px) {
   .sidebar { width: 208px; min-width: 208px; padding-inline: 10px; }
@@ -318,7 +318,7 @@
   }
   .mobileMorePanel[hidden] { display: none; }
   .mobileMoreFooter { grid-column: 1/-1; padding-top: 7px; border-top: 1px solid #eee8f2; }
-  .mobileMoreFooter button { width: 100%; min-height: 42px; border: 0; border-radius: 10px; background: #f4eff7; color: #563477; font: 700 12px "DM Sans",sans-serif; }
+  .mobileMoreFooter button { width: 100%; min-height: 42px; border: 0; border-radius: 10px; background: #f4eff7; color: #563477; font: 750 13px "DM Sans",sans-serif; }
 }
 @media (max-width: 420px) {
   .mobileLabel { font-size: 11.3px; }
