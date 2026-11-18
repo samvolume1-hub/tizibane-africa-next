@@ -1442,17 +1442,7 @@
     gap: 6px !important;
     padding: 4px 0 !important;
   }
-  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
-    flex-basis: 42px !important;
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 42px !important;
-    min-height: 42px !important;
-    border-radius: 11px !important;
-  }
-  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration {
-    transform: scale(.86) !important;
-  }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a,
