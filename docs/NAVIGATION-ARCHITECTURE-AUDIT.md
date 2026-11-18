@@ -88,6 +88,47 @@ The following current behaviours were observed in source and must be considered 
 ## Current status
 
 **Phase 1 — initial source inventory: complete.**  
-**Full route/dependency map and responsive/theme verification: in progress.**  
-**Application code changes: not started.**  
+**Full route/active-state map: complete.**  
+**Navigation reconstruction: implemented on the recovery branch; responsive/theme visual verification remains outstanding.**  
+**Automated verification: passed on intermediate commit `b7da5a1`; latest cleanup commit `dd86f8a` is awaiting its own CI result.**  
 **Production changes: none.**
+
+
+## Phase 2 — implementation record (18 November 2026)
+
+### Route ownership map
+
+**Primary desktop navigation and five-item mobile bar:**
+- Home — `/home`
+- My profile — `/home/profile`
+- People — `/home/people`
+- Messages — `/home/messages`
+- Groups — `/home/groups`
+- Stories — `/home/stories`
+- Notifications — `/home/notifications`
+
+**Secondary destinations (desktop right rail; tablet/mobile More panel):**
+- Spotlight — `/home/connect`
+- Announcements — `/home/announcements`
+- Community activity — `/home/activity`
+- Events — `/home/events`
+- Premium advertising — `/home/premium`
+- Blocked — `/home/blocked`
+- Settings — `/home/settings`
+
+The route audit inspected every authenticated page using `CommunityNavigation`. All 14 destination keys have a corresponding route and active-state key, including the announcement-management page, group detail pages, member profiles and Premium admin page. The mobile bar intentionally promotes Home, People, Messages, Alerts and Profile, with the other destinations available from More.
+
+### Implementation decisions
+
+- Added `community-navigation.module.css` as the new scoped navigation style owner, with shared sizing/spacing and light/dark theme tokens.
+- Added a shared local SVG icon component; no new dependency or external icon asset was introduced.
+- Rebuilt `CommunityNavigation` and `AppPageControls` to provide a labelled desktop sidebar, a low-chrome text-labelled secondary rail, a tablet More menu, and a safe-area-aware mobile bottom bar with a separate More panel.
+- Preserved all destination URLs, active route states, Back/Top controls, sign-out confirmation and the existing `signOut` server action. Mobile sign-out also retains explicit confirmation.
+- Removed the two legacy navigation stylesheet imports from `src/app/home/layout.tsx`. The old stylesheets remain in the repository as reference and have not been deleted.
+- Removed 11 obsolete `.app-layout` grid-track declarations from `globals.css` so the new navigation module owns the authenticated app-shell grid. No feed, page-content, theme bootstrap, notification or data-access styles were intentionally rewritten.
+
+### Verification boundary
+
+- TypeScript, moderation tests, auth tests and Deno checks passed in CI on commit `b7da5a13030d446f68897be940927b43838fb9ce`; the production build also passed on that commit: [GitHub Actions run 44301193716](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301193716).
+- A later cleanup commit `dd86f8a2afec884477eeebda468687d14aedbaef` removes empty legacy shell blocks. Its production CI run [44301611772](https://github.com/samvolume1-hub/tizibane-africa-next/actions/runs/44301611772) is pending at the time of this update.
+- No real browser screenshot, authenticated interaction test, or desktop/tablet/mobile light/dark viewport test has been performed. These remain release gates; a passing build does not establish visual correctness.
