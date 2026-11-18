@@ -375,9 +375,6 @@
 .app-layout .tizibane-illustrated-sidebar .community-nav-section {
   background: #7D6295 !important;
 }
-.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
-  background: transparent !important;
-}
 
 /* Stories — unmistakable story ring surrounding a person/profile silhouette. */
 .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration[data-icon="stories"]::before {
