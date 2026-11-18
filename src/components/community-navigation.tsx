@@ -49,7 +49,7 @@ export function CommunityNavigation({ active }: { active: string }) {
 
   return (
     <>
-      <aside className={styles.sidebar} aria-label="TIZIBANE navigation">
+      <aside className={styles.sidebar} aria-label="TIZIBANE navigation" onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}>
         <div className={styles.brand}>
           <span className={styles.brandMark} aria-hidden="true">T</span>
           <span className={styles.brandCopy}>
@@ -74,7 +74,7 @@ export function CommunityNavigation({ active }: { active: string }) {
           ))}
         </nav>
 
-        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
+        <button\n          type="button"\n          className={styles.desktopMoreTrigger}\n          aria-expanded={moreOpen}\n          aria-controls="tizibane-more-destinations"\n          onClick={() => setMoreOpen((value) => !value)}\n        >\n          <span className={styles.iconContainer}><NavigationIcon name="more" /></span>\n          More destinations\n        </button>\n\n        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
 
         <nav className={styles.mobileBar} aria-label="Mobile navigation">
           {mobileItems.map((item) => (
@@ -86,7 +86,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               aria-label={item.label}
             >
               <NavigationIcon name={item.key} className={styles.mobileIcon} />
-              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.label}</span>
+              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.key === "notifications" ? "Alerts" : item.label}</span>
             </Link>
           ))}
           <button
