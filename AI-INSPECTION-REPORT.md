@@ -472,3 +472,20 @@ Copy and complete this section after each work session.
 - **Production, hosting, Supabase, or data changes:** No production migration applied; no Supabase schema or member data changed. The migration is committed to the feature branch only.
 - **Blockers/risks:** Do not merge until the latest CI run, including the exhaustive term test and production build, is green. The SQL migration has been statically reviewed and smoke-tested at the expression level but has not been applied or exercised as an installed trigger.
 - **Next safe step:** Confirm the latest CI checks and review the complete PR diff. Merge only when every required check passes; then obtain explicit approval before applying the Supabase migration.
+
+
+### 18 November 2026 — Premium navigation architecture recovery: initial source archaeology
+
+- **Contributor:** ChatGPT
+- **Repository:** `samvolume1-hub/tizibane-africa-next`
+- **Baseline:** `main` at `10a6cc128582c23ce4d509086a202f6fe898ebfc`.
+- **Working branch:** `recovery/premium-navigation-architecture`, created from the verified main baseline.
+- **Agreed scope:** Investigate accumulated navigation/theme CSS and component dependencies, then rebuild desktop, secondary and mobile navigation around a shared design system. Keep `main` untouched; do not merge or deploy without separate approval.
+- **Files inspected:** `AI-HANDOVER.md`, `PRODUCT-AND-ARCHITECTURE.md`, `package.json`, `src/app/layout.tsx`, `src/app/home/layout.tsx`, `src/components/community-navigation.tsx`, `src/components/app-page-controls.tsx`, `src/app/globals.css`, `src/app/illustrated-navigation-fix.css`, `src/app/navigation-labels.css`, `src/app/theme.css`, and representative Home, Profile and Messages pages.
+- **Files changed:** Added `docs/NAVIGATION-ARCHITECTURE-AUDIT.md` on the recovery branch. No application source or CSS changed.
+- **Findings:** The global stylesheet is 324,304 bytes / 8,689 lines with 1,924 `!important` declarations. The illustrated navigation stylesheet is 75,593 bytes / 1,966 lines with 1,198 `!important` declarations and 23 media queries. The navigation-labels stylesheet is 25,064 bytes / 394 lines with 436 `!important` declarations and 5 media queries. The theme stylesheet is 29,348 bytes / 619 lines with 240 `!important` declarations. Navigation CSS is split between the root and authenticated layouts; the labels stylesheet is imported after the illustrated-navigation stylesheet and changes its geometry. Several different rail widths are declared across the illustrated-navigation stylesheet. The labels stylesheet adds per-destination coloured borders, contrary to the newly approved direction. The current component splits destinations between a primary sidebar and a floating, auto-hiding/pinnable controls panel; Messages and Spotlight are duplicated. The illustrated stylesheet hides legacy mobile bottom navigation while theme CSS retains styling for legacy mobile navigation selectors.
+- **Decisions:** Do not append another patch layer to the current navigation styles. Map route ownership and responsive/theme dependencies before modifying the component. Keep global content/theme CSS out of scope unless a verified navigation dependency requires a narrowly scoped change. Preserve active-route semantics, Next.js links, People hub behaviour where still needed, Back/Top behaviour if retained, logout confirmation/server action, theme bootstrapping, notification bell and push onboarding.
+- **Tests/checks:** Read-only source inspection and static inventory only. No TypeScript, lint, automated tests, production build or browser viewport checks have been run in this session. No claim of visual verification is made.
+- **Deployment status:** No deployment performed or verified.
+- **Production, hosting, Supabase, authentication, environment or member data changes:** None. `main` remains unchanged.
+- **Next safe step:** Complete a route/active-state map across every page, inspect all navigation-related CSS blocks and responsive breakpoints, then design the new component ownership and token plan before the first application-code edit.
