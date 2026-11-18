@@ -19,8 +19,8 @@
 }
 
 html[data-theme="dark"] .app-layout {
-  --tz-accent: #b993dc;
-  --tz-accent-strong: #d0b2eb;
+  --tz-accent: #70458d;
+  --tz-accent-strong: #59316f;
   --tz-accent-soft: #30243c;
   --tz-page: #100d16;
   --tz-surface: #1a1522;
