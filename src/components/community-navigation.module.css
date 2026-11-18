@@ -1,3 +1,31 @@
+:global(:root) {
+  --tizibane-nav-target: 44px;
+  --tizibane-nav-icon: 20px;
+  --tizibane-nav-gap: 5px;
+  --tizibane-nav-radius: 11px;
+  --tizibane-nav-surface: rgba(255,255,255,.92);
+  --tizibane-nav-raised: #fff;
+  --tizibane-nav-border: #e8e1ec;
+  --tizibane-nav-text: #5a5062;
+  --tizibane-nav-muted: #92879a;
+  --tizibane-nav-accent: #563477;
+  --tizibane-nav-active: #f1eaf7;
+  --tizibane-nav-active-border: #e6dcec;
+  --tizibane-nav-active-text: #4d2c68;
+  --tizibane-nav-shadow: 0 8px 28px rgba(43,28,57,.10);
+}
+:global(html[data-theme="dark"]) {
+  --tizibane-nav-surface: rgba(27,19,36,.96);
+  --tizibane-nav-raised: #2a1d35;
+  --tizibane-nav-border: #44334f;
+  --tizibane-nav-text: #d9cde2;
+  --tizibane-nav-muted: #b8a9c4;
+  --tizibane-nav-accent: #f0e4f7;
+  --tizibane-nav-active: #392747;
+  --tizibane-nav-active-border: #654d76;
+  --tizibane-nav-active-text: #fff;
+  --tizibane-nav-shadow: 0 8px 28px rgba(0,0,0,.28);
+}
 .sidebar {
   position: sticky;
   top: 0;
@@ -58,12 +86,12 @@
 .primaryLink {
   display: flex;
   align-items: center;
-  gap: 11px;
-  min-height: 44px;
+  gap: var(--tizibane-nav-gap);
+  min-height: var(--tizibane-nav-target);
   padding: 6px 10px;
   border: 1px solid transparent;
-  border-radius: 11px;
-  color: #5a5062;
+  border-radius: var(--tizibane-nav-radius);
+  color: var(--tizibane-nav-text);
   text-decoration: none;
   transition: background .16s ease,border-color .16s ease,color .16s ease;
 }
@@ -77,9 +105,9 @@
   outline-offset: 2px;
 }
 .primaryLink[aria-current="page"] {
-  border-color: #e6dcec;
-  background: #f1eaf7;
-  color: #4d2c68;
+  border-color: var(--tizibane-nav-active-border);
+  background: var(--tizibane-nav-active);
+  color: var(--tizibane-nav-active-text);
   font-weight: 700;
 }
 .iconContainer {
@@ -88,15 +116,15 @@
   width: 30px;
   height: 30px;
   place-items: center;
-  border: 1px solid #e9e1ee;
+  border: 1px solid var(--tizibane-nav-border);
   border-radius: 9px;
-  background: #fff;
-  color: #72568a;
+  background: var(--tizibane-nav-raised);
+  color: var(--tizibane-nav-accent);
 }
 .primaryLink[aria-current="page"] .iconContainer {
-  border-color: #d9c7e6;
-  background: #fff;
-  color: #563477;
+  border-color: var(--tizibane-nav-active-border);
+  background: var(--tizibane-nav-raised);
+  color: var(--tizibane-nav-accent);
 }
 .primaryLabel { overflow: hidden; color: inherit; font: 600 12px/1.25 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
 .sidebarFoot { margin-top: auto; padding: 12px 10px 0; border-top: 1px solid #eee8f1; color: #988da0; font: 500 10px/1.4 "DM Sans",sans-serif; }
@@ -107,12 +135,14 @@
   right: 9px;
   display: grid;
   width: 64px;
-  gap: 5px;
+  gap: var(--tizibane-nav-gap);
+  max-height: calc(100dvh - 24px);
+  overflow-y: auto;
   padding: 8px 5px;
-  border: 1px solid #e8e0ed;
+  border: 1px solid var(--tizibane-nav-border);
   border-radius: 17px;
-  background: rgba(255,255,255,.9);
-  box-shadow: 0 8px 28px rgba(43,28,57,.10);
+  background: var(--tizibane-nav-surface);
+  box-shadow: var(--tizibane-nav-shadow);
   backdrop-filter: blur(16px);
   transform: translateY(-50%);
 }
@@ -124,13 +154,13 @@
   justify-content: center;
   gap: 3px;
   border-radius: 10px;
-  color: #776b81;
+  color: var(--tizibane-nav-text);
   text-decoration: none;
   transition: background .16s ease,color .16s ease;
 }
 .secondaryLink:hover,.secondaryLink:focus-visible { background: #f5f0f8; color: #4f3268; outline: none; }
-.secondaryLink[aria-current="page"] { background: #eee6f5; color: #563477; }
-.secondaryIcon { width: 18px; height: 18px; }
+.secondaryLink[aria-current="page"] { background: var(--tizibane-nav-active); color: var(--tizibane-nav-accent); }
+.secondaryIcon { width: var(--tizibane-nav-icon); height: var(--tizibane-nav-icon); }
 .secondaryLabel { max-width: 58px; overflow: hidden; color: inherit; font: 600 8px/1.1 "DM Sans",sans-serif; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
 .railDivider { height: 1px; margin: 2px 5px; background: #eee8f1; }
 .utilityButton {
