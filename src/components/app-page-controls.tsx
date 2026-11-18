@@ -129,7 +129,7 @@ export function AppPageControls() {
           aria-pressed={controlsPinned}
           title={controlsPinned ? "Unpin navigation" : "Pin navigation open"}
         >
-          <span aria-hidden="true">{controlsPinned ? "●" : "⌖"}</span>
+          <span aria-hidden="true">{controlsPinned ? "●" : "⌖"}</span><span className="app-page-controls-pin-label">{controlsPinned ? "Unpin panel" : "Keep panel open"}</span>
         </button>
         <section className={`app-people-hub${peopleHubOpen ? " is-open" : ""}`} aria-label="People hub">
           <button
@@ -152,7 +152,7 @@ export function AppPageControls() {
             }}
           >
             <span className="app-people-hub-icon" aria-hidden="true" />
-            <span>PEOPLE</span>
+            <span>People</span>
             <span className="app-people-hub-chevron" aria-hidden="true">{peopleHubOpen ? "⌃" : "⌄"}</span>
           </button>
           {peopleHubOpen && (
@@ -179,14 +179,9 @@ export function AppPageControls() {
               href={item.href}
               className="app-featured-side-control"
               aria-label={item.label}
-              onMouseEnter={() => setFeaturedLabel(item.key)}
-              onMouseLeave={() => setFeaturedLabel(null)}
-              onFocus={() => setFeaturedLabel(item.key)}
-              onBlur={() => setFeaturedLabel(null)}
-              onClick={() => setFeaturedLabel(null)}
             >
               <span className={`nav-illustration ${featuredIllustrations.illustration} ${featuredIllustrations[item.key]}`} data-icon={item.key} aria-hidden="true" />
-              <span className={`app-featured-side-label${featuredLabel === item.key ? " is-visible" : ""}`} aria-hidden="true">{item.label}</span>
+              <span className="app-featured-side-label app-featured-side-label-visible" aria-hidden="true">{item.label}</span>
             </Link>
           ))}
         </nav>
@@ -210,7 +205,7 @@ export function AppPageControls() {
         title="Show navigation controls"
         tabIndex={controlsVisible || controlsPinned ? -1 : 0}
       >
-        <span aria-hidden="true">‹</span>
+        <span aria-hidden="true">‹</span><span className="app-page-controls-edge-label">Open panel</span>
       </button>
 
       <div className="app-logout-controls" aria-label="Account controls">
@@ -234,7 +229,7 @@ export function AppPageControls() {
             aria-label="Log out"
           >
             <span className="app-logout-icon" aria-hidden="true" />
-            <span className={`app-logout-label${logoutLabelVisible ? " is-visible" : ""}`} aria-hidden="true">Log out</span>
+            <span className="app-logout-label is-visible" aria-hidden="true">Log out</span>
           </button>
         )}
       </div>
