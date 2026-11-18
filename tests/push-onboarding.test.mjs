@@ -3,22 +3,24 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const onboarding = readFileSync("src/components/push-notification-onboarding.tsx", "utf8");
+const pushActions = readFileSync("src/app/home/push-actions.ts", "utf8");
+const layout = readFileSync("src/app/home/layout.tsx", "utf8");
 const positioning = readFileSync("src/components/push-notification-onboarding.module.css", "utf8");
 
-test("notification invitation dismissal persists per signed-in user", () => {
-  assert.match(onboarding, /function dismissedStorageKey\(userId: string\)/);
-  assert.match(onboarding, /localStorage\.getItem\(dismissedStorageKey\(userId\)\)/);
-  assert.match(onboarding, /localStorage\.setItem\(dismissedStorageKey\(userId\), "1"\)/);
-  assert.match(onboarding, /localStorage\.removeItem\(dismissedStorageKey\(userId\)\)/);
-  assert.match(onboarding, /dismissed = window\.sessionStorage\.getItem\(DISMISSED_STORAGE_KEY\) === "1"/);
+test("notification invitation dismissal is stored in the authenticated account metadata", () => {
+  assert.match(pushActions, /export async function dismissPushNotificationOnboarding/);
+  assert.match(pushActions, /supabase\.auth\.updateUser/);
+  assert.match(pushActions, /tizibane_push_onboarding_dismissed:\s*true/);
+  assert.match(layout, /user_metadata\?\.tizibane_push_onboarding_dismissed === true/);
+  assert.match(layout, /user && !hasDismissedPushOnboarding/);
+  assert.match(onboarding, /await dismissPushNotificationOnboarding\(\)/);
 });
 
-test("dismissal is checked before showing either prompt or denied-permission guidance", () => {
+test("dismissal is checked before showing permission or installation guidance", () => {
+  const legacyMigration = onboarding.indexOf("let legacyDismissed = false");
   const permissionBranch = onboarding.indexOf('if (permission !== "granted")');
-  const dismissalCheck = onboarding.indexOf('localStorage.getItem(dismissedStorageKey(userId))');
-  const deniedState = onboarding.indexOf('permission === "denied" ? "denied"');
-  assert.ok(permissionBranch >= 0 && dismissalCheck > permissionBranch);
-  assert.ok(deniedState > dismissalCheck);
+  assert.ok(legacyMigration >= 0 && permissionBranch > legacyMigration);
+  assert.match(onboarding, /setState\(permission === "denied" \? "denied"/);
 });
 
 test("notification invitation layers above navigation and clears the mobile bottom bar", () => {
