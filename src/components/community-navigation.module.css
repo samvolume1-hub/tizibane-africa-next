@@ -1,4 +1,4 @@
-:global(:root) {
+:global(.app-layout):has(> .sidebar) {
   --tizibane-nav-target: 44px;
   --tizibane-nav-icon: 20px;
   --tizibane-nav-gap: 5px;
@@ -14,7 +14,7 @@
   --tizibane-nav-active-text: #4d2c68;
   --tizibane-nav-shadow: 0 8px 28px rgba(43,28,57,.10);
 }
-:global(html[data-theme="dark"]) {
+:global(html[data-theme="dark"]) :global(.app-layout):has(> .sidebar) {
   --tizibane-nav-surface: rgba(27,19,36,.96);
   --tizibane-nav-raised: #2a1d35;
   --tizibane-nav-border: #44334f;
