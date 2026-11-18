@@ -1909,7 +1909,6 @@ body *{
 
 .app-layout .mobile-more-panel {
   border-color: rgba(75,193,220,.72) !important;
-  background: linear-gradient(155deg,#080d12 0%,#101b24 58%,#080d12 100%) !important;
 }
 
 .app-layout .community-nav-section {
