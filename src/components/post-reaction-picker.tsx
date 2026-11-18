@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import { useFormStatus } from "react-dom";
 
 const REACTION_CHOICES = [
@@ -18,11 +18,9 @@ const REACTION_CHOICES = [
 function ReactionSubmitButton({
   choice,
   selected,
-  closeMenu,
 }: {
   choice: (typeof REACTION_CHOICES)[number];
   selected: boolean;
-  closeMenu: () => void;
 }) {
   const { pending } = useFormStatus();
 
@@ -35,7 +33,6 @@ function ReactionSubmitButton({
       title={choice.label}
       aria-pressed={selected}
       aria-busy={pending}
-      onClick={closeMenu}
     >
       <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
     </button>
@@ -53,27 +50,30 @@ export function PostReactionPicker({
   reactionCount: number;
   action: (formData: FormData) => void | Promise<void>;
 }) {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
   const selectedEmoji = REACTION_CHOICES.find((choice) => choice.value === myReaction)?.emoji ?? "👍";
-  const closeMenu = () => {
-    if (detailsRef.current) detailsRef.current.open = false;
-  };
 
   return (
     <div className="reaction-picker" aria-label="Choose how you feel about this post">
-      <details className="reaction-menu" ref={detailsRef}>
-        <summary aria-label="Choose a reaction" title="Choose a reaction">
+      <details className="reaction-menu" open={isOpen}>
+        <summary
+          aria-label="Choose a reaction"
+          title="Choose a reaction"
+          onClick={(event) => {
+            event.preventDefault();
+            setIsOpen((open) => !open);
+          }}
+        >
           <span aria-hidden="true">{selectedEmoji}</span>
         </summary>
         <div className="reaction-menu-panel">
           {REACTION_CHOICES.map((choice) => (
-            <form action={action} key={choice.value}>
+            <form action={action} key={choice.value} onSubmitCapture={() => setIsOpen(false)}>
               <input type="hidden" name="post_id" value={postId} />
               <input type="hidden" name="reaction" value={choice.value} />
               <ReactionSubmitButton
                 choice={choice}
                 selected={myReaction === choice.value}
-                closeMenu={closeMenu}
               />
             </form>
           ))}
