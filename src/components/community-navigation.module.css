@@ -239,7 +239,7 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .mobileLink[aria-current="page"],.moreTrigger[aria-expanded="true"] { background: #f1eaf7; color: #563477; }
+  .mobileLink[aria-current="page"],.moreTrigger[aria-expanded="true"],.moreTrigger.moreActive { background: #f1eaf7; color: #563477; }
   .mobileIcon { width: 20px; height: 20px; }
   .mobileLabel { max-width: 100%; overflow: hidden; color: inherit; font: 600 9px/1.1 "DM Sans",sans-serif; text-overflow: ellipsis; white-space: nowrap; }
   .secondaryRail { display: none; }
@@ -315,7 +315,7 @@
 @media (max-width: 820px) {
   :global(html[data-theme="dark"]) .sidebar { border-color: #493653; background: rgba(28,19,37,.97); box-shadow: 0 -5px 24px rgba(0,0,0,.34); }
   :global(html[data-theme="dark"]) .mobileLink,:global(html[data-theme="dark"]) .moreTrigger { color: #c8b9d3; }
-  :global(html[data-theme="dark"]) .mobileLink[aria-current="page"],:global(html[data-theme="dark"]) .moreTrigger[aria-expanded="true"] { background: #3b2949; color: #fff; }
+  :global(html[data-theme="dark"]) .mobileLink[aria-current="page"],:global(html[data-theme="dark"]) .moreTrigger[aria-expanded="true"],:global(html[data-theme="dark"]) .moreTrigger.moreActive { background: #3b2949; color: #fff; }
   :global(html[data-theme="dark"]) .mobileMorePanel { border-color: #4b3957; background: rgba(31,22,41,.98); }
   :global(html[data-theme="dark"]) .moreLink { border-color: #4a3857; background: #291e34; color: #eee5f4; }
   :global(html[data-theme="dark"]) .moreLink[aria-current="page"] { border-color: #806094; background: #3b2949; color: #fff; }
