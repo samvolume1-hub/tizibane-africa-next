@@ -28,3 +28,16 @@ test("notification invitation layers above navigation and clears the mobile bott
   assert.match(positioning, /bottom:\s*calc\(72px \+ env\(safe-area-inset-bottom, 0px\) \+ 16px\)/);
   assert.match(positioning, /max-height:\s*calc\(100dvh - 112px/);
 });
+
+test("desktop Settings and Sign out controls live in the left sidebar", () => {
+  const navigation = readFileSync("src/components/community-navigation.tsx", "utf8");
+  const appControls = readFileSync("src/components/app-page-controls.tsx", "utf8");
+  const styles = readFileSync("src/components/community-navigation.module.css", "utf8");
+  assert.match(navigation, /className=\{styles\.sidebarActions\}/);
+  assert.match(navigation, /href="\/home\/settings"/);
+  assert.match(navigation, /className=\{styles\.sidebarAction\} onClick=\{\(\) => setConfirmSidebarLogout\(true\)\}/);
+  assert.match(appControls, /filter\(\(item\) => item\.key !== "settings"\)/);
+  assert.doesNotMatch(appControls, /Sign out/);
+  assert.match(styles, /\.sidebarActions/);
+  assert.match(styles, /@media \(max-width: 820px\) \{\s*\.sidebarActions \{ display: none;/);
+});
