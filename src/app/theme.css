@@ -413,3 +413,213 @@ html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] [class*="c
   color: #f5eff9 !important;
   -webkit-text-fill-color: #f5eff9 !important;
 }
+
+
+/* TIZIBANE dark-mode readability audit — targeted repairs from the member screenshots.
+   Keep the existing layout and interactions; replace light-only component canvases
+   and low-contrast helper text with the established plum palette. */
+html[data-theme="dark"] .app-layout .topbar :is(.muted,.back-link) {
+  color: #eadcf4 !important;
+  -webkit-text-fill-color: #eadcf4 !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(.field label,.field small,.field-help,
+.image-compression-status,.composer-bottom small,.composer-options small,.post-meta,
+.post-date,.post-time,.notification-copy span,.message-composer small,.message-composer p) {
+  color: #d4c6df !important;
+  -webkit-text-fill-color: #d4c6df !important;
+}
+
+/* Home and Stories composers: headings, upload guidance and empty states. */
+html[data-theme="dark"] .app-layout .community-home-page .composer,
+html[data-theme="dark"] .app-layout .community-stories-page .story-composer {
+  background: linear-gradient(145deg, #38243f, #291a34) !important;
+  border-color: #765482 !important;
+  color: #f8f2fc !important;
+}
+html[data-theme="dark"] .app-layout .community-home-page .composer :is(h1,h2,h3,h4,p,span,strong,label,small,.eyebrow,.field-help),
+html[data-theme="dark"] .app-layout .community-stories-page .story-composer :is(h1,h2,h3,h4,p,span,strong,label,small,.eyebrow,.field-help) {
+  color: #f5edf9 !important;
+  -webkit-text-fill-color: #f5edf9 !important;
+}
+html[data-theme="dark"] .app-layout .community-home-page .composer :is(.field-help,.image-compression-status,.composer-options small,.composer-bottom small),
+html[data-theme="dark"] .app-layout .community-stories-page .story-composer :is(.field-help,.image-compression-status,.composer-options small,.composer-bottom small) {
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
+}
+html[data-theme="dark"] .app-layout .community-home-page .empty-state,
+html[data-theme="dark"] .app-layout .community-stories-page .empty-state,
+html[data-theme="dark"] .app-layout.events-page .empty-state,
+html[data-theme="dark"] .app-layout.groups-page .empty-state {
+  background: #24182e !important;
+  border-color: #654b75 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .community-home-page .empty-state :is(h1,h2,h3,p,span,strong),
+html[data-theme="dark"] .app-layout .community-stories-page .empty-state :is(h1,h2,h3,p,span,strong),
+html[data-theme="dark"] .app-layout.events-page .empty-state :is(h1,h2,h3,p,span,strong),
+html[data-theme="dark"] .app-layout.groups-page .empty-state :is(h1,h2,h3,p,span,strong) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+
+/* My Profile: restore contrast for the member identity, labels and photo controls. */
+html[data-theme="dark"] .app-layout .profile-editor {
+  background: linear-gradient(145deg, #281a32, #211529) !important;
+  border-color: #594267 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .profile-editor :is(strong,span,label,small,p,.field-help,.muted) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .profile-editor :is(.profile-preview span,.field-help,.profile-form .field small) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+html[data-theme="dark"] .app-layout .profile-editor :is(.profile-remove-confirm,.profile-remove-form button) {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+  border-color: #76558d !important;
+}
+
+/* Official announcements: admin editor and published announcement cards. */
+html[data-theme="dark"] .app-layout .community-feature-page :is(.feature-announcement-card,.feature-admin-form-card,.feature-admin-list) {
+  background: linear-gradient(145deg, #2b1c36, #211529 70%, #1d1426) !important;
+  border-color: #60496f !important;
+  color: #f5eff9 !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.22) !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page :is(.feature-admin-form-card,.feature-admin-list) :is(h1,h2,h3,h4,p,span,strong,small,label,time,summary) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page :is(.feature-admin-form-card,.feature-admin-list) :is(p,.muted,.eyebrow,.feature-admin-item-copy p) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page .feature-announcement-reactions,
+html[data-theme="dark"] .app-layout .community-feature-page .feature-announcement-comments,
+html[data-theme="dark"] .app-layout .community-feature-page .feature-admin-item {
+  border-color: #594267 !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page .feature-reaction {
+  background: #382545 !important;
+  border-color: #72558a !important;
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
+
+/* Groups: CSS-module forms and editorial panels intentionally use light palettes
+   in the default theme; switch those surfaces only when dark mode is active. */
+html[data-theme="dark"] .app-layout.groups-page .app-content {
+  background: #17101f !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] {
+  background: linear-gradient(145deg, #2b1c36, #211529) !important;
+  border-color: #60496f !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] :is(h1,h2,h3,p,span,strong,small,label,summary) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] :is(.hint,.footerHint,.choiceCopy span,.fileInput) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="choice"] {
+  background: #30213a !important;
+  border-color: #654b75 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="coverBox"] {
+  background: #24182e !important;
+  border-color: #72558a !important;
+}
+html[data-theme="dark"] .app-layout.groups-page :is(.group-card,.module-section,.module,.groups-discovery-toolbar,.request-row) {
+  background: #24182e !important;
+  border-color: #594267 !important;
+  color: #f5eff9 !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,.18) !important;
+}
+html[data-theme="dark"] .app-layout.groups-page :is(.group-card,.module-section,.module,.groups-discovery-toolbar,.request-row) :is(h1,h2,h3,p,span,strong,small,label,summary,li) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page :is(.group-card,.module-section,.module,.groups-discovery-toolbar,.request-row) :is(.muted,.group-meta,.hint) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+
+/* Events and notifications: empty-state copy and notification timestamps. */
+html[data-theme="dark"] .app-layout.events-page .event-card,
+html[data-theme="dark"] .app-layout.notifications-page .notification-card {
+  background: linear-gradient(145deg, #281a32, #211529) !important;
+  border-color: #594267 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout.notifications-page .notification-copy :is(p,span,time) {
+  color: #e2d7eb !important;
+  -webkit-text-fill-color: #e2d7eb !important;
+}
+
+/* Messaging composer footer: character count, privacy note and helper copy. */
+html[data-theme="dark"] .app-layout .messages-page .message-composer :is(p,span,small,label,.muted,.field-help) {
+  color: #d7c8e1 !important;
+  -webkit-text-fill-color: #d7c8e1 !important;
+}
+html[data-theme="dark"] .app-layout .messages-page .message-composer {
+  background: #24182e !important;
+  border-color: #594267 !important;
+}
+
+/* Premium Advertising: replace pale marketing canvases that were carrying
+   near-white text in dark mode; retain the existing purple premium accents. */
+html[data-theme="dark"] .app-layout .premium-content :is(.premium-audience-card,.premium-package,.premium-steps,.premium-process,
+.premium-bottom-cta,.premium-intro,.premium-pricing-note,.premium-empty-market,.premium-admin-shortcut) {
+  background: linear-gradient(145deg, #2b1c36, #211529) !important;
+  border-color: #60496f !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(.premium-audience-card,.premium-package,.premium-steps,.premium-process,
+.premium-bottom-cta,.premium-intro,.premium-empty-market,.premium-admin-shortcut) :is(h1,h2,h3,h4,p,span,strong,small,li,b) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(.premium-audience-card,.premium-package,.premium-steps,.premium-process,
+.premium-bottom-cta,.premium-intro,.premium-empty-market,.premium-admin-shortcut) :is(p,small,li,.premium-package-note) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(.premium-pricing-note,.premium-process p) {
+  color: #d1c2dc !important;
+  -webkit-text-fill-color: #d1c2dc !important;
+}
+
+/* Spotlight: ensure all independently styled CSS-module cards and forms use
+   readable dark surfaces and preserve white action labels. */
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] {
+  background-color: #24182e !important;
+  border-color: #594267 !important;
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(h1,h2,h3,h4,p,span,strong,small,time,label,b,li) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(.kicker,.pill,.topicLabel,.toggle,.storyMeta,.readerEyebrow,.readerTopic) {
+  color: #e0c9f0 !important;
+  -webkit-text-fill-color: #e0c9f0 !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(input,select,textarea) {
+  background: #160f20 !important;
+  border-color: #72558a !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .app-content [class*="spotlight"] :is(.submitButton,.submitLink,.readStory,.readerClose,.backToStories,.navButton,.notificationsLink,.premiumButton) {
+  background: #59316f !important;
+  border-color: #956bb0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
