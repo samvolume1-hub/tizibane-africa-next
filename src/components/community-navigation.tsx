@@ -39,10 +39,12 @@ const mobileItems = [
 export function CommunityNavigation({ active }: { active: string }) {
   const pathname = usePathname();
   const [moreOpen, setMoreOpen] = useState(false);
+  const [confirmMobileLogout, setConfirmMobileLogout] = useState(false);
   const isSecondaryActive = secondaryItems.some((item) => item.key === active);
 
   useEffect(() => {
     setMoreOpen(false);
+    setConfirmMobileLogout(false);
   }, [pathname]);
 
   return (
@@ -103,6 +105,7 @@ export function CommunityNavigation({ active }: { active: string }) {
           id="tizibane-more-destinations"
           className={styles.mobileMorePanel}
           aria-label="More destinations"
+          onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}
           hidden={!moreOpen}
         >
           {secondaryItems.map((item) => (
@@ -118,9 +121,15 @@ export function CommunityNavigation({ active }: { active: string }) {
             </Link>
           ))}
           <div className={styles.mobileMoreFooter}>
-            <form action={signOut}>
-              <button type="submit">Sign out</button>
-            </form>
+            {confirmMobileLogout ? (
+              <div className={styles.logoutConfirm} role="group" aria-label="Confirm sign out">
+                <span>Are you sure you want to sign out?</span>
+                <form action={signOut}><button type="submit">Yes, sign out</button></form>
+                <button type="button" onClick={() => setConfirmMobileLogout(false)}>Cancel</button>
+              </div>
+            ) : (
+              <button type="button" onClick={() => setConfirmMobileLogout(true)}>Sign out</button>
+            )}
           </div>
         </nav>
       </aside>
