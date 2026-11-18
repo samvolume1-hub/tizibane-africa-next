@@ -1976,3 +1976,133 @@
     #fffaf0 !important;
   transform: translate(-50%, -50%) !important;
 }
+
+
+/* PERMANENT NAVIGATION LABELS — matching icon + name on both vertical rails.
+   Keep the existing illustrated artwork, destinations, active states and theme switching. */
+.app-layout { grid-template-columns: 166px minmax(0, 1fr) !important; }
+.app-layout > .sidebar.tizibane-illustrated-sidebar {
+  width: 166px !important; min-width: 166px !important;
+  padding: 8px 7px 60px !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav {
+  align-items: stretch !important; justify-content: flex-start !important;
+  gap: 5px !important; padding: 5px 0 !important; overflow-x: hidden !important; overflow-y: auto !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  display: flex !important; flex: 0 0 37px !important; width: 100% !important; min-width: 0 !important;
+  height: 37px !important; min-height: 37px !important; justify-content: flex-start !important;
+  gap: 9px !important; padding: 0 9px !important; border-radius: 10px !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a .nav-illustration {
+  flex: 0 0 25px !important; width: 25px !important; height: 28px !important;
+  transform: scale(.72) !important; transform-origin: center !important;
+}
+.app-layout .tizibane-illustrated-sidebar .nav-visible-label {
+  position: static !important; display: block !important; width: auto !important; max-width: none !important;
+  padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  color: #563477 !important; font: 700 11px/1.15 system-ui,sans-serif !important;
+  white-space: normal !important; opacity: 1 !important; visibility: visible !important;
+  pointer-events: none !important; transform: none !important; text-align: left !important;
+}
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active .nav-visible-label,
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover .nav-visible-label { color: #563477 !important; }
+
+/* Right rail: each featured destination is a labelled, horizontal control. */
+.app-layout .tizibane-illustrated-sidebar .app-page-controls {
+  align-items: flex-end !important; gap: 8px !important; max-width: min(205px, calc(100vw - 12px)) !important;
+}
+.app-layout .app-featured-side-controls { gap: 8px !important; align-items: stretch !important; }
+.app-layout .app-featured-side-control {
+  display: flex !important; flex: 0 0 45px !important; width: 184px !important; height: 45px !important;
+  min-width: 0 !important; justify-content: flex-start !important; gap: 12px !important; padding: 0 12px !important;
+  border-radius: 12px !important; box-sizing: border-box !important;
+}
+.app-layout .app-featured-side-control .nav-illustration {
+  flex: 0 0 25px !important; width: 25px !important; height: 28px !important; transform: scale(.9) !important;
+}
+.app-layout .app-featured-side-label.app-featured-side-label-visible {
+  position: static !important; display: block !important; width: auto !important; max-width: none !important;
+  padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: transparent !important;
+  color: #fff !important; font: 700 11px/1.2 system-ui,sans-serif !important;
+  white-space: normal !important; opacity: 1 !important; visibility: visible !important;
+  pointer-events: none !important; transform: none !important; text-align: left !important;
+}
+.app-layout .app-people-hub { width: 184px !important; align-items: stretch !important; }
+.app-layout .app-people-hub-trigger {
+  display: flex !important; flex: 0 0 45px !important; flex-direction: row !important; width: 184px !important;
+  height: 45px !important; justify-content: flex-start !important; gap: 12px !important; padding: 0 12px !important;
+  border-radius: 12px !important; font-size: 11px !important; text-align: left !important;
+}
+.app-layout .app-people-hub-trigger .app-people-hub-icon { flex: 0 0 26px !important; width: 26px !important; height: 24px !important; }
+.app-layout .app-people-hub-trigger .app-people-hub-chevron { right: 12px !important; top: 50% !important; bottom: auto !important; transform: translateY(-50%) !important; }
+.app-layout .app-page-controls-pin {
+  display: flex !important; width: 184px !important; height: 36px !important; justify-content: flex-start !important;
+  gap: 10px !important; padding: 0 12px !important; border-radius: 10px !important;
+}
+.app-layout .app-page-controls-pin-label { color: #fff !important; font: 700 10px/1.2 system-ui,sans-serif !important; white-space: nowrap !important; }
+.app-layout .app-page-control-actions { align-items: stretch !important; width: 184px !important; }
+.app-layout .app-page-control-actions .app-page-control {
+  display: flex !important; width: 184px !important; min-height: 38px !important; align-items: center !important;
+  justify-content: flex-start !important; gap: 12px !important; padding: 0 12px !important; border-radius: 10px !important;
+}
+.app-layout .tizibane-illustrated-sidebar .app-logout-controls { width: 100% !important; }
+.app-layout .tizibane-illustrated-sidebar .app-logout-trigger {
+  display: flex !important; width: 100% !important; min-width: 0 !important; height: 37px !important;
+  justify-content: flex-start !important; gap: 9px !important; padding: 0 9px !important; border-radius: 10px !important;
+}
+.app-layout .tizibane-illustrated-sidebar .app-logout-label {
+  position: static !important; display: block !important; max-width: none !important; padding: 0 !important;
+  border: 0 !important; background: transparent !important; color: #563477 !important;
+  font: 700 11px/1.2 system-ui,sans-serif !important; opacity: 1 !important; visibility: visible !important;
+  transform: none !important; pointer-events: none !important;
+}
+.app-layout .app-page-controls-edge-toggle {
+  display: flex !important; width: 112px !important; height: 42px !important; min-width: 112px !important;
+  min-height: 42px !important; flex-direction: row !important; gap: 7px !important; justify-content: center !important;
+  border-radius: 12px 0 0 12px !important; font: 700 11px/1 system-ui,sans-serif !important;
+}
+.app-layout .app-page-controls-edge-label { font: 700 10px/1.1 system-ui,sans-serif !important; white-space: nowrap !important; }
+
+/* All labels sit on purple navigation buttons in both themes, so keep them white. */
+.app-layout .tizibane-illustrated-sidebar .nav-visible-label,
+.app-layout .tizibane-illustrated-sidebar .app-logout-label { color: #fff !important; }
+.app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:active .nav-visible-label {
+  opacity: 1 !important; visibility: visible !important;
+}
+
+/* Explicit dark-mode label contrast; light-mode defaults remain dark purple on pale surfaces. */
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar .nav-visible-label,
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar .app-logout-label { color: #fff !important; }
+html[data-theme="dark"] .app-layout .app-featured-side-label.app-featured-side-label-visible,
+html[data-theme="dark"] .app-layout .app-page-controls-pin-label,
+html[data-theme="dark"] .app-layout .app-page-controls-edge-label { color: #fff !important; }
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a {
+  background: linear-gradient(145deg, #342044, #291735) !important; border-color: #76558d !important;
+}
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a.active,
+html[data-theme="dark"] .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a:hover {
+  background: linear-gradient(145deg, #68408b, #48265f) !important; border-color: #bd91d8 !important;
+}
+@media (max-width: 820px) {
+  .app-layout { grid-template-columns: 142px minmax(0, 1fr) !important; }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar { width: 142px !important; min-width: 142px !important; padding: 7px 5px 60px !important; }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a { gap: 6px !important; padding: 0 6px !important; }
+  .app-layout .tizibane-illustrated-sidebar .nav-visible-label { font-size: 10px !important; }
+  .app-layout .app-featured-side-control,.app-layout .app-people-hub-trigger,.app-layout .app-page-controls-pin,
+  .app-layout .app-page-control-actions,.app-layout .app-page-control-actions .app-page-control { width: 164px !important; }
+  .app-layout .app-people-hub { width: 164px !important; }
+}
+@media (max-width: 540px) {
+  .app-layout { grid-template-columns: 126px minmax(0, 1fr) !important; }
+  .app-layout > .sidebar.tizibane-illustrated-sidebar { width: 126px !important; min-width: 126px !important; padding-left: 4px !important; padding-right: 4px !important; }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav a { flex-basis: 34px !important; height: 34px !important; min-height: 34px !important; gap: 4px !important; padding: 0 4px !important; }
+  .app-layout .tizibane-illustrated-sidebar nav.illustrated-side-nav .nav-illustration { flex-basis: 22px !important; width: 22px !important; transform: scale(.62) !important; }
+  .app-layout .tizibane-illustrated-sidebar .nav-visible-label { font-size: 9px !important; }
+  .app-layout .app-featured-side-control,.app-layout .app-people-hub-trigger,.app-layout .app-page-controls-pin,
+  .app-layout .app-page-control-actions,.app-layout .app-page-control-actions .app-page-control { width: 148px !important; }
+  .app-layout .app-people-hub { width: 148px !important; }
+  .app-layout .app-featured-side-control { gap: 8px !important; padding: 0 9px !important; }
+  .app-layout .app-featured-side-label.app-featured-side-label-visible { font-size: 10px !important; }
+  .app-layout .app-page-controls { right: 6px !important; bottom: 6px !important; }
+}
