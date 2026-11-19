@@ -520,3 +520,139 @@
     transform: none;
   }
 }
+
+
+/* Tactile navigation controls — deliberately scoped to the two desktop rails. */
+@media (min-width: 821px) {
+  .primaryLink,
+  .secondaryLink,
+  .sidebarAction,
+  .utilityButton {
+    position: relative;
+    border: 1px solid var(--tizibane-nav-border);
+    background: linear-gradient(180deg, var(--tizibane-nav-raised) 0%, var(--tizibane-nav-surface) 100%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.82) inset,
+      0 -1px 0 rgba(50,32,66,.035) inset,
+      0 2px 4px rgba(43,28,57,.07);
+    transition:
+      transform .16s ease,
+      background .16s ease,
+      border-color .16s ease,
+      box-shadow .16s ease,
+      color .16s ease;
+  }
+
+  .primaryLink:hover,
+  .secondaryLink:hover,
+  .sidebarAction:hover,
+  .utilityButton:hover {
+    transform: translateY(-1px);
+    border-color: #cbb9d8;
+    background: linear-gradient(180deg, #fff 0%, #f4eef8 100%);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.9) inset,
+      0 4px 9px rgba(54,35,70,.12);
+  }
+
+  .primaryLink:active,
+  .secondaryLink:active,
+  .sidebarAction:active,
+  .utilityButton:active {
+    transform: translateY(0) scale(.985);
+    box-shadow:
+      0 1px 3px rgba(43,28,57,.12) inset,
+      0 1px 1px rgba(43,28,57,.05);
+  }
+
+  .primaryLink[aria-current="page"],
+  .secondaryLink[aria-current="page"],
+  .sidebarAction[aria-current="page"] {
+    border-color: #65477d;
+    background: linear-gradient(180deg, #68458a 0%, #4e2d69 100%);
+    color: #fff;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.2) inset,
+      0 3px 8px rgba(57,31,77,.22);
+  }
+
+  .primaryLink[aria-current="page"] .iconContainer {
+    border-color: rgba(255,255,255,.28);
+    background: rgba(255,255,255,.14);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(30,16,42,.12) inset;
+  }
+
+  .utilityButton {
+    min-height: 38px;
+    border-radius: 9px;
+  }
+
+  .primaryLink:focus-visible,
+  .secondaryLink:focus-visible,
+  .sidebarAction:focus-visible,
+  .utilityButton:focus-visible {
+    outline: 2px solid #906bb0;
+    outline-offset: 2px;
+  }
+}
+
+@media (min-width: 821px) {
+  :global(html[data-theme="dark"]) .primaryLink,
+  :global(html[data-theme="dark"]) .secondaryLink,
+  :global(html[data-theme="dark"]) .sidebarAction,
+  :global(html[data-theme="dark"]) .utilityButton {
+    border-color: #574263;
+    background: linear-gradient(180deg, #34243f 0%, #261a31 100%);
+    color: #e9dff0;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.07) inset,
+      0 -1px 0 rgba(0,0,0,.18) inset,
+      0 2px 5px rgba(0,0,0,.24);
+  }
+
+  :global(html[data-theme="dark"]) .primaryLink:hover,
+  :global(html[data-theme="dark"]) .secondaryLink:hover,
+  :global(html[data-theme="dark"]) .sidebarAction:hover,
+  :global(html[data-theme="dark"]) .utilityButton:hover {
+    border-color: #806295;
+    background: linear-gradient(180deg, #493258 0%, #352342 100%);
+    color: #fff;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.1) inset,
+      0 4px 10px rgba(0,0,0,.3);
+  }
+
+  :global(html[data-theme="dark"]) .primaryLink:active,
+  :global(html[data-theme="dark"]) .secondaryLink:active,
+  :global(html[data-theme="dark"]) .sidebarAction:active,
+  :global(html[data-theme="dark"]) .utilityButton:active {
+    box-shadow: 0 1px 4px rgba(0,0,0,.35) inset;
+  }
+
+  :global(html[data-theme="dark"]) .primaryLink[aria-current="page"],
+  :global(html[data-theme="dark"]) .secondaryLink[aria-current="page"],
+  :global(html[data-theme="dark"]) .sidebarAction[aria-current="page"] {
+    border-color: #a17bb8;
+    background: linear-gradient(180deg, #765095 0%, #55356f 100%);
+    color: #fff;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.16) inset,
+      0 3px 9px rgba(0,0,0,.3);
+  }
+
+  :global(html[data-theme="dark"]) .primaryLink[aria-current="page"] .iconContainer {
+    border-color: rgba(255,255,255,.3);
+    background: rgba(255,255,255,.13);
+    color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryLink,
+  .secondaryLink,
+  .sidebarAction,
+  .utilityButton {
+    transition: none;
+  }
+}
