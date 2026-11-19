@@ -818,3 +818,128 @@
     transition: none;
   }
 }
+
+
+/* Small-device More panel contrast pass.
+   Solid, high-contrast surfaces deliberately separate the popover from the app
+   canvas in both themes. Scoped only to the phone/tablet More popover. */
+@media (max-width: 820px) {
+  .mobileMorePanel {
+    gap: 10px !important;
+    padding: 15px !important;
+    border: 1px solid #a987c1 !important;
+    border-radius: 20px !important;
+    background: linear-gradient(145deg, #49305f 0%, #352044 58%, #291832 100%) !important;
+    box-shadow:
+      0 20px 48px rgba(12, 6, 19, .48),
+      0 4px 12px rgba(12, 6, 19, .22),
+      0 1px 0 rgba(255,255,255,.16) inset !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .mobileMorePanel .moreLink,
+  .mobileMorePanel .moreLink.mobileOnlyMoreLink {
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 50px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #e1d3eb !important;
+    border-radius: 12px !important;
+    background: linear-gradient(180deg, #fff 0%, #f2edf7 100%) !important;
+    color: #30203d !important;
+    font: 750 14px/1.25 "DM Sans", sans-serif !important;
+    text-decoration: none !important;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.95) inset,
+      0 3px 7px rgba(13, 7, 21, .24) !important;
+    transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease, background .14s ease !important;
+  }
+
+  .mobileMorePanel .moreLink > span {
+    min-width: 0;
+    color: inherit !important;
+    overflow-wrap: anywhere;
+  }
+
+  .mobileMorePanel .moreIcon {
+    flex: 0 0 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    color: #68458a !important;
+  }
+
+  .mobileMorePanel .moreLink[aria-current="page"] {
+    border-color: #f1c5e1 !important;
+    background: linear-gradient(180deg, #8a5bab 0%, #674080 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 1px 0 rgba(255,255,255,.22) inset, 0 4px 10px rgba(13,7,21,.28) !important;
+  }
+
+  .mobileMorePanel .moreLink[aria-current="page"] .moreIcon {
+    color: #fff !important;
+  }
+
+  .mobileMorePanel .moreLink:hover,
+  .mobileMorePanel .moreLink:focus-visible {
+    border-color: #c9a8df !important;
+    background: linear-gradient(180deg, #fff 0%, #e9def2 100%) !important;
+    color: #24142f !important;
+    outline: 3px solid #d6b8eb !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 5px 12px rgba(13,7,21,.3) !important;
+  }
+
+  .mobileMorePanel .moreLink:active {
+    transform: translateY(1px) scale(.985);
+    box-shadow: 0 1px 3px rgba(13,7,21,.24) inset !important;
+  }
+
+  .mobileMoreFooter {
+    margin-top: 3px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid rgba(239,222,250,.35) !important;
+  }
+
+  .mobileMoreFooter > button,
+  .mobileMoreFooter .logoutConfirm button {
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 10px 14px !important;
+    border: 1px solid #e7d9f0 !important;
+    border-radius: 12px !important;
+    background: linear-gradient(180deg, #fff 0%, #eee6f4 100%) !important;
+    color: #352044 !important;
+    font: 800 14px/1.2 "DM Sans", sans-serif !important;
+    box-shadow: 0 1px 0 rgba(255,255,255,.95) inset, 0 3px 7px rgba(13,7,21,.22) !important;
+  }
+
+  .mobileMoreFooter .logoutConfirm {
+    display: grid !important;
+    gap: 9px !important;
+    padding: 2px 1px 1px !important;
+    color: #fff !important;
+    font: 700 13px/1.45 "DM Sans", sans-serif !important;
+    text-align: center !important;
+  }
+
+  .mobileMoreFooter .logoutConfirm button[type="submit"] {
+    border-color: #e8c5df !important;
+    background: linear-gradient(180deg, #9565b4 0%, #694187 100%) !important;
+    color: #fff !important;
+  }
+
+  .mobileMoreFooter button:focus-visible {
+    outline: 3px solid #f0c5e5 !important;
+    outline-offset: 3px !important;
+  }
+}
+
+@media (max-width: 820px) and (prefers-reduced-motion: reduce) {
+  .mobileMorePanel .moreLink,
+  .mobileMoreFooter button {
+    transition: none !important;
+  }
+}
