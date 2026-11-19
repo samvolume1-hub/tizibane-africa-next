@@ -102,7 +102,7 @@ export function CommunityNavigation({ active }: { active: string }) {
               aria-label={item.label}
             >
               <NavigationIcon name={item.key} className={styles.mobileIcon} />
-              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.key === "notifications" ? "Alerts" : item.label}</span>
+              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.label}</span>
             </Link>
           ))}
           <button
