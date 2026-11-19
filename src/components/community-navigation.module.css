@@ -658,3 +658,163 @@
     transition: none;
   }
 }
+
+
+/* Phone-only More panel finish: the panel is a distinct tray, while each
+   destination reads and responds like an individual raised control. */
+@media (max-width: 820px) {
+  .mobileMorePanel {
+    gap: 9px;
+    padding: 15px;
+    border: 1px solid #d2c3df;
+    border-radius: 19px;
+    background: linear-gradient(155deg, #eee7f4 0%, #e5dbea 100%);
+    box-shadow:
+      0 18px 44px rgba(35,20,48,.24),
+      0 2px 6px rgba(35,20,48,.08),
+      0 1px 0 rgba(255,255,255,.8) inset;
+  }
+
+  /* These two primary destinations belong in the phone More panel too. */
+  .mobileMorePanel .moreLink.mobileOnlyMoreLink {
+    display: flex;
+  }
+
+  .mobileMorePanel .moreLink {
+    min-height: 49px;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid #d8cbe2;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #fff 0%, #f8f4fb 100%);
+    color: #49345b;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.95) inset,
+      0 -1px 0 rgba(69,43,88,.035) inset,
+      0 2px 5px rgba(49,31,64,.09);
+    transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease, color .15s ease;
+  }
+
+  .mobileMorePanel .moreLink:hover,
+  .mobileMorePanel .moreLink:focus-visible {
+    border-color: #b69bc9;
+    background: linear-gradient(180deg, #fff 0%, #f0e8f6 100%);
+    color: #39204f;
+    outline: none;
+    box-shadow: 0 3px 9px rgba(49,31,64,.13);
+  }
+
+  .mobileMorePanel .moreLink:active {
+    transform: translateY(1px) scale(.99);
+    box-shadow: 0 1px 3px rgba(49,31,64,.13) inset;
+  }
+
+  .mobileMorePanel .moreLink[aria-current="page"] {
+    border-color: #694887;
+    background: linear-gradient(180deg, #765396 0%, #573675 100%);
+    color: #fff;
+    box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 3px 8px rgba(57,31,77,.2);
+  }
+
+  .mobileMorePanel .moreIcon {
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    color: currentColor;
+  }
+
+  .mobileMoreFooter {
+    margin-top: 2px;
+    padding-top: 11px;
+    border-top: 1px solid #d4c7dd;
+  }
+
+  .mobileMoreFooter > button,
+  .mobileMoreFooter .logoutConfirm button {
+    min-height: 43px;
+    border: 1px solid #cbb9d8;
+    border-radius: 11px;
+    background: linear-gradient(180deg, #f9f5fc 0%, #eee6f4 100%);
+    color: #563477;
+    font: 750 13px/1 "DM Sans",sans-serif;
+    box-shadow: 0 1px 0 rgba(255,255,255,.85) inset, 0 2px 4px rgba(49,31,64,.08);
+    cursor: pointer;
+  }
+
+  .mobileMoreFooter .logoutConfirm {
+    display: grid;
+    gap: 8px;
+    padding: 2px 1px 1px;
+    color: #59476a;
+    font: 650 12px/1.4 "DM Sans",sans-serif;
+    text-align: center;
+  }
+
+  .mobileMoreFooter .logoutConfirm button[type="submit"] {
+    border-color: #563477;
+    background: linear-gradient(180deg, #765396 0%, #563477 100%);
+    color: #fff;
+  }
+
+  .mobileMoreFooter .logoutConfirm button:active,
+  .mobileMoreFooter > button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(49,31,64,.12) inset;
+  }
+}
+
+@media (max-width: 820px) {
+  :global(html[data-theme="dark"]) .mobileMorePanel {
+    border-color: #574164;
+    background: linear-gradient(155deg, #281b34 0%, #1b1225 100%);
+    box-shadow: 0 18px 46px rgba(0,0,0,.52), 0 1px 0 rgba(255,255,255,.045) inset;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMorePanel .moreLink {
+    border-color: #5a4368;
+    background: linear-gradient(180deg, #3b2948 0%, #2d1e39 100%);
+    color: #f1e8f7;
+    box-shadow: 0 1px 0 rgba(255,255,255,.07) inset, 0 2px 6px rgba(0,0,0,.24);
+  }
+
+  :global(html[data-theme="dark"]) .mobileMorePanel .moreLink:hover,
+  :global(html[data-theme="dark"]) .mobileMorePanel .moreLink:focus-visible {
+    border-color: #9272a8;
+    background: linear-gradient(180deg, #493258 0%, #392646 100%);
+    color: #fff;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMorePanel .moreLink[aria-current="page"] {
+    border-color: #b08ac8;
+    background: linear-gradient(180deg, #805b9e 0%, #5b3b76 100%);
+    color: #fff;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMoreFooter {
+    border-color: #574164;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMoreFooter > button,
+  :global(html[data-theme="dark"]) .mobileMoreFooter .logoutConfirm button {
+    border-color: #654d76;
+    background: linear-gradient(180deg, #443052 0%, #342340 100%);
+    color: #f5edf9;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMoreFooter .logoutConfirm {
+    color: #eee5f4;
+  }
+
+  :global(html[data-theme="dark"]) .mobileMoreFooter .logoutConfirm button[type="submit"] {
+    border-color: #9a76b2;
+    background: linear-gradient(180deg, #805b9e 0%, #5b3b76 100%);
+    color: #fff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobileMorePanel .moreLink,
+  .mobileMoreFooter button {
+    transition: none;
+  }
+}
