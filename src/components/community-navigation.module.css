@@ -484,3 +484,39 @@
     flex: 0 0 auto;
   }
 }
+
+/* True three-column desktop shell: each rail owns its own grid track.
+   Keep this scoped to the authenticated navigation layout; tablet and mobile
+   retain their existing More-panel and bottom-navigation patterns. */
+@media (min-width: 1101px) {
+  :global(.app-layout):has(> .sidebar) {
+    grid-template-columns: 232px minmax(0, 1fr) 180px;
+    column-gap: 16px;
+  }
+
+  :global(.app-layout):has(> .sidebar) > .sidebar {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  :global(.app-layout):has(> .sidebar) > :global(.app-main) {
+    grid-column: 2;
+    grid-row: 1;
+    padding-right: 0;
+  }
+
+  .secondaryRail {
+    position: sticky;
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    top: 78px;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    height: calc(100dvh - 102px);
+    max-height: calc(100dvh - 102px);
+    margin-top: 78px;
+    transform: none;
+  }
+}
