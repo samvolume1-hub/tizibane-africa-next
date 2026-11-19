@@ -12,7 +12,8 @@
     "test:moderation": "node --experimental-strip-types --test tests/comment-moderation.test.mjs",
     "test:auth": "node --experimental-strip-types --test tests/auth-flow.test.mjs",
     "test:navigation": "node --experimental-strip-types --test tests/navigation-routes.test.mjs",
-    "test:push-onboarding": "node --experimental-strip-types --test tests/push-onboarding.test.mjs"
+    "test:push-onboarding": "node --experimental-strip-types --test tests/push-onboarding.test.mjs",
+    "test:notification-vibration": "node --experimental-strip-types --test tests/notification-vibration.test.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
