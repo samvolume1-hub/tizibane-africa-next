@@ -23,6 +23,11 @@ test("dismissal is checked before showing permission or installation guidance", 
   assert.match(onboarding, /setState\(permission === "denied" \? "denied"/);
 });
 
+test("a granted browser permission never falls back to the enable invitation after silent subscription sync fails", () => {
+  assert.match(onboarding, /if \("Notification" in window && Notification\.permission === "granted"\)\s*\{\s*setState\("hidden"\)/);
+  assert.match(onboarding, /const permission = Notification\.permission === "granted"\s*\? "granted"\s*:\s*await Notification\.requestPermission\(\)/);
+});
+
 test("notification invitation layers above navigation and clears the mobile bottom bar", () => {
   assert.match(positioning, /z-index:\s*120/);
   assert.match(positioning, /bottom:\s*calc\(72px \+ env\(safe-area-inset-bottom, 0px\) \+ 16px\)/);

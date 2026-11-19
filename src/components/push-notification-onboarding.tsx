@@ -99,8 +99,15 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
       } catch (error) {
         console.error("[TIZIBANE push onboarding] setup failed", error);
         if (active) {
-          setMessage("We couldn't finish setting up notifications on this device. You can try again from Notifications.");
-          setState("error");
+          // Browser permission is already granted. Never show an enable-permission
+          // invitation again just because subscription sync failed; retry silently
+          // on a later authenticated visit instead.
+          if ("Notification" in window && Notification.permission === "granted") {
+            setState("hidden");
+          } else {
+            setMessage("We couldn't finish setting up notifications on this device. You can try again from Notifications.");
+            setState("error");
+          }
         }
       }
     }
@@ -119,7 +126,9 @@ export function PushNotificationOnboarding({ userId, vapidPublicKey }: Props) {
     setState("working");
     setMessage("");
     try {
-      const permission = await Notification.requestPermission();
+      const permission = Notification.permission === "granted"
+        ? "granted"
+        : await Notification.requestPermission();
       if (permission !== "granted") {
         setState(permission === "denied" ? "denied" : "prompt");
         setMessage(permission === "denied"
