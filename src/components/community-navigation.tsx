@@ -64,8 +64,6 @@ export function CommunityNavigation({ active }: { active: string }) {
           More destinations
         </button>
 
-        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
-
         <div className={styles.sidebarActions} aria-label="Account controls">
           <Link
             href="/home/settings"
@@ -89,6 +87,8 @@ export function CommunityNavigation({ active }: { active: string }) {
             </button>
           )}
         </div>
+
+        <div className={styles.sidebarFoot}>A home for Zambian communities.</div>
 
         <nav className={styles.mobileBar} aria-label="Mobile navigation">
           {mobileItems.map((item) => (
