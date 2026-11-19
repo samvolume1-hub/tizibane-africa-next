@@ -141,8 +141,11 @@
   gap: 8px;
   overflow-y: auto;
   padding: 8px 0 8px 9px;
-  border-left: 1px solid var(--tizibane-nav-border);
-  background: transparent;
+  border: 1px solid var(--tizibane-nav-border);
+  border-radius: 14px;
+  background: var(--tizibane-nav-surface);
+  box-shadow: var(--tizibane-nav-shadow);
+  backdrop-filter: blur(14px);
 }
 .secondaryLink {
   display: flex;
