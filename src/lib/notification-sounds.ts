@@ -11,6 +11,8 @@ export type NotificationPreferences = {
 };
 
 const STORAGE_KEY = "tizibane.notification-preferences.v1";
+export const DEFAULT_NOTIFICATION_VIBRATION_PATTERN = [120, 85, 120, 85, 120, 85, 120, 85, 120, 85, 120];
+
 const DEFAULTS: NotificationPreferences = {
   soundEnabled: true,
   vibrationEnabled: true,
@@ -147,7 +149,7 @@ export function playNotificationSound(kind: TizibaneSoundKind, preview = false, 
   }
 }
 
-export function vibrateForNotification(pattern: number | number[] = 34) {
+export function vibrateForNotification(pattern: number | number[] = DEFAULT_NOTIFICATION_VIBRATION_PATTERN) {
   const preferences = readNotificationPreferences();
   if (!preferences.vibrationEnabled || typeof navigator === "undefined") return;
   if (typeof navigator.vibrate !== "function") return;
