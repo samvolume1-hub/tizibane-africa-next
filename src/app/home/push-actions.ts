@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 type PushSubscriptionInput = {
@@ -83,6 +84,23 @@ export async function dismissPushNotificationOnboarding() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { ok: false, message: "Please sign in again." };
 
+  // Save a per-account, httpOnly browser cookie as an immediate durable fallback.
+  // The account metadata below remains the cross-device source of truth.
+  let cookieSaved = false;
+  try {
+    const cookieStore = await cookies();
+    cookieStore.set(`tizibane_push_onboarding_dismissed_${user.id}`, "1", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365 * 5,
+    });
+    cookieSaved = true;
+  } catch {
+    // Continue and try the account-level preference if cookies are unavailable.
+  }
+
   const metadata = user.user_metadata ?? {};
   const { error } = await supabase.auth.updateUser({
     data: {
@@ -92,8 +110,10 @@ export async function dismissPushNotificationOnboarding() {
   });
 
   if (error) {
-    console.error("[TIZIBANE push] onboarding dismissal save failed", { message: error.message });
-    return { ok: false, message: "We could not save this preference to your account." };
+    console.error("[TIZIBANE push] onboarding account preference save failed", { message: error.message });
+    return cookieSaved
+      ? { ok: true }
+      : { ok: false, message: "We could not save this preference. Please try again." };
   }
 
   return { ok: true };
