@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { NotificationBell } from "@/components/notification-bell";
 import { PushNotificationOnboarding } from "@/components/push-notification-onboarding";
@@ -5,7 +6,9 @@ import { PushNotificationOnboarding } from "@/components/push-notification-onboa
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const hasDismissedPushOnboarding = user?.user_metadata?.tizibane_push_onboarding_dismissed === true;
+  const cookieStore = await cookies();
+  const dismissalCookie = user ? cookieStore.get(`tizibane_push_onboarding_dismissed_${user.id}`)?.value === "1" : false;
+  const hasDismissedPushOnboarding = user?.user_metadata?.tizibane_push_onboarding_dismissed === true || dismissalCookie;
 
   return (
     <>
