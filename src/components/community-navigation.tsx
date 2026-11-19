@@ -12,6 +12,7 @@ import styles from "@/components/community-navigation.module.css";
 const primaryItems = primaryNavigationItems;
 const secondaryItems = secondaryNavigationItems;
 const mobileItems = mobileNavigationItems;
+const mobileOverflowItems = primaryItems.slice(mobileItems.length);
 
 export function CommunityNavigation({ active }: { active: string }) {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export function CommunityNavigation({ active }: { active: string }) {
   const [confirmMobileLogout, setConfirmMobileLogout] = useState(false);
   const [confirmSidebarLogout, setConfirmSidebarLogout] = useState(false);
   const isSecondaryActive = secondaryItems.some((item) => item.key === active);
+  const isMobileMoreActive = isSecondaryActive || mobileOverflowItems.some((item) => item.key === active);
 
   useEffect(() => {
     setMoreOpen(false);
@@ -100,12 +102,12 @@ export function CommunityNavigation({ active }: { active: string }) {
               aria-label={item.label}
             >
               <NavigationIcon name={item.key} className={styles.mobileIcon} />
-              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.key === "notifications" ? "Alerts" : item.label}</span>
+              <span className={styles.mobileLabel}>{item.key === "profile" ? "Profile" : item.label}</span>
             </Link>
           ))}
           <button
             type="button"
-            className={`${styles.moreTrigger}${isSecondaryActive ? ` ${styles.moreActive}` : ""}`}
+            className={`${styles.moreTrigger}${isMobileMoreActive ? ` ${styles.moreActive}` : ""}`}
             aria-expanded={moreOpen}
             aria-controls="tizibane-more-destinations"
             onClick={() => setMoreOpen((value) => !value)}
@@ -122,6 +124,18 @@ export function CommunityNavigation({ active }: { active: string }) {
           onKeyDown={(event) => { if (event.key === "Escape") setMoreOpen(false); }}
           hidden={!moreOpen}
         >
+          {mobileOverflowItems.map((item) => (
+            <Link
+              key={item.key}
+              href={item.href}
+              className={`${styles.moreLink} ${styles.mobileOnlyMoreLink}`}
+              aria-current={active === item.key ? "page" : undefined}
+              onClick={() => setMoreOpen(false)}
+            >
+              <NavigationIcon name={item.key} className={styles.moreIcon} />
+              <span>{item.label}</span>
+            </Link>
+          ))}
           {secondaryItems.map((item) => (
             <Link
               key={item.key}

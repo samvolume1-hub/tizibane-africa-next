@@ -20,8 +20,8 @@ export const secondaryNavigationItems = [
 
 export const mobileNavigationItems = [
   primaryNavigationItems[0],
+  primaryNavigationItems[1],
   primaryNavigationItems[2],
   primaryNavigationItems[3],
-  primaryNavigationItems[6],
-  primaryNavigationItems[1],
+  primaryNavigationItems[4],
 ] as const;
