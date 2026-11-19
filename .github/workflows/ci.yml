@@ -47,6 +47,9 @@ jobs:
       - name: Test notification onboarding persistence and layering
         run: npm run test:push-onboarding
 
+      - name: Test six-pulse notification vibration defaults and opt-out
+        run: npm run test:notification-vibration
+
       - name: Set up Deno for the Supabase Edge Function
         uses: denoland/setup-deno@v2
         with:

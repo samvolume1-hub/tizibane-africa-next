@@ -99,7 +99,7 @@ export function NotificationSoundListener() {
       }
       if (!senderId || !mutedActorIds.has(senderId)) {
         playNotificationSound("message", false, 6);
-        vibrateForNotification(32);
+        vibrateForNotification();
       }
     };
 
@@ -194,7 +194,7 @@ export function NotificationSoundListener() {
             }
             if (notification.actor_id && mutedActorIds.has(notification.actor_id)) return;
             playNotificationSound(notificationSoundKind(notification.kind ?? ""), false, 6);
-            vibrateForNotification([45, 65, 45, 65, 45, 65]);
+            vibrateForNotification();
             if (pathnameRef.current === "/home/notifications") router.refresh();
           })
           .on("postgres_changes", {
@@ -243,10 +243,10 @@ export function NotificationSoundListener() {
     if (!incomingCall) return;
     const kind = incomingCall.callType === "video" ? "video_call" : "voice_call";
     playNotificationSound(kind);
-    vibrateForNotification([70, 90, 70]);
+    vibrateForNotification();
     const interval = window.setInterval(() => {
       playNotificationSound(kind);
-      vibrateForNotification([70, 90, 70]);
+      vibrateForNotification();
     }, 2400);
     const expiry = window.setTimeout(() => {
       setIncomingCall((current) => current?.id === incomingCall.id ? null : current);

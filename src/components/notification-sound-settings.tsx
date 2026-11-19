@@ -67,11 +67,11 @@ export function NotificationSoundSettings() {
         </label>
 
         <label style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, padding: "12px 14px", borderRadius: 13, background: "rgba(255,255,255,.055)" }}>
-          <span><strong style={{ display: "block", fontSize: 14 }}>Vibration</strong><small style={{ color: "rgba(255,255,255,.62)" }}>A very short, subtle pulse where supported</small></span>
+          <span><strong style={{ display: "block", fontSize: 14 }}>Vibration</strong><small style={{ color: "rgba(255,255,255,.62)" }}>Six clear pulses for every alert, where supported</small></span>
           <input aria-label="Enable notification vibration" type="checkbox" checked={preferences.vibrationEnabled} onChange={(event) => {
             const enabled = event.target.checked;
             update({ vibrationEnabled: enabled });
-            if (enabled) vibrateForNotification(28);
+            if (enabled) vibrateForNotification();
           }} style={{ width: 20, height: 20, accentColor: "#c58be8" }} />
         </label>
 
@@ -88,7 +88,7 @@ export function NotificationSoundSettings() {
         <button type="button" onClick={() => playNotificationSound("message", true)} style={buttonStyle}>Preview message chime</button>
         <button type="button" onClick={() => playNotificationSound("voice_call", true)} style={buttonStyle}>Preview voice-call tone</button>
         <button type="button" onClick={() => playNotificationSound("video_call", true)} style={buttonStyle}>Preview video-call tone</button>
-        <button type="button" onClick={() => vibrateForNotification([34, 65, 34])} style={buttonStyle}>Test vibration</button>
+        <button type="button" onClick={() => vibrateForNotification()} style={buttonStyle}>Test six-pulse vibration</button>
       </div>
       <p role="status" style={{ margin: "13px 0 0", color: "rgba(255,255,255,.55)", fontSize: 11, lineHeight: 1.5 }}>
         Your browser may require one tap on a preview before it allows sounds. Vibration depends on the phone, browser and device settings; iPhones and some desktop browsers do not expose web vibration.
