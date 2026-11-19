@@ -466,3 +466,18 @@
     transform: none;
   }
 }
+
+/* Use the available desktop sidebar height to balance the LEFT navigation only.
+   Account controls and the right-side rail retain their existing positions. */
+@media (min-width: 821px) {
+  .primaryNav {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 8px;
+  }
+  .primaryLink {
+    flex: 0 0 auto;
+  }
+}
