@@ -540,3 +540,11 @@ html[data-theme="light"] body .app-layout .app-content.messages-page :is(
   background: #e9e2ed !important;
   border-color: #d0c3d9 !important;
 }
+
+
+/* The live selected-chat canvas has its own background declaration; soften it
+   separately so the large white pane does not remain brighter than the sidebar. */
+html[data-theme="light"] body .app-layout .app-content.messages-page
+.messages-workspace-live .messages-chat-pane {
+  background: #eee9f2 !important;
+}
