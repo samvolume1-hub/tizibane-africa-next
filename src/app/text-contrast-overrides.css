@@ -26,7 +26,7 @@ html[data-theme="dark"] body :where(input,textarea,select)::placeholder {
 /* LIGHT MODE: text on the app's white/light surfaces is strong black.
    Coloured primary actions retain their intentionally contrasting white labels. */
 html[data-theme="light"] .app-layout :where(
-  .topbar,.sidebar,.app-content,.profile-editor,.post-card,.person-card,
+  .topbar,.sidebar,.profile-editor,.post-card,.person-card,
   .notification-card,.conversation-card,.conversation-heading,.group-card,
   .event-card,.empty-state,.premium-admin-form,.premium-admin-list,
   .message-composer,.module-section,.module,.theme-settings-card,
@@ -49,5 +49,18 @@ html[data-theme="light"] .app-layout :where(
 html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller) {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* Authentication inputs intentionally stay white in both themes: use strong black text there. */
+html[data-theme="light"] .auth-wrap .auth-card :where(input,textarea,select) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 700 !important;
+}
+html[data-theme="light"] .auth-wrap .auth-card :where(input,textarea)::placeholder {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  opacity: 1 !important;
   font-weight: 700 !important;
 }
