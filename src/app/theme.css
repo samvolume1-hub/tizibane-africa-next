@@ -969,3 +969,12 @@ html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-s
   opacity: 1 !important;
   text-shadow: none !important;
 }
+
+
+/* BLOCKED PAGE ONLY — improve visibility of the empty-state symbol in dark mode. */
+html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-state > .empty-symbol {
+  color: #e8c4ff !important;
+  -webkit-text-fill-color: #e8c4ff !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 12px rgba(216, 175, 255, .28) !important;
+}
