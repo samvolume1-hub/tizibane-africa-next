@@ -498,3 +498,28 @@ html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-
 html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all:focus-visible {
   outline-color: #e6a5d4 !important;
 }
+
+
+/* HOME PAGE ONLY — restore readable contrast for the post composer label
+   and feed timestamp/audience metadata in dark mode. No layout or behavior
+   changes; all selectors remain inside the Home page scope. */
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+.home-composer .post-caption-label {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+.home-composer .field-help {
+  color: #d9c9e5 !important;
+  -webkit-text-fill-color: #d9c9e5 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+.feed-list .post-card .post-author > div > span {
+  color: #d9c9e5 !important;
+  -webkit-text-fill-color: #d9c9e5 !important;
+  opacity: 1 !important;
+}
