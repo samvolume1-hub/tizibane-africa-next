@@ -104,22 +104,27 @@ html[data-theme="dark"] body .app-layout .community-feature-page :is(
 }
 
 
-/* MESSAGING — phone UI only: Open chat action.
-   Desktop styling is intentionally preserved. */
+/* MESSAGING — phone UI only: keep Open chat visible and match the approved desktop action.
+   The page's later mobile layout hides this link; restore it here without changing layout. */
 @media (max-width: 760px) {
   html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full {
-    background: linear-gradient(110deg,#76265f,#9b397e) !important;
-    border: 1px solid #d28abd !important;
-    color: #fff !important;
-    -webkit-text-fill-color: #fff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    background: rgba(255,255,255,.78) !important;
+    border: 1px solid #e6d8e8 !important;
+    color: #704184 !important;
+    -webkit-text-fill-color: #704184 !important;
     font-weight: 800 !important;
     opacity: 1 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,.22) !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
   }
   html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full:hover,
   html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full:focus-visible {
-    background: linear-gradient(110deg,#8a2b70,#ad478e) !important;
-    color: #fff !important;
-    -webkit-text-fill-color: #fff !important;
+    background: #f6edf7 !important;
+    color: #704184 !important;
+    -webkit-text-fill-color: #704184 !important;
   }
 }
