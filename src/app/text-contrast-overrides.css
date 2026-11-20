@@ -614,3 +614,15 @@ html[data-theme="dark"] .app-layout .premium-content .premium-steps b {
   color: #d5b8ed !important;
   -webkit-text-fill-color: #d5b8ed !important;
 }
+
+
+/* LIGHT MODE ONLY — give the shared middle app canvas a calmer, 20%-deeper
+   lavender-grey so it separates from the outer page background.
+   Component cards, content, spacing, layout and dark mode remain untouched. */
+html:not([data-theme="dark"]) body .app-layout {
+  background: #f0edf3 !important;
+}
+html:not([data-theme="dark"]) body .app-layout > .app-main > .app-content {
+  background: #e4deea !important;
+  border-radius: 0 !important;
+}
