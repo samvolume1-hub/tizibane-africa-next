@@ -945,3 +945,12 @@ html[data-theme="dark"] .app-layout.events-page .app-content .empty-state > p {
   color: #e0d4eb !important;
   -webkit-text-fill-color: #e0d4eb !important;
 }
+
+
+/* EVENTS ONLY — make the two top-bar labels readable in the annotated dark-mode view. */
+html[data-theme="dark"] .app-layout.events-page > .app-main > .topbar > .back-link,
+html[data-theme="dark"] .app-layout.events-page > .app-main > .topbar > .muted {
+  color: #eadcf4 !important;
+  -webkit-text-fill-color: #eadcf4 !important;
+  opacity: 1 !important;
+}
