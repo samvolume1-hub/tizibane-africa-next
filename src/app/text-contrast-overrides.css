@@ -3,13 +3,7 @@
 
 /* DARK MODE: every readable text/control label in the application is pure white and bold.
    This intentionally replaces muted grey and pale-purple text with the requested white. */
-html[data-theme="dark"] body :where(
-  h1,h2,h3,h4,h5,h6,p,span,small,strong,b,em,i,label,legend,li,a,button,
-  input,textarea,select,option,summary,time,dt,dd,th,td,figcaption,
-  .muted,.field-help,.eyebrow,.signed-in,.back-link,.text-action,
-  .post-body,.comment-count,.group-meta,.event-meta,.premium-status,
-  .premium-kicker,.premium-lead,.premium-pricing-note,.premium-form-hint
-) {
+html[data-theme="dark"] body * {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
   font-weight: 700 !important;
@@ -33,13 +27,7 @@ html[data-theme="light"] .app-layout :where(
   .people-search-panel,.composer,.premium-process,.premium-package,
   .premium-audience-card,.premium-bottom-cta,.premium-admin-heading,
   .premium-empty-market,.company-link-card,.company-site-row
-) :where(
-  h1,h2,h3,h4,h5,h6,p,span,small,strong,b,em,i,label,legend,li,a,button,
-  input,textarea,select,option,summary,time,dt,dd,th,td,figcaption,
-  .muted,.field-help,.eyebrow,.signed-in,.back-link,.text-action,
-  .post-body,.comment-count,.group-meta,.event-meta,.premium-status,
-  .premium-kicker,.premium-lead,.premium-pricing-note,.premium-form-hint
-) {
+) * {
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
   font-weight: 700 !important;
@@ -62,5 +50,12 @@ html[data-theme="light"] .auth-wrap .auth-card :where(input,textarea)::placehold
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
   opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller),
+html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller) * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   font-weight: 700 !important;
 }
