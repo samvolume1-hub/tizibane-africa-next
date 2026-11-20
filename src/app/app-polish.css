@@ -27,7 +27,7 @@ html[data-theme="dark"] .app-layout {
   --tz-surface-raised: #211a2b;
   --tz-border: #40334e;
   --tz-text: #f5f0fa;
-  --tz-muted: #c0b5cc;
+  --tz-muted: #d4c8df;
   --tz-focus: #c8a4ed;
   background: var(--tz-page);
   color: var(--tz-text);
