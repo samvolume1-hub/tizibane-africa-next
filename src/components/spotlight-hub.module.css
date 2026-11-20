@@ -71,3 +71,71 @@
 .communityPick p{margin:0;color:#3d3147;font-size:13px;line-height:1.7}
 .communityPick a{color:#59316f!important;font-size:12px;font-weight:900;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:640px){.communitySpotlight{padding:15px;border-radius:17px}.communityPicks{grid-template-columns:1fr}}
+
+
+/* Optional Dark Mode for reusable Spotlight publication panels.
+   These panels also appear on the public landing page, outside the SpotlightHub root. */
+:global(html[data-theme="dark"]) .reviewSection,
+:global(html[data-theme="dark"]) .companySpotlight,
+:global(html[data-theme="dark"]) .companyReview,
+:global(html[data-theme="dark"]) .communitySpotlight,
+:global(html[data-theme="dark"]) .communityPick,
+:global(html[data-theme="dark"]) .submissionPreview,
+:global(html[data-theme="dark"]) .submissionRow {
+  background: #241a2e !important;
+  border-color: #60496f !important;
+  color: #f7f1fb !important;
+}
+:global(html[data-theme="dark"]) .sectionHeading h2,
+:global(html[data-theme="dark"]) .companyHeading h2,
+:global(html[data-theme="dark"]) .companyReview h3,
+:global(html[data-theme="dark"]) .companyEmpty strong,
+:global(html[data-theme="dark"]) .communityPick h3,
+:global(html[data-theme="dark"]) .submissionRow strong,
+:global(html[data-theme="dark"]) .submissionPreview b {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+:global(html[data-theme="dark"]) .sectionIntro,
+:global(html[data-theme="dark"]) .privacyNote,
+:global(html[data-theme="dark"]) .companyIntro,
+:global(html[data-theme="dark"]) .companyMeta,
+:global(html[data-theme="dark"]) .companyMeta time,
+:global(html[data-theme="dark"]) .companyReview p,
+:global(html[data-theme="dark"]) .companyEmpty,
+:global(html[data-theme="dark"]) .communityPick p,
+:global(html[data-theme="dark"]) .submissionPreview p,
+:global(html[data-theme="dark"]) .submissionRow span,
+:global(html[data-theme="dark"]) .submissionRow small,
+:global(html[data-theme="dark"]) .channelHint,
+:global(html[data-theme="dark"]) .optional {
+  color: #e0d3e9 !important;
+  -webkit-text-fill-color: #e0d3e9 !important;
+}
+:global(html[data-theme="dark"]) .companyPill,
+:global(html[data-theme="dark"]) .featuredPill {
+  background: #493451 !important;
+  border-color: #806493 !important;
+  color: #f7edff !important;
+  -webkit-text-fill-color: #f7edff !important;
+}
+:global(html[data-theme="dark"]) .companySource,
+:global(html[data-theme="dark"]) .directContact a,
+:global(html[data-theme="dark"]) .communityPick a,
+:global(html[data-theme="dark"]) .submissionPreview a {
+  color: #e4c7ff !important;
+  -webkit-text-fill-color: #e4c7ff !important;
+}
+:global(html[data-theme="dark"]) .submissionStatus {
+  border-color: #60496f !important;
+}
+:global(html[data-theme="dark"]) .formError {
+  background: #49232d !important;
+  border-color: #a95c70 !important;
+  color: #ffe8ee !important;
+}
+:global(html[data-theme="dark"]) .formSuccess {
+  background: #1e3b2b !important;
+  border-color: #548d69 !important;
+  color: #e8ffef !important;
+}

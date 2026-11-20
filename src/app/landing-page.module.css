@@ -397,3 +397,81 @@
   .topbarNav { gap: 4px !important; }
   .signInButton, .spotlightButton { padding-inline: 8px !important; font-size: 10px !important; }
 }
+
+
+/* Optional Dark Mode — public landing page.
+   Image artwork and the photographic footer remain untouched; only text-bearing
+   surfaces switch to the shared plum palette. */
+:global(html[data-theme="dark"]) .page:global(.tizibane-landing) {
+  color: #f7f1fb !important;
+  background: #120e19 !important;
+}
+:global(html[data-theme="dark"]) .page :global(.topbar) {
+  background: rgba(28, 19, 37, .97) !important;
+  border-bottom-color: #594568 !important;
+  box-shadow: 0 5px 20px rgba(0,0,0,.28) !important;
+}
+:global(html[data-theme="dark"]) .page :global(.brand),
+:global(html[data-theme="dark"]) .page :global(.brand small) {
+  color: #f8f1fc !important;
+  -webkit-text-fill-color: #f8f1fc !important;
+}
+:global(html[data-theme="dark"]) .page :global(.brand-mark) {
+  border-color: #8969a0 !important;
+  background: linear-gradient(145deg,#382548,#251830) !important;
+}
+:global(html[data-theme="dark"]) .page :global(.brand-letter) {
+  color: #f2d8ff !important;
+  -webkit-text-fill-color: #f2d8ff !important;
+}
+:global(html[data-theme="dark"]) .signInButton {
+  background: #382747 !important;
+  border-color: #8a6ba0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+:global(html[data-theme="dark"]) .page :global(> .landing-contacts) {
+  background: rgba(35, 25, 46, .97) !important;
+  border-color: #685176 !important;
+  box-shadow: 0 9px 25px rgba(0,0,0,.28) !important;
+}
+:global(html[data-theme="dark"]) .page :global(> .landing-contacts .landing-contact > summary) {
+  background: #3b294b !important;
+  border-color: #806493 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+:global(html[data-theme="dark"]) .page :global(> .landing-contacts .landing-contact-panel) {
+  background: #21172b !important;
+  border-color: #806493 !important;
+  color: #f8f1fc !important;
+}
+:global(html[data-theme="dark"]) .page :global(> .landing-contacts .landing-contact-panel a) {
+  color: #f0d5ff !important;
+  -webkit-text-fill-color: #f0d5ff !important;
+}
+:global(html[data-theme="dark"]) .featureCard {
+  background: #241a2e !important;
+  border-color: #604a70 !important;
+  box-shadow: 0 9px 26px rgba(0,0,0,.28) !important;
+}
+:global(html[data-theme="dark"]) .featureCopy h3 {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+:global(html[data-theme="dark"]) .featureCopy p {
+  color: #e0d3e9 !important;
+  -webkit-text-fill-color: #e0d3e9 !important;
+}
+:global(html[data-theme="dark"]) .featureLink {
+  color: #e6c5ff !important;
+}
+:global(html[data-theme="dark"]) .featureNumber {
+  background: rgba(35, 22, 46, .94) !important;
+  border-color: rgba(233, 210, 248, .8) !important;
+  color: #f8edff !important;
+}
+:global(html[data-theme="dark"]) .heroArt {
+  border-color: rgba(229, 207, 241, .88) !important;
+  background: #241a2e !important;
+}

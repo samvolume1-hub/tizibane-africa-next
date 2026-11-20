@@ -282,3 +282,104 @@
   -webkit-text-fill-color: #fff !important;
   font-weight: 900 !important;
 }
+
+
+
+/* Optional Dark Mode — Groups editorial surfaces and global feed components.
+   The Create Group form's hashed CSS-module classes are styled in its own module. */
+:global(html[data-theme="dark"]) .editorial:global(.app-layout) :global(.app-main),
+:global(html[data-theme="dark"]) .editorial:global(.app-layout) :global(.app-content) {
+  background: #15101d !important;
+  color: #f7f1fb !important;
+}
+:global(html[data-theme="dark"]) .editorialIntro h1,
+:global(html[data-theme="dark"]) .editorialIntro p,
+:global(html[data-theme="dark"]) .editorialNote h2,
+:global(html[data-theme="dark"]) .editorialNote p,
+:global(html[data-theme="dark"]) .editorialNote a,
+:global(html[data-theme="dark"]) .kicker,
+:global(html[data-theme="dark"]) .footnote {
+  color: #f4eafa !important;
+  -webkit-text-fill-color: #f4eafa !important;
+}
+:global(html[data-theme="dark"]) .editorialIntro h1 em,
+:global(html[data-theme="dark"]) .kicker {
+  color: #e5b8e0 !important;
+  -webkit-text-fill-color: #e5b8e0 !important;
+}
+:global(html[data-theme="dark"]) .editorialNote,
+:global(html[data-theme="dark"]) .editorial :global(.group-composer),
+:global(html[data-theme="dark"]) .editorial :global(.group-welcome),
+:global(html[data-theme="dark"]) .editorial :global(.groups-discovery-toolbar),
+:global(html[data-theme="dark"]) .editorial :global(.module-section),
+:global(html[data-theme="dark"]) .editorial :global(.module),
+:global(html[data-theme="dark"]) .editorial :global(.empty-state),
+:global(html[data-theme="dark"]) .editorial :global(.group-card),
+:global(html[data-theme="dark"]) .editorial :global(.post-card),
+:global(html[data-theme="dark"]) .editorial :global(.group-management-panel),
+:global(html[data-theme="dark"]) .editorial :global(.request-row) {
+  background: #241a2e !important;
+  border-color: #60496f !important;
+  color: #f5eff9 !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.22) !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.groups-category-chips a),
+:global(html[data-theme="dark"]) .editorial :global(.groups-search-row input),
+:global(html[data-theme="dark"]) .editorial :global(.groups-search-row select),
+:global(html[data-theme="dark"]) .editorial :global(.group-composer textarea) {
+  background: #1b1424 !important;
+  border-color: #735889 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.groups-category-chips a[aria-current="page"]) {
+  background: #503263 !important;
+  border-color: #c18fda !important;
+  color: #fff !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.feed-heading h2),
+:global(html[data-theme="dark"]) .editorial :global(.section-title-row h2),
+:global(html[data-theme="dark"]) .editorial :global(.group-card h3),
+:global(html[data-theme="dark"]) .editorial :global(.group-card h3 a),
+:global(html[data-theme="dark"]) .editorial :global(.group-card p),
+:global(html[data-theme="dark"]) .editorial :global(.group-category),
+:global(html[data-theme="dark"]) .editorial :global(.group-privacy),
+:global(html[data-theme="dark"]) .editorial :global(.group-meta),
+:global(html[data-theme="dark"]) .editorial :global(.member-state),
+:global(html[data-theme="dark"]) .editorial :global(.request-row strong),
+:global(html[data-theme="dark"]) .editorial :global(.request-row span),
+:global(html[data-theme="dark"]) .editorial :global(.post-author strong),
+:global(html[data-theme="dark"]) .editorial :global(.post-author span),
+:global(html[data-theme="dark"]) .editorial :global(.post-body),
+:global(html[data-theme="dark"]) .editorial :global(.comment strong),
+:global(html[data-theme="dark"]) .editorial :global(.comment p),
+:global(html[data-theme="dark"]) .editorial :global(.comment-count),
+:global(html[data-theme="dark"]) .editorial :global(.groups-search-label),
+:global(html[data-theme="dark"]) .editorial :global(.group-welcome h1),
+:global(html[data-theme="dark"]) .editorial :global(.group-welcome p),
+:global(html[data-theme="dark"]) .editorial :global(.group-composer .eyebrow),
+:global(html[data-theme="dark"]) .editorial :global(.group-composer .field-help) {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.feed-heading .muted),
+:global(html[data-theme="dark"]) .editorial :global(.muted),
+:global(html[data-theme="dark"]) .editorial :global(.group-meta),
+:global(html[data-theme="dark"]) .editorial :global(.member-state) {
+  color: #e0d2eb !important;
+  -webkit-text-fill-color: #e0d2eb !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.group-card-actions .btn),
+:global(html[data-theme="dark"]) .editorial :global(.group-card-actions button),
+:global(html[data-theme="dark"]) .editorial .createAction,
+:global(html[data-theme="dark"]) .editorial :global(.groups-search-row .btn) {
+  background: linear-gradient(110deg,#76265f,#9b397e) !important;
+  border-color: #d28abd !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+:global(html[data-theme="dark"]) .editorial :global(.notice) {
+  background: #30223a !important;
+  border-color: #806493 !important;
+  color: #f5eff9 !important;
+}
