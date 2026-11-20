@@ -407,3 +407,94 @@ html[data-theme="dark"] body #tizibane-spotlight-page [class*="featuredPill"] {
   color: #f5eff9 !important;
   -webkit-text-fill-color: #f5eff9 !important;
 }
+
+
+/* HOME PAGE ONLY — dark-theme discovery panels (Featured groups, Coming up,
+   Recent activity). Preserve panel geometry and responsive layout; replace
+   the light pastel surfaces with layered plum surfaces and readable copy. */
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-mini-section, .home-recent-activity) {
+  background: linear-gradient(145deg, #2b1c36, #211529 72%, #1e1528) !important;
+  border-color: #60496f !important;
+  color: #fffaff !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .2) !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-mini-section, .home-recent-activity) .home-mini-heading :is(h2, .eyebrow) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-group-preview, .home-event-preview) {
+  background: #30223b !important;
+  border-color: #594267 !important;
+  color: #fffaff !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-group-preview, .home-event-preview) :is(strong, small, .home-preview-arrow) {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-preview-icon, .home-event-date) {
+  background: #493451 !important;
+  border-color: #72558a !important;
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page
+:is(.home-event-date strong, .home-event-date small) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-empty-preview {
+  background: #30223b !important;
+  border: 1px solid #594267 !important;
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-activity-item {
+  border-top-color: #594267 !important;
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-activity-item time {
+  color: #d9c9e5 !important;
+  -webkit-text-fill-color: #d9c9e5 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-activity-dot {
+  color: #e6a5d4 !important;
+  -webkit-text-fill-color: #e6a5d4 !important;
+  opacity: 1 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all {
+  background: #4a2b5b !important;
+  border-color: #b77ac4 !important;
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all:hover {
+  background: #603873 !important;
+  border-color: #d39be0 !important;
+}
+
+html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all:focus-visible {
+  outline-color: #e6a5d4 !important;
+}
