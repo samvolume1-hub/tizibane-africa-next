@@ -385,3 +385,25 @@ html[data-theme="light"] body .app-layout .app-content.messages-page :is(
   color: #34263d !important;
   -webkit-text-fill-color: #34263d !important;
 }
+
+
+/* SPOTLIGHT ONLY — replace the remaining light empty-state panels and pale
+   status pills that are not covered by the broader CSS-module dark treatment. */
+html[data-theme="dark"] body #tizibane-spotlight-page [class*="companyEmpty"] {
+  background: linear-gradient(145deg, #2b1c36, #211529) !important;
+  border: 1px solid #60496f !important;
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] body #tizibane-spotlight-page [class*="companyEmpty"] :is(strong,span) {
+  color: #f1e8f6 !important;
+  -webkit-text-fill-color: #f1e8f6 !important;
+}
+html[data-theme="dark"] body #tizibane-spotlight-page [class*="companyPill"],
+html[data-theme="dark"] body #tizibane-spotlight-page [class*="featuredPill"] {
+  background: #493451 !important;
+  border-color: #72558a !important;
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+}
