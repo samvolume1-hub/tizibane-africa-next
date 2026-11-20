@@ -102,3 +102,24 @@ html[data-theme="dark"] body .app-layout .community-feature-page :is(
   stroke: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
+
+/* MESSAGING — phone UI only: Open chat action.
+   Desktop styling is intentionally preserved. */
+@media (max-width: 760px) {
+  html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full {
+    background: linear-gradient(110deg,#76265f,#9b397e) !important;
+    border: 1px solid #d28abd !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.22) !important;
+  }
+  html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full:hover,
+  html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading .messages-open-full:focus-visible {
+    background: linear-gradient(110deg,#8a2b70,#ad478e) !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+  }
+}
