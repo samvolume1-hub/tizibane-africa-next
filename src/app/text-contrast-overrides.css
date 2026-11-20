@@ -221,3 +221,17 @@ html[data-theme="light"] body .app-layout .app-content.settings-page .theme-choi
   border: 2px solid #b78bd2 !important;
   background: linear-gradient(135deg, #4a2a5b, #2e1a3d) !important;
 }
+
+
+/* STORIES PAGE ONLY — white labels on the two purple photo/share actions in light mode. */
+html[data-theme="light"] body .app-layout .app-content.community-stories-page .story-create-form .photo-picker {
+  background: linear-gradient(120deg, #70408a, #4a285f) !important;
+  border-color: #8b64a2 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="light"] body .app-layout .app-content.community-stories-page .story-create-form .btn.btn-primary {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+}
