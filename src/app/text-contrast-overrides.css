@@ -315,3 +315,22 @@ html[data-theme="light"] body .app-layout .app-content.premium-content :is(
   color: #5c4b63 !important;
   -webkit-text-fill-color: #5c4b63 !important;
 }
+
+
+/* COMMUNITY ACTIVITY ONLY — soften the white feed and separate each activity row. */
+html[data-theme="light"] body .app-layout .app-content.community-activity-page .feature-activity-feed {
+  background: #f1ebf5 !important;
+  border-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.community-activity-page .feature-activity-row {
+  background: #faf7fb !important;
+  border-bottom-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.community-activity-page .feature-activity-row :is(p,strong,a) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
+html[data-theme="light"] body .app-layout .app-content.community-activity-page .feature-activity-row time {
+  color: #6c5b73 !important;
+  -webkit-text-fill-color: #6c5b73 !important;
+}
