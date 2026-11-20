@@ -254,3 +254,20 @@ html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .e
   color: #34263d !important;
   -webkit-text-fill-color: #34263d !important;
 }
+
+
+/* MY PROFILE PAGE ONLY — soften the light editor canvas and keep purple photo/save
+   actions legible. Inputs stay white for clear form-entry contrast. */
+html[data-theme="light"] body .app-layout.profile-page .app-content .profile-editor {
+  background: #f2edf6 !important;
+  border-color: #d9cce2 !important;
+}
+html[data-theme="light"] body .app-layout.profile-page .app-content .profile-editor .profile-image-picker,
+html[data-theme="light"] body .app-layout.profile-page .app-content .profile-editor .profile-direct-upload .btn-primary,
+html[data-theme="light"] body .app-layout.profile-page .app-content .profile-editor .profile-form .btn {
+  background: linear-gradient(120deg, #70408a, #4a285f) !important;
+  border-color: #8b64a2 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+}
