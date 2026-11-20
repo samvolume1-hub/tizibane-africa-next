@@ -271,3 +271,13 @@ html[data-theme="light"] body .app-layout.profile-page .app-content .profile-edi
   -webkit-text-fill-color: #fff !important;
   font-weight: 800 !important;
 }
+
+
+/* PEOPLE DIRECTORY ONLY — restore contrast for member type, location and bio copy. */
+html[data-theme="dark"] body .app-layout .app-content.people-directory .person-card .person-copy > span,
+html[data-theme="dark"] body .app-layout .app-content.people-directory .person-card .person-copy > p {
+  color: #e7d9ef !important;
+  -webkit-text-fill-color: #e7d9ef !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
