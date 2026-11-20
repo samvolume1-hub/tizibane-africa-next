@@ -1,0 +1,61 @@
+/* TIZIBANE — explicit text contrast rules.
+   Text-only overrides: do not alter layout, surfaces, spacing, borders, or component geometry. */
+
+/* DARK MODE: every readable text/control label in the application is pure white and bold.
+   This intentionally replaces muted grey and pale-purple text with the requested white. */
+html[data-theme="dark"] body * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* Keep user-entered text and placeholders equally legible in dark mode. */
+html[data-theme="dark"] body :where(input,textarea,select)::placeholder {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+/* LIGHT MODE: text on the app's white/light surfaces is strong black.
+   Coloured primary actions retain their intentionally contrasting white labels. */
+html[data-theme="light"] .app-layout :where(
+  .topbar,.sidebar,.profile-editor,.post-card,.person-card,
+  .notification-card,.conversation-card,.conversation-heading,.group-card,
+  .event-card,.empty-state,.premium-admin-form,.premium-admin-list,
+  .message-composer,.module-section,.module,.theme-settings-card,
+  .people-search-panel,.composer,.premium-process,.premium-package,
+  .premium-audience-card,.premium-bottom-cta,.premium-admin-heading,
+  .premium-empty-market,.company-link-card,.company-site-row
+) * {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 700 !important;
+}
+
+/* Preserve white text on coloured primary buttons and explicitly coloured feature actions. */
+html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* Authentication inputs intentionally stay white in both themes: use strong black text there. */
+html[data-theme="light"] .auth-wrap .auth-card :where(input,textarea,select) {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  font-weight: 700 !important;
+}
+html[data-theme="light"] .auth-wrap .auth-card :where(input,textarea)::placeholder {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  opacity: 1 !important;
+  font-weight: 700 !important;
+}
+
+html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller),
+html[data-theme="light"] .app-layout :where(.btn-primary,.premium-wide-button,.premium-contact-seller) * {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+}
