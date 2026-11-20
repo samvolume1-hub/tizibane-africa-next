@@ -149,14 +149,15 @@ html[data-theme="dark"] body .app-layout.notifications-page .app-content
   -webkit-text-fill-color: #e7d9ef !important;
 }
 
-/* STORIES — text-only contrast repair for the dark-theme problem areas.
-   Keep every existing surface, image, button background, layout and story photo unchanged. */
+/* STORIES — maximum text contrast; text-only, preserving every existing surface and layout. */
 html[data-theme="dark"] body .app-layout .app-content.community-stories-page
 .story-composer > .eyebrow,
 html[data-theme="dark"] body .app-layout .app-content.community-stories-page
-.story-create-form .field-help {
-  color: #fffaff !important;
-  -webkit-text-fill-color: #fffaff !important;
+.story-create-form .field-help,
+html[data-theme="dark"] body .app-layout .app-content.community-stories-page
+.empty-state :is(h3,p) {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 800 !important;
   opacity: 1 !important;
   text-shadow: none !important;
@@ -165,18 +166,10 @@ html[data-theme="dark"] body .app-layout .app-content.community-stories-page
 .story-create-form :is(.photo-picker,.btn.btn-primary),
 html[data-theme="dark"] body .app-layout .app-content.community-stories-page
 .story-create-form :is(.photo-picker,.btn.btn-primary) * {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 800 !important;
   opacity: 1 !important;
-}
-html[data-theme="dark"] body .app-layout .app-content.community-stories-page
-.empty-state :is(h3,p) {
-  color: #fffaff !important;
-  -webkit-text-fill-color: #fffaff !important;
-  font-weight: 800 !important;
-  opacity: 1 !important;
-  text-shadow: none !important;
 }
 
 /* MY PROFILE — member identity, field labels and guidance on the dark editor card.
@@ -234,18 +227,16 @@ html[data-theme="light"] body .app-layout .app-content.settings-page .theme-choi
 }
 
 
-/* STORIES — light-theme text-only contrast repair.
-   The existing button surfaces remain as designed; only their labels and the
-   low-contrast composer/empty-state copy receive explicit readable colours. */
+/* STORIES — maximum text contrast in light mode; text-only repair. */
 html[data-theme="light"] body .app-layout .app-content.community-stories-page
 .story-composer > .eyebrow,
 html[data-theme="light"] body .app-layout .app-content.community-stories-page
 .story-create-form .field-help,
 html[data-theme="light"] body .app-layout .app-content.community-stories-page
 .empty-state :is(h3,p) {
-  color: #34263d !important;
-  -webkit-text-fill-color: #34263d !important;
-  font-weight: 700 !important;
+  color: #111111 !important;
+  -webkit-text-fill-color: #111111 !important;
+  font-weight: 800 !important;
   opacity: 1 !important;
   text-shadow: none !important;
 }
@@ -253,8 +244,8 @@ html[data-theme="light"] body .app-layout .app-content.community-stories-page
 .story-create-form :is(.photo-picker,.btn.btn-primary),
 html[data-theme="light"] body .app-layout .app-content.community-stories-page
 .story-create-form :is(.photo-picker,.btn.btn-primary) * {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
   font-weight: 800 !important;
   opacity: 1 !important;
 }
