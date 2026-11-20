@@ -251,7 +251,8 @@
 :global(html[data-theme="dark"]) .hint,
 :global(html[data-theme="dark"]) .choiceCopy span,
 :global(html[data-theme="dark"]) .footerHint,
-:global(html[data-theme="dark"]) .fileInput {
+:global(html[data-theme="dark"]) .fileInput,
+:global(html[data-theme="dark"]) .shell :global(.image-compression-status) {
   color: #e0d3e9 !important;
   -webkit-text-fill-color: #e0d3e9 !important;
 }
