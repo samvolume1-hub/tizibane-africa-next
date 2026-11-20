@@ -902,3 +902,27 @@ html[data-theme="dark"] #tizibane-spotlight-page :is(input,select,textarea)::pla
   -webkit-text-fill-color: #d8c9e2 !important;
   opacity: 1 !important;
 }
+
+
+/* ANNOUNCEMENTS — Platform Administration action buttons.
+   Match the Groups Explore fix: a dark plum action surface with white,
+   high-contrast labels and icons. Scope is limited to announcement admin
+   controls; no form fields, content panels, or public announcement styling. */
+html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page :is(
+  .feature-admin-link,.feature-admin-form-card,.feature-admin-item-actions
+) :is(button,.btn) {
+  background: linear-gradient(110deg,#76265f,#9b397e) !important;
+  border: 1px solid #d28abd !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page :is(
+  .feature-admin-link,.feature-admin-form-card,.feature-admin-item-actions
+) :is(button,.btn) :is(svg,[role="img"],i) {
+  color: #fff !important;
+  fill: #fff !important;
+  stroke: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
