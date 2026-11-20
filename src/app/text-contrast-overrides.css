@@ -498,3 +498,29 @@ html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-
 html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all:focus-visible {
   outline-color: #e6a5d4 !important;
 }
+
+
+/* SETTINGS PAGE LIGHT-SURFACE BALANCE — soften the stark white card and neutralize
+   the lavender page canvas without changing shared surfaces or dark mode. */
+html[data-theme="light"] body .app-layout:has(.app-content.settings-page) > .app-main {
+  background: #f7f4f8 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.settings-page {
+  background: #f7f4f8 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.settings-page .theme-settings-card {
+  background: #eee7f2 !important;
+  border-color: #d4c4df !important;
+  color: #30233a !important;
+  box-shadow: 0 5px 16px rgba(48, 33, 58, .045) !important;
+}
+html[data-theme="light"] body .app-layout .app-content.settings-page .theme-settings-copy :is(.eyebrow, h2) {
+  color: #30233a !important;
+  -webkit-text-fill-color: #30233a !important;
+}
+html[data-theme="light"] body .app-layout .app-content.settings-page .theme-settings-copy p,
+html[data-theme="light"] body .app-layout .app-content.settings-page .theme-settings-note {
+  color: #51465a !important;
+  -webkit-text-fill-color: #51465a !important;
+  opacity: 1 !important;
+}
