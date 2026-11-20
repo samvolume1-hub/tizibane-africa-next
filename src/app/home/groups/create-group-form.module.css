@@ -222,3 +222,81 @@
 .shell .submit :global(*) {
   color: #fff !important;
 }
+
+
+/* Optional Dark Mode for the Create Group form.
+   Local CSS-module selectors ensure these rules reach the hashed component classes. */
+:global(html[data-theme="dark"]) .shell {
+  border-color: #60496f !important;
+  background: linear-gradient(145deg,#2b1c36,#211529) !important;
+  color: #f7f1fb !important;
+  box-shadow: 0 8px 26px rgba(0,0,0,.24) !important;
+}
+:global(html[data-theme="dark"]) .headingIcon,
+:global(html[data-theme="dark"]) .choiceIcon,
+:global(html[data-theme="dark"]) .coverIcon {
+  border-color: #765b88 !important;
+  background: #3a2948 !important;
+  color: #f1dfff !important;
+}
+:global(html[data-theme="dark"]) .headingCopy h2,
+:global(html[data-theme="dark"]) .label,
+:global(html[data-theme="dark"]) .accessTitle,
+:global(html[data-theme="dark"]) .coverHeader,
+:global(html[data-theme="dark"]) .choiceCopy strong {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+:global(html[data-theme="dark"]) .headingCopy p,
+:global(html[data-theme="dark"]) .hint,
+:global(html[data-theme="dark"]) .choiceCopy span,
+:global(html[data-theme="dark"]) .footerHint,
+:global(html[data-theme="dark"]) .fileInput {
+  color: #e0d3e9 !important;
+  -webkit-text-fill-color: #e0d3e9 !important;
+}
+:global(html[data-theme="dark"]) .input,
+:global(html[data-theme="dark"]) .textarea,
+:global(html[data-theme="dark"]) .categoryInput {
+  border-color: #806a91 !important;
+  background: #15101d !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff !important;
+  color-scheme: dark;
+}
+:global(html[data-theme="dark"]) .input::placeholder,
+:global(html[data-theme="dark"]) .textarea::placeholder {
+  color: #cbbbd8 !important;
+  -webkit-text-fill-color: #cbbbd8 !important;
+  opacity: 1 !important;
+}
+:global(html[data-theme="dark"]) .choice,
+:global(html[data-theme="dark"]) .coverBox {
+  border-color: #705781 !important;
+  background: #241a2e !important;
+}
+:global(html[data-theme="dark"]) .choiceSelected {
+  border-color: #c18fda !important;
+  background: #493052 !important;
+  box-shadow: inset 0 0 0 1px rgba(225,190,246,.18) !important;
+}
+:global(html[data-theme="dark"]) .choiceCheck,
+:global(html[data-theme="dark"]) .details summary {
+  color: #f0cfff !important;
+  -webkit-text-fill-color: #f0cfff !important;
+}
+:global(html[data-theme="dark"]) .details {
+  border-color: #60496f !important;
+}
+:global(html[data-theme="dark"]) .fileInput::file-selector-button {
+  border-color: #806493 !important;
+  background: #3a2948 !important;
+  color: #fff !important;
+}
+:global(html[data-theme="dark"]) .submit {
+  border-color: #d28abd !important;
+  background: linear-gradient(100deg,#76265f,#9b397e) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
