@@ -618,102 +618,287 @@ html[data-theme="dark"] #tizibane-spotlight-page :is([class*="submitButton"],[cl
 }
 
 
-/* Optional Dark Mode — shared text hierarchy.
-   Keep semantic action colours and image overlays owned by their components. */
-html[data-theme="dark"] .app-layout .app-content :is(h1,h2,h3,h4) {
+/* OPTIONAL DARK MODE — TEXT ACCESSIBILITY AUDIT
+   Text-only corrections based on the member's marked screenshots.
+   Existing page canvases, imagery, layout, spacing and control geometry are untouched.
+   Light Mode remains the default. */
+
+/* Core hierarchy: primary copy, supporting copy, links and form guidance. */
+html[data-theme="dark"] .app-layout .app-content :is(h1,h2,h3,h4),
+html[data-theme="dark"] .app-layout .app-content :is(.post-author strong,.person-identity strong,.section-title-row strong) {
   color: #fffaff !important;
   -webkit-text-fill-color: #fffaff !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
 }
 html[data-theme="dark"] .app-layout .app-content :is(p,li,label,small,time,dt,dd,legend,.muted,.field-help,.eyebrow,.back-link,.form-hint,.helper-text,.empty-state p) {
   color: #eee5f5 !important;
   -webkit-text-fill-color: #eee5f5 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
 }
-html[data-theme="dark"] .app-layout .app-content :is(.muted,.field-help,.form-hint,.helper-text,.post-meta,.post-date,.post-time,.eyebrow) {
-  color: #d9cbe5 !important;
-  -webkit-text-fill-color: #d9cbe5 !important;
+html[data-theme="dark"] .app-layout .app-content :is(.muted,.field-help,.form-hint,.helper-text,.post-meta,.post-date,.post-time,.eyebrow,.event-meta,.event-kicker,.story-expiry,.conversation-time,.notification-copy span) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+  opacity: 1 !important;
 }
 html[data-theme="dark"] .app-layout .app-content a:not(.btn):not([class*="button"]) {
-  color: #e2c5ff;
+  color: #e8ceff !important;
+  -webkit-text-fill-color: #e8ceff !important;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
+html[data-theme="dark"] .app-layout .app-content :is(input,select,textarea) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  caret-color: #fffaff !important;
+  opacity: 1 !important;
+}
 html[data-theme="dark"] .app-layout .app-content :is(input,select,textarea)::placeholder {
-  color: #cbbbd8 !important;
-  -webkit-text-fill-color: #cbbbd8 !important;
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
   opacity: 1 !important;
 }
 html[data-theme="dark"] .app-layout .app-content :is(input,select,textarea):disabled {
-  color: #c9bfd2 !important;
-  -webkit-text-fill-color: #c9bfd2 !important;
-  opacity: 1;
+  color: #d0c4da !important;
+  -webkit-text-fill-color: #d0c4da !important;
+  opacity: 1 !important;
 }
 
-/* Spotlight CSS modules: explicit surface and supporting-copy hierarchy.
-   Kept under the Spotlight page root so other pages and controls are untouched. */
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="spotlight"],[class*="reviewSection"],[class*="companyReview"],
-  [class*="communityPick"],[class*="submissionPreview"],[class*="submissionRow"],
-  [class*="reader"],[class*="storyChoice"],[class*="premiumInvitation"],
-  [class*="expanded"],[class*="cardCopy"],[class*="topicActions"],
-  [class*="readerTopline"],[class*="reviewForm"],[class*="inquiryForm"]
+/* HOME — composer guidance, audience labels, announcement and feed metadata. */
+html[data-theme="dark"] .app-layout .app-content.community-home-page :is(
+  .home-composer-heading,.home-section-kicker,.post-caption-label,.composer-options,
+  .composer-bottom,.photo-picker,.home-announcement-copy,.home-announcement-preview,
+  .home-pinned-label,.post-author,.post-body,.post-interactions,.feed-heading
+) :is(h1,h2,h3,p,span,strong,small,label,time) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content.community-home-page .composer :is(
+  .field-help,.composer-options small,.composer-bottom small,.image-compression-status
 ) {
-  background-color: #241a2e !important;
-  border-color: #604a70 !important;
-  color: #f8f2fc !important;
+  color: #e4d8ee !important;
+  -webkit-text-fill-color: #e4d8ee !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content.community-home-page .composer :is(input,textarea,select)::placeholder {
+  color: #e0d3e9 !important;
+  -webkit-text-fill-color: #e0d3e9 !important;
+  opacity: 1 !important;
+}
+
+/* MY PROFILE — identity copy, field labels, helper text and photo actions. */
+html[data-theme="dark"] .app-layout .app-content .profile-editor :is(
+  h1,h2,h3,p,span,strong,label,small,.field-help,.muted,
+  .profile-preview,.profile-form,.profile-image-controls
+) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content .profile-editor :is(
+  .profile-preview span,.field-help,.profile-form .field small
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+html[data-theme="dark"] .app-layout .app-content .profile-editor :is(
+  .profile-remove-confirm,.profile-remove-confirm summary,.profile-remove-form button
+) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  opacity: 1 !important;
+}
+
+/* EVENTS — descriptions, dates, RSVP state and empty-state explanations. */
+html[data-theme="dark"] .app-layout.events-page .app-content :is(
+  .event-card,.event-details,.event-meta,.event-rsvp-list,.event-actions,.member-state,.empty-state
+) :is(h1,h2,h3,h4,p,span,strong,small,time,label,li) {
+  color: #f0e8f5 !important;
+  -webkit-text-fill-color: #f0e8f5 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout.events-page .app-content :is(
+  .event-details p,.event-meta,.event-kicker,.member-state,.empty-state p
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+
+/* STORIES — composer instructions, audience controls, captions and expiry details. */
+html[data-theme="dark"] .app-layout .app-content.community-stories-page :is(
+  .welcome,.story-composer,.story-create-form,.story-card,.story-card-heading,
+  .story-author,.story-caption,.story-expiry,.feed-heading,.empty-state
+) :is(h1,h2,h3,p,span,strong,small,label,time) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content.community-stories-page :is(
+  .field-help,.story-expiry,.composer-options small,.composer-bottom small
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+
+/* NOTIFICATIONS — notification descriptions, timestamps and action labels. */
+html[data-theme="dark"] .app-layout.notifications-page .app-content .notification-copy :is(
+  p,span,time,strong,a
+) {
+  color: #f0e8f5 !important;
+  -webkit-text-fill-color: #f0e8f5 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout.notifications-page .app-content .notification-copy span {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+html[data-theme="dark"] .app-layout.notifications-page .app-content .notification-action-button {
+  color: #f4e8ff !important;
+  -webkit-text-fill-color: #f4e8ff !important;
+}
+
+/* MESSAGES — conversation names, preview copy, timestamps and composer guidance. */
+html[data-theme="dark"] .app-layout .messages-page :is(
+  .messages-titlebar,.messages-sidebar-heading,.messages-selected-heading,
+  .messages-chat-placeholder,.messages-start-hero,.messages-list-empty,
+  .conversation-card-copy,.message-composer,.messages-privacy-note
+) :is(h1,h2,h3,p,span,strong,small,label,time) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .messages-page :is(
+  .conversation-card-meta,.conversation-time,.messages-privacy-note,
+  .message-composer small,.message-composer p
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .messages-page .message-composer :is(input,textarea)::placeholder {
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
+  opacity: 1 !important;
+}
+
+/* GROUPS — category labels, group summaries, member states and create-form copy. */
+html[data-theme="dark"] .app-layout.groups-page .app-content :is(
+  .group-card,.request-row,.groups-discovery-toolbar,.groups-search-label,
+  .groups-category-chips,.group-welcome,.group-composer,.empty-state,.feed-heading
+) :is(h1,h2,h3,p,span,strong,small,label,time,li,a) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .app-content :is(
+  .group-meta,.group-category,.group-privacy,.member-state,.request-row span,
+  .groups-search-label,.group-composer .field-help
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] :is(
+  h1,h2,h3,p,span,strong,small,label,summary,[class*="hint"],[class*="footerHint"],
+  [class*="choiceCopy"],[class*="coverHeader"],[class*="accessTitle"]
+) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] :is(
+  input,textarea,select
+) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+html[data-theme="dark"] .app-layout.groups-page .create-group-section [class*="shell"] :is(
+  input,textarea,select)::placeholder {
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
+  opacity: 1 !important;
+}
+
+/* ANNOUNCEMENTS — admin form, announcement copy, dates and reaction labels. */
+html[data-theme="dark"] .app-layout .community-feature-page :is(
+  .feature-admin-form-card,.feature-admin-list,.feature-announcement-card,
+  .feature-announcement-meta,.feature-announcement-author,.feature-announcement-body,
+  .feature-announcement-comments,.feature-announcement-comment
+) :is(h1,h2,h3,h4,p,span,strong,small,label,time,summary) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page :is(
+  .feature-admin-form-card p,.feature-admin-list p,.feature-announcement-meta,
+  .feature-announcement-author,.feature-announcement-comment
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+html[data-theme="dark"] .app-layout .community-feature-page :is(
+  .feature-admin-form-card,.feature-admin-list
+) :is(input,textarea,select)::placeholder {
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
+  opacity: 1 !important;
+}
+
+/* PREMIUM ADVERTISING — explanatory copy, package details and seller information. */
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-package-note,
+  .premium-pricing-note,.premium-process,.premium-steps,.premium-bottom-cta,
+  .premium-empty-market,.premium-admin-shortcut,.premium-product-copy,
+  .premium-product-category,.premium-product-price,.premium-seller-details,
+  .premium-seller-email,.community-credit
+) :is(h1,h2,h3,h4,p,span,strong,small,li,b,time) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-intro>p,.premium-package-note,.premium-pricing-note,
+  .premium-process p,.premium-audience-card p,.premium-seller-details,
+  .premium-seller-email,.premium-product-category,.community-credit
+) {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+
+/* SPOTLIGHT — page cards, story reader, company reviews and reusable review panels. */
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  h1,h2,h3,h4,p,span,strong,small,time,label,b,li
+) {
+  color: #f4edf9 !important;
+  -webkit-text-fill-color: #f4edf9 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
 }
 html[data-theme="dark"] #tizibane-spotlight-page :is(
   [class*="sectionIntro"],[class*="privacyNote"],[class*="companyIntro"],
-  [class*="companyMeta"],[class*="companyEmpty"],[class*="submissionPreview"],
-  [class*="submissionRow"],[class*="channelHint"],[class*="optional"],
-  [class*="communityPick"],[class*="storyMeta"],[class*="readerNote"],
-  [class*="readerParagraph"],[class*="expanded"],[class*="unavailableStory"],
-  [class*="sourcePending"],[class*="topicFallback"]
+  [class*="companyMeta"],[class*="companyEmpty"],[class*="storyMeta"],
+  [class*="readerNote"],[class*="readerParagraph"],[class*="channelHint"],
+  [class*="optional"],[class*="topicFallback"],[class*="readerEyebrow"],
+  [class*="readerTopic"],[class*="kicker"]
 ) {
-  color: #e7dced !important;
-  -webkit-text-fill-color: #e7dced !important;
-}
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="reviewForm"],[class*="inquiryForm"]
-) :is(input,select,textarea) {
-  background: #15101d !important;
-  border-color: #806a91 !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  color-scheme: dark;
-}
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="companyPill"],[class*="featuredPill"],[class*="storyCount"],
-  [class*="storyChoiceNumber"],[class*="pill"]
-) {
-  background: #493451 !important;
-  border-color: #806493 !important;
-  color: #f7edff !important;
-  -webkit-text-fill-color: #f7edff !important;
-}
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="companyReview"],[class*="communityPick"],[class*="submissionRow"],
-  [class*="storyChoice"],[class*="reader"]
-) :is(h2,h3,strong,b) {
-  color: #fffaff !important;
-  -webkit-text-fill-color: #fffaff !important;
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+  opacity: 1 !important;
 }
 html[data-theme="dark"] #tizibane-spotlight-page :is(
   [class*="companySource"],[class*="directContact"] a,
   [class*="communityPick"] a,[class*="originalSource"]
 ) {
-  color: #e4c7ff !important;
-  -webkit-text-fill-color: #e4c7ff !important;
+  color: #e8ceff !important;
+  -webkit-text-fill-color: #e8ceff !important;
 }
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="formError"],[class*="formSuccess"],
-  [class*="statusApproved"],[class*="statusRejected"],[class*="statusPending"]
-) {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+html[data-theme="dark"] #tizibane-spotlight-page :is(input,select,textarea) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
 }
-html[data-theme="dark"] #tizibane-spotlight-page :is(
-  [class*="formError"],[class*="formSuccess"]
-) a {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+html[data-theme="dark"] #tizibane-spotlight-page :is(input,select,textarea)::placeholder {
+  color: #d8c9e2 !important;
+  -webkit-text-fill-color: #d8c9e2 !important;
+  opacity: 1 !important;
 }
