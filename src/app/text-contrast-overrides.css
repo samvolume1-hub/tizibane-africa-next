@@ -334,3 +334,54 @@ html[data-theme="light"] body .app-layout .app-content.community-activity-page .
   color: #6c5b73 !important;
   -webkit-text-fill-color: #6c5b73 !important;
 }
+
+
+/* MESSAGING PAGE ONLY — reduce pink/white glare while preserving two clearly
+   separate rails: the conversation list and the selected-chat workspace. */
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-titlebar {
+  background: #f4eff7 !important;
+  border-color: #ddd0e5 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-workspace {
+  background: #eee7f3 !important;
+  border-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar {
+  background: #f4eff7 !important;
+  border-right-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card {
+  background: #f8f4fa !important;
+  border-bottom-color: #e1d6e8 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card:hover,
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card:focus-visible {
+  background: #f0e8f5 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card.is-active {
+  background: #e9dcef !important;
+  border-left-color: #9565a9 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-workspace-live .messages-chat-pane {
+  background: #f8f5fa !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-selected-heading {
+  background: #f0e9f4 !important;
+  border-bottom-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page :is(
+  .messages-chat-placeholder,.messages-start-hero,.messages-list-empty,.message-composer
+) {
+  background: #f1ebf5 !important;
+  border-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page :is(
+  .messages-sidebar-heading h2,.messages-selected-heading h2,
+  .conversation-card-copy strong,.conversation-card-copy p,
+  .messages-chat-placeholder h2,.messages-chat-placeholder p,
+  .messages-list-empty strong,.messages-list-empty p,
+  .message-composer label,.message-composer .field-help
+) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
