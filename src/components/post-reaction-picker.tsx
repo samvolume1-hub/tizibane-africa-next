@@ -18,9 +18,11 @@ const REACTION_CHOICES = [
 function ReactionSubmitButton({
   choice,
   selected,
+  onSelect,
 }: {
   choice: (typeof REACTION_CHOICES)[number];
   selected: boolean;
+  onSelect: () => void;
 }) {
   const { pending } = useFormStatus();
 
@@ -33,6 +35,7 @@ function ReactionSubmitButton({
       title={choice.label}
       aria-pressed={selected}
       aria-busy={pending}
+      onClick={onSelect}
     >
       <span className="reaction-emoji" aria-hidden="true">{choice.emoji}</span>
     </button>
@@ -74,6 +77,7 @@ export function PostReactionPicker({
               <ReactionSubmitButton
                 choice={choice}
                 selected={myReaction === choice.value}
+                onSelect={() => setIsOpen(false)}
               />
             </form>
           ))}
