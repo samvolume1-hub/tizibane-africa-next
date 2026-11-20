@@ -118,3 +118,81 @@ html[data-theme="dark"] body .app-layout .community-feature-page :is(
     -webkit-text-fill-color: #704184 !important;
   }
 }
+
+
+/* MESSAGING — the two pale header actions must use strong black labels.
+   Their white/pale button surfaces are intentional; only the label colour changes. */
+html[data-theme="dark"] body .app-layout .messages-page .messages-selected-heading :is(
+  .messages-open-full,.messages-back-to-chats
+) {
+  color: #171019 !important;
+  -webkit-text-fill-color: #171019 !important;
+  font-weight: 900 !important;
+  opacity: 1 !important;
+}
+
+/* NOTIFICATIONS — dark purple notification cards need light readable copy.
+   Keep the existing Open link and action buttons untouched. */
+html[data-theme="dark"] body .app-layout.notifications-page .app-content
+.notification-list .notification-card .notification-copy :is(
+  p,span,time,strong,li
+) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.notifications-page .app-content
+.notification-list .notification-card .notification-copy :is(span,time) {
+  color: #e7d9ef !important;
+  -webkit-text-fill-color: #e7d9ef !important;
+}
+
+/* STORIES — correct only the composer and empty-state card copy.
+   The image-backed hero, story photos, More menu and primary action are unchanged. */
+html[data-theme="dark"] body .app-layout .app-content.community-stories-page
+.story-composer :is(h1,h2,h3,h4,p,span,strong,small,label,time,.eyebrow,.field-help) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout .app-content.community-stories-page
+.empty-state :is(h1,h2,h3,h4,p,span,strong,small) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+/* MY PROFILE — member identity, field labels and guidance on the dark editor card.
+   Form inputs are deliberately excluded so their existing entry-text treatment remains. */
+html[data-theme="dark"] body .app-layout.profile-page .app-content .profile-editor :is(
+  h1,h2,h3,h4,p,span,strong,small,label,time,li,.field-help,.muted
+) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.profile-page .app-content .profile-editor :is(
+  .profile-preview span,.field-help,.profile-form .field small
+) {
+  color: #e7d9ef !important;
+  -webkit-text-fill-color: #e7d9ef !important;
+}
+
+/* BLOCKED — only the empty-state copy on this page; other empty states are unaffected. */
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content .empty-state :is(
+  h1,h2,h3,h4,p,span,strong,small,li
+) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
