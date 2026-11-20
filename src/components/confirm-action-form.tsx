@@ -32,6 +32,11 @@ export function ConfirmActionForm({
     setConfirmOpen(true);
   }
 
+  function isRedirectSignal(error: unknown) {
+    return typeof error === "object" && error !== null && "digest" in error &&
+      typeof error.digest === "string" && error.digest.startsWith("NEXT_REDIRECT");
+  }
+
   async function confirmAction() {
     if (!formRef.current || busy) return;
     setBusy(true);
@@ -39,7 +44,11 @@ export function ConfirmActionForm({
     try {
       await action(new FormData(formRef.current));
       setConfirmOpen(false);
+      setBusy(false);
     } catch (caught) {
+      // Next.js uses a redirect signal to complete successful server actions.
+      // Never swallow that signal as an ordinary form error.
+      if (isRedirectSignal(caught)) throw caught;
       setError(caught instanceof Error ? caught.message : "That action could not be completed. Please try again.");
       setBusy(false);
     }
@@ -55,7 +64,7 @@ export function ConfirmActionForm({
           <section className="tiz-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="tiz-action-title" aria-describedby="tiz-action-description" >
             <div className="tiz-confirm-icon" aria-hidden="true">✦</div>
             <h2 id="tiz-action-title">{confirmTitle}</h2>
-            <p id="tiz-action-description" className="sr-only">{confirmMessage}</p>
+            <p id="tiz-action-description">{confirmMessage}</p>
             {error && <p className="tiz-confirm-error" role="alert">{error}</p>}
             <div className="tiz-confirm-actions">
               <button type="button" className="tiz-confirm-no" disabled={busy} onClick={() => setConfirmOpen(false)}>No</button>
