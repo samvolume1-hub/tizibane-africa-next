@@ -281,3 +281,37 @@ html[data-theme="dark"] body .app-layout .app-content.people-directory .person-c
   opacity: 1 !important;
   text-shadow: none !important;
 }
+
+
+/* PREMIUM ADVERTISING ONLY — replace stark white light-mode canvases with
+   a soft lavender family and keep supporting copy dark and readable. */
+html[data-theme="light"] body .app-layout .app-content.premium-content :is(
+  .premium-empty-market,.premium-admin-shortcut,.premium-audience-card,
+  .premium-package,.premium-process,.premium-steps,.premium-bottom-cta,
+  .premium-pricing-note
+) {
+  background: #f3edf6 !important;
+  border-color: #d9cce2 !important;
+  color: #34263d !important;
+}
+html[data-theme="light"] body .app-layout .app-content.premium-content :is(
+  .premium-empty-market,.premium-admin-shortcut,.premium-audience-card,
+  .premium-package,.premium-process,.premium-steps,.premium-bottom-cta,
+  .premium-pricing-note
+) :is(h1,h2,h3,h4,p,span,strong,small,li,b) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
+html[data-theme="light"] body .app-layout .app-content.premium-content .premium-intro :is(
+  h1,h2,h3,p,.eyebrow
+) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
+html[data-theme="light"] body .app-layout .app-content.premium-content :is(
+  .premium-package-note,.premium-pricing-note,.premium-audience-card p,
+  .premium-process p,.premium-admin-shortcut small
+) {
+  color: #5c4b63 !important;
+  -webkit-text-fill-color: #5c4b63 !important;
+}
