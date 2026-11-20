@@ -383,3 +383,19 @@
   border-color: #806493 !important;
   color: #f5eff9 !important;
 }
+
+
+/* DARK MODE — Explore Groups is a light editorial button in the default theme.
+   Give it the same plum action surface as Create a Group so its white label
+   and search icon remain readable. Scoped only to the Groups hero action. */
+:global(html[data-theme="dark"]) .editorial .exploreAction {
+  background: linear-gradient(110deg,#76265f,#9b397e) !important;
+  border-color: #d28abd !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+}
+:global(html[data-theme="dark"]) .editorial .exploreAction::first-letter {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
