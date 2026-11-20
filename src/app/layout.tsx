@@ -4,6 +4,7 @@ import "./auth-readability.css";
 import "./theme.css";
 import "./app-polish.css";
 import "./calling.css";
+import "./text-contrast-overrides.css";
 import { NotificationSoundListener } from "@/components/notification-sound-listener";
 
 const siteUrl = "https://tizibane-africa-next.onrender.com";
