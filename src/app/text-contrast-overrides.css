@@ -71,12 +71,22 @@ html[data-theme="light"] body .auth-wrap .auth-card :is(#tz-contrast-priority#tz
 }
 
 
-/* ANNOUNCEMENTS — Platform Administration actions.
-   This file loads after the legacy theme layers, so these controls receive
-   an authoritative plum surface with white labels/icons in dark mode only. */
-html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page .feature-admin-link :is(a,button,.btn),
-html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page .feature-admin-form-card :is(a,button,.btn),
-html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page .feature-admin-item-actions :is(a,button,.btn) {
+/* ANNOUNCEMENTS — Platform Administration.
+   Correctly scoped beneath the app layout; the prior selector accidentally
+   required a second nested .app-layout and therefore matched nothing. */
+html[data-theme="dark"] body .app-layout .community-feature-page .feature-admin-link {
+  background: linear-gradient(145deg,#2b1c36,#211529) !important;
+  border: 1px solid #60496f !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] body .app-layout .community-feature-page .feature-admin-link :is(span,a) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 800 !important;
+}
+html[data-theme="dark"] body .app-layout .community-feature-page .feature-admin-link a,
+html[data-theme="dark"] body .app-layout .community-feature-page .feature-admin-form-card :is(a,button,.btn),
+html[data-theme="dark"] body .app-layout .community-feature-page .feature-admin-item-actions :is(a,button,.btn) {
   background: linear-gradient(110deg,#76265f,#9b397e) !important;
   border: 1px solid #d28abd !important;
   color: #fff !important;
@@ -84,7 +94,7 @@ html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) 
   font-weight: 800 !important;
   opacity: 1 !important;
 }
-html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) .app-layout .community-feature-page :is(
+html[data-theme="dark"] body .app-layout .community-feature-page :is(
   .feature-admin-link,.feature-admin-form-card,.feature-admin-item-actions
 ) :is(a,button,.btn) :is(svg,[role="img"],i) {
   color: #fff !important;
