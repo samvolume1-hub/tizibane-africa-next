@@ -69,13 +69,13 @@ test("desktop sidebar order keeps account controls before More destinations", ()
 
 test("desktop rail surface styling does not recolour the phone bottom bar", () => {
   const styles = readFileSync(resolve(root, "src/components/community-navigation.module.css"), "utf8");
-  const desktopRailStart = styles.indexOf("@media (min-width: 821px)");
   const mobileLayoutStart = styles.indexOf("@media (max-width: 820px)");
-  assert.ok(desktopRailStart >= 0 && mobileLayoutStart > desktopRailStart);
+  const desktopRailStart = styles.indexOf("@media (min-width: 821px)");
+  assert.ok(mobileLayoutStart >= 0 && desktopRailStart > mobileLayoutStart);
 
-  const desktopRailRules = styles.slice(desktopRailStart, mobileLayoutStart);
+  const desktopRailRules = styles.slice(desktopRailStart);
   assert.match(desktopRailRules, /\.sidebar\s*\{/);
   assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.sidebar/);
+  assert.match(desktopRailRules, /\.secondaryRail\s*\{/);
   assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.secondaryRail/);
-  assert.match(desktopRailRules, /:global\\(html\\[data-theme="dark"\\]\\)\\s+\\.secondaryRail/);
 });
