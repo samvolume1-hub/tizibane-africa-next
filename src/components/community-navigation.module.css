@@ -943,3 +943,26 @@
     transition: none !important;
   }
 }
+
+
+/* HOME NAVIGATION RAILS — separate the two navigation surfaces without changing
+   page canvases, feature cards, or any shared application theme rules. */
+.sidebar {
+  background: rgba(249, 245, 252, .98);
+  border-right-color: #dfd2e8;
+}
+.secondaryRail {
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 9px;
+  background: rgba(238, 228, 246, .98);
+  border-color: #d5c3e2;
+}
+:global(html[data-theme="dark"]) .sidebar {
+  background: rgba(27, 19, 36, .98);
+  border-right-color: #493653;
+}
+:global(html[data-theme="dark"]) .secondaryRail {
+  background: rgba(48, 33, 61, .98);
+  border-color: #765b88;
+}
