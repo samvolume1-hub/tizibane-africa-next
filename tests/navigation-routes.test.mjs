@@ -76,6 +76,6 @@ test("desktop rail surface styling does not recolour the phone bottom bar", () =
   const desktopRailRules = styles.slice(desktopRailStart, mobileLayoutStart);
   assert.match(desktopRailRules, /\.sidebar\s*\{/);
   assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.sidebar/);
-  assert.match(desktopRailRules, /\.secondaryRail\s*\{/);
+  assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.secondaryRail/);
   assert.match(desktopRailRules, /:global\\(html\\[data-theme="dark"\\]\\)\\s+\\.secondaryRail/);
 });
