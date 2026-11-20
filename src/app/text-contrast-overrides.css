@@ -221,3 +221,22 @@ html[data-theme="light"] body .app-layout .app-content.settings-page .theme-choi
   border: 2px solid #b78bd2 !important;
   background: linear-gradient(135deg, #4a2a5b, #2e1a3d) !important;
 }
+
+
+/* BLOCKED PAGE ONLY — soften the light-mode hero and empty-state surfaces. */
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome {
+  background: linear-gradient(120deg, #eee7f4, #e6dced) !important;
+  border-color: #d0bfd9 !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome :is(h1,p,.eyebrow) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: #f1ebf5 !important;
+  border-color: #d8c9e1 !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3,p) {
+  color: #34263d !important;
+  -webkit-text-fill-color: #34263d !important;
+}
