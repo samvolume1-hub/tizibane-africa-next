@@ -54,3 +54,28 @@ test("every page active key is represented in the shared navigation config", () 
   assert.ok(activeKeys.size > 0, "No literal CommunityNavigation active keys were found");
   for (const key of activeKeys) assert.ok(configuredKeys.has(key), `Unconfigured active key: ${key}`);
 });
+
+test("desktop sidebar order keeps account controls before More destinations", () => {
+  const source = readFileSync(resolve(root, "src/components/community-navigation.tsx"), "utf8");
+  const primaryEnd = source.indexOf("</nav>");
+  const accountControls = source.indexOf('className={styles.sidebarActions}');
+  const moreDestinations = source.indexOf('className={styles.desktopMoreTrigger}');
+  const footer = source.indexOf('className={styles.sidebarFoot}');
+
+  assert.ok(primaryEnd >= 0 && accountControls > primaryEnd);
+  assert.ok(moreDestinations > accountControls);
+  assert.ok(footer > moreDestinations);
+});
+
+test("desktop rail surface styling does not recolour the phone bottom bar", () => {
+  const styles = readFileSync(resolve(root, "src/components/community-navigation.module.css"), "utf8");
+  const mobileLayoutStart = styles.indexOf("@media (max-width: 820px)");
+  const desktopRailStart = styles.indexOf("@media (min-width: 821px)");
+  assert.ok(mobileLayoutStart >= 0 && desktopRailStart > mobileLayoutStart);
+
+  const desktopRailRules = styles.slice(desktopRailStart);
+  assert.match(desktopRailRules, /\.sidebar\s*\{/);
+  assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.sidebar/);
+  assert.match(desktopRailRules, /\.secondaryRail\s*\{/);
+  assert.match(desktopRailRules, /:global\(html\[data-theme="dark"\]\)\s+\.secondaryRail/);
+});
