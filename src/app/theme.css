@@ -616,3 +616,104 @@ html[data-theme="dark"] #tizibane-spotlight-page :is([class*="submitButton"],[cl
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
+
+/* Optional Dark Mode — shared text hierarchy.
+   Keep semantic action colours and image overlays owned by their components. */
+html[data-theme="dark"] .app-layout .app-content :is(h1,h2,h3,h4) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(p,li,label,small,time,dt,dd,legend,.muted,.field-help,.eyebrow,.back-link,.form-hint,.helper-text,.empty-state p) {
+  color: #eee5f5 !important;
+  -webkit-text-fill-color: #eee5f5 !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(.muted,.field-help,.form-hint,.helper-text,.post-meta,.post-date,.post-time,.eyebrow) {
+  color: #d9cbe5 !important;
+  -webkit-text-fill-color: #d9cbe5 !important;
+}
+html[data-theme="dark"] .app-layout .app-content a:not(.btn):not([class*="button"]) {
+  color: #e2c5ff;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+html[data-theme="dark"] .app-layout .app-content :is(input,select,textarea)::placeholder {
+  color: #cbbbd8 !important;
+  -webkit-text-fill-color: #cbbbd8 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] .app-layout .app-content :is(input,select,textarea):disabled {
+  color: #c9bfd2 !important;
+  -webkit-text-fill-color: #c9bfd2 !important;
+  opacity: 1;
+}
+
+/* Spotlight CSS modules: explicit surface and supporting-copy hierarchy.
+   Kept under the Spotlight page root so other pages and controls are untouched. */
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="spotlight"],[class*="reviewSection"],[class*="companyReview"],
+  [class*="communityPick"],[class*="submissionPreview"],[class*="submissionRow"],
+  [class*="reader"],[class*="storyChoice"],[class*="premiumInvitation"],
+  [class*="expanded"],[class*="cardCopy"],[class*="topicActions"],
+  [class*="readerTopline"],[class*="reviewForm"],[class*="inquiryForm"]
+) {
+  background-color: #241a2e !important;
+  border-color: #604a70 !important;
+  color: #f8f2fc !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="sectionIntro"],[class*="privacyNote"],[class*="companyIntro"],
+  [class*="companyMeta"],[class*="companyEmpty"],[class*="submissionPreview"],
+  [class*="submissionRow"],[class*="channelHint"],[class*="optional"],
+  [class*="communityPick"],[class*="storyMeta"],[class*="readerNote"],
+  [class*="readerParagraph"],[class*="expanded"],[class*="unavailableStory"],
+  [class*="sourcePending"],[class*="topicFallback"]
+) {
+  color: #e7dced !important;
+  -webkit-text-fill-color: #e7dced !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="reviewForm"],[class*="inquiryForm"]
+) :is(input,select,textarea) {
+  background: #15101d !important;
+  border-color: #806a91 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  color-scheme: dark;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="companyPill"],[class*="featuredPill"],[class*="storyCount"],
+  [class*="storyChoiceNumber"],[class*="pill"]
+) {
+  background: #493451 !important;
+  border-color: #806493 !important;
+  color: #f7edff !important;
+  -webkit-text-fill-color: #f7edff !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="companyReview"],[class*="communityPick"],[class*="submissionRow"],
+  [class*="storyChoice"],[class*="reader"]
+) :is(h2,h3,strong,b) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="companySource"],[class*="directContact"] a,
+  [class*="communityPick"] a,[class*="originalSource"]
+) {
+  color: #e4c7ff !important;
+  -webkit-text-fill-color: #e4c7ff !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="formError"],[class*="formSuccess"],
+  [class*="statusApproved"],[class*="statusRejected"],[class*="statusPending"]
+) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] #tizibane-spotlight-page :is(
+  [class*="formError"],[class*="formSuccess"]
+) a {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
