@@ -248,5 +248,5 @@ html[data-theme="dark"] .app-layout .app-content button[type="submit"] {
    middle content sections separate clearly from the page background.
    The dark theme and all component surfaces remain unchanged. */
 html:not([data-theme="dark"]) .app-layout {
-  --tz-page: #e0dee4;
+  --tz-page: #bebdc3;
 }
