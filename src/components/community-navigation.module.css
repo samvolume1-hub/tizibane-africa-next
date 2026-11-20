@@ -318,7 +318,7 @@
     padding: 14px;
     border: 1px solid #d8c9e2;
     border-radius: 16px;
-    background: #f5f0f8;
+    background: #e8dff0;
     box-shadow: 0 12px 36px rgba(36,22,48,.20);
     backdrop-filter: blur(18px);
   }
@@ -369,7 +369,7 @@
   :global(html[data-theme="dark"]) .sidebar { border-color: #493653; background: rgba(28,19,37,.97); box-shadow: 0 -5px 24px rgba(0,0,0,.34); }
   :global(html[data-theme="dark"]) .mobileLink,:global(html[data-theme="dark"]) .moreTrigger { color: #c8b9d3; }
   :global(html[data-theme="dark"]) .mobileLink[aria-current="page"],:global(html[data-theme="dark"]) .moreTrigger[aria-expanded="true"],:global(html[data-theme="dark"]) .moreTrigger.moreActive { background: #3b2949; color: #fff; }
-  :global(html[data-theme="dark"]) .mobileMorePanel { border-color: #624b70; background: #21172c; box-shadow: 0 16px 42px rgba(0,0,0,.48); }
+  :global(html[data-theme="dark"]) .mobileMorePanel { border-color: #624b70; background: #2c1d3b; box-shadow: 0 16px 42px rgba(0,0,0,.48); }
   :global(html[data-theme="dark"]) .moreLink { border-color: #624b70; background: #382744; color: #f5edf9; }
   :global(html[data-theme="dark"]) .moreLink[aria-current="page"] { border-color: #a17bb8; background: #513765; color: #fff; }
   :global(html[data-theme="dark"]) .mobileMoreFooter { border-color: #4b3957; }
