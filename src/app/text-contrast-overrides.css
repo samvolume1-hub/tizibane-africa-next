@@ -498,3 +498,45 @@ html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-
 html[data-theme="dark"] body .app-layout .app-content.community-home-page .home-view-all:focus-visible {
   outline-color: #e6a5d4 !important;
 }
+
+
+/* MESSAGING PAGE ONLY — lower the light-mode pink/white glare called out in
+   the Messaging reference. Keep the existing layout, component sizes and
+   dark-text treatment; use a quieter lavender-grey surface family. */
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-titlebar {
+  background: #ebe5ef !important;
+  border-color: #d2c5dc !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-workspace {
+  background: #e6dfeb !important;
+  border-color: #d0c3d9 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar {
+  background: #ece6f0 !important;
+  border-right-color: #d0c3d9 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card {
+  background: #f0ebf3 !important;
+  border-bottom-color: #d8cddd !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card:hover,
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card:focus-visible {
+  background: #e7dfed !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-sidebar .conversation-card.is-active {
+  background: #ded3e7 !important;
+  border-left-color: #80618f !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-workspace-live .messages-chat-pane {
+  background: #eee9f2 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page .messages-selected-heading {
+  background: #e8e1ed !important;
+  border-bottom-color: #d0c3d9 !important;
+}
+html[data-theme="light"] body .app-layout .app-content.messages-page :is(
+  .messages-chat-placeholder,.messages-start-hero,.messages-list-empty,.message-composer
+) {
+  background: #e9e2ed !important;
+  border-color: #d0c3d9 !important;
+}
