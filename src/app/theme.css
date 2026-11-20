@@ -978,3 +978,119 @@ html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-s
   opacity: 1 !important;
   text-shadow: 0 0 12px rgba(216, 175, 255, .28) !important;
 }
+
+
+/* TIZIBANE Premium page — restrained, page-scoped colour system.
+   Keep marketplace structure, cards, galleries, links and interactions unchanged. */
+html:not([data-theme="dark"]) .app-layout .premium-content {
+  color: #292334;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) {
+  background: linear-gradient(145deg, #ffffff 0%, #faf8fd 100%) !important;
+  border-color: #e4dced !important;
+  box-shadow: 0 8px 22px rgba(49, 31, 70, .055), inset 0 1px 0 rgba(255,255,255,.9) !important;
+  color: #292334 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-package-featured {
+  background: linear-gradient(145deg, #f5f0fb 0%, #eee7f7 100%) !important;
+  border-color: #cbb9df !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) :is(h1,h2,h3,h4,strong,b) {
+  color: #292334 !important;
+  -webkit-text-fill-color: #292334 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) :is(p,small,li,span,.premium-seller-details) {
+  color: #554d60 !important;
+  -webkit-text-fill-color: #554d60 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content :is(
+  .premium-card-symbol,.premium-card-label,.premium-product-category,
+  .premium-product-price,.premium-package-note,.premium-featured-label,
+  .premium-admin-shortcut strong,.premium-seller-email
+) {
+  color: #674b86 !important;
+  -webkit-text-fill-color: #674b86 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-product-gallery {
+  background: #f1edf5 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-product-image-unavailable {
+  background: #f6f3f9 !important;
+  border-color: #d9cfe4 !important;
+  color: #554d60 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-steps > div {
+  border-left-color: #cbb9df !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-steps b {
+  color: #674b86 !important;
+  -webkit-text-fill-color: #674b86 !important;
+}
+html:not([data-theme="dark"]) .app-layout .premium-content .premium-hero-photo :is(h1,.eyebrow) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.72) !important;
+}
+
+html[data-theme="dark"] .app-layout .premium-content {
+  color: #fff;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) {
+  background: linear-gradient(145deg, #2b1d37 0%, #21172b 100%) !important;
+  border-color: #574366 !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035) !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .premium-content .premium-package-featured {
+  background: linear-gradient(145deg, #382747 0%, #291b36 100%) !important;
+  border-color: #80659a !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) :is(h1,h2,h3,h4,strong,b) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-intro,.premium-audience-card,.premium-package,.premium-process,
+  .premium-bottom-cta,.premium-empty-market,.premium-admin-shortcut,.premium-product-card
+) :is(p,small,li,span,.premium-seller-details) {
+  color: #e3d9eb !important;
+  -webkit-text-fill-color: #e3d9eb !important;
+}
+html[data-theme="dark"] .app-layout .premium-content :is(
+  .premium-card-symbol,.premium-card-label,.premium-product-category,
+  .premium-product-price,.premium-package-note,.premium-featured-label,
+  .premium-admin-shortcut strong,.premium-seller-email
+) {
+  color: #d5b8ed !important;
+  -webkit-text-fill-color: #d5b8ed !important;
+}
+html[data-theme="dark"] .app-layout .premium-content .premium-product-gallery {
+  background: #130e19 !important;
+}
+html[data-theme="dark"] .app-layout .premium-content .premium-product-image-unavailable {
+  background: #191220 !important;
+  border-color: #574366 !important;
+  color: #e3d9eb !important;
+}
+html[data-theme="dark"] .app-layout .premium-content .premium-steps > div {
+  border-left-color: #80659a !important;
+}
+html[data-theme="dark"] .app-layout .premium-content .premium-steps b {
+  color: #d5b8ed !important;
+  -webkit-text-fill-color: #d5b8ed !important;
+}
