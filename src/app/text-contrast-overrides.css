@@ -1,7 +1,6 @@
-/* TIZIBANE contrast policy — deliberately high specificity.
-   The previous universal override lost to the older theme.css rules, many of which
-   use !important plus component/ID selectors. The duplicated, non-rendered ID token
-   raises precedence without adding markup or changing layout/surfaces. */
+/* TIZIBANE contrast policy.
+   Keep overrides limited to the specific light-mode app panels and actions below.
+   Dark-mode colours are handled by page/component stylesheets, not document-wide rules. */
 
 /* Dark-mode text is styled by each page/component in theme.css and its local stylesheets.
    Do not apply a document-wide text colour: some controls intentionally use light surfaces
