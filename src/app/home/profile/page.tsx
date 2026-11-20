@@ -47,7 +47,7 @@ export default async function ProfilePage({
   }
 
   return (
-    <main className="app-layout">
+    <main className="app-layout profile-page">
       <CommunityNavigation active="profile" />
       <section className="app-main">
         <header className="topbar"><Link href="/home" className="back-link">← Community home</Link><span className="muted">ACCOUNT PROFILE</span></header>
