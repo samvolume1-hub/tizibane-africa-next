@@ -956,8 +956,22 @@ html[data-theme="dark"] .app-layout.events-page > .app-main > .topbar > .muted {
 }
 
 
-/* BLOCKED PAGE ONLY — brighten the empty-state symbol; its text already has
-   a dedicated rule in text-contrast-overrides.css. */
+/* BLOCKED PAGE ONLY — keep the empty-state message readable on its dark card. */
+html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-state > h3 {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-state > p {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+
+/* BLOCKED PAGE ONLY — improve visibility of the empty-state symbol in dark mode. */
 html[data-theme="dark"] .app-layout.blocked-members-page .app-content > .empty-state > .empty-symbol {
   color: #e8c4ff !important;
   -webkit-text-fill-color: #e8c4ff !important;
