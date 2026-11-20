@@ -784,7 +784,7 @@ html[data-theme="dark"] .app-layout .messages-page .message-composer :is(input,t
 }
 
 /* GROUPS — category labels, group summaries, member states and create-form copy. */
-html[data-theme="dark"] .app-layout.groups-page .app-content :is(
+html[data-theme="dark"] .app-layout .app-content :is(
   .group-card,.request-row,.groups-discovery-toolbar,.groups-search-label,
   .groups-category-chips,.group-welcome,.group-composer,.empty-state,.feed-heading
 ) :is(h1,h2,h3,p,span,strong,small,label,time,li,a) {
@@ -792,7 +792,7 @@ html[data-theme="dark"] .app-layout.groups-page .app-content :is(
   -webkit-text-fill-color: #f4edf9 !important;
   opacity: 1 !important;
 }
-html[data-theme="dark"] .app-layout.groups-page .app-content :is(
+html[data-theme="dark"] .app-layout .app-content :is(
   .group-meta,.group-category,.group-privacy,.member-state,.request-row span,
   .groups-search-label,.group-composer .field-help
 ) {
@@ -869,7 +869,7 @@ html[data-theme="dark"] .app-layout .premium-content :is(
 /* SPOTLIGHT — page cards, story reader, company reviews and reusable review panels. */
 html[data-theme="dark"] #tizibane-spotlight-page :is(
   h1,h2,h3,h4,p,span,strong,small,time,label,b,li
-) {
+):not([class*="status"]):not([class*="Status"]):not([class*="pill"]):not([class*="Pill"]):not([class*="Error"]):not([class*="Success"]) {
   color: #f4edf9 !important;
   -webkit-text-fill-color: #f4edf9 !important;
   opacity: 1 !important;
