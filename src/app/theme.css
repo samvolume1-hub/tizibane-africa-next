@@ -926,3 +926,31 @@ html[data-theme="dark"] body :is(#tz-contrast-priority#tz-contrast-priority, *) 
   stroke: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
+
+/* EVENTS ONLY — restore contrast in the single empty-state card at the end of Upcoming events.
+   Keep this scoped to the Events page; do not alter shared empty states or other pages. */
+html[data-theme="dark"] .app-layout.events-page .app-content .event-list + .empty-state,
+html[data-theme="dark"] .app-layout.events-page .app-content > .empty-state {
+  color: #f5eff9 !important;
+}
+html[data-theme="dark"] .app-layout.events-page .app-content .empty-state > h3,
+html[data-theme="dark"] .app-layout.events-page .app-content .empty-state > p {
+  color: #f5eff9 !important;
+  -webkit-text-fill-color: #f5eff9 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .app-layout.events-page .app-content .empty-state > p {
+  color: #e0d4eb !important;
+  -webkit-text-fill-color: #e0d4eb !important;
+}
+
+
+/* EVENTS ONLY — make the two top-bar labels readable in the annotated dark-mode view. */
+html[data-theme="dark"] .app-layout.events-page > .app-main > .topbar > .back-link,
+html[data-theme="dark"] .app-layout.events-page > .app-main > .topbar > .muted {
+  color: #eadcf4 !important;
+  -webkit-text-fill-color: #eadcf4 !important;
+  opacity: 1 !important;
+}
