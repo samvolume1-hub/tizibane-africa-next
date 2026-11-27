@@ -22,6 +22,7 @@
   },
   "appVersion": "1.0.0",
   "appVersionCode": 1,
+  "minSdkVersion": 24,
   "shortcuts": [],
   "webManifestUrl": "https://tizibane-africa-next.onrender.com/manifest.webmanifest",
   "fallbackType": "customtabs",
