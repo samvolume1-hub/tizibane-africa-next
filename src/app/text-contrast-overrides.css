@@ -614,3 +614,55 @@ html[data-theme="dark"] .app-layout .premium-content .premium-steps b {
   color: #d5b8ed !important;
   -webkit-text-fill-color: #d5b8ed !important;
 }
+
+
+/* BLOCKED MEMBERS ONLY — final page-scoped two-theme contrast correction. */
+html[data-theme="light"] body .app-layout.blocked-members-page > .app-main > .topbar :is(.back-link,.muted) {
+  color: #514064 !important;
+  -webkit-text-fill-color: #514064 !important;
+  opacity: 1 !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome :is(.eyebrow,h1,p) {
+  color: #30243d !important;
+  -webkit-text-fill-color: #30243d !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: linear-gradient(145deg, #eee8f5, #e8e1f0) !important;
+  border: 1px solid #d1c4df !important;
+  color: #292033 !important;
+  box-shadow: 0 10px 26px rgba(58,43,75,.08) !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3,p) {
+  color: #292033 !important;
+  -webkit-text-fill-color: #292033 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state > .empty-symbol {
+  color: #665080 !important;
+  -webkit-text-fill-color: #665080 !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: linear-gradient(145deg, #24182e, #1d1427) !important;
+  border: 1px solid #765b87 !important;
+  color: #fff !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3,p) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state > .empty-symbol {
+  color: #e8c4ff !important;
+  -webkit-text-fill-color: #e8c4ff !important;
+  opacity: 1 !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page > .app-main > .topbar :is(.back-link,.muted) {
+  color: #eadcf4 !important;
+  -webkit-text-fill-color: #eadcf4 !important;
+  opacity: 1 !important;
+}
