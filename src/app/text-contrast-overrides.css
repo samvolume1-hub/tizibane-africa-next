@@ -614,3 +614,62 @@ html[data-theme="dark"] .app-layout .premium-content .premium-steps b {
   color: #d5b8ed !important;
   -webkit-text-fill-color: #d5b8ed !important;
 }
+
+
+/* BLOCKED MEMBERS — page-only theme correction.
+   Preserve the existing layout and actions; adjust only the two visible surfaces
+   and their copy so the light and dark themes have balanced, readable contrast. */
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome {
+  background: linear-gradient(120deg, #eee8f4 0%, #e6dced 100%) !important;
+  border-color: #d0bfdc !important;
+  box-shadow: 0 12px 28px rgba(58, 37, 72, .07) !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome :is(h1, p, .eyebrow) {
+  color: #302438 !important;
+  -webkit-text-fill-color: #302438 !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .welcome .eyebrow {
+  color: #745488 !important;
+  -webkit-text-fill-color: #745488 !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: #f0eaf4 !important;
+  border-color: #d5c6df !important;
+  box-shadow: 0 10px 24px rgba(58, 37, 72, .06) !important;
+}
+html[data-theme="light"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3, p, .empty-symbol) {
+  color: #211a27 !important;
+  -webkit-text-fill-color: #211a27 !important;
+}
+
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome {
+  background: linear-gradient(120deg, #382744 0%, #2c2038 100%) !important;
+  border-color: #624b73 !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, .2) !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome :is(h1, p, .eyebrow) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome .eyebrow {
+  color: #e1cbed !important;
+  -webkit-text-fill-color: #e1cbed !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: linear-gradient(145deg, #2b1e36, #241a2e) !important;
+  border-color: #5b456b !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .2) !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3, p, .empty-symbol) {
+  color: #fffaff !important;
+  -webkit-text-fill-color: #fffaff !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state p {
+  color: #e8dcef !important;
+  -webkit-text-fill-color: #e8dcef !important;
+}
