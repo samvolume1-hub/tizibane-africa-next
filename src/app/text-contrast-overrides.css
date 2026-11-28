@@ -702,3 +702,24 @@ html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .em
   opacity: 1 !important;
   text-shadow: 0 0 14px rgba(216,175,255,.24) !important;
 }
+
+
+/* BLOCKED MEMBERS — text-only dark-mode readability fix.
+   Keep the existing purple surfaces and all light-mode styling unchanged. */
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome :is(
+  h1,h2,h3,h4,p,span,strong,small,em,b,label,.eyebrow,.muted
+),
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state :is(
+  h1,h2,h3,h4,p,span,strong,small,em,b,label,.eyebrow,.muted
+) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome .eyebrow,
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state .empty-symbol {
+  color: #eadcf4 !important;
+  -webkit-text-fill-color: #eadcf4 !important;
+}
