@@ -666,3 +666,39 @@ html[data-theme="dark"] body .app-layout.blocked-members-page > .app-main > .top
   -webkit-text-fill-color: #eadcf4 !important;
   opacity: 1 !important;
 }
+
+
+/* BLOCKED MEMBERS ONLY — dark theme finishing pass; light theme remains untouched. */
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome {
+  background: linear-gradient(125deg, #30213b 0%, #261a32 58%, #21172c 100%) !important;
+  border: 1px solid #6c527f !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.28) !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome :is(.eyebrow,h1,p) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .welcome .eyebrow {
+  color: #e4c9f6 !important;
+  -webkit-text-fill-color: #e4c9f6 !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state {
+  background: linear-gradient(145deg, #30213b 0%, #261a32 100%) !important;
+  border: 1px solid #765b89 !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,.26) !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state :is(h3,p) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] body .app-layout.blocked-members-page .app-content > .empty-state > .empty-symbol {
+  color: #e8c4ff !important;
+  -webkit-text-fill-color: #e8c4ff !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 14px rgba(216,175,255,.24) !important;
+}
