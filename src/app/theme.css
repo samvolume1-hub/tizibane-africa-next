@@ -1061,3 +1061,31 @@ html[data-theme="dark"] body .app-layout .community-home-page .home-composer :is
   outline: 3px solid #c6a5dd !important;
   outline-offset: 3px !important;
 }
+
+
+/* The adjacent three-dot More options trigger beside each Community comment form. */
+html[data-theme="light"] body .app-layout .community-home-page .report-control .report-menu-trigger,
+html[data-theme="dark"] body .app-layout .community-home-page .report-control .report-menu-trigger {
+  display: inline-grid !important;
+  place-items: center !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  border: 1px solid #bd9bd0 !important;
+  border-radius: 50% !important;
+  background: linear-gradient(145deg, #75458f 0%, #59316f 100%) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+html[data-theme="light"] body .app-layout .community-home-page .report-control .report-menu-trigger *,
+html[data-theme="dark"] body .app-layout .community-home-page .report-control .report-menu-trigger * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+html[data-theme="light"] body .app-layout .community-home-page .report-control .report-menu-trigger:focus-visible,
+html[data-theme="dark"] body .app-layout .community-home-page .report-control .report-menu-trigger:focus-visible {
+  outline: 3px solid #c6a5dd !important;
+  outline-offset: 3px !important;
+}
